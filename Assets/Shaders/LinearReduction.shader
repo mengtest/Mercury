@@ -1,4 +1,4 @@
-﻿Shader "Unlit/BlendMixin"
+﻿Shader "Unlit/LinearReduction"
 {
     Properties
     {
