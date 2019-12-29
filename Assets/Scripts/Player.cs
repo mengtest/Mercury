@@ -26,14 +26,14 @@ public class Player : MonoBehaviour
 
 	private void Update()
 	{
-		transform.position += new Vector3(_nowSpeed * Time.deltaTime,0,0);
-		transform.position += new Vector3(0, _jumpSpeed * Time.deltaTime, 0);
+		transform.position += new Vector3(_nowSpeed * Time.deltaTime, 0, 0);
+		//transform.position += new Vector3(0, _jumpSpeed * Time.deltaTime, 0);
 		if (_doubleJumpColdDownTime > 0) _doubleJumpColdDownTime -= Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			if (_isOnStep)
 			{
-				_rigidbody2D.AddForce(Vector2.up * 500);
+				_rigidbody2D.velocity = new Vector2(0, _maxSpeed * 0.5f);
 				//_jumpSpeed = 15;
 				_doubleJumpReady = true;
 				_doubleJumpColdDownTime = 0.3f;
@@ -73,7 +73,9 @@ public class Player : MonoBehaviour
 		}
 		if (_nowSpeed > 0) _nowSpeed = (_nowSpeed - 1 < 0 ? 0 : _nowSpeed - 1);
 		else _nowSpeed = (_nowSpeed + 1 > 0 ? 0 : _nowSpeed + 1);
+
 		if (_jumpSpeed > 0) _jumpSpeed = (_jumpSpeed - 1 < 0 ? 0 : _jumpSpeed - 1);
+
 		if (_rigidbody2D.velocity.magnitude > _maxSpeed)
 		{
 			_rigidbody2D.velocity = new Vector2(0, -_maxSpeed);
