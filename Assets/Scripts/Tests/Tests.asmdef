@@ -1,7 +1,8 @@
 {
     "name": "Tests",
     "references": [
-        "AdventureGroup"
+        "AdventureGroup",
+        "Unity.Mathematics"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

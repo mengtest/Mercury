@@ -1,6 +1,8 @@
 {
     "name": "AdventureGroup",
-    "references": [],
+    "references": [
+        "Unity.Mathematics"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

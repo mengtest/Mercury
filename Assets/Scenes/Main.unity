@@ -432,7 +432,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.85
+  orthographic size: 3.6040082
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -511,13 +511,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53d04bf8fe458049ad759b1584daba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dummyPlayer: {fileID: 996527745}
---- !u!1 &996527745 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3495173415748184959, guid: cfa11305be490e541939feb59fba72fd,
-    type: 3}
-  m_PrefabInstance: {fileID: 3495173416140072446}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1505585680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -770,7 +763,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7fcec17de9796b74397001b7caaa57e7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8e48a47bb5884b64ba527f28887a68a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
