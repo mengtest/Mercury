@@ -13,7 +13,7 @@ float GetDistanceBetTowObj(obj argumment0, obj argument1);
 float GetDirectionBetTowObj(obj argument0, obj argument1)
 {
     
-    return acos(GetDistanceBetTowObj(argument0,argument1)/); 
+    return acos(GetDistanceBetTowObj(argument0,argument1)/(argument1.x - argument0.x)); 
 }
 float GetDistanceOneObj(obj argument0)
 {
