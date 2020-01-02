@@ -1,7 +1,11 @@
-﻿public class EntityPlayer : Entity, IAttackable
+﻿using UnityEngine;
+
+public class EntityPlayer : Entity, IAttackable, IBuffable
 {
-	private readonly BasicCapability _basicCapability;
-	private readonly ElementAffinity _elementAffinity;
+	[SerializeField]
+	private BasicCapability _basicCapability;
+	[SerializeField]
+	private ElementAffinity _elementAffinity;
 
 	public EntityPlayer()
 	{
@@ -15,7 +19,7 @@
 	{
 		//例子
 		var finalDamage = 1;
-		finalDamage *= _basicCapability.CriticalPoint;
+		finalDamage *= _basicCapability.criticalPoint;
 		return finalDamage;
 	}
 

@@ -17,7 +17,7 @@ public class GameManager : MonoSingleton<GameManager>
 		base.Awake();
 		DontDestroyOnLoad(pools);
 		DontDestroyOnLoad(canvas);
-		StartCoroutine(AsyncLoadObjectPool());
+		StartCoroutine(AsyncLoadSpeicalEffect());
 	}
 
 	protected override void Update()
@@ -52,31 +52,28 @@ public class GameManager : MonoSingleton<GameManager>
 		pool.TrimExcess(0);
 	}
 
-	private IEnumerator AsyncLoadObjectPool()
+	private IEnumerator AsyncLoadSpeicalEffect()
 	{
 		var poolReq = Addressables.LoadAssetsAsync<GameObject>(specialEffects, null);
-		poolReq.Completed += objs =>
-		{
-			foreach (var obj in objs.Result)
-			{
-				var go = new GameObject(obj.name + "_Pool");
-				go.transform.parent = pools.transform;
-				var sePool = new ObjectPool<GameObject>(obj, (o) =>
-				{
-					var res = Instantiate(o).Hide();
-					res.name = o.name;
-					res.transform.parent = go.transform;
-					return res;
-				}, 2);
-				sePool.Factory.OnDestruct += ob => Destroy(ob);
-				sePool.OnGet += ob => ob.Show();
-				sePool.OnRecycle += ob => ob.Hide();
-				//sePool.OnPreRecycle += ob => ob.CompareTag(Consts.TAG_SpecialEffect);
-				_specialEffectPools.Add(obj.name, sePool);
-			}
-		};
 		LoadPanel.Instance.Active(() => poolReq.PercentComplete);
 		yield return poolReq;
+		foreach (var obj in poolReq.Result)
+		{
+			var go = new GameObject(obj.name + "_Pool");
+			go.transform.parent = pools.transform;
+			var sePool = new ObjectPool<GameObject>(obj, (o) =>
+			{
+				var res = Instantiate(o).Hide();
+				res.name = o.name;
+				res.transform.parent = go.transform;
+				return res;
+			}, 2);
+			sePool.Factory.OnDestruct += ob => Destroy(ob);
+			sePool.OnGet += ob => ob.Show();
+			sePool.OnRecycle += ob => ob.Hide();
+			//sePool.OnPreRecycle += ob => ob.CompareTag(Consts.TAG_SpecialEffect);
+			_specialEffectPools.Add(obj.name, sePool);
+		}
 		LoadPanel.Instance.Complete();
 	}
 }

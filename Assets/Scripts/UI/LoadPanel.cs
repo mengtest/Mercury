@@ -15,7 +15,6 @@ public class LoadPanel : MonoSingleton<LoadPanel>
 		{
 			_instance = this;
 		}
-		gameObject.Hide();
 	}
 
 	protected override void Update()

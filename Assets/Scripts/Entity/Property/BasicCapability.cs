@@ -1,66 +1,68 @@
-﻿/// <summary>
+﻿using System;
+/// <summary>
 /// 基础属性
 /// </summary>
+[Serializable]
 public class BasicCapability : IEntityProperty
 {
 	/// <summary>
 	/// 法力值
 	/// </summary>
-	public float ManaPoint { get; set; }
+	public float manaPoint;
 	/// <summary>
 	/// 每秒法力回复
 	/// </summary>
-	public float MpRecoverPerSec { get; set; }
+	public float mpRecoverPerSec;
 	/// <summary>
 	/// 最大法力值
 	/// </summary>
-	public float MaxManaPoint { get; set; }
+	public float maxManaPoint;
 	/// <summary>
 	/// 物理攻击力
 	/// </summary>
-	public float PhyAttack { get; set; }
+	public float phyAttack;
 	/// <summary>
 	/// 魔法攻击力
 	/// </summary>
-	public float MagAttack { get; set; }
+	public float magAttack;
 	/// <summary>
 	/// 物理防御
 	/// </summary>
-	public float PhyDefense { get; set; }
+	public float phyDefense;
 	/// <summary>
 	/// 魔法防御
 	/// </summary>
-	public float MagDefense { get; set; }
+	public float magDefense;
 	/// <summary>
 	/// 耐力
 	/// </summary>
-	public int EndurancePoint { get; set; }
+	public int endurancePoint;
 	/// <summary>
 	/// 精神力
 	/// </summary>
-	public int SpiritPoint { get; set; }
+	public int spiritPoint;
 	/// <summary>
 	/// 智力
 	/// </summary>
-	public int IntelligencePoint { get; set; }
+	public int intelligencePoint;
 	/// <summary>
 	/// 力量
 	/// </summary>
-	public int StrengthPoint { get; set; }
+	public int strengthPoint;
 	/// <summary>
 	/// 暴击
 	/// </summary>
-	public int CriticalPoint { get; set; }
+	public int criticalPoint;
 	/// <summary>
 	/// 攻速
 	/// </summary>
-	public int AttackSpeedPoint { get; set; }
+	public int attackSpeedPoint;
 	/// <summary>
 	/// 吟唱速度
 	/// </summary>
-	public int ChantSpeedPoint { get; set; }
+	public int chantSpeedPoint;
 	/// <summary>
 	/// 幸运
 	/// </summary>
-	public int FurtunePoint { get; set; }
+	public int furtunePoint;
 }

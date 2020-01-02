@@ -1,13 +1,16 @@
-﻿/// <summary>
+﻿using System;
+
+/// <summary>
 /// 元素亲和属性
 /// </summary>
+[Serializable]
 public class ElementAffinity : IEntityProperty
 {
-	public int Fire { get; set; }
-	public int Ice { get; set; }
-	public int Land { get; set; }
-	public int Wind { get; set; }
-	public int Thunder { get; set; }
-	public int Light { get; set; }
-	public int Dark { get; set; }
+	public int fire;
+	public int ice;
+	public int land;
+	public int wind;
+	public int thunder;
+	public int light;
+	public int dark;
 }

@@ -40,8 +40,11 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : Component
 		}
 	}
 
+	protected virtual void Start()
+	{
+	}
+
 	protected virtual void Update()
 	{
-
 	}
 }
