@@ -8,7 +8,7 @@ namespace Tests
 		[Test]
 		public void TestObjPoolSimplePasses()
 		{
-			var objPool = new ObjectPool<SimpleTest>(() => new SimpleTest(), 10);
+			var objPool = new ObjectPool<SimpleTest>(null, (e) => new SimpleTest(), 10);
 			objPool.OnGet += obj => Debug.Log($"获取:{obj}");
 			objPool.OnPreRecycle += obj =>
 			{

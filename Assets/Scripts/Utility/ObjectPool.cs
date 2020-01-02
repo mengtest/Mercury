@@ -28,12 +28,12 @@ public class ObjectPool<T>
 	/// </summary>
 	public event Action<T> OnRecycle;
 
-	public ObjectPool(Func<T> factory)
+	public ObjectPool(T template, Func<T, T> factory)
 	{
-		Factory = new ObjectFactory<T>(factory ?? throw new ArgumentNullException());
+		Factory = new ObjectFactory<T>(template, factory);
 	}
 
-	public ObjectPool(Func<T> factory, int initCount) : this(factory)
+	public ObjectPool(T template, Func<T, T> factory, int initCount) : this(template, factory)
 	{
 		for (int i = 0; i < initCount; i++)
 		{

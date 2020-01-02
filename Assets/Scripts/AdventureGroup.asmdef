@@ -1,7 +1,9 @@
 {
     "name": "AdventureGroup",
     "references": [
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

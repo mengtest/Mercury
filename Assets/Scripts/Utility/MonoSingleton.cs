@@ -5,7 +5,7 @@
 /// </summary>
 public abstract class MonoSingleton<T> : MonoBehaviour where T : Component
 {
-	private static T _instance;
+	protected static T _instance;
 
 	/// <summary>
 	/// 获取单例实例
@@ -38,5 +38,10 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : Component
 			_instance = this as T;
 			DontDestroyOnLoad(gameObject);
 		}
+	}
+
+	protected virtual void Update()
+	{
+
 	}
 }

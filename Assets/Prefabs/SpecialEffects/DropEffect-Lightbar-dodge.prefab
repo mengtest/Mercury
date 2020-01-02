@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2380765970675021057}
   m_Layer: 0
   m_Name: DropEffect-Lightbar-dodge
-  m_TagString: Untagged
+  m_TagString: SpecialEffect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8749039039290878509}
   - component: {fileID: 8749039039290878511}
   m_Layer: 0
-  m_Name: dodge
-  m_TagString: Untagged
+  m_Name: 2-1-dodge
+  m_TagString: SpecialEffect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
