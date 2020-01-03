@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// 玩家
@@ -28,11 +29,34 @@ public class EntityPlayer : Entity, IAttackable, IBuffable
 		_buffs.OnUpdate();
 	}
 
+	#region IBuffable
 	public void AddBuff(IBuff buff)
 	{
 		_buffs.AddBuff(buff);
 	}
 
+	public IBuff GetBuff(Type buffType, BuffVariant variant)
+	{
+		return _buffs.GetBuff(buffType, variant);
+	}
+
+	public bool RemoveBuff(Type buffType, BuffVariant variant)
+	{
+		return _buffs.RemoveBuff(buffType, variant);
+	}
+
+	public bool TryGetBuff(Type buffType, BuffVariant variant, out IBuff buff)
+	{
+		return _buffs.TryGetBuff(buffType, variant, out buff);
+	}
+
+	public bool HasBuff(Type buffType, BuffVariant variant)
+	{
+		return _buffs.HasBuff(buffType, variant);
+	}
+	#endregion
+
+	#region IAttackable
 	public float DealDamage()
 	{
 		//例子
@@ -46,4 +70,5 @@ public class EntityPlayer : Entity, IAttackable, IBuffable
 		var damage = attacker.DealDamage();
 		_healthPoint -= damage;
 	}
+	#endregion
 }

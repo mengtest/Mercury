@@ -36,6 +36,47 @@ public class BuffWapper
 		}
 	}
 
+	public IBuff GetBuff(Type buffType, BuffVariant variant)
+	{
+		return SwitchWrapper(variant, (dict) => dict[buffType]);
+	}
+
+	public bool RemoveBuff(Type buffType, BuffVariant variant)
+	{
+		return SwitchWrapper(variant, (dict) => dict.Remove(buffType));
+	}
+
+	public bool TryGetBuff(Type buffType, BuffVariant variant, out IBuff buff)
+	{
+		switch (variant)
+		{
+			case BuffVariant.Dot:
+				return _dotBuffs.TryGetValue(buffType, out buff);
+			case BuffVariant.State:
+				return _stateBuffs.TryGetValue(buffType, out buff);
+			default:
+				throw new ArgumentException();
+		}
+	}
+
+	public bool HasBuff(Type buffType, BuffVariant variant)
+	{
+		return SwitchWrapper(variant, (dict) => dict.ContainsKey(buffType));
+	}
+
+	private TResult SwitchWrapper<TResult>(BuffVariant varian,Func<Dictionary<Type, IBuff>, TResult> func)
+	{
+		switch (varian)
+		{
+			case BuffVariant.Dot:
+				return func(_dotBuffs);
+			case BuffVariant.State:
+				return func(_stateBuffs);
+			default:
+				throw new ArgumentException();
+		}
+	}
+
 	private readonly List<(IBuff, Dictionary<Type, IBuff>)> rm = new List<(IBuff, Dictionary<Type, IBuff>)>();
 
 	public void OnUpdate()
@@ -54,6 +95,7 @@ public class BuffWapper
 			var (buff, dict) = r;
 			dict.Remove(buff.GetType());
 		}
+		rm.Clear();
 	}
 
 	private static void ReduceTime(IBuff buff, Dictionary<Type, IBuff> src, List<(IBuff, Dictionary<Type, IBuff>)> rmList)
