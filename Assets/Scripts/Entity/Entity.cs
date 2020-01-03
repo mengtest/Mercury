@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 实体基类
+/// </summary>
 public abstract class Entity : MonoBehaviour
 {
 	/// <summary>
@@ -30,12 +33,11 @@ public abstract class Entity : MonoBehaviour
 	public float HpRecoverPerSec { get => _hpRecoverPerSec; }
 	public float DeadBodySurviveTime { get => _deadBodySurviveTime; }
 
-	private void Update()
+	protected virtual void Start()
 	{
-		OnUpdate();
 	}
 
-	protected virtual void OnUpdate()
+	protected virtual void Update()
 	{
 		_healthPoint = DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint);
 	}
