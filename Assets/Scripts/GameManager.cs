@@ -67,7 +67,7 @@ public class GameManager : MonoSingleton<GameManager>
 				res.name = o.name;
 				res.transform.parent = go.transform;
 				return res;
-			}, 2);
+			}, 1);
 			sePool.Factory.OnDestruct += ob => Destroy(ob);
 			sePool.OnGet += ob => ob.Show();
 			sePool.OnRecycle += ob => ob.Hide();
