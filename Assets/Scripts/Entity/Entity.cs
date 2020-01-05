@@ -49,7 +49,7 @@ public abstract class Entity : MonoBehaviour
 
 	protected virtual void Update()
 	{
-		//Heal(DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint));
+		Heal(DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint));
 		foreach (var sys in _normalSystems)
 		{
 			sys.OnUpdate(this);

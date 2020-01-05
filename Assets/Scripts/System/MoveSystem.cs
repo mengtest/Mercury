@@ -13,6 +13,11 @@ public class MoveSystem : IEntitySystem
 		var rigid = entity.GetComponent<Rigidbody2D>();
 		var colli = entity.GetComponent<Collider2D>();
 		var sprite = entity.GetComponent<SpriteRenderer>();
+		var stateable = entity as ISkillable;
+		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
+		{
+			return;
+		}
 
 		entity.transform.position += new Vector3(move.nowSpeed * Time.deltaTime, 0, 0);
 		if (move.doubleJumpColdDownTime > 0) move.doubleJumpColdDownTime -= Time.deltaTime;
@@ -56,17 +61,17 @@ public class MoveSystem : IEntitySystem
 			}
 			sprite.flipX = true;
 		}
-		if (move.nowSpeed > 0) 
-		{ 
-			move.nowSpeed = move.nowSpeed - 1 < 0 ? 0 : move.nowSpeed - 1; 
+		if (move.nowSpeed > 0)
+		{
+			move.nowSpeed = move.nowSpeed - 1 < 0 ? 0 : move.nowSpeed - 1;
 		}
-		else 
-		{ 
-			move.nowSpeed = move.nowSpeed + 1 > 0 ? 0 : move.nowSpeed + 1; 
+		else
+		{
+			move.nowSpeed = move.nowSpeed + 1 > 0 ? 0 : move.nowSpeed + 1;
 		}
-		if (move.jumpSpeed > 0) 
-		{ 
-			move.jumpSpeed = move.jumpSpeed - 1 < 0 ? 0 : move.jumpSpeed - 1; 
+		if (move.jumpSpeed > 0)
+		{
+			move.jumpSpeed = move.jumpSpeed - 1 < 0 ? 0 : move.jumpSpeed - 1;
 		}
 		if (rigid.velocity.magnitude > move.maxSpeed)
 		{

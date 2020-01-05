@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 玩家
 /// </summary>
-public class EntityPlayer : Entity, IAttackable, IBuffable
+public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 {
 	[SerializeField]
 	private BasicCapability _basicCapability = new BasicCapability();
@@ -16,6 +16,9 @@ public class EntityPlayer : Entity, IAttackable, IBuffable
 	private BasicState _basicState = new BasicState();
 
 	private BuffWapper _buffs;
+	private SkillWrapper _skills;
+
+	public FSMSystem<AbstractSkill> FSMSystem => _skills.FSMSystem;
 
 	protected override void Start()
 	{
@@ -29,12 +32,20 @@ public class EntityPlayer : Entity, IAttackable, IBuffable
 		SetProperty(_basicState);
 		AddSystem<MoveSystem>();
 		_buffs = new BuffWapper(this);
+		_skills = new SkillWrapper(this);
+
+		var normal = new NormalState(this);
+		_skills.AddSkill(normal);
+		_skills.AddSkill(new StiffnessState(this));
+		_skills.AddSkill(new SkillRaceterShadowStrike(this, 200));
+		_skills.FSMSystem.CurrentState = normal;
 	}
 
 	protected override void Update()
 	{
 		base.Update();
 		_buffs.OnUpdate();
+		_skills.OnUpdate();
 	}
 
 	#region IBuffable
@@ -106,4 +117,25 @@ public class EntityPlayer : Entity, IAttackable, IBuffable
 			_basicState.standedStep = null;
 		}
 	}
+	#region ISkillable
+	public void AddSkill(AbstractSkill skill)
+	{
+		_skills.AddSkill(skill);
+	}
+
+	public bool RemoveSkill(Type skillType)
+	{
+		return _skills.RemoveSkill(skillType);
+	}
+
+	public void UseSkill(Type skillType)
+	{
+		_skills.UseSkill(skillType);
+	}
+
+	public void OnUpdate()
+	{
+		_skills.OnUpdate();
+	}
+	#endregion
 }

@@ -24,7 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		if (Input.GetKeyDown(KeyCode.K))
 		{
-			player.AddBuff(new BuffHeal(100000, 1));
+			player.UseSkill(typeof(SkillRaceterShadowStrike));
 		}
 	}
 
