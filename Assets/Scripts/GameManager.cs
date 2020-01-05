@@ -5,6 +5,7 @@ using UnityEngine.AddressableAssets;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+	public EntityPlayer player;
 	public GameObject pools;
 	public GameObject canvas;
 	public AssetLabelReference specialEffects;
@@ -25,15 +26,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		if (Input.GetKeyDown(KeyCode.K))
 		{
-			if (!_testTemp)
-			{
-				_testTemp = GetEffect(Consts.PREFAB_SE_buff_effect_dodge);
-			}
-			else
-			{
-				RecycleEffect(_testTemp);
-				_testTemp = null;
-			}
+			player.AddBuff(new BuffHeal(10, 1));
 		}
 	}
 

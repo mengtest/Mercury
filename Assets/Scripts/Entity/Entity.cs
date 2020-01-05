@@ -10,10 +10,12 @@ public abstract class Entity : MonoBehaviour
 	/// <summary>
 	/// 血量
 	/// </summary>
+	[SerializeField]
 	protected float _healthPoint;
 	/// <summary>
 	/// 最大血量
 	/// </summary>
+	[SerializeField]
 	protected float _maxHealthPoint;
 	/// <summary>
 	/// 每秒血量变化
@@ -47,7 +49,7 @@ public abstract class Entity : MonoBehaviour
 
 	protected virtual void Update()
 	{
-		_healthPoint = DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint);
+		Heal(DataChangePerSec(_healthPoint, -_hpRecoverPerSec, _maxHealthPoint));
 		foreach (var sys in _normalSystems)
 		{
 			sys.OnUpdate(this);
@@ -115,5 +117,11 @@ public abstract class Entity : MonoBehaviour
 		{
 			throw new ArgumentException($"没有系统{typeof(T)}");
 		}
+	}
+
+	public void Heal(float amount)
+	{
+		var tryAdd = _healthPoint + amount;
+		_healthPoint = tryAdd > _maxHealthPoint ? _maxHealthPoint : tryAdd;
 	}
 }

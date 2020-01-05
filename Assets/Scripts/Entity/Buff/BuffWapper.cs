@@ -84,7 +84,10 @@ public class BuffWapper
 		foreach (var buff in _dotBuffs.Values)
 		{
 			ReduceTime(buff, _dotBuffs, rm);
-			buff.OnTrigger(_buffHolder);
+			if (buff.IsReady())
+			{
+				buff.OnTrigger(_buffHolder);
+			}
 		}
 		foreach (var buff in _stateBuffs.Values)
 		{

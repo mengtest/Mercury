@@ -20,6 +20,9 @@ public class EntityPlayer : Entity, IAttackable, IBuffable
 	protected override void Start()
 	{
 		base.Start();
+		_healthPoint = 20;
+		_maxHealthPoint = 20;
+		_hpRecoverPerSec = 0.5f;
 		SetProperty(_basicCapability);
 		SetProperty(_elementAffinity);
 		SetProperty(_moveCapability);

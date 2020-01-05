@@ -33,4 +33,9 @@
 	/// 当Buff触发时调用
 	/// </summary>
 	void OnTrigger(IBuffable buffable);
+
+	/// <summary>
+	/// Buff是否可以触发
+	/// </summary>
+	bool IsReady();
 }
