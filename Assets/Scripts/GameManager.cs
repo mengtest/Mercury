@@ -18,6 +18,7 @@ public class GameManager : MonoSingleton<GameManager>
 		DontDestroyOnLoad(pools);
 		DontDestroyOnLoad(canvas);
 		StartCoroutine(AsyncLoadSpeicalEffect());
+		EntitySystemManager.Instance.Init();
 	}
 
 	protected override void Update()

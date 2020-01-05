@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3495173415748184954}
   - component: {fileID: 3495173415748184952}
   - component: {fileID: 3495173415748184955}
-  - component: {fileID: 3495173415748184953}
+  - component: {fileID: 3100519788166477109}
   m_Layer: 0
   m_Name: DummyPlayer
   m_TagString: Player
@@ -142,7 +142,7 @@ ConstantForce2D:
   m_Force: {x: 0, y: -9.8}
   m_RelativeForce: {x: 0, y: 0}
   m_Torque: 0
---- !u!114 &3495173415748184953
+--- !u!114 &3100519788166477109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,9 +151,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 3495173415748184959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f0e3e0e0765b649a02c8407453e6c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 23dc979eb3019d547bd5946eb4f2015e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _basicCapability:
+    manaPoint: 0
+    mpRecoverPerSec: 0
+    maxManaPoint: 0
+    phyAttack: 0
+    magAttack: 0
+    phyDefense: 0
+    magDefense: 0
+    endurancePoint: 0
+    spiritPoint: 0
+    intelligencePoint: 0
+    strengthPoint: 0
+    criticalPoint: 0
+    attackSpeedPoint: 0
+    chantSpeedPoint: 0
+    furtunePoint: 0
+  _elementAffinity:
+    fire: 0
+    ice: 0
+    land: 0
+    wind: 0
+    thunder: 0
+    light: 0
+    dark: 0
+  _moveCapability:
+    doubleJumpReady: 0
+    moveSpeed: 2
+    nowSpeed: 0
+    maxSpeed: 15
+    jumpSpeed: 0
+    doubleJumpColdDownTime: 0
+  _basicState:
+    isOnStep: 0
 --- !u!1 &3495173416910250976
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,4 +284,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6a0eecb6e84e04fabf56354735a2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 3495173415748184953}
+  player: {fileID: 3100519788166477109}

@@ -7,19 +7,24 @@ using UnityEngine;
 public class EntityPlayer : Entity, IAttackable, IBuffable
 {
 	[SerializeField]
-	private BasicCapability _basicCapability;
+	private BasicCapability _basicCapability = new BasicCapability();
 	[SerializeField]
-	private ElementAffinity _elementAffinity;
+	private ElementAffinity _elementAffinity = new ElementAffinity();
+	[SerializeField]
+	private MoveCapability _moveCapability = new MoveCapability();
+	[SerializeField]
+	private BasicState _basicState = new BasicState();
 
 	private BuffWapper _buffs;
 
 	protected override void Start()
 	{
 		base.Start();
-		_basicCapability = new BasicCapability();
-		_elementAffinity = new ElementAffinity();
 		SetProperty(_basicCapability);
 		SetProperty(_elementAffinity);
+		SetProperty(_moveCapability);
+		SetProperty(_basicState);
+		AddSystem<MoveSystem>();
 		_buffs = new BuffWapper(this);
 	}
 
@@ -71,4 +76,31 @@ public class EntityPlayer : Entity, IAttackable, IBuffable
 		_healthPoint -= damage;
 	}
 	#endregion
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Step"))
+		{
+			_basicState.isOnStep = true;
+			_basicState.standedStep = collision;
+		}
+	}
+
+	private void OnCollisionStay2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Step"))
+		{
+			_basicState.isOnStep = true;
+			_basicState.standedStep = collision;
+		}
+	}
+
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Step"))
+		{
+			_basicState.isOnStep = false;
+			_basicState.standedStep = null;
+		}
+	}
 }

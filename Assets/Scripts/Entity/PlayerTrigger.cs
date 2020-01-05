@@ -2,7 +2,7 @@
 
 public class PlayerTrigger : MonoBehaviour
 {
-	public Player player;
+	public EntityPlayer player;
 	private Collider2D _playerCollider;
 
 	private void Start()

@@ -27,6 +27,14 @@ public abstract class Entity : MonoBehaviour
 	/// 属性容器
 	/// </summary>
 	protected readonly Dictionary<Type, IEntityProperty> _properties = new Dictionary<Type, IEntityProperty>();
+	/// <summary>
+	/// 物理系统
+	/// </summary>
+	protected readonly List<IEntitySystem> _physicalSystems = new List<IEntitySystem>();
+	/// <summary>
+	/// 普通系统
+	/// </summary>
+	protected readonly List<IEntitySystem> _normalSystems = new List<IEntitySystem>();
 
 	public float HealthPoint { get => _healthPoint; }
 	public float MaxHealthPoint { get => _maxHealthPoint; }
@@ -40,6 +48,18 @@ public abstract class Entity : MonoBehaviour
 	protected virtual void Update()
 	{
 		_healthPoint = DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint);
+		foreach (var sys in _normalSystems)
+		{
+			sys.OnUpdate(this);
+		}
+	}
+
+	protected virtual void FixedUpdate()
+	{
+		foreach (var sys in _physicalSystems)
+		{
+			sys.OnUpdate(this);
+		}
 	}
 
 	/// <summary>
@@ -76,5 +96,24 @@ public abstract class Entity : MonoBehaviour
 		}
 
 		throw new ArgumentException($"没有属性{typeof(T).FullName}");
+	}
+
+	public void AddSystem<T>() where T : IEntitySystem
+	{
+		if (EntitySystemManager.Instance.Systems.TryGetValue(typeof(T), out var sys))
+		{
+			if (sys.IsPhysic)
+			{
+				_physicalSystems.Add(sys);
+			}
+			else
+			{
+				_normalSystems.Add(sys);
+			}
+		}
+		else
+		{
+			throw new ArgumentException($"没有系统{typeof(T)}");
+		}
 	}
 }
