@@ -1,7 +1,9 @@
 ﻿public class BuffHeal : IBuff
 {
-	public float Duration { get; set; }
+	private int _triggerCount;
+	private static readonly int _triggerFreq = 500;
 
+	public float Duration { get; set; }
 	public int Intensity { get; private set; }
 
 	public BuffVariant Variant => BuffVariant.Dot;
@@ -10,12 +12,26 @@
 	{
 		Duration = duration;
 		Intensity = intensity;
+		_triggerCount = GetTAllriggerCount(Duration);
+	}
+
+	private static int GetTAllriggerCount(float duration)
+	{
+		return (int)duration / _triggerFreq;
 	}
 
 	public bool IsReady()
 	{
-		var time = 120 >> Intensity;
-		return time > 0 ? Duration % time == 0 : true;
+		var leaveCount = GetTAllriggerCount(Duration);
+		if (leaveCount < _triggerCount)
+		{
+			_triggerCount -= 1;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public void Merge(IBuff other)
@@ -25,21 +41,20 @@
 			Intensity = other.Intensity;
 		}
 		Duration += other.Duration;
+		_triggerCount = GetTAllriggerCount(Duration);
 	}
 
 	public void OnFirstAdd(IBuffable buffable)
 	{
-
 	}
 
 	public void OnRemove(IBuffable buffable)
 	{
-
 	}
 
 	public void OnTrigger(IBuffable buffable)
 	{
 		var e = buffable as Entity;
-		e.Heal(1 << Intensity);
+		e.Heal(Intensity * 0.5f);
 	}
 }

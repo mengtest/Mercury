@@ -18,22 +18,27 @@ public class BuffWapper
 
 	public void AddBuff(IBuff buff)
 	{
-		if (_stateBuffs.TryGetValue(buff.GetType(), out var val))
+		if (buff.Variant == BuffVariant.Dot)
+		{
+			AddBuffStatic(buff, _dotBuffs, _buffHolder);
+		}
+		else
+		{
+			AddBuffStatic(buff, _stateBuffs, _buffHolder);
+		}
+	}
+
+	private static void AddBuffStatic(IBuff buff, Dictionary<Type, IBuff> dict, IBuffable holder)
+	{
+		if (dict.TryGetValue(buff.GetType(), out var val))
 		{
 			val.Merge(buff);
 		}
 		else
 		{
-			if (buff.Variant == BuffVariant.Dot)
-			{
-				_dotBuffs.Add(buff.GetType(), buff);
-			}
-			else
-			{
-				_stateBuffs.Add(buff.GetType(), buff);
-			}
-			buff.OnFirstAdd(_buffHolder);
+			dict.Add(buff.GetType(), buff);
 		}
+		buff.OnFirstAdd(holder);
 	}
 
 	public IBuff GetBuff(Type buffType, BuffVariant variant)
@@ -64,7 +69,7 @@ public class BuffWapper
 		return SwitchWrapper(variant, (dict) => dict.ContainsKey(buffType));
 	}
 
-	private TResult SwitchWrapper<TResult>(BuffVariant varian,Func<Dictionary<Type, IBuff>, TResult> func)
+	private TResult SwitchWrapper<TResult>(BuffVariant varian, Func<Dictionary<Type, IBuff>, TResult> func)
 	{
 		switch (varian)
 		{
@@ -105,7 +110,7 @@ public class BuffWapper
 	{
 		if (buff.Duration != int.MaxValue)
 		{
-			buff.Duration -= Time.deltaTime;
+			buff.Duration -= Time.deltaTime * 1000;
 		}
 		if (buff.Duration <= 0)
 		{

@@ -11,8 +11,6 @@ public class GameManager : MonoSingleton<GameManager>
 	public AssetLabelReference specialEffects;
 	private readonly Dictionary<string, ObjectPool<GameObject>> _specialEffectPools = new Dictionary<string, ObjectPool<GameObject>>();
 
-	private GameObject _testTemp;
-
 	protected override void Awake()
 	{
 		base.Awake();
@@ -26,7 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
 	{
 		if (Input.GetKeyDown(KeyCode.K))
 		{
-			player.AddBuff(new BuffHeal(10, 1));
+			player.AddBuff(new BuffHeal(100000, 1));
 		}
 	}
 
@@ -65,7 +63,6 @@ public class GameManager : MonoSingleton<GameManager>
 			sePool.Factory.OnDestruct += ob => Destroy(ob);
 			sePool.OnGet += ob => ob.Show();
 			sePool.OnRecycle += ob => ob.Hide();
-			//sePool.OnPreRecycle += ob => ob.CompareTag(Consts.TAG_SpecialEffect);
 			_specialEffectPools.Add(obj.name, sePool);
 		}
 		LoadPanel.Instance.Complete();
