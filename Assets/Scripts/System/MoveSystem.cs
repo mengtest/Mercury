@@ -13,6 +13,11 @@ public class MoveSystem : IEntitySystem
 		var rigid = entity.GetComponent<Rigidbody2D>();
 		var colli = entity.GetComponent<Collider2D>();
 		var sprite = entity.GetComponent<SpriteRenderer>();
+		var stateable = entity as ISkillable;
+		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
+		{
+			return;
+		}
 
 		entity.transform.position += new Vector3(move.nowSpeed * Time.deltaTime, 0, 0);
 		if (move.doubleJumpColdDownTime > 0) move.doubleJumpColdDownTime -= Time.deltaTime;
