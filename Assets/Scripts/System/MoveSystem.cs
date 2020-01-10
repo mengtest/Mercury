@@ -13,7 +13,7 @@ public class MoveSystem : IEntitySystem
 		var state = entity.GetProperty<BasicState>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
 		var colli = entity.GetComponent<Collider2D>();
-		//var sprite = entity.GetComponent<SpriteRenderer>();
+		var sprite = entity.GetComponent<SpriteRenderer>();
 		var stateable = entity as ISkillable;
 		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
 		{
@@ -60,8 +60,21 @@ public class MoveSystem : IEntitySystem
 		}
 		*/
 
+
+
+
+				/*
+		if (Input.GetKeyDown(KeyCode.S))
+		{
+			if (state.isOnStep && state.standedStep.gameObject.GetComponent<Step>().canThrough)
+			{
+				Physics2D.IgnoreCollision(colli, state.standedStep.collider, true);
+			}
+		}*/
+
 		entity.transform.position += new Vector3(move.nowSpeedX * Time.deltaTime, 0, 0);
 		entity.transform.position += new Vector3(0, move.nowSpeedY * Time.deltaTime, 0);
+		//Debug.Log(move.nowSpeedY);
 		if (!state.isOnStep)
 		{
 			move.nowSpeedY = (move.nowSpeedY - 2 < -10) ? (-10) : (move.nowSpeedY - 2);
@@ -72,7 +85,7 @@ public class MoveSystem : IEntitySystem
 			if (state.isOnStep)
 			{
 				//rigid.velocity = new Vector2(0, move.maxSpeed * 0.55f);
-				move.nowSpeedY = 15;
+				move.nowSpeedY = 5;
 				move.doubleJumpReady = true;
 				move.doubleJumpColdDownTime = 0.2f;
 				state.isOnStep = false;
@@ -80,18 +93,11 @@ public class MoveSystem : IEntitySystem
 			else if (move.doubleJumpColdDownTime <= 0 && move.doubleJumpReady)
 			{
 				//rigid.velocity = new Vector2(0, move.maxSpeed * 0.45f);
-				move.nowSpeedY = 15;
+				move.nowSpeedY = 5;
 				move.doubleJumpReady = false;
 			}
 		}
-		/*
-		if (Input.GetKeyDown(KeyCode.S))
-		{
-			if (state.isOnStep && state.standedStep.gameObject.GetComponent<Step>().canThrough)
-			{
-				Physics2D.IgnoreCollision(colli, state.standedStep.collider, true);
-			}
-		}*/
+
 		if (Input.GetKey(KeyCode.A) & state.isOnStep)
 		{
 			move.nowSpeedX -= 3 * move.moveSpeed;
@@ -112,13 +118,16 @@ public class MoveSystem : IEntitySystem
 			var raw = entity.transform.eulerAngles;
 			entity.transform.eulerAngles = new Vector3(raw.x, 180, raw.z);
 		}
-		if (move.nowSpeedX > 0 & state.isOnStep)
+		if (state.isOnStep)
 		{
-			move.nowSpeedX = move.nowSpeedX - 1 < 0 ? 0 : move.nowSpeedX - 1;
-		}
-		else
-		{
-			move.nowSpeedX = move.nowSpeedX + 1 > 0 ? 0 : move.nowSpeedX + 1;
+			if (move.nowSpeedX > 0)
+			{
+				move.nowSpeedX = move.nowSpeedX - 1 < 0 ? 0 : move.nowSpeedX - 1;
+			}
+			else
+			{
+				move.nowSpeedX = move.nowSpeedX + 1 > 0 ? 0 : move.nowSpeedX + 1;
+			}
 		}
 
 		/*
