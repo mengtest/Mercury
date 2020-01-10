@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerTrigger : MonoBehaviour
+public class EntityPlayerStepTrigger : MonoBehaviour
 {
 	public EntityPlayer player;
 	private Collider2D _playerCollider;
