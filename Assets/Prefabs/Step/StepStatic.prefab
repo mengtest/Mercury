@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6296947242018400955}
   - component: {fileID: 439362989967343770}
   - component: {fileID: 5064486264081060586}
+  - component: {fileID: 8003912162141711156}
   m_Layer: 0
   m_Name: StepStatic
   m_TagString: Step
@@ -106,3 +107,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.08, y: 0.08}
   m_EdgeRadius: 0
+--- !u!114 &8003912162141711156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6296947242018400952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b220664ea20a3894ba6b2e6b890bff9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canThrough: 0

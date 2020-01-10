@@ -19,7 +19,7 @@ public class MoveSystem : IEntitySystem
 		{
 			return;
 		}
-		
+		/*
 		var velocity = rigid.velocity;
 		var maxSpeed = 20;
 		var s = maxSpeed - math.abs(velocity.x);
@@ -58,8 +58,8 @@ public class MoveSystem : IEntitySystem
 			}
 			rigid.AddForce(new float2(a, 0) * e);
 		}
+		*/
 
-		/*
 		entity.transform.position += new Vector3(move.nowSpeed * Time.deltaTime, 0, 0);
 		if (move.doubleJumpColdDownTime > 0) move.doubleJumpColdDownTime -= Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.W))
@@ -79,7 +79,7 @@ public class MoveSystem : IEntitySystem
 		}
 		if (Input.GetKeyDown(KeyCode.S))
 		{
-			if (state.isOnStep)
+			if (state.isOnStep && state.standedStep.gameObject.GetComponent<Step>().canThrough)
 			{
 				Physics2D.IgnoreCollision(colli, state.standedStep.collider, true);
 			}
@@ -120,6 +120,5 @@ public class MoveSystem : IEntitySystem
 		{
 			rigid.velocity = new Vector2(0, -move.maxSpeed);
 		}
-		*/
 	}
 }

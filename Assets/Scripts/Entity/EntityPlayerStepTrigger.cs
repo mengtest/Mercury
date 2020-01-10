@@ -14,7 +14,10 @@ public class EntityPlayerStepTrigger : MonoBehaviour
 	{
 		if (other.CompareTag("Step"))
 		{
-			Physics2D.IgnoreCollision(_playerCollider, other, true);
+			if (other.GetComponent<Step>().canThrough)
+			{
+				Physics2D.IgnoreCollision(_playerCollider, other, true);
+			}
 		}
 	}
 
@@ -22,7 +25,10 @@ public class EntityPlayerStepTrigger : MonoBehaviour
 	{
 		if (other.CompareTag("Step"))
 		{
-			Physics2D.IgnoreCollision(_playerCollider, other, true);
+			if (other.GetComponent<Step>().canThrough)
+			{
+				Physics2D.IgnoreCollision(_playerCollider, other, true);
+			}
 		}
 	}
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3495173415748184954}
   - component: {fileID: 3495173415748184952}
   - component: {fileID: 3100519788166477109}
+  - component: {fileID: 247338693293751350}
   m_Layer: 0
   m_Name: DummyPlayer
   m_TagString: Player
@@ -178,6 +179,17 @@ MonoBehaviour:
     doubleJumpColdDownTime: 0
   _basicState:
     isOnStep: 0
+--- !u!247 &247338693293751350
+ConstantForce2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3495173415748184959}
+  m_Enabled: 1
+  m_Force: {x: 0, y: -9.8}
+  m_RelativeForce: {x: 0, y: 0}
+  m_Torque: 0
 --- !u!1 &3495173416910250976
 GameObject:
   m_ObjectHideFlags: 0

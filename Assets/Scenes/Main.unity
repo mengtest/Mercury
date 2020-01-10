@@ -354,17 +354,17 @@ PrefabInstance:
     - target: {fileID: 3495173415748184952, guid: cfa11305be490e541939feb59fba72fd,
         type: 3}
       propertyPath: m_GravityScale
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3495173415748184952, guid: cfa11305be490e541939feb59fba72fd,
         type: 3}
       propertyPath: m_AngularDrag
-      value: 0
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3495173415748184952, guid: cfa11305be490e541939feb59fba72fd,
         type: 3}
       propertyPath: m_Interpolate
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3495173415748184952, guid: cfa11305be490e541939feb59fba72fd,
         type: 3}

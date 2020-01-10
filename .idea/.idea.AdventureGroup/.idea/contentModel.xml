@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\ksgfk\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\ksgfk\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_AdventureGroup.1184318582.00" t="ExcludeRecursive" />
+    <e p="D:\ProjectUnity\AdventureGroup" t="IncludeRecursive">
+      <e p="AdventureGroup.csproj" t="IncludeRecursive" />
+      <e p="AdventureGroup.sln" t="IncludeFlat" />
+      <e p="Assets" t="Include">
+        <e p="Scripts" t="Include">
+          <e p="AdventureGroup.asmdef" t="Include" />
+          <e p="Consts.cs" t="Include" />
+          <e p="Entity" t="Include">
+            <e p="Buff" t="Include">
+              <e p="BuffHeal.cs" t="Include" />
+              <e p="BuffVariant.cs" t="Include" />
+              <e p="BuffWapper.cs" t="Include" />
+              <e p="IBuff.cs" t="Include" />
+              <e p="IBuffable.cs" t="Include" />
+            </e>
+            <e p="Entity.cs" t="Include" />
+            <e p="EntityPlayer.cs" t="Include" />
+            <e p="EntityPlayerAttack.cs" t="Include" />
+            <e p="EntityPlayerStepTrigger.cs" t="Include" />
+            <e p="IAttackable.cs" t="Include" />
+            <e p="Property" t="Include">
+              <e p="BasicCapability.cs" t="Include" />
+              <e p="BasicState.cs" t="Include" />
+              <e p="ElementAffinity.cs" t="Include" />
+              <e p="IEntityProperty.cs" t="Include" />
+              <e p="MoveCapability.cs" t="Include" />
+            </e>
+            <e p="Skill" t="Include">
+              <e p="AbstractSkill.cs" t="Include" />
+              <e p="ISkillable.cs" t="Include" />
+              <e p="NormalState.cs" t="Include" />
+              <e p="SkillRaceterHasaki.cs" t="Include" />
+              <e p="SkillRaceterShadowStrike.cs" t="Include" />
+              <e p="SkillWrapper.cs" t="Include" />
+              <e p="StiffnessState.cs" t="Include" />
+            </e>
+            <e p="StepEnter.cs" t="Include" />
+          </e>
+          <e p="GameManager.cs" t="Include" />
+          <e p="system" t="Include">
+            <e p="EntitySystemManager.cs" t="Include" />
+            <e p="IEntitySystem.cs" t="Include" />
+            <e p="MoveSystem.cs" t="Include" />
+          </e>
+          <e p="Tests" t="Include">
+            <e p="TestMath.cs" t="Include" />
+            <e p="TestObjPool.cs" t="Include" />
+            <e p="Tests.asmdef" t="Include" />
+          </e>
+          <e p="UI" t="Include">
+            <e p="LoadPanel.cs" t="Include" />
+          </e>
+          <e p="Utility" t="Include">
+            <e p="FSMSystem.cs" t="Include" />
+            <e p="GameObjectExtension.cs" t="Include" />
+            <e p="IFSMState.cs" t="Include" />
+            <e p="MathUtility.cs" t="Include" />
+            <e p="MonoSingleton.cs" t="Include" />
+            <e p="ObjectFactory.cs" t="Include" />
+            <e p="ObjectPool.cs" t="Include" />
+            <e p="Singleton.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="Tests.csproj" t="IncludeRecursive" />
+    </e>
+  </component>
+</project>
