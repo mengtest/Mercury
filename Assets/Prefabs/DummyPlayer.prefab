@@ -119,7 +119,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3495173415748184959}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -173,7 +173,8 @@ MonoBehaviour:
   _moveCapability:
     doubleJumpReady: 0
     moveSpeed: 2
-    nowSpeed: 0
+    nowSpeedX: 0
+    nowSpeedY: 0
     maxSpeed: 15
     jumpSpeed: 0
     doubleJumpColdDownTime: 0
@@ -186,7 +187,7 @@ ConstantForce2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3495173415748184959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Force: {x: 0, y: -9.8}
   m_RelativeForce: {x: 0, y: 0}
   m_Torque: 0
