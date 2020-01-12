@@ -19,6 +19,20 @@ public class MoveSystem : IEntitySystem
 		{
 			return;
 		}
+
+		var rayStartPos = new float2(entity.transform.position.x, entity.transform.position.y - 0.5f);//因为position获取的是玩家的中心点，所以减去一段距离才是玩家脚部
+		var entityZ = entity.transform.position.z;
+		RaycastHit2D? under = PhysicsUtility.Raycast2D(rayStartPos, new float2(0, -1), 5);//返回的是一个可为null的值
+		Debug.DrawRay(new Vector3(rayStartPos.x, rayStartPos.y, entityZ), new Vector3(0, -5, entityZ), Color.red);//可以在Scene下看到红色射线，Game看不到，debug用
+		//射线碰到第一个物体后就会直接返回一个值，不会继续进行碰撞
+		if (under.HasValue)//检查是否有碰撞结果，是的话进if
+		{
+			RaycastHit2D v = under.Value;//获取碰撞结果
+			if (v.transform.CompareTag("Step"))//如果是台阶
+			{
+				return;//举个例子，不移动了
+			}
+		}
 		/*
 		var velocity = rigid.velocity;
 		var maxSpeed = 20;
@@ -63,14 +77,14 @@ public class MoveSystem : IEntitySystem
 
 
 
-				/*
-		if (Input.GetKeyDown(KeyCode.S))
-		{
-			if (state.isOnStep && state.standedStep.gameObject.GetComponent<Step>().canThrough)
-			{
-				Physics2D.IgnoreCollision(colli, state.standedStep.collider, true);
-			}
-		}*/
+		/*
+if (Input.GetKeyDown(KeyCode.S))
+{
+	if (state.isOnStep && state.standedStep.gameObject.GetComponent<Step>().canThrough)
+	{
+		Physics2D.IgnoreCollision(colli, state.standedStep.collider, true);
+	}
+}*/
 
 		entity.transform.position += new Vector3(move.nowSpeedX * Time.deltaTime, 0, 0);
 		entity.transform.position += new Vector3(0, move.nowSpeedY * Time.deltaTime, 0);
