@@ -86,7 +86,7 @@ if (Input.GetKeyDown(KeyCode.S))
 	}
 }*/
 
-		entity.transform.position += new Vector3(move.nowSpeedX * Time.deltaTime, 0, 0);
+		entity.transform.position += new Vector3(move.nowSpeedX * Time.deltaTime,0, 0);
 		entity.transform.position += new Vector3(0, move.nowSpeedY * Time.deltaTime, 0);
 		//Debug.Log(move.nowSpeedY);
 		if (!state.isOnStep)

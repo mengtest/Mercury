@@ -46,4 +46,60 @@ public static class PhysicsUtility
 		}
 		return -1;
 	}
+
+	/// <summary>
+	/// 修正X轴坐标，使得返回的X坐标必定不在墙内。
+	/// </summary>
+	/// <param name="pos">脚下的坐标</param>
+	/// <param name="leg">移动X方向的距离（正数为右，负数为左）</param>
+	/// <returns></returns>
+	public static float XaxisCCorrection(float2 pos, float leg)
+	{
+		float2 dir;
+		dir = leg > 0 ? new float2(1,0) : new float2(-1,0);
+		int ret = HitWall2D(pos, dir, math.abs(leg));
+		if (ret == 1)
+		{
+			return pos.x;
+		}
+		else
+		{
+			return pos.x + leg;
+		}
+	}
+
+	/// <summary>
+	/// 修正Y轴坐标，使得返回的X坐标必定不在墙内。(如果在墙内并没有越过墙会导致掉落)
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <param name="leg"></param>
+	/// <returns></returns>
+	public static float YaxisCCorrection(float2 pos,float leg)
+	{
+		float2 dir;
+		dir = leg > 0 ? new float2(0, 1) : new float2(0, -1);
+		int ret = HitWall2D(pos, dir, math.abs(leg));
+		if (leg > 0)
+		{
+			if (ret == 1)
+			{
+				return pos.y;
+			}
+			else
+			{
+				return pos.y + leg;
+			}
+		}
+		else
+		{
+			if (ret == 1 || ret == 2 && HitWall2D(pos, new float2(0, 1), 0.01f) != 2) 
+			{
+				return pos.y;
+			}
+			else
+			{
+				return pos.y + leg;
+			}
+		}
+	}
 }
