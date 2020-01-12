@@ -20,4 +20,30 @@ public static class PhysicsUtility
 		var hit = Physics2D.Raycast(pos, math.normalize(dir), length);
 		return hit.collider == null ? null : new RaycastHit2D?(hit);
 	}
+
+	/// <summary>
+	/// 检测墙
+	/// </summary>
+	/// <param name="pos">开始位置</param>
+	/// <param name="dir">射线方向</param>
+	/// <param name="length">射线长度</param>
+	/// <returns>-1：撞到东西但不是墙，0：没撞到任何东西，1：实心墙，2：可穿越墙</returns>
+	public static int HitWall2D(float2 pos, float2 dir, float length)
+	{
+		var hit = Raycast2D(pos, dir, length);
+		if (!hit.HasValue)
+		{
+			return 0;
+		}
+		var v = hit.Value;
+		if (v.transform.CompareTag("Step"))
+		{
+			return 2;
+		}
+		if (v.transform.CompareTag("StaticWall"))
+		{
+			return 1;
+		}
+		return -1;
+	}
 }
