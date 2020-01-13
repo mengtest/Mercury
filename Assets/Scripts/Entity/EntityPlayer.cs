@@ -22,18 +22,21 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
 	protected override void Start()
 	{
-		//base.Start();
+		base.Start();
 		_healthPoint = 1;
 		_maxHealthPoint = 100;
 		_hpRecoverPerSec = 0.5f;
+
 		SetProperty(_basicCapability);
 		SetProperty(_elementAffinity);
 		SetProperty(_moveCapability);
 		SetProperty(_basicState);
+		_basicCapability.phyAttack = 10;
+
 		AddSystem<MoveSystem>();
+
 		_buffs = new BuffWapper(this);
 		_skills = new SkillWrapper(this);
-
 		var normal = new NormalState(this);
 		_skills.AddSkill(normal);
 		_skills.AddSkill(new StiffnessState(this));
@@ -82,15 +85,14 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 	#region IAttackable
 	public float DealDamage()
 	{
-		//例子
-		var finalDamage = 1;
-		finalDamage *= _basicCapability.criticalPoint;
+		var finalDamage = _basicCapability.phyAttack;
+		//finalDamage *= _basicCapability.criticalPoint;
 		return finalDamage;
 	}
 
-	public void UnderAttack(IAttackable attacker)
+	public void UnderAttack(IAttackable attacker, float extra)
 	{
-		var damage = attacker.DealDamage();
+		var damage = attacker.DealDamage() + extra;
 		_healthPoint -= damage;
 	}
 	#endregion

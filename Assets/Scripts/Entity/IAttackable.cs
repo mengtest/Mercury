@@ -4,7 +4,7 @@
 public interface IAttackable
 {
 	/// <summary>
-	/// 产生的伤害
+	/// 攻击时造成的伤害
 	/// </summary>
 	/// <returns>伤害值</returns>
 	float DealDamage();
@@ -13,5 +13,5 @@ public interface IAttackable
 	/// 当被攻击时调用
 	/// </summary>
 	/// <param name="attacker">攻击者</param>
-	void UnderAttack(IAttackable attacker);
+	void UnderAttack(IAttackable attacker, float extra);
 }

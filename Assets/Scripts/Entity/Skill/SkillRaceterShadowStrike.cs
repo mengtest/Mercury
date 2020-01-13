@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SkillRaceterShadowStrike : AbstractSkill
 {
@@ -9,6 +10,8 @@ public class SkillRaceterShadowStrike : AbstractSkill
 	private readonly Animator _seAnim;
 	private readonly EntityPlayer _player;
 	private float _g;
+	private readonly SkillObject _seColl;
+	private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
 
 	public SkillRaceterShadowStrike(ISkillable holder, float animTime) : base(holder)
 	{
@@ -18,6 +21,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 		_rigid = _player.GetComponent<Rigidbody2D>();
 		_se = GameManager.Instance.GetEffect(Consts.PREFAB_SE_2_1_dodge);
 		_seAnim = _se.GetComponent<Animator>();
+		_seColl = _se.GetComponent<SkillObject>();
 		_se.Hide();
 	}
 
@@ -34,8 +38,24 @@ public class SkillRaceterShadowStrike : AbstractSkill
 	public override void OnAct()
 	{
 		_duration -= Time.deltaTime * 1000;
+		var playerVelocity = _rigid.velocity;
 		_se.transform.position = _player.transform.position;
-		_rigid.AddForce(new Vector2(-_rigid.velocity.x * (_rawDura - _duration / _rawDura) * 0.01f, 0));
+		_rigid.AddForce(new Vector2(-playerVelocity.x * (_rawDura - _duration / _rawDura) * 0.01f, 0));
+		if (_seColl.Contact && _seColl.Contact.CompareTag("Entity"))
+		{
+			var e = _seColl.Contact.GetComponent<Entity>();
+			if (e is IAttackable attackable)
+			{
+				if (!_attacked.Contains(attackable))
+				{
+					attackable.UnderAttack(_player, 100);
+					_attacked.Add(attackable);
+					var er = e.GetComponent<Rigidbody2D>();
+					var f = 3;
+					er.AddForce(new Vector2(playerVelocity.x > 0 ? f : -f, 0), ForceMode2D.Impulse);
+				}
+			}
+		}
 		if (_duration <= 0)
 		{
 			_se.Hide();
@@ -52,21 +72,15 @@ public class SkillRaceterShadowStrike : AbstractSkill
 		var pR = _player.transform.eulerAngles;
 		_se.transform.eulerAngles = new Vector3(seR.x, pR.y - 180, seR.z);
 		_se.transform.position = _player.transform.position;
-		//var v = _rigid.velocity;
-		//var lv = v.magnitude;
-		//var force = 20 - lv;
 		_rigid.velocity = Vector2.zero;
 		var force = 40;
-		//_rigid.velocity = new Vector2(lv, 0);
 		if (pR.y == 0f)
 		{
 			_rigid.AddForce(new Vector3(-force, 0), ForceMode2D.Impulse);
-			//_rigid.velocity += new Vector2(-force, 0);
 		}
 		else if (pR.y == 180f)
 		{
 			_rigid.AddForce(new Vector3(force, 0), ForceMode2D.Impulse);
-			//_rigid.velocity += new Vector2(force, 0);
 		}
 		_g = _rigid.gravityScale;
 		_rigid.gravityScale = 0;
@@ -77,5 +91,6 @@ public class SkillRaceterShadowStrike : AbstractSkill
 	{
 		_duration = _rawDura;
 		_rigid.gravityScale = _g;
+		_attacked.Clear();
 	}
 }

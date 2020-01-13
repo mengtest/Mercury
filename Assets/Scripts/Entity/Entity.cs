@@ -53,7 +53,8 @@ public abstract class Entity : MonoBehaviour
 
 	protected virtual void Update()
 	{
-		Heal(DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint));
+		var afterHeal = DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint);
+		_healthPoint = afterHeal > _maxHealthPoint ? _maxHealthPoint : afterHeal;
 		foreach (var sys in _normalSystems)
 		{
 			sys.OnUpdate(this);

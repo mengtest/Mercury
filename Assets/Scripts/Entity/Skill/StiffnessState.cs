@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// 硬直状态
+/// </summary>
 public class StiffnessState : AbstractSkill
 {
 	public float Duration { get; set; }

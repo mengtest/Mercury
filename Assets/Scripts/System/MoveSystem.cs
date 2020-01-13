@@ -13,7 +13,6 @@ public class MoveSystem : IEntitySystem
 		var state = entity.GetProperty<BasicState>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
 		//var colli = entity.GetComponent<Collider2D>();
-		//var sprite = entity.GetComponent<SpriteRenderer>();
 		var stateable = entity as ISkillable;
 		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
 		{
@@ -44,7 +43,7 @@ public class MoveSystem : IEntitySystem
 			}
 			else
 			{
-				e = 1.25f;
+				e = 1f;
 			}
 			rigid.AddForce(new float2(-a, 0) * e);
 			if (ang.y != 0f)
@@ -60,7 +59,7 @@ public class MoveSystem : IEntitySystem
 			}
 			else
 			{
-				e = 1.25f;
+				e = 1f;
 			}
 			rigid.AddForce(new float2(a, 0) * e);
 			if (ang.y != 180f)
