@@ -85,10 +85,11 @@ if (Input.GetKeyDown(KeyCode.S))
 		Physics2D.IgnoreCollision(colli, state.standedStep.collider, true);
 	}
 }*/
-		var pos = entity.transform.position;
-		float2 pos2D = new float2(pos.x, pos.y);
-		entity.transform.position += new Vector3(PhysicsUtility.XaxisCCorrection(pos2D, move.nowSpeedX * Time.deltaTime),0, 0);
-		entity.transform.position += new Vector3(0, PhysicsUtility.YaxisCCorrection (pos2D, move.nowSpeedY * Time.deltaTime), 0);
+		var ppos = entity.transform.position;
+		float2 pos2D = new float2(ppos.x, ppos.y);
+		//Debug.Log(pos2D.x);Debug.Log(pos2D.y);
+		entity.transform.position += new Vector3(PhysicsUtility.XaxisCCorrection(pos2D, move.nowSpeedX * Time.deltaTime)-pos2D.x,0, 0);
+		entity.transform.position += new Vector3(0, PhysicsUtility.YaxisCCorrection (pos2D, move.nowSpeedY * Time.deltaTime)-pos2D.y, 0);
 		//Debug.Log(move.nowSpeedY);
 		if (!state.isOnStep)
 		{

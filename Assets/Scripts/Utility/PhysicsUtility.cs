@@ -58,6 +58,7 @@ public static class PhysicsUtility
 		float2 dir;
 		dir = leg > 0 ? new float2(1,0) : new float2(-1,0);
 		int ret = HitWall2D(pos, dir, math.abs(leg));
+		//Debug.Log(pos.x);
 		if (ret == 1)
 		{
 			return pos.x;
@@ -79,6 +80,8 @@ public static class PhysicsUtility
 		float2 dir;
 		dir = leg > 0 ? new float2(0, 1) : new float2(0, -1);
 		int ret = HitWall2D(pos, dir, math.abs(leg));
+		if (ret == 1 || ret == 2)
+			Debug.Log(1);
 		if (leg > 0)
 		{
 			if (ret == 1)
