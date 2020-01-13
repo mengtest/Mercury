@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3495173415748184952}
   - component: {fileID: 3100519788166477109}
   - component: {fileID: 247338693293751350}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DummyPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 3495173416910250972}
   - component: {fileID: 3495173416910250975}
   - component: {fileID: 3495173416910250973}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Trigger
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 1628690776651967605}
   - component: {fileID: 7489217385759936006}
   - component: {fileID: 6870332319011839131}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}

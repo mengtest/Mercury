@@ -19,7 +19,7 @@ public class MoveSystem : IEntitySystem
 		{
 			return;
 		}
-
+		/*
 		var rayStartPos = new float2(entity.transform.position.x, entity.transform.position.y - 0.5f);//因为position获取的是玩家的中心点，所以减去一段距离才是玩家脚部
 		var entityZ = entity.transform.position.z;
 		RaycastHit2D? under = PhysicsUtility.Raycast2D(rayStartPos, new float2(0, -1), 5);//返回的是一个可为null的值
@@ -33,6 +33,7 @@ public class MoveSystem : IEntitySystem
 				return;//举个例子，不移动了
 			}
 		}
+		*/
 		/*
 		var velocity = rigid.velocity;
 		var maxSpeed = 20;

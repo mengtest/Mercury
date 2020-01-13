@@ -15,9 +15,11 @@ public static class PhysicsUtility
 	/// <param name="dir">射线方向</param>
 	/// <param name="length">射线长度</param>
 	/// <returns>如果碰撞则返回碰撞结果，否则返回null</returns>
-	public static RaycastHit2D? Raycast2D(float2 pos, float2 dir, float length)
+	public static RaycastHit2D? Raycast2D(float2 pos, float2 dir, float length, int layer)
 	{
-		var hit = Physics2D.Raycast(pos, math.normalize(dir), length);
+		var nor = math.normalize(dir);
+		var hit = Physics2D.Raycast(pos, nor, length, layer);
+		Debug.DrawRay(new Vector3(pos.x, pos.y, -1), new Vector3(nor.x, nor.y, 0), Color.red);
 		return hit.collider == null ? null : new RaycastHit2D?(hit);
 	}
 
@@ -27,24 +29,16 @@ public static class PhysicsUtility
 	/// <param name="pos">开始位置</param>
 	/// <param name="dir">射线方向</param>
 	/// <param name="length">射线长度</param>
-	/// <returns>-1：撞到东西但不是墙，0：没撞到任何东西，1：实心墙，2：可穿越墙</returns>
+	/// <returns>0：没撞到任何东西，1：实心墙，2：可穿越墙</returns>
 	public static int HitWall2D(float2 pos, float2 dir, float length)
 	{
-		var hit = Raycast2D(pos, dir, length);
+		var hit = Raycast2D(pos, dir, length, LayerMask.NameToLayer("Step"));
 		if (!hit.HasValue)
 		{
 			return 0;
 		}
-		var v = hit.Value;
-		if (v.transform.CompareTag("Step"))
-		{
-			return 2;
-		}
-		if (v.transform.CompareTag("StaticWall"))
-		{
-			return 1;
-		}
-		return -1;
+		Debug.Log(hit.Value.transform.name);
+		return hit.Value.transform.GetComponent<Step>().canThrough ? 2 : 1;
 	}
 
 	/// <summary>
@@ -56,7 +50,7 @@ public static class PhysicsUtility
 	public static float XaxisCCorrection(float2 pos, float leg)
 	{
 		float2 dir;
-		dir = leg > 0 ? new float2(1,0) : new float2(-1,0);
+		dir = leg > 0 ? new float2(1, 0) : new float2(-1, 0);
 		int ret = HitWall2D(pos, dir, math.abs(leg));
 		//Debug.Log(pos.x);
 		if (ret == 1)
@@ -75,7 +69,7 @@ public static class PhysicsUtility
 	/// <param name="pos"></param>
 	/// <param name="leg"></param>
 	/// <returns></returns>
-	public static float YaxisCCorrection(float2 pos,float leg)
+	public static float YaxisCCorrection(float2 pos, float leg)
 	{
 		float2 dir;
 		dir = leg > 0 ? new float2(0, 1) : new float2(0, -1);
@@ -95,7 +89,7 @@ public static class PhysicsUtility
 		}
 		else
 		{
-			if (ret == 1 || ret == 2 && HitWall2D(pos, new float2(0, 1), 0.01f) != 2) 
+			if (ret == 1 || ret == 2 && HitWall2D(pos, new float2(0, 1), 0.01f) != 2)
 			{
 				return pos.y;
 			}
