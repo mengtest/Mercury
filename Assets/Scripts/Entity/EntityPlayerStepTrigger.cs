@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerTrigger : MonoBehaviour
+public class EntityPlayerStepTrigger : MonoBehaviour
 {
 	public EntityPlayer player;
 	private Collider2D _playerCollider;
@@ -14,7 +14,10 @@ public class PlayerTrigger : MonoBehaviour
 	{
 		if (other.CompareTag("Step"))
 		{
-			Physics2D.IgnoreCollision(_playerCollider, other, true);
+			if (other.GetComponent<Step>().canThrough)
+			{
+				Physics2D.IgnoreCollision(_playerCollider, other, true);
+			}
 		}
 	}
 
@@ -22,7 +25,10 @@ public class PlayerTrigger : MonoBehaviour
 	{
 		if (other.CompareTag("Step"))
 		{
-			Physics2D.IgnoreCollision(_playerCollider, other, true);
+			if (other.GetComponent<Step>().canThrough)
+			{
+				Physics2D.IgnoreCollision(_playerCollider, other, true);
+			}
 		}
 	}
 }
