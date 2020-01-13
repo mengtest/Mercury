@@ -9,31 +9,33 @@ public class MoveSystem : IEntitySystem
 
 	public void OnUpdate(Entity entity)
 	{
-		var move = entity.GetProperty<MoveCapability>();
+		//var move = entity.GetProperty<MoveCapability>();
 		var state = entity.GetProperty<BasicState>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
-		var colli = entity.GetComponent<Collider2D>();
+		//var colli = entity.GetComponent<Collider2D>();
 		//var sprite = entity.GetComponent<SpriteRenderer>();
 		var stateable = entity as ISkillable;
 		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
 		{
 			return;
 		}
-		/*
+		
 		var velocity = rigid.velocity;
-		var maxSpeed = 20;
+		var maxSpeed = 15;
+		var yMaxSpeed = 12;
 		var s = maxSpeed - math.abs(velocity.x);
-		var y = 15 - math.abs(velocity.y);
+		var y = yMaxSpeed - math.abs(velocity.y);
 		var a = s > 0 ? s : 0;
 		if (Input.GetKeyDown(KeyCode.W))
 		{
 			if (velocity.y <= 0)
 			{
-				y = 15;
+				y = yMaxSpeed;
 			}
 			rigid.AddForce(new float2(0, y), ForceMode2D.Impulse);
 		}
 		float e;
+		var ang = entity.transform.eulerAngles;
 		if (Input.GetKey(KeyCode.A))
 		{
 			if (!state.isOnStep)
@@ -45,6 +47,10 @@ public class MoveSystem : IEntitySystem
 				e = 1.25f;
 			}
 			rigid.AddForce(new float2(-a, 0) * e);
+			if (ang.y != 0f)
+			{
+				entity.transform.Rotate(new Vector3(0, -180, 0));
+			}
 		}
 		else if (Input.GetKey(KeyCode.D))
 		{
@@ -57,9 +63,13 @@ public class MoveSystem : IEntitySystem
 				e = 1.25f;
 			}
 			rigid.AddForce(new float2(a, 0) * e);
+			if (ang.y != 180f)
+			{
+				entity.transform.Rotate(new Vector3(0, 180, 0));
+			}
 		}
-		*/
-
+		
+		/*
 		entity.transform.position += new Vector3(move.nowSpeed * Time.deltaTime, 0, 0);
 		if (move.doubleJumpColdDownTime > 0) move.doubleJumpColdDownTime -= Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.W))
@@ -120,5 +130,6 @@ public class MoveSystem : IEntitySystem
 		{
 			rigid.velocity = new Vector2(0, -move.maxSpeed);
 		}
+		*/
 	}
 }

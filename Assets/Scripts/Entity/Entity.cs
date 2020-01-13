@@ -43,6 +43,10 @@ public abstract class Entity : MonoBehaviour
 	public float HpRecoverPerSec { get => _hpRecoverPerSec; }
 	public float DeadBodySurviveTime { get => _deadBodySurviveTime; }
 
+	protected virtual void Awake()
+	{
+	}
+
 	protected virtual void Start()
 	{
 	}

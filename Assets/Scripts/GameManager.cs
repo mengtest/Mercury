@@ -5,10 +5,10 @@ using UnityEngine.AddressableAssets;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-	public EntityPlayer player;
 	public GameObject pools;
 	public GameObject canvas;
 	public AssetLabelReference specialEffects;
+	public AssetLabelReference entities;
 	private readonly Dictionary<string, ObjectPool<GameObject>> _specialEffectPools = new Dictionary<string, ObjectPool<GameObject>>();
 
 	protected override void Awake()
@@ -20,13 +20,11 @@ public class GameManager : MonoSingleton<GameManager>
 		EntitySystemManager.Instance.Init();
 	}
 
+	/*
 	protected override void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.K))
-		{
-			player.UseSkill(typeof(SkillRaceterShadowStrike));
-		}
 	}
+	*/
 
 	public GameObject GetEffect(string key)
 	{
@@ -64,6 +62,17 @@ public class GameManager : MonoSingleton<GameManager>
 			sePool.OnGet += ob => ob.Show();
 			sePool.OnRecycle += ob => ob.Hide();
 			_specialEffectPools.Add(obj.name, sePool);
+		}
+		StartCoroutine(AsyncLoadEntities());
+	}
+
+	private IEnumerator AsyncLoadEntities()
+	{
+		var req = Addressables.LoadAssetsAsync<GameObject>(entities, null);
+		yield return req;
+		foreach (var entity in req.Result)
+		{
+			Instantiate(entity);
 		}
 		LoadPanel.Instance.Complete();
 	}

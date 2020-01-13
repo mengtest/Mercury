@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3495173415748184954}
   - component: {fileID: 3495173415748184952}
   - component: {fileID: 3100519788166477109}
-  - component: {fileID: 247338693293751350}
   m_Layer: 0
   m_Name: DummyPlayer
   m_TagString: Player
@@ -29,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3495173415748184959}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.23, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 0.125, y: 0.125, z: 0.125}
   m_Children:
   - {fileID: 3495173416910250977}
@@ -125,10 +124,10 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 3.5
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -179,17 +178,6 @@ MonoBehaviour:
     doubleJumpColdDownTime: 0
   _basicState:
     isOnStep: 0
---- !u!247 &247338693293751350
-ConstantForce2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3495173415748184959}
-  m_Enabled: 1
-  m_Force: {x: 0, y: -9.8}
-  m_RelativeForce: {x: 0, y: 0}
-  m_Torque: 0
 --- !u!1 &3495173416910250976
 GameObject:
   m_ObjectHideFlags: 0

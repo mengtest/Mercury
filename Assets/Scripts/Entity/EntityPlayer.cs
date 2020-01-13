@@ -22,7 +22,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
 	protected override void Start()
 	{
-		base.Start();
+		//base.Start();
 		_healthPoint = 1;
 		_maxHealthPoint = 100;
 		_hpRecoverPerSec = 0.5f;
@@ -37,13 +37,17 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		var normal = new NormalState(this);
 		_skills.AddSkill(normal);
 		_skills.AddSkill(new StiffnessState(this));
-		_skills.AddSkill(new SkillRaceterShadowStrike(this, 200));
+		_skills.AddSkill(new SkillRaceterShadowStrike(this, 254));
 		_skills.FSMSystem.CurrentState = normal;
 	}
 
 	protected override void Update()
 	{
 		base.Update();
+		if (Input.GetKeyDown(KeyCode.K))
+		{
+			UseSkill(typeof(SkillRaceterShadowStrike));
+		}
 		_buffs.OnUpdate();
 		_skills.OnUpdate();
 	}
