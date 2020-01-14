@@ -30,15 +30,16 @@ public static class PhysicsUtility
 	/// <param name="dir">射线方向</param>
 	/// <param name="length">射线长度</param>
 	/// <returns>0：没撞到任何东西，1：实心墙，2：可穿越墙</returns>
-	public static int HitWall2D(float2 pos, float2 dir, float length)
+	public static (int, float) HitWall2D(float2 pos, float2 dir, float length)
 	{
 		var hit = Raycast2D(pos, dir, length, LayerMask.NameToLayer("Step"));
 		if (!hit.HasValue)
 		{
-			return 0;
+			return (0, 0);
 		}
-		Debug.Log(hit.Value.transform.name);
-		return hit.Value.transform.GetComponent<Step>().canThrough ? 2 : 1;
+		var first = hit.Value.transform.GetComponent<Step>().canThrough ? 2 : 1;
+		var second = hit.Value.distance;
+		return (first, second);
 	}
 
 	/// <summary>
@@ -51,8 +52,8 @@ public static class PhysicsUtility
 	{
 		float2 dir;
 		dir = leg > 0 ? new float2(1, 0) : new float2(-1, 0);
-		int ret = HitWall2D(pos, dir, math.abs(leg));
-		//Debug.Log(pos.x);
+		//int ret = HitWall2D(pos, dir, math.abs(leg));
+		var (ret, length) = HitWall2D(pos, dir, 10);
 		if (ret == 1)
 		{
 			return pos.x;
