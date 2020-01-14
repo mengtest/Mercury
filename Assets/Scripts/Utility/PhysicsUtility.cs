@@ -54,7 +54,7 @@ public static class PhysicsUtility
 		dir = leg > 0 ? new float2(1, 0) : new float2(-1, 0);
 		//int ret = HitWall2D(pos, dir, math.abs(leg));
 		var (ret, length) = HitWall2D(pos, dir, 10);
-		if (ret == 1)
+		if (ret == 1 && length < leg)
 		{
 			return pos.x;
 		}
@@ -74,12 +74,12 @@ public static class PhysicsUtility
 	{
 		float2 dir;
 		dir = leg > 0 ? new float2(0, 1) : new float2(0, -1);
-		int ret = HitWall2D(pos, dir, math.abs(leg));
+		var (ret, length) = HitWall2D(pos, dir, 10);
 		if (ret == 1 || ret == 2)
 			Debug.Log(1);
 		if (leg > 0)
 		{
-			if (ret == 1)
+			if (ret == 1 && length < leg)
 			{
 				return pos.y;
 			}
@@ -90,7 +90,7 @@ public static class PhysicsUtility
 		}
 		else
 		{
-			if (ret == 1 || ret == 2 && HitWall2D(pos, new float2(0, 1), 0.01f) != 2)
+			if (ret == 1 || ret == 2 && length < leg)
 			{
 				return pos.y;
 			}
