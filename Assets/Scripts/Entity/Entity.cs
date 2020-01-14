@@ -1,6 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+
+public enum Face
+{
+	Left,
+	Right,
+	Up,
+	Down
+}
 
 /// <summary>
 /// 实体基类
@@ -138,5 +147,44 @@ public abstract class Entity : MonoBehaviour
 		var left = Physics2D.Raycast(transform.position + new Vector3(bound.x, -bound.y - 0.01f, 0), Vector3.down, distance, LayerMask.GetMask("Step"));
 		var right = Physics2D.Raycast(transform.position + new Vector3(-bound.x, -bound.y - 0.01f, 0), Vector3.down, distance, LayerMask.GetMask("Step"));
 		return left.collider || right.collider;
+	}
+
+	public Face GetFace()
+	{
+		var rotation = transform.eulerAngles;
+		if (math.abs(rotation.y) < 0.01f)
+		{
+			return Face.Left;
+		}
+		if (math.abs(rotation.y - 180) < 0.01f)
+		{
+			return Face.Right;
+		}
+		/*
+		if (math.abs(rotation.y - 90) < 0.01f)
+		{
+			return Face.Up;
+		}
+		if (math.abs(rotation.y - 270) < 0.01f)
+		{
+			return Face.Down;
+		}
+		*/
+		throw new ArgumentException($"旋转角度有问题:{rotation}");
+	}
+
+	public void Rotate(Face face)
+	{
+		switch (face)
+		{
+			case Face.Left:
+				transform.eulerAngles = Vector3.zero;
+				break;
+			case Face.Right:
+				transform.eulerAngles = new Vector3(0, 180, 0);
+				break;
+			default:
+				break;
+		}
 	}
 }

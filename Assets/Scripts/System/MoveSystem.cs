@@ -10,21 +10,19 @@ public class MoveSystem : IEntitySystem
 	public void OnUpdate(Entity entity)
 	{
 		var move = entity.GetProperty<MoveCapability>();
-		var state = entity.GetProperty<BasicState>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
-		var stateable = entity as ISkillable;
-		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
+		if (entity is ISkillable stateable && stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
 		{
 			return;
 		}
 
 		move.UpdateJumpCD();
 		var velocity = rigid.velocity;
-		var maxSpeed = 15;
-		var yMaxSpeed = 12;
-		var s = maxSpeed - math.abs(velocity.x);
-		var y = yMaxSpeed - math.abs(velocity.y);
-		var a = s > 0 ? s : 0;
+		var maxSpeed = move.moveSpeed;
+		var yMaxSpeed = move.jumpSpeed;
+		var forceAddX = maxSpeed - math.abs(velocity.x);
+		forceAddX = math.max(forceAddX, 0);
+		var forceAddY = yMaxSpeed - math.abs(velocity.y);
 		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
 		{
 			if (entity.IsGround(0.25f))
@@ -33,45 +31,30 @@ public class MoveSystem : IEntitySystem
 			}
 			if (velocity.y <= 0)
 			{
-				y = yMaxSpeed;
+				forceAddY = yMaxSpeed + (-velocity.y);
 			}
 			if (move.TryJump())
 			{
-				rigid.AddForce(new float2(0, y), ForceMode2D.Impulse);
+				rigid.AddForce(new float2(0, forceAddY), ForceMode2D.Impulse);
 			}
 		}
-		float e;
-		var ang = entity.transform.eulerAngles;
+		float forceCoe;
 		if (Input.GetKey(KeyCode.A))
 		{
-			if (!state.isOnStep)
+			forceCoe = entity.IsGround(0.25f) ? 1 : 0.5f;
+			rigid.AddForce(new float2(-forceAddX, 0) * forceCoe);
+			if (entity.GetFace() != Face.Left)
 			{
-				e = 0.5f;
-			}
-			else
-			{
-				e = 1f;
-			}
-			rigid.AddForce(new float2(-a, 0) * e);
-			if (ang.y != 0f)
-			{
-				entity.transform.Rotate(new Vector3(0, -180, 0));
+				entity.Rotate(Face.Left);
 			}
 		}
 		else if (Input.GetKey(KeyCode.D))
 		{
-			if (!state.isOnStep)
+			forceCoe = entity.IsGround(0.25f) ? 1 : 0.5f;
+			rigid.AddForce(new float2(forceAddX, 0) * forceCoe);
+			if (entity.GetFace() != Face.Right)
 			{
-				e = 0.5f;
-			}
-			else
-			{
-				e = 1f;
-			}
-			rigid.AddForce(new float2(a, 0) * e);
-			if (ang.y != 180f)
-			{
-				entity.transform.Rotate(new Vector3(0, 180, 0));
+				entity.Rotate(Face.Right);
 			}
 		}
 

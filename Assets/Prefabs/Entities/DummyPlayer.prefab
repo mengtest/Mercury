@@ -169,12 +169,13 @@ MonoBehaviour:
     light: 0
     dark: 0
   _moveCapability:
-    doubleJumpReady: 0
-    moveSpeed: 2
-    nowSpeed: 0
-    maxSpeed: 15
-    jumpSpeed: 0
-    doubleJumpColdDownTime: 0
+    isJumpReady: 1
+    jumpCount: 0
+    moveSpeed: 15
+    jumpSpeed: 10
+    jumpCD: 0
+    maxJumpCount: 2
+    maxJumpCD: 0.2
   _basicState:
     isOnStep: 0
 --- !u!1 &3495173416910250976
