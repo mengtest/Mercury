@@ -37,6 +37,7 @@ public abstract class Entity : MonoBehaviour
 	/// 普通系统
 	/// </summary>
 	protected readonly List<IEntitySystem> _normalSystems = new List<IEntitySystem>();
+	protected Collider2D _collider;
 
 	public float HealthPoint { get => _healthPoint; }
 	public float MaxHealthPoint { get => _maxHealthPoint; }
@@ -45,6 +46,7 @@ public abstract class Entity : MonoBehaviour
 
 	protected virtual void Awake()
 	{
+		_collider = GetComponent<Collider2D>();
 	}
 
 	protected virtual void Start()
@@ -128,5 +130,13 @@ public abstract class Entity : MonoBehaviour
 	{
 		var tryAdd = _healthPoint + amount;
 		_healthPoint = tryAdd > _maxHealthPoint ? _maxHealthPoint : tryAdd;
+	}
+
+	public bool IsGround(float distance)
+	{
+		var bound = _collider.bounds.extents;
+		var left = Physics2D.Raycast(transform.position + new Vector3(bound.x, -bound.y - 0.01f, 0), Vector3.down, distance, LayerMask.GetMask("Step"));
+		var right = Physics2D.Raycast(transform.position + new Vector3(-bound.x, -bound.y - 0.01f, 0), Vector3.down, distance, LayerMask.GetMask("Step"));
+		return left.collider || right.collider;
 	}
 }

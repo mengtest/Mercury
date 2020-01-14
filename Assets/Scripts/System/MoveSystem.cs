@@ -9,29 +9,36 @@ public class MoveSystem : IEntitySystem
 
 	public void OnUpdate(Entity entity)
 	{
-		//var move = entity.GetProperty<MoveCapability>();
+		var move = entity.GetProperty<MoveCapability>();
 		var state = entity.GetProperty<BasicState>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
-		//var colli = entity.GetComponent<Collider2D>();
 		var stateable = entity as ISkillable;
 		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
 		{
 			return;
 		}
-		
+
+		move.UpdateJumpCD();
 		var velocity = rigid.velocity;
 		var maxSpeed = 15;
 		var yMaxSpeed = 12;
 		var s = maxSpeed - math.abs(velocity.x);
 		var y = yMaxSpeed - math.abs(velocity.y);
 		var a = s > 0 ? s : 0;
-		if (Input.GetKeyDown(KeyCode.W))
+		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
 		{
+			if (entity.IsGround(0.25f))
+			{
+				move.RecoverJumpCount();
+			}
 			if (velocity.y <= 0)
 			{
 				y = yMaxSpeed;
 			}
-			rigid.AddForce(new float2(0, y), ForceMode2D.Impulse);
+			if (move.TryJump())
+			{
+				rigid.AddForce(new float2(0, y), ForceMode2D.Impulse);
+			}
 		}
 		float e;
 		var ang = entity.transform.eulerAngles;
@@ -67,7 +74,7 @@ public class MoveSystem : IEntitySystem
 				entity.transform.Rotate(new Vector3(0, 180, 0));
 			}
 		}
-		
+
 		/*
 		entity.transform.position += new Vector3(move.nowSpeed * Time.deltaTime, 0, 0);
 		if (move.doubleJumpColdDownTime > 0) move.doubleJumpColdDownTime -= Time.deltaTime;

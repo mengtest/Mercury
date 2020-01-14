@@ -17,6 +17,13 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: e2aa00d6bc9e61f4f96ab9096e7ea928
   m_SerializeEntries:
+  - m_GUID: 15a5eaeb4dc7ba0498cbc686b89ef505
+    m_Address: Assets/Prefabs/Entities/SuperDummyPlayer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: cfa11305be490e541939feb59fba72fd
     m_Address: Assets/Prefabs/Entities/DummyPlayer.prefab
     m_ReadOnly: 0
