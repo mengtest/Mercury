@@ -38,24 +38,13 @@ public class MoveSystem : IEntitySystem
 				rigid.AddForce(new float2(0, forceAddY), ForceMode2D.Impulse);
 			}
 		}
-		float forceCoe;
 		if (Input.GetKey(KeyCode.A))
 		{
-			forceCoe = entity.IsGround(0.25f) ? 1 : 0.5f;
-			rigid.AddForce(new float2(-forceAddX, 0) * forceCoe);
-			if (entity.GetFace() != Face.Left)
-			{
-				entity.Rotate(Face.Left);
-			}
+			Move(entity, rigid, -forceAddX, Face.Left);
 		}
 		else if (Input.GetKey(KeyCode.D))
 		{
-			forceCoe = entity.IsGround(0.25f) ? 1 : 0.5f;
-			rigid.AddForce(new float2(forceAddX, 0) * forceCoe);
-			if (entity.GetFace() != Face.Right)
-			{
-				entity.Rotate(Face.Right);
-			}
+			Move(entity, rigid, forceAddX, Face.Right);
 		}
 
 		/*
@@ -120,5 +109,15 @@ public class MoveSystem : IEntitySystem
 			rigid.velocity = new Vector2(0, -move.maxSpeed);
 		}
 		*/
+	}
+
+	private static void Move(Entity entity, Rigidbody2D rigid, float forceAdd,Face face)
+	{
+		var forceCoe = entity.IsGround(0.25f) ? 1 : 0.5f;
+		rigid.AddForce(new float2(forceAdd, 0) * forceCoe);
+		if (entity.GetFace() != face)
+		{
+			entity.Rotate(face);
+		}
 	}
 }
