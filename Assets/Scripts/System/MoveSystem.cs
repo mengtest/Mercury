@@ -15,10 +15,12 @@ public class MoveSystem : IEntitySystem
 		var colli = entity.GetComponent<Collider2D>();
 		var sprite = entity.GetComponent<SpriteRenderer>();
 		var stateable = entity as ISkillable;
+		var cc = entity.GetComponent<PlayerCC>();
 		if (stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
 		{
 			return;
 		}
+		
 		/*
 		var rayStartPos = new float2(entity.transform.position.x, entity.transform.position.y - 0.5f);//因为position获取的是玩家的中心点，所以减去一段距离才是玩家脚部
 		var entityZ = entity.transform.position.z;

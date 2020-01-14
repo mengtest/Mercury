@@ -18,6 +18,8 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 	private BuffWapper _buffs;
 	private SkillWrapper _skills;
 
+	public PlayerCC cc;
+
 	public FSMSystem<AbstractSkill> FSMSystem => _skills.FSMSystem;
 
 	protected override void Start()

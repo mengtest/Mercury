@@ -33,10 +33,12 @@ public static class PhysicsUtility
 	public static (int, float) HitWall2D(float2 pos, float2 dir, float length)
 	{
 		var hit = Raycast2D(pos, dir, length, LayerMask.NameToLayer("Step"));
+		//Debug.Log($"pos:{pos},dir:{dir},len:{length}");
 		if (!hit.HasValue)
 		{
 			return (0, 0);
 		}
+		Debug.Log(hit.Value.transform.name);
 		var first = hit.Value.transform.GetComponent<Step>().canThrough ? 2 : 1;
 		var second = hit.Value.distance;
 		return (first, second);
