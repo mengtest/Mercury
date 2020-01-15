@@ -1,7 +1,8 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadPanel : MonoSingleton<LoadPanel>
+public class LoadPanel : MonoBehaviour
 {
 	public Text progressText;
 	public Image progressRate;
@@ -9,15 +10,7 @@ public class LoadPanel : MonoSingleton<LoadPanel>
 
 	public float Progress { get; set; } = 0;
 
-	protected override void Awake()
-	{
-		if (!_instance)
-		{
-			_instance = this;
-		}
-	}
-
-	protected override void Update()
+	public void Update()
 	{
 		Progress = _getPercent();
 		progressText.text = Progress * 100 + "%";
