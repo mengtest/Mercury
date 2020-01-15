@@ -1,7 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
+
+[Serializable]
+public struct LevelAsset
+{
+	public string name;
+	public AssetReference assRef;
+	public bool avalible;
+}
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -9,6 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
 	public GameObject canvas;
 	public AssetLabelReference specialEffects;
 	public AssetLabelReference entities;
+	public List<LevelAsset> levels;
 	private readonly Dictionary<string, ObjectPool<GameObject>> _specialEffectPools = new Dictionary<string, ObjectPool<GameObject>>();
 
 	protected override void Awake()
@@ -45,7 +57,7 @@ public class GameManager : MonoSingleton<GameManager>
 	private IEnumerator AsyncLoadSpeicalEffect()
 	{
 		var poolReq = Addressables.LoadAssetsAsync<GameObject>(specialEffects, null);
-		LoadPanel.Instance.Active(() => poolReq.PercentComplete);
+		UIManager.Instance.loadPanel.Active(() => poolReq.PercentComplete);
 		yield return poolReq;
 		foreach (var obj in poolReq.Result)
 		{
@@ -63,7 +75,7 @@ public class GameManager : MonoSingleton<GameManager>
 			sePool.OnRecycle += ob => ob.Hide();
 			_specialEffectPools.Add(obj.name, sePool);
 		}
-		StartCoroutine(AsyncLoadEntities());
+		UIManager.Instance.loadPanel.Complete();
 	}
 
 	private IEnumerator AsyncLoadEntities()
@@ -74,6 +86,15 @@ public class GameManager : MonoSingleton<GameManager>
 		{
 			Instantiate(entity);
 		}
-		LoadPanel.Instance.Complete();
+		UIManager.Instance.loadPanel.Complete();
+	}
+
+	public IEnumerator AsyncLoadScene(AssetReference scene, Action<SceneInstance> callback)
+	{
+		var req = Addressables.LoadSceneAsync(scene);
+		UIManager.Instance.loadPanel.Active(() => req.PercentComplete);
+		yield return req;
+		callback?.Invoke(req.Result);
+		UIManager.Instance.loadPanel.Complete();
 	}
 }
