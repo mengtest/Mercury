@@ -16,6 +16,10 @@ public class LevelPanel : MonoBehaviour
 			var txt = btn.GetComponentInChildren<Text>();
 			txt.text = levelRef.name;
 			var b = btn.GetComponent<Button>();
+			if (!levelRef.avalible)
+			{
+				b.interactable = false;
+			}
 			b.onClick.AddListener(() =>
 			{
 				StartCoroutine(GameManager.Instance.AsyncLoadScene(levelRef.assRef, (si) =>

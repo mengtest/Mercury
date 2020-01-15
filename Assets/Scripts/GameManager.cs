@@ -11,6 +11,7 @@ public struct LevelAsset
 {
 	public string name;
 	public AssetReference assRef;
+	public bool avalible;
 }
 
 public class GameManager : MonoSingleton<GameManager>

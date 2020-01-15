@@ -477,6 +477,17 @@ MonoBehaviour:
     assRef:
       m_AssetGUID: 92c46fc592c239940b5939b181669d0f
       m_SubObjectName: 
+    avalible: 1
+  - name: Level-1
+    assRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+    avalible: 0
+  - name: Level-2
+    assRef:
+      m_AssetGUID: 
+      m_SubObjectName: 
+    avalible: 0
 --- !u!4 &1470371480
 Transform:
   m_ObjectHideFlags: 0
