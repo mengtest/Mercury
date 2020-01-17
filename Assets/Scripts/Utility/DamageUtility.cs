@@ -3,19 +3,35 @@ using Unity.Mathematics;
 
 public static class DamageUtility
 {
-	public static float DealDmgFormula(BasicCapability data, float coefficient, DamageType damageType)
+	/// <summary>
+	/// 造成伤害公式
+	/// </summary>
+	/// <param name="data">攻击者数据</param>
+	/// <param name="coe">倍数</param>
+	/// <param name="damageType">伤害类型</param>
+	/// <returns>造成伤害</returns>
+	public static float DealDmgFormula(BasicCapability data, float coe, DamageType damageType)
 	{
 		switch (damageType)
 		{
 			case DamageType.Physics:
-				return data.phyAttack * coefficient;
+				return data.phyAttack * coe;
 			case DamageType.Magic:
-				return data.magAttack * coefficient;
+				return data.magAttack * coe;
+			case DamageType.True:
+				return coe;
 			default:
-				return 0;
+				throw new ArgumentException("?");
 		}
 	}
 
+	/// <summary>
+	/// 减伤公式
+	/// </summary>
+	/// <param name="damage">本应该造成的伤害</param>
+	/// <param name="attackedData">被攻击者数据</param>
+	/// <param name="damageType">伤害类型</param>
+	/// <returns>承受伤害</returns>
 	public static float ReduceDmgFormula(float damage, BasicCapability attackedData, DamageType damageType)
 	{
 		switch (damageType)
@@ -28,7 +44,7 @@ public static class DamageUtility
 			case DamageType.Magic:
 				{
 					var cod = attackedData.magDefense * 0.001f;
-					return damage - (cod / 1f + cod);
+					return damage - damage * (cod / 1f + cod);
 				}
 			case DamageType.True:
 				return damage;

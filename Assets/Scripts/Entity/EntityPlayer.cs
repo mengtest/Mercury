@@ -78,9 +78,9 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 	#endregion
 
 	#region IAttackable
-	public Damage DealDamage(float coefficient, DamageType damageType)
+	public Damage DealDamage(float coe, DamageType damageType)
 	{
-		return new Damage(this, DamageUtility.DealDmgFormula(_basicCapability, coefficient, damageType), damageType);
+		return new Damage(this, DamageUtility.DealDmgFormula(_basicCapability, coe, damageType), damageType);
 	}
 
 	public void UnderAttack(in Damage damage)
