@@ -7,7 +7,7 @@ public class StiffnessState : AbstractSkill
 {
 	public float Duration { get; set; }
 
-	public StiffnessState(ISkillable holder) : base(holder)
+	public StiffnessState(ISkillable holder) : base(holder, 0)
 	{
 	}
 

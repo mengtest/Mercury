@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NormalState : AbstractSkill
 {
-	public NormalState(ISkillable holder) : base(holder)
+	public NormalState(ISkillable holder) : base(holder, 0)
 	{
 	}
 
@@ -15,12 +15,12 @@ public class NormalState : AbstractSkill
 
 	public override void OnAct()
 	{
-		
+
 	}
 
 	public override void OnEnter()
 	{
-		
+
 	}
 
 	public override void OnLeave()

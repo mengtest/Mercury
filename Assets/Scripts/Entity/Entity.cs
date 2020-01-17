@@ -29,10 +29,12 @@ public abstract class Entity : MonoBehaviour
 	/// <summary>
 	/// 每秒血量变化
 	/// </summary>
+	[SerializeField]
 	protected float _hpRecoverPerSec;
 	/// <summary>
 	/// 死亡后实体消失时间
 	/// </summary>
+	[SerializeField]
 	protected float _deadBodySurviveTime;
 	/// <summary>
 	/// 属性容器

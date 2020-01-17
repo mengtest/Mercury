@@ -7,11 +7,10 @@ public interface IAttackable
 	/// 攻击时造成的伤害
 	/// </summary>
 	/// <returns>伤害值</returns>
-	float DealDamage();
+	Damage DealDamage(float coefficient, DamageType damage);
 
 	/// <summary>
 	/// 当被攻击时调用
 	/// </summary>
-	/// <param name="attacker">攻击者</param>
-	void UnderAttack(IAttackable attacker, float extra);
+	void UnderAttack(in Damage damage);
 }

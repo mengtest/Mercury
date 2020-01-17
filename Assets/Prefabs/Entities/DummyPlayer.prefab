@@ -142,13 +142,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23dc979eb3019d547bd5946eb4f2015e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPoint: 0
-  _maxHealthPoint: 0
+  _healthPoint: 100
+  _maxHealthPoint: 100
+  _hpRecoverPerSec: 0.5
+  _deadBodySurviveTime: 0
   _basicCapability:
     manaPoint: 0
     mpRecoverPerSec: 0
     maxManaPoint: 0
-    phyAttack: 0
+    phyAttack: 100
     magAttack: 0
     phyDefense: 0
     magDefense: 0
@@ -176,8 +178,6 @@ MonoBehaviour:
     jumpCD: 0
     maxJumpCount: 2
     maxJumpCD: 0.2
-  _basicState:
-    isOnStep: 0
 --- !u!1 &3495173416910250976
 GameObject:
   m_ObjectHideFlags: 0

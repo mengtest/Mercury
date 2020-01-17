@@ -13,7 +13,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 	private readonly SkillObject _seColl;
 	private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
 
-	public SkillRaceterShadowStrike(ISkillable holder, float animTime) : base(holder)
+	public SkillRaceterShadowStrike(ISkillable holder, float animTime) : base(holder, 4)
 	{
 		_rawDura = animTime;
 		_duration = animTime;
@@ -32,7 +32,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
 	public override bool CanEnter(IFSMState current)
 	{
-		return current.GetType() == typeof(NormalState);
+		return current.GetType() == typeof(NormalState) && IsCoolDown();
 	}
 
 	public override void OnAct()
@@ -48,11 +48,8 @@ public class SkillRaceterShadowStrike : AbstractSkill
 			{
 				if (!_attacked.Contains(attackable))
 				{
-					attackable.UnderAttack(_player, 100);
+					attackable.UnderAttack(_player.DealDamage(1, DamageType.Physics));
 					_attacked.Add(attackable);
-					var er = e.GetComponent<Rigidbody2D>();
-					var f = 3;
-					er.AddForce(new Vector2(playerVelocity.x > 0 ? f : -f, 0), ForceMode2D.Impulse);
 				}
 			}
 		}
@@ -92,5 +89,6 @@ public class SkillRaceterShadowStrike : AbstractSkill
 		_duration = _rawDura;
 		_rigid.gravityScale = _g;
 		_attacked.Clear();
+		RefreshCoolDown();
 	}
 }

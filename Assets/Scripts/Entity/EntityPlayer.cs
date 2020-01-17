@@ -12,8 +12,8 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 	private ElementAffinity _elementAffinity = new ElementAffinity();
 	[SerializeField]
 	private MoveCapability _moveCapability = new MoveCapability();
-	[SerializeField]
-	private BasicState _basicState = new BasicState();
+	//[SerializeField]
+	//private BasicState _basicState = new BasicState();
 
 	private BuffWapper _buffs;
 	private SkillWrapper _skills;
@@ -23,15 +23,10 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 	protected override void Start()
 	{
 		base.Start();
-		_healthPoint = 1;
-		_maxHealthPoint = 100;
-		_hpRecoverPerSec = 0.5f;
-
 		SetProperty(_basicCapability);
 		SetProperty(_elementAffinity);
 		SetProperty(_moveCapability);
-		SetProperty(_basicState);
-		_basicCapability.phyAttack = 10;
+		//SetProperty(_basicState);
 
 		AddSystem<MoveSystem>();
 
@@ -83,20 +78,17 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 	#endregion
 
 	#region IAttackable
-	public float DealDamage()
+	public Damage DealDamage(float coefficient, DamageType damageType)
 	{
-		var finalDamage = _basicCapability.phyAttack;
-		//finalDamage *= _basicCapability.criticalPoint;
-		return finalDamage;
+		return new Damage(this, DamageUtility.DealDmgFormula(_basicCapability, coefficient, damageType), damageType);
 	}
 
-	public void UnderAttack(IAttackable attacker, float extra)
+	public void UnderAttack(in Damage damage)
 	{
-		var damage = attacker.DealDamage() + extra;
-		_healthPoint -= damage;
+		_healthPoint -= DamageUtility.ReduceDmgFormula(damage.value, _basicCapability, damage.type);
 	}
 	#endregion
-
+	/*
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.CompareTag("Step"))
@@ -123,6 +115,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 			_basicState.standedStep = null;
 		}
 	}
+	*/
 	#region ISkillable
 	public void AddSkill(AbstractSkill skill)
 	{

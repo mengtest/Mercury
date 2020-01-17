@@ -10,14 +10,13 @@ public class EntityWoodMan : Entity, IAttackable
 		_hpRecoverPerSec = 100;
 	}
 
-	public float DealDamage()
+	public Damage DealDamage(float coefficient, DamageType damageType)
 	{
-		return 0;
+		return new Damage(this, 0, damageType);
 	}
 
-	public void UnderAttack(IAttackable attacker, float extra)
+	public void UnderAttack(in Damage damage)
 	{
-		var damage = attacker.DealDamage() + extra;
-		_healthPoint -= damage;
+		_healthPoint -= damage.value;
 	}
 }
