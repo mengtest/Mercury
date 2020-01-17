@@ -151,6 +151,16 @@ public abstract class Entity : MonoBehaviour
 		return left.collider || right.collider;
 	}
 
+	public bool IsGround(float distance, out Collider2D step)
+	{
+		var bound = _collider.bounds.extents;
+		var left = Physics2D.Raycast(transform.position + new Vector3(bound.x, -bound.y - 0.01f, 0), Vector3.down, distance, LayerMask.GetMask("Step"));
+		var right = Physics2D.Raycast(transform.position + new Vector3(-bound.x, -bound.y - 0.01f, 0), Vector3.down, distance, LayerMask.GetMask("Step"));
+		var res = left.collider || right.collider;
+		step = left.collider ? left.collider : right.collider;
+		return res;
+	}
+
 	public Face GetFace()
 	{
 		var rotation = transform.eulerAngles;

@@ -11,6 +11,7 @@ public class MoveSystem : IEntitySystem
 	{
 		var move = entity.GetProperty<MoveCapability>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
+		var coll = entity.GetComponent<Collider2D>();
 		if (entity is ISkillable stateable && stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
 		{
 			return;
@@ -36,6 +37,13 @@ public class MoveSystem : IEntitySystem
 			if (move.TryJump())
 			{
 				rigid.AddForce(new float2(0, forceAddY), ForceMode2D.Impulse);
+			}
+		}
+		if (Input.GetKeyDown(KeyCode.S))
+		{
+			if (entity.IsGround(0.25f, out var step) && step && step.CompareTag("StepCross"))
+			{
+				Physics2D.IgnoreCollision(coll, step, true);
 			}
 		}
 		if (Input.GetKey(KeyCode.A))
@@ -111,9 +119,9 @@ public class MoveSystem : IEntitySystem
 		*/
 	}
 
-	private static void Move(Entity entity, Rigidbody2D rigid, float forceAdd,Face face)
+	private static void Move(Entity entity, Rigidbody2D rigid, float forceAdd, Face face)
 	{
-		var forceCoe = entity.IsGround(0.25f) ? 1 : 0.5f;
+		var forceCoe = entity.IsGround(0.25f) ? 1 : 0.2f;
 		rigid.AddForce(new float2(forceAdd, 0) * forceCoe);
 		if (entity.GetFace() != face)
 		{

@@ -7,6 +7,7 @@ TagManager:
   - Step
   - SpecialEffect
   - Entity
+  - StepCross
   layers:
   - Default
   - TransparentFX

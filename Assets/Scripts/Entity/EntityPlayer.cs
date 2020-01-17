@@ -88,34 +88,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		_healthPoint -= DamageUtility.ReduceDmgFormula(damage.value, _basicCapability, damage.type);
 	}
 	#endregion
-	/*
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		if (collision.gameObject.CompareTag("Step"))
-		{
-			_basicState.isOnStep = true;
-			_basicState.standedStep = collision;
-		}
-	}
 
-	private void OnCollisionStay2D(Collision2D collision)
-	{
-		if (collision.gameObject.CompareTag("Step"))
-		{
-			_basicState.isOnStep = true;
-			_basicState.standedStep = collision;
-		}
-	}
-
-	private void OnCollisionExit2D(Collision2D collision)
-	{
-		if (collision.gameObject.CompareTag("Step"))
-		{
-			_basicState.isOnStep = false;
-			_basicState.standedStep = null;
-		}
-	}
-	*/
 	#region ISkillable
 	public void AddSkill(AbstractSkill skill)
 	{
@@ -137,4 +110,22 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		_skills.OnUpdate();
 	}
 	#endregion
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		UpTriggerStep(other);
+	}
+
+	private void OnTriggerStay2D(Collider2D other)
+	{
+		UpTriggerStep(other);
+	}
+
+	private void UpTriggerStep(Collider2D other)
+	{
+		if (other.CompareTag("StepCross"))
+		{
+			Physics2D.IgnoreCollision(_collider, other, true);
+		}
+	}
 }
