@@ -121,7 +121,7 @@ public class MoveSystem : IEntitySystem
 
 	private static void Move(Entity entity, Rigidbody2D rigid, float forceAdd, Face face)
 	{
-		var forceCoe = entity.IsGround(0.25f) ? 1 : 0.2f;
+		var forceCoe = (entity.IsGround(0.25f) ? 1 : 0.2f) * 0.68f;
 		rigid.AddForce(new float2(forceAdd, 0) * forceCoe);
 		if (entity.GetFace() != face)
 		{
