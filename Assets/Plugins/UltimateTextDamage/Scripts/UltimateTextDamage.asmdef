@@ -1,10 +1,7 @@
 {
-    "name": "AdventureGroup",
+    "name": "UltimateTextDamage",
     "references": [
-        "Unity.Mathematics",
-        "Unity.Addressables",
-        "Unity.ResourceManager",
-        "UltimateTextDamage"
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

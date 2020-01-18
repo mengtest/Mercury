@@ -49,6 +49,8 @@ public class SkillRaceterShadowStrike : AbstractSkill
 				if (!_attacked.Contains(attackable))
 				{
 					attackable.UnderAttack(_player.DealDamage(1, DamageType.Physics));
+					//attackable.UnderAttack(_player.DealDamage(1, DamageType.Magic));
+					//attackable.UnderAttack(_player.DealDamage(1000, DamageType.True));
 					_attacked.Add(attackable);
 				}
 			}

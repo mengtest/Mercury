@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class EntityWoodMan : Entity, IAttackable
+﻿public class EntityWoodMan : Entity, IAttackable
 {
 	protected override void Start()
 	{
@@ -18,5 +16,6 @@ public class EntityWoodMan : Entity, IAttackable
 	public void UnderAttack(in Damage damage)
 	{
 		_healthPoint -= damage.value;
+		UIManager.Instance.ShowDamage(transform, (int)damage.value, damage.type);
 	}
 }

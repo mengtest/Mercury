@@ -353,6 +353,7 @@ MonoBehaviour:
   loadPanel: {fileID: 1484340247}
   bootstrapPanel: {fileID: 561832051}
   levelPanel: {fileID: 1176139152}
+  textDamageManager: {fileID: 0}
 --- !u!224 &1176139149 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4676179622031301952, guid: 0dc28f521a5246a4bad4f44b64fe643e,

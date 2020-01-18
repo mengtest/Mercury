@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Guirao.UltimateTextDamage;
+using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -25,6 +27,7 @@ public class LevelPanel : MonoBehaviour
 				StartCoroutine(GameManager.Instance.AsyncLoadScene(levelRef.assRef, (si) =>
 				 {
 					 SceneManager.SetActiveScene(si.Scene);
+					 UIManager.Instance.textDamageManager = FindObjectOfType<UltimateTextDamageManager>() ?? throw new Exception();//每个场景需要管理者
 					 gameObject.Hide();
 				 }));
 			});
