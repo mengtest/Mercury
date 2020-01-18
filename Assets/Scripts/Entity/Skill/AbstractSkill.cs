@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public abstract class AbstractSkill : IFSMState
 {
@@ -25,5 +26,10 @@ public abstract class AbstractSkill : IFSMState
 	protected void RefreshCoolDown()
 	{
 		_lastUse = Time.time;
+	}
+
+	public static float GetClipLength(Animator animator, string clipName)
+	{
+		return animator.runtimeAnimatorController.animationClips.First((clip) => clip.name == clipName).length;
 	}
 }

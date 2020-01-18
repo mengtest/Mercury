@@ -13,16 +13,16 @@ public class SkillRaceterShadowStrike : AbstractSkill
 	private readonly SkillObject _seColl;
 	private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
 
-	public SkillRaceterShadowStrike(ISkillable holder, float animTime) : base(holder, 4)
+	public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 12)
 	{
-		_rawDura = animTime;
-		_duration = animTime;
 		_player = holder as EntityPlayer;
 		_rigid = _player.GetComponent<Rigidbody2D>();
-		_se = GameManager.Instance.GetEffect(Consts.PREFAB_SE_2_1_dodge);
+		_se = GameManager.Instance.GetEffect(Consts.PREFAB_SE_SkillRaceterShadowStrike);
 		_seAnim = _se.GetComponent<Animator>();
 		_seColl = _se.GetComponent<SkillObject>();
 		_se.Hide();
+		_rawDura = GetClipLength(_seAnim, Consts.PREFAB_SE_SkillRaceterShadowStrike);
+		_duration = _rawDura;
 	}
 
 	~SkillRaceterShadowStrike()
@@ -37,7 +37,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
 	public override void OnAct()
 	{
-		_duration -= Time.deltaTime * 1000;
+		_duration -= Time.deltaTime;
 		var playerVelocity = _rigid.velocity;
 		_se.transform.position = _player.transform.position;
 		_rigid.AddForce(new Vector2(-playerVelocity.x * (_rawDura - _duration / _rawDura) * 0.01f, 0));
@@ -48,9 +48,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 			{
 				if (!_attacked.Contains(attackable))
 				{
-					attackable.UnderAttack(_player.DealDamage(1, DamageType.Physics));
-					//attackable.UnderAttack(_player.DealDamage(1, DamageType.Magic));
-					//attackable.UnderAttack(_player.DealDamage(1000, DamageType.True));
+					attackable.UnderAttack(_player.DealDamage(0.95f, DamageType.Physics));
 					_attacked.Add(attackable);
 				}
 			}
@@ -73,17 +71,17 @@ public class SkillRaceterShadowStrike : AbstractSkill
 		_se.transform.position = _player.transform.position;
 		_rigid.velocity = Vector2.zero;
 		var force = 40;
-		if (pR.y == 0f)
+		if (_player.GetFace() == Face.Left)
 		{
 			_rigid.AddForce(new Vector3(-force, 0), ForceMode2D.Impulse);
 		}
-		else if (pR.y == 180f)
+		else if (_player.GetFace() == Face.Right)
 		{
 			_rigid.AddForce(new Vector3(force, 0), ForceMode2D.Impulse);
 		}
 		_g = _rigid.gravityScale;
 		_rigid.gravityScale = 0;
-		_seAnim.Play("Thunder", 0, 0);
+		_seAnim.Play(Consts.PREFAB_SE_SkillRaceterShadowStrike, 0, 0);
 	}
 
 	public override void OnLeave()

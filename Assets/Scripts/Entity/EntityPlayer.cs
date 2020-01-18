@@ -12,8 +12,8 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 	private ElementAffinity _elementAffinity = new ElementAffinity();
 	[SerializeField]
 	private MoveCapability _moveCapability = new MoveCapability();
-	//[SerializeField]
-	//private BasicState _basicState = new BasicState();
+	[SerializeField]
+	private SwordExistence _swordExistence = new SwordExistence();
 
 	private BuffWapper _buffs;
 	private SkillWrapper _skills;
@@ -26,7 +26,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		SetProperty(_basicCapability);
 		SetProperty(_elementAffinity);
 		SetProperty(_moveCapability);
-		//SetProperty(_basicState);
+		SetProperty(_swordExistence);
 
 		AddSystem<MoveSystem>();
 
@@ -35,7 +35,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		var normal = new NormalState(this);
 		_skills.AddSkill(normal);
 		_skills.AddSkill(new StiffnessState(this));
-		_skills.AddSkill(new SkillRaceterShadowStrike(this, 254));
+		_skills.AddSkill(new SkillRaceterShadowStrike(this));
 		_skills.FSMSystem.CurrentState = normal;
 	}
 
