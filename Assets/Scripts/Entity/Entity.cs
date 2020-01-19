@@ -36,18 +36,21 @@ public abstract class Entity : MonoBehaviour
 	/// </summary>
 	[SerializeField]
 	protected float _deadBodySurviveTime;
+
 	/// <summary>
 	/// 属性容器
 	/// </summary>
-	protected readonly Dictionary<Type, IEntityProperty> _properties = new Dictionary<Type, IEntityProperty>();
+	protected Dictionary<Type, IEntityProperty> _properties;
+
 	/// <summary>
 	/// 物理系统
 	/// </summary>
-	protected readonly List<IEntitySystem> _physicalSystems = new List<IEntitySystem>();
+	protected List<IEntitySystem> _physicalSystems;
+
 	/// <summary>
 	/// 普通系统
 	/// </summary>
-	protected readonly List<IEntitySystem> _normalSystems = new List<IEntitySystem>();
+	protected List<IEntitySystem> _normalSystems;
 	protected Collider2D _collider;
 
 	public float HealthPoint { get => _healthPoint; }
@@ -57,6 +60,9 @@ public abstract class Entity : MonoBehaviour
 
 	protected virtual void Awake()
 	{
+		_properties = new Dictionary<Type, IEntityProperty>();
+		_physicalSystems = new List<IEntitySystem>();
+		_normalSystems = new List<IEntitySystem>();
 		_collider = GetComponent<Collider2D>();
 	}
 

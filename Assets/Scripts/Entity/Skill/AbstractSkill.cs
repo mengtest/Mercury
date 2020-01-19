@@ -32,4 +32,10 @@ public abstract class AbstractSkill : IFSMState
 	{
 		return animator.runtimeAnimatorController.animationClips.First((clip) => clip.name == clipName).length;
 	}
+
+	public void EnterStiffness(float time)
+	{
+		_skillHolder.UseSkill<StiffnessState>(out var state);
+		state.Duration = time;
+	}
 }

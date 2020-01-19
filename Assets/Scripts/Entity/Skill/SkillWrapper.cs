@@ -27,6 +27,12 @@ public class SkillWrapper
 		_skills.SwitchState(skillType);
 	}
 
+	public void UseSkill<T>(out T skill) where T : AbstractSkill
+	{
+		_skills.SwitchState(typeof(T), out var state);
+		skill = state as T;
+	}
+
 	public void OnUpdate()
 	{
 		_skills.OnUpdate();

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4351303493568663144}
   m_Layer: 10
   m_Name: WoodMan
-  m_TagString: Entity
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,3 +143,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthPoint: 0
   _maxHealthPoint: 0
+  _hpRecoverPerSec: 0
+  _deadBodySurviveTime: 0

@@ -36,6 +36,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		_skills.AddSkill(normal);
 		_skills.AddSkill(new StiffnessState(this));
 		_skills.AddSkill(new SkillRaceterShadowStrike(this));
+		_skills.AddSkill(new SkillRaceterBladeWave(this));
 		_skills.FSMSystem.CurrentState = normal;
 	}
 
@@ -44,7 +45,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		base.Update();
 		if (Input.GetKeyDown(KeyCode.K))
 		{
-			UseSkill(typeof(SkillRaceterShadowStrike));
+			UseSkill(typeof(SkillRaceterBladeWave));
 		}
 		_buffs.OnUpdate();
 		_skills.OnUpdate();
@@ -105,6 +106,11 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 		_skills.UseSkill(skillType);
 	}
 
+	public void UseSkill<T>(out T skill) where T : AbstractSkill
+	{
+		_skills.UseSkill(out skill);
+	}
+	
 	public void OnUpdate()
 	{
 		_skills.OnUpdate();
@@ -123,7 +129,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
 	private void UpTriggerStep(Collider2D other)
 	{
-		if (other.CompareTag("StepCross"))
+		if (other.CompareTag(Consts.TAG_StepCross))
 		{
 			Physics2D.IgnoreCollision(_collider, other, true);
 		}

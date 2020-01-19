@@ -10,5 +10,7 @@ public interface ISkillable
 
 	void UseSkill(Type skillType);
 
+	void UseSkill<T>(out T skill) where T : AbstractSkill;
+
 	void OnUpdate();
 }

@@ -12,6 +12,7 @@ public class MoveCapability : IEntityProperty
 
 	public int maxJumpCount = 2;
 	public float maxJumpCD = 0.2f;
+	public bool canMove = true;
 
 	public bool IsJumpReady
 	{

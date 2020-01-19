@@ -12,7 +12,7 @@ public class MoveSystem : IEntitySystem
 		var move = entity.GetProperty<MoveCapability>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
 		var coll = entity.GetComponent<Collider2D>();
-		if (entity is ISkillable stateable && stateable.FSMSystem.CurrentState.GetType() != typeof(NormalState))
+		if (!move.canMove)
 		{
 			return;
 		}

@@ -167,6 +167,16 @@ namespace Guirao.UltimateTextDamage
         {
             obj.eventOnEnd -= Label_eventOnEnd;
 
+            if (m_instancesInScreen.TryGetValue(transformFollow, out var list))
+            {
+                list.Clear();//不知道能不能减少GC
+                if (transformFollow)
+                {
+                    if (m_tempObjects.Contains(transformFollow.gameObject))
+                        transformFollow.gameObject.SetActive(false);
+                }
+            }
+            /*
             if( m_instancesInScreen.ContainsKey( transformFollow ) )
             {
                 m_instancesInScreen[ transformFollow ].Remove( obj );
@@ -177,6 +187,7 @@ namespace Guirao.UltimateTextDamage
                         transformFollow.gameObject.SetActive( false );
                 }
             }
+            */
         }
 
         private UITextDamage GetAvailableText( string keyType )

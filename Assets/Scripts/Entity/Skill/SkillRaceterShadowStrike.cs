@@ -12,6 +12,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 	private float _g;
 	private readonly SkillObject _seColl;
 	private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
+	private readonly MoveCapability _playerMove;
 
 	public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 12)
 	{
@@ -21,8 +22,9 @@ public class SkillRaceterShadowStrike : AbstractSkill
 		_seAnim = _se.GetComponent<Animator>();
 		_seColl = _se.GetComponent<SkillObject>();
 		_se.Hide();
-		_rawDura = GetClipLength(_seAnim, Consts.PREFAB_SE_SkillRaceterShadowStrike);
+		_rawDura = GetClipLength(_seAnim, Consts.PREFAB_SE_SkillRaceterShadowStrike) * 1000;
 		_duration = _rawDura;
+		_playerMove = _player.GetProperty<MoveCapability>();
 	}
 
 	~SkillRaceterShadowStrike()
@@ -37,11 +39,11 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
 	public override void OnAct()
 	{
-		_duration -= Time.deltaTime;
+		_duration -= Time.deltaTime * 1000;
 		var playerVelocity = _rigid.velocity;
 		_se.transform.position = _player.transform.position;
 		_rigid.AddForce(new Vector2(-playerVelocity.x * (_rawDura - _duration / _rawDura) * 0.01f, 0));
-		if (_seColl.Contact && _seColl.Contact.CompareTag("Entity"))
+		if (_seColl.Contact && _seColl.Contact.CompareTag(Consts.TAG_Entity))
 		{
 			var e = _seColl.Contact.GetComponent<Entity>();
 			if (e is IAttackable attackable)
@@ -56,15 +58,14 @@ public class SkillRaceterShadowStrike : AbstractSkill
 		if (_duration <= 0)
 		{
 			_se.Hide();
-			_skillHolder.UseSkill(typeof(StiffnessState));
-			var sti = _skillHolder.FSMSystem.CurrentState as StiffnessState;
-			sti.Duration = 0;
+			EnterStiffness(200);
 		}
 	}
 
 	public override void OnEnter()
 	{
 		_se.Show();
+		_playerMove.canMove = false;
 		var seR = _se.transform.eulerAngles;
 		var pR = _player.transform.eulerAngles;
 		_se.transform.eulerAngles = new Vector3(seR.x, pR.y - 180, seR.z);
@@ -86,6 +87,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
 	public override void OnLeave()
 	{
+		_playerMove.canMove = true;
 		_duration = _rawDura;
 		_rigid.gravityScale = _g;
 		_attacked.Clear();

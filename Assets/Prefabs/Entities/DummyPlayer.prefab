@@ -179,6 +179,11 @@ MonoBehaviour:
     jumpCD: 0
     maxJumpCount: 2
     maxJumpCD: 0.2
+    canMove: 1
+  _swordExistence:
+    existence: 0
+    swordState: 0
+    tan: 0
 --- !u!61 &8461453731299177309
 BoxCollider2D:
   m_ObjectHideFlags: 0

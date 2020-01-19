@@ -17,13 +17,16 @@ public class FSMSystem<T> where T : IFSMState
 		return _states.Remove(type);
 	}
 
-	public bool SwitchState(Type type)
+	public bool SwitchState(Type type) { return SwitchState(type, out _); }
+
+	public bool SwitchState(Type type, out T state)
 	{
 		if (CurrentState == null)
 		{
+			state = default;
 			return false;
 		}
-		var state = _states[type];
+		state = _states[type];
 		if (!state.CanEnter(CurrentState))
 		{
 			return false;

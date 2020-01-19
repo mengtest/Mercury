@@ -8,6 +8,8 @@ TagManager:
   - SpecialEffect
   - Entity
   - StepCross
+  - Enemy
+  - EntityFlight
   layers:
   - Default
   - TransparentFX
