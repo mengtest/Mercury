@@ -29,6 +29,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : Component
 			_instance = obj.AddComponent<T>();
 			return _instance;
 		}
+		protected set => _instance = value;
 	}
 
 	protected virtual void Awake()

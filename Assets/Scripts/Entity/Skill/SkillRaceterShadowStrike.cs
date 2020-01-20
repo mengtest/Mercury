@@ -6,11 +6,11 @@ public class SkillRaceterShadowStrike : AbstractSkill
     private float _duration;
     private readonly float _rawDura;
     private readonly Rigidbody2D _rigid;
-    private readonly GameObject _se;
-    private readonly Animator _seAnim;
+    private GameObject _se;
+    private Animator _seAnim;
     private readonly EntityPlayer _player;
     private float _g;
-    private readonly SkillObject _seColl;
+    private SkillObject _seColl;
     private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
     private readonly MoveCapability _playerMove;
 

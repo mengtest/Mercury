@@ -194,36 +194,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &286369075
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 286369076}
-  m_Layer: 0
-  m_Name: ObjectPools
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &286369076
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286369075}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561832051 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2835944073966850731, guid: 6ba1ecf77a80ecf488daaef431c142b4,
@@ -467,12 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53d04bf8fe458049ad759b1584daba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pools: {fileID: 286369075}
   canvas: {fileID: 1034308472}
-  specialEffects:
-    m_LabelString: SpecialEffects
-  entities:
-    m_LabelString: Entity
   levels:
   - name: Level-0
     assRef:
@@ -489,6 +454,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
     avalible: 0
+  nowScene: {fileID: 0}
 --- !u!4 &1470371480
 Transform:
   m_ObjectHideFlags: 0
@@ -540,17 +506,17 @@ PrefabInstance:
     - target: {fileID: 352999947554531301, guid: b026d7198f4c6ba44afad3112b97e026,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 352999947554531301, guid: b026d7198f4c6ba44afad3112b97e026,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 352999947554531301, guid: b026d7198f4c6ba44afad3112b97e026,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 352999947554531301, guid: b026d7198f4c6ba44afad3112b97e026,
         type: 3}
