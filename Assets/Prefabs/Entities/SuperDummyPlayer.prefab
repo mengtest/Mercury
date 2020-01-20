@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 188170854569358862}
   m_Layer: 0
   m_Name: SuperDummyPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,3 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfe1c222d5f9274b95cf5b29848805c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthPoint: 0
+  _maxHealthPoint: 0
+  _hpRecoverPerSec: 0
+  _deadBodySurviveTime: 0

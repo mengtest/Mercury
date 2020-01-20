@@ -20,6 +20,8 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
 	public FSMSystem<AbstractSkill> FSMSystem => _skills.FSMSystem;
 
+	public override EntityType EntityType { get; } = EntityType.Player;
+
 	protected override void Start()
 	{
 		base.Start();

@@ -12,9 +12,11 @@ public class EntityFlightProp : Entity
     public Action<EntityFlightProp> onDead;
 
     private float liveTime;
-    
+
     public Collider2D Trigger { get; private set; }
-    
+
+    public override EntityType EntityType { get; } = EntityType.Flight;
+
     protected override void Awake() { _collider = GetComponent<Collider2D>(); }
 
     protected override void Update()

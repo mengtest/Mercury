@@ -4,6 +4,8 @@ public class EntityPlayerTwo : Entity
 {
     private CharacterController _controller;
 
+    public override EntityType EntityType { get; } = EntityType.Player;
+
     protected override void Start()
     {
         base.Start();

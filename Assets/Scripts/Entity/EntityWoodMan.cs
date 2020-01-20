@@ -1,5 +1,7 @@
 ﻿public class EntityWoodMan : Entity, IAttackable
 {
+	public override EntityType EntityType { get; } = EntityType.Enemy;
+
 	protected override void Start()
 	{
 		base.Start();

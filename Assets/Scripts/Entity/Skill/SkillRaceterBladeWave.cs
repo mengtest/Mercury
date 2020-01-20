@@ -8,11 +8,19 @@ public class SkillRaceterBladeWave : AbstractSkill
     private readonly IAttackable _playerAttack;
     private readonly EntityPlayer _player;
 
-    public SkillRaceterBladeWave(ISkillable holder) : base(holder, 0.5f)
+    public SkillRaceterBladeWave(ISkillable holder) : base(holder, 12)
     {
         _waves.Push(GetWave());
         _playerAttack = holder as IAttackable;
         _player = holder as EntityPlayer;
+    }
+
+    ~SkillRaceterBladeWave()
+    {
+        while (_waves.Count != 0)
+        {
+            GameManager.Instance.RecycleEffect(_waves.Pop());
+        }
     }
 
     private static GameObject GetWave()
@@ -33,7 +41,10 @@ public class SkillRaceterBladeWave : AbstractSkill
         wave.Show();
         var flight = wave.GetComponent<EntityFlightProp>();
         flight.Reset();
-        wave.transform.position = _player.transform.position;
+        var transform = _player.transform;
+        var dir = _player.GetFace() == Face.Left ? -1 : 1;
+        wave.transform.position = transform.position;
+        flight.Rotate(_player.GetFace());
         flight.isDead += e =>
         {
             var t = e.Trigger;
@@ -42,14 +53,20 @@ public class SkillRaceterBladeWave : AbstractSkill
                 return false;
             }
 
-            if (!t.CompareTag(Consts.TAG_Enemy))
+            if (!t.CompareTag(Consts.TAG_Entity))
             {
                 return false;
             }
 
-            if (!(t.GetComponent<Entity>() is IAttackable attackable))
+            var entity = t.GetComponent<Entity>();
+            if (entity.EntityType != EntityType.Enemy)
             {
-                throw new ArgumentException("未实现IAttackable却有Enemy标签");
+                return false;
+            }
+
+            if (!(entity is IAttackable attackable))
+            {
+                throw new ArgumentException("未实现IAttackable却是Enemy");
             }
 
             attackable.UnderAttack(_playerAttack.DealDamage(1, DamageType.Physics));
@@ -60,9 +77,7 @@ public class SkillRaceterBladeWave : AbstractSkill
         {
             wave.Hide();
             _waves.Push(e.gameObject);
-            e.Reset();
         };
-        var dir = _player.GetFace() == Face.Left ? -1 : 1;
         flight.onUpdate += e => e.transform.position += new Vector3(3f * Time.deltaTime, 0) * dir;
     }
 

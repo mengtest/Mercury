@@ -10,6 +10,4 @@
 	public static readonly string TAG_Step = "Step";
 	public static readonly string TAG_StepCross = "StepCross";
 	public static readonly string TAG_Entity = "Entity";
-	public static readonly string TAG_Enemy = "Enemy";
-	public static readonly string TAG_EntityFlight = "EntityFlight";
 }

@@ -57,6 +57,7 @@ public abstract class Entity : MonoBehaviour
 	public float MaxHealthPoint { get => _maxHealthPoint; }
 	public float HpRecoverPerSec { get => _hpRecoverPerSec; }
 	public float DeadBodySurviveTime { get => _deadBodySurviveTime; }
+	public abstract EntityType EntityType { get; }
 
 	protected virtual void Awake()
 	{
