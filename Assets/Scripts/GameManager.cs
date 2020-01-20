@@ -45,6 +45,5 @@ public class GameManager : MonoSingleton<GameManager>//TODO:解决canvas的依�
         UIManager.Instance.loadPanel.Active(() => req.PercentComplete);
         yield return req;
         callback?.Invoke(req.Result);
-        UIManager.Instance.loadPanel.Complete();
     }
 }

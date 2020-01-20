@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelPanel : MonoBehaviour
@@ -24,7 +25,7 @@ public class LevelPanel : MonoBehaviour
                 StartCoroutine(GameManager.Instance.AsyncLoadScene(levelRef.assRef,
                     (si) =>
                     {
-                        //SceneManager.SetActiveScene(si.Scene);
+                        SceneManager.SetActiveScene(si.Scene);
                         gameObject.Hide();
                     }));
             });

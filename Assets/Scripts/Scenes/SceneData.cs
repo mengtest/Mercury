@@ -15,6 +15,7 @@ public class SceneData : MonoBehaviour
     protected Dictionary<string, ObjectPool<GameObject>> _pools;
     protected bool _isPoolsDone;
     protected bool _isStartLoadAssets;
+    protected bool _isAllDone;
 
     public IReadOnlyDictionary<string, ObjectPool<GameObject>> Pools => _pools;
 
@@ -56,6 +57,11 @@ public class SceneData : MonoBehaviour
 
     private void Update()
     {
+        if (_isAllDone)
+        {
+            return;
+        }
+
         if (!whetherWaitForPools || !_isPoolsDone || _isStartLoadAssets)
         {
             return;
@@ -95,7 +101,6 @@ public class SceneData : MonoBehaviour
             if (assetList.Count == complete && loading == 0)
             {
                 onComplete?.Invoke();
-                UIManager.Instance.HideLoadPanel();
                 yield break;
             }
 
@@ -110,10 +115,14 @@ public class SceneData : MonoBehaviour
         StartCoroutine(LoadElementsAsync<GameObject>(assets,
             () =>
             {
+                UIManager.Instance.ShowLoadPanel(1);
                 foreach (var asset in assets)
                 {
                     Instantiate(asset.Asset); //TODO:可能每个场景都不一样
                 }
+
+                UIManager.Instance.HideLoadPanel();
+                _isAllDone = true;
             }));
     }
 }
