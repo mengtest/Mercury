@@ -33,6 +33,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
         _skills.AddSkill(new StiffnessState(this));
         _skills.AddSkill(new SkillRaceterShadowStrike(this));
         _skills.AddSkill(new SkillRaceterBladeWave(this));
+        _skills.AddSkill(new SkillRaceterHasaki(this));
     }
 
     protected override void Update()

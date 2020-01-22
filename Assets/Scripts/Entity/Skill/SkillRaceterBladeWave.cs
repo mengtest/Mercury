@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 风刃
+/// </summary>
 public class SkillRaceterBladeWave : AbstractSkill
 {
     private readonly Stack<GameObject> _waves = new Stack<GameObject>(1);

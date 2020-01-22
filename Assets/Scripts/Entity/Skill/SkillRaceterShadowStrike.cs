@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 斩影
+/// </summary>
 public class SkillRaceterShadowStrike : AbstractSkill
 {
     private float _duration;

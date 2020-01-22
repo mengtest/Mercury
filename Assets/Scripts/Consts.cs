@@ -5,6 +5,7 @@
 	//public static readonly string PREFAB_SE_tp_light = "tp-light";
 	public static readonly string PREFAB_SE_SkillRaceterShadowStrike = "SkillRaceterShadowStrike";
 	public static readonly string PREFAB_SE_SkillRaceterBladeWave = "SkillRaceterBladeWave";
+	public static readonly string PREFAB_SE_SkillRaceterHasaki = "SkillRaceterHasaki";
 
 	public static readonly string TAG_SpecialEffect = "SpecialEffect";
 	public static readonly string TAG_Step = "Step";
