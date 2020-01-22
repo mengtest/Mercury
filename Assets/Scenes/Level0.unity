@@ -219,6 +219,11 @@ PrefabInstance:
       propertyPath: textDamage
       value: 
       objectReference: {fileID: 1817688705}
+    - target: {fileID: 1008620442223188983, guid: 75410693c7ed51941938b9966975fbee,
+        type: 3}
+      propertyPath: eventSystem
+      value: 
+      objectReference: {fileID: 1359633949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75410693c7ed51941938b9966975fbee, type: 3}
 --- !u!1001 &364630194

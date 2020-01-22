@@ -9,9 +9,12 @@ internal class EntitySystemManager : Singleton<EntitySystemManager>
 
 	public IReadOnlyDictionary<Type, IEntitySystem> Systems => _systems;
 
-	private EntitySystemManager() { }
+	private EntitySystemManager()
+	{
+		Init();
+	}
 
-	public void Init()
+	private void Init()
 	{
 		var asm = GetType().Assembly;
 		foreach (var type in asm.GetTypes())

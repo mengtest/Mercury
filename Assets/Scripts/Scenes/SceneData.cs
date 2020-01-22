@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Guirao.UltimateTextDamage;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 
 public class SceneData : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class SceneData : MonoBehaviour
     public List<AssetReference> pools;
     public bool whetherWaitForPools;
     public UltimateTextDamageManager textDamage;
+    public EventSystem eventSystem;
     protected Dictionary<string, ObjectPool<GameObject>> _pools;
     protected bool _isPoolsDone;
     protected bool _isStartLoadAssets;

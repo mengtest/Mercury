@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.UI;
 
 [Serializable]
 public struct LevelAsset
@@ -13,7 +14,7 @@ public struct LevelAsset
     public bool avalible;
 }
 
-public class GameManager : MonoSingleton<GameManager>//TODO:解决canvas的依赖问题
+public class GameManager : MonoSingleton<GameManager>
 {
     public GameObject canvas;
     public List<LevelAsset> levels;
@@ -22,16 +23,23 @@ public class GameManager : MonoSingleton<GameManager>//TODO:解决canvas的依�
     protected override void Awake()
     {
         base.Awake();
+#if UNITY_EDITOR
+        canvas = GameObject.Find("Canvas");
+        if (!canvas)
+        {
+            var c = new GameObject("Canvas");
+            c.AddComponent<Canvas>();
+            c.AddComponent<CanvasScaler>();
+            c.AddComponent<GraphicRaycaster>();
+            canvas = c;
+        }
+#endif
         DontDestroyOnLoad(canvas);
-        EntitySystemManager.Instance.Init();
     }
 
     public GameObject GetEffect(string key) { return nowScene.Pools[key].Get(); }
 
-    public bool RecycleEffect(GameObject go)
-    {
-        return nowScene.Pools[go.name].Recycle(go);
-    }
+    public bool RecycleEffect(GameObject go) { return nowScene.Pools[go.name].Recycle(go); }
 
     public void DestroyEffect(string key)
     {
