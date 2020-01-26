@@ -34,21 +34,18 @@ public class SceneData : MonoBehaviour
                     var obj = e.Asset as GameObject;
                     var go = new GameObject(obj.name + "_Pool");
                     go.transform.parent = poolTrans;
-                    var sePool = new ObjectPool<GameObject, Transform>(obj,
-                        (o) =>
+                    var sePool = new ObjectPool<GameObject, Transform>(
+                        5,
+                        () =>
                         {
-                            var res = Instantiate(o).Hide();
-                            res.name = o.name;
+                            var res = Instantiate(obj).Hide();
+                            res.name = obj.name;
                             res.transform.parent = go.transform;
                             return res;
                         },
-                        1);
+                        o => o.transform);
                     sePool.Factory.OnDestruct += Destroy;
-                    sePool.Distinguish += ob =>
-                    {
-                        ob.Show();
-                        return ob.transform;
-                    };
+                    sePool.OnGet += ob => ob.Show();
                     sePool.OnRecycle += ob => ob.Hide();
                     _pools.Add(obj.name, sePool);
                 }

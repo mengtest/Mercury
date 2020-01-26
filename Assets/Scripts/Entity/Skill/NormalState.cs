@@ -8,7 +8,7 @@ public class NormalState : AbstractSkill
 	{
 	}
 
-	public override bool CanEnter(IFSMState current)
+	public override bool CanEnter()
 	{
 		return true;
 	}

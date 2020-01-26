@@ -17,7 +17,7 @@ public class StiffnessState : AbstractSkill
 		}
 	}
 
-	public override bool CanEnter(IFSMState current)
+	public override bool CanEnter()
 	{
 		return true;
 	}
@@ -27,7 +27,7 @@ public class StiffnessState : AbstractSkill
 		Duration -= Time.deltaTime * 1000;
 		if (Duration <= 0)
 		{
-			_skillHolder.UseSkill(typeof(NormalState));
+			skillHolder.UseSkill(typeof(NormalState));
 		}
 	}
 

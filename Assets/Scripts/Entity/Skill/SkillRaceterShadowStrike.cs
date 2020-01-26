@@ -21,29 +21,41 @@ public class SkillRaceterShadowStrike : AbstractSkill
     {
         _player = holder as EntityPlayer;
         _rigid = _player.GetComponent<Rigidbody2D>();
-        _se = GameManager.Instance.GetEffect(Consts.PREFAB_SE_SkillRaceterShadowStrike);
-        _seAnim = _se.GetComponent<Animator>();
-        _seColl = _se.GetComponent<SkillObject>();
-        _se.Hide();
+        SetSpecialEffect();
         _rawDura = GetClipLength(_seAnim, Consts.PREFAB_SE_SkillRaceterShadowStrike) * 1000;
         _duration = _rawDura;
         _playerMove = _player.GetProperty<MoveCapability>();
+        GameManager.Instance.RecycleEffect(_se);
+        _se = null;
+        _seAnim = null;
+        _seColl = null;
     }
 
-    ~SkillRaceterShadowStrike() { GameManager.Instance.RecycleEffect(_se); }
-
-    public override bool CanEnter(IFSMState current)
+    private void SetSpecialEffect()
     {
-        return current.GetType() == typeof(NormalState) && IsCoolDown();
+        _se = GameManager.Instance.GetEffect(Consts.PREFAB_SE_SkillRaceterShadowStrike);
+        _seAnim = _se.GetComponent<Animator>();
+        _seColl = _se.GetComponent<SkillObject>();
+    }
+
+    public override bool CanEnter()
+    {
+        return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown();
     }
 
     public override void OnAct()
     {
         _duration -= Time.deltaTime * 1000;
+        if (_duration <= 0)
+        {
+            EnterStiffness(200);
+            return;
+        }
+
         var playerVelocity = _rigid.velocity;
         _se.transform.position = _player.transform.position;
         _rigid.AddForce(new Vector2(-playerVelocity.x * (_rawDura - _duration / _rawDura) * 0.01f, 0));
-        if (_seColl.Contact && _seColl.Contact.CompareTag(Consts.TAG_Entity))
+        if (_seColl.Contact)
         {
             var e = _seColl.Contact.GetComponent<Entity>();
             if (e.EntityType != EntityType.Enemy)
@@ -60,17 +72,11 @@ public class SkillRaceterShadowStrike : AbstractSkill
                 }
             }
         }
-
-        if (_duration <= 0)
-        {
-            _se.Hide();
-            EnterStiffness(200);
-        }
     }
 
     public override void OnEnter()
     {
-        _se.Show();
+        SetSpecialEffect();
         _playerMove.canMove = false;
         var seR = _se.transform.eulerAngles;
         var pR = _player.transform.eulerAngles;
@@ -99,5 +105,9 @@ public class SkillRaceterShadowStrike : AbstractSkill
         _rigid.gravityScale = _g;
         _attacked.Clear();
         RefreshCoolDown();
+        GameManager.Instance.RecycleEffect(_se);
+        _se = null;
+        _seAnim = null;
+        _seColl = null;
     }
 }

@@ -5,11 +5,11 @@ using System.Collections.Generic;
 /// 对象池
 /// </summary>
 /// <typeparam name="T">对象类型</typeparam>
-/// <typeparam name="TK">分辨相同类型的不同对象</typeparam>
-public class ObjectPool<T, TK>
+/// <typeparam name="TDistinguishKey">分辨相同类型的不同对象</typeparam>
+public class ObjectPool<T, TDistinguishKey>
 {
     private readonly Stack<T> _pool = new Stack<T>();
-    private readonly Dictionary<TK, T> _actives = new Dictionary<TK, T>();
+    private readonly ICollection<TDistinguishKey> _activeObjs;
 
     public ObjectFactory<T> Factory { get; }
 
@@ -21,21 +21,54 @@ public class ObjectPool<T, TK>
     /// <summary>
     /// 分辨对象
     /// </summary>
-    public event Func<T, TK> Distinguish;
+    private readonly Func<T, TDistinguishKey> _distinguish;
 
     /// <summary>
-    /// 预回收对象时触发
+    /// 获取对象时触发
     /// </summary>
-    public event Func<T, bool> OnPreRecycle;
+    public event Action<T> OnGet;
 
     /// <summary>
     /// 回收对象时触发
     /// </summary>
     public event Action<T> OnRecycle;
 
-    public ObjectPool(T template, Func<T, T> factory) { Factory = new ObjectFactory<T>(template, factory); }
+    public ObjectPool(
+        ICollection<TDistinguishKey> activeObjCollection,
+        Func<T> factory,
+        Func<T, TDistinguishKey> distinguish)
+    {
+        Factory = new ObjectFactory<T>(factory);
+        _activeObjs = activeObjCollection;
+        _distinguish = distinguish ?? throw new ArgumentNullException();
+    }
 
-    public ObjectPool(T template, Func<T, T> factory, int initCount) : this(template, factory)
+    public ObjectPool(Func<T> factory, Func<T, TDistinguishKey> distinguish) : this(
+        new HashSet<TDistinguishKey>(),
+        factory,
+        distinguish)
+    {
+    }
+
+    public ObjectPool(int initCount, Func<T> factory, Func<T, TDistinguishKey> distinguish) :
+        this(factory, distinguish)
+    {
+        InitPool(initCount);
+    }
+
+    public ObjectPool(
+        ICollection<TDistinguishKey> activeObjCollection,
+        int initCount,
+        Func<T> factory,
+        Func<T, TDistinguishKey> distinguish) : this(
+        activeObjCollection,
+        factory,
+        distinguish)
+    {
+        InitPool(initCount);
+    }
+
+    private void InitPool(int initCount)
     {
         for (var i = 0; i < initCount; i++)
         {
@@ -50,8 +83,9 @@ public class ObjectPool<T, TK>
     public T Get()
     {
         var result = _pool.Count > 0 ? _pool.Pop() : Factory.Make();
-        var key = CallDistinguish(result);
-        _actives.Add(key, result);
+        var key = _distinguish(result);
+        _activeObjs.Add(key);
+        OnGet?.Invoke(result);
         return result;
     }
 
@@ -67,23 +101,15 @@ public class ObjectPool<T, TK>
             return false;
         }
 
-        var key = CallDistinguish(obj);
-        if (!_actives.ContainsKey(key))
+        var key = _distinguish(obj);
+        if (!_activeObjs.Contains(key))
         {
             throw new ArgumentException($"{obj}不是从该池构造的");
         }
 
-        if (OnPreRecycle != null)
-        {
-            if (!OnPreRecycle(obj))
-            {
-                return false;
-            }
-        }
-
         OnRecycle?.Invoke(obj);
         _pool.Push(obj);
-        _actives.Remove(key);
+        _activeObjs.Remove(key);
         return true;
     }
 
@@ -106,15 +132,5 @@ public class ObjectPool<T, TK>
         }
 
         _pool.TrimExcess();
-    }
-
-    private TK CallDistinguish(T t)
-    {
-        if (Distinguish != null)
-        {
-            return Distinguish(t);
-        }
-
-        throw new ArgumentNullException("OnGet事件不能为null");
     }
 }

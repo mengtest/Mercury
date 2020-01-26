@@ -41,7 +41,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
         base.Update();
         if (Input.GetKeyDown(KeyCode.K))
         {
-            UseSkill(typeof(SkillRaceterBladeWave));
+            UseSkill(typeof(SkillRaceterShadowStrike));
         }
 
         _buffs.OnUpdate();

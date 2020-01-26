@@ -5,20 +5,17 @@
 /// </summary>
 public class ObjectFactory<T>
 {
-	private readonly Func<T, T> _factory;
-
-	public T Template { get; }
+	private readonly Func<T> _factory;
 	public int MakeCount { get; private set; }
 
 	public event Action<T> OnDestruct;
 
-	public ObjectFactory(T template, Func<T, T> factory)
+	public ObjectFactory(Func<T> factory)
 	{
-		Template = template;
 		_factory = factory ?? throw new ArgumentNullException();
 	}
 
-	public ObjectFactory(T template, Func<T, T> factory, Action<T> destruct) : this(template, factory)
+	public ObjectFactory(Func<T> factory, Action<T> destruct) : this(factory)
 	{
 		OnDestruct += destruct;
 	}
@@ -28,7 +25,7 @@ public class ObjectFactory<T>
 	/// </summary>
 	public T Make()
 	{
-		var product = _factory(Template);
+		var product = _factory();
 		MakeCount += 1;
 		return product;
 	}

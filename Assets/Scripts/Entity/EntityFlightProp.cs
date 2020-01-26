@@ -7,12 +7,13 @@ using UnityEngine;
 public class EntityFlightProp : Entity
 {
     public float maxLiveTime;
-    public Action<EntityFlightProp> onUpdate;
-    public Func<EntityFlightProp, bool> isDead;
-    public Action<EntityFlightProp> onDead;
 
-    private float liveTime;
+    private float _liveTime;
 
+    public event Action<EntityFlightProp> OnUpdate;
+    public event Func<EntityFlightProp, bool> IsDead;
+    public event Action<EntityFlightProp> OnDead;
+    
     public Collider2D Trigger { get; private set; }
 
     public override EntityType EntityType { get; } = EntityType.Flight;
@@ -21,19 +22,19 @@ public class EntityFlightProp : Entity
 
     protected override void Update()
     {
-        if (liveTime > 0)
+        if (_liveTime > 0)
         {
-            liveTime -= Time.deltaTime;
-            onUpdate?.Invoke(this);
-            var res = isDead?.Invoke(this);
+            _liveTime -= Time.deltaTime;
+            OnUpdate?.Invoke(this);
+            var res = IsDead?.Invoke(this);
             if (res.HasValue && res.Value)
             {
-                onDead(this);
+                OnDead(this);
             }
         }
         else
         {
-            onDead(this);
+            OnDead(this);
         }
     }
 
@@ -47,10 +48,10 @@ public class EntityFlightProp : Entity
 
     public void Reset()
     {
-        onUpdate = null;
-        onDead = null;
-        isDead = null;
-        liveTime = maxLiveTime;
+        OnUpdate = null;
+        OnDead = null;
+        IsDead = null;
+        _liveTime = maxLiveTime;
         Trigger = null;
     }
 }

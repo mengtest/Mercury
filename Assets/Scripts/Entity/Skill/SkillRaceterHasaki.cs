@@ -30,9 +30,9 @@ public class SkillRaceterHasaki : AbstractSkill
         return go;
     }
 
-    public override bool CanEnter(IFSMState current)
+    public override bool CanEnter()
     {
-        return current.GetType() == typeof(NormalState) && IsCoolDown();
+        return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown();
     }
 
     public override void OnEnter()
