@@ -2,7 +2,7 @@
 
 public interface ISkillable
 {
-	FSMSystem<AbstractSkill> Skills { get; }
+	FSMSystem Skills { get; }
 
 	void AddSkill(AbstractSkill skill);
 

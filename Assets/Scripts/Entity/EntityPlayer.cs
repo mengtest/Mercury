@@ -14,7 +14,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
     private BuffWapper _buffs;
     private SkillWrapper _skills;
 
-    public FSMSystem<AbstractSkill> Skills => _skills.FSMSystem;
+    public FSMSystem Skills => _skills.FSMSystem;
 
     public override EntityType EntityType { get; } = EntityType.Player;
 

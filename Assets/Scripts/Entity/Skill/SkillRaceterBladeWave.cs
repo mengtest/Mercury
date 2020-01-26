@@ -72,7 +72,7 @@ public class SkillRaceterBladeWave : AbstractSkill
                 throw new ArgumentException("未实现IAttackable却是Enemy");
             }
 
-            attackable.UnderAttack(_playerAttack.DealDamage(1, DamageType.Physics));
+            attackable.UnderAttack(_playerAttack.DealDamage(1.5f, DamageType.Physics));
             //TODO:剑意
             return true;
         };
@@ -84,5 +84,5 @@ public class SkillRaceterBladeWave : AbstractSkill
         flight.onUpdate += e => e.transform.position += new Vector3(3f * Time.deltaTime, 0) * dir;
     }
 
-    public override void OnLeave() { }
+    public override void OnLeave() { RefreshCoolDown(); }
 }

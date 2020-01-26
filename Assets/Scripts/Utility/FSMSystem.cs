@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class FSMSystem<T> where T : IFSMState
+public class FSMSystem
 {
-    private readonly Dictionary<Type, T> _states = new Dictionary<Type, T>();
+    private readonly Dictionary<Type, IFSMState> _states = new Dictionary<Type, IFSMState>();
 
-    public IReadOnlyDictionary<Type, T> States => _states;
+    public IReadOnlyDictionary<Type, IFSMState> States => _states;
 
-    public T CurrentState { get; set; }
+    public IFSMState CurrentState { get; set; }
 
-    public void AddState(T state) { _states.Add(state.GetType(), state); }
+    public FSMSystem(IFSMState defaultState)
+    {
+        AddState(defaultState);
+        CurrentState = defaultState;
+    }
+
+    public void AddState(IFSMState state) { _states.Add(state.GetType(), state); }
 
     public bool RemoveState(Type type) { return _states.Remove(type); }
 
     public bool SwitchState(Type type) { return SwitchState(type, out _); }
 
-    public bool SwitchState(Type type, out T state)
+    public bool SwitchState(Type type, out IFSMState state)
     {
         if (CurrentState == null)
         {

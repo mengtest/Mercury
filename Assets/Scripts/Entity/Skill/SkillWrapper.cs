@@ -2,16 +2,15 @@
 
 public class SkillWrapper
 {
-    private readonly FSMSystem<AbstractSkill> _skills = new FSMSystem<AbstractSkill>();
+    private readonly FSMSystem _skills;
     private readonly ISkillable _skillHolder;
 
-    public FSMSystem<AbstractSkill> FSMSystem => _skills;
+    public FSMSystem FSMSystem => _skills;
 
     public SkillWrapper(ISkillable holder, AbstractSkill defaultSkill)
     {
+        _skills = new FSMSystem(defaultSkill);
         _skillHolder = holder;
-        _skills.AddState(defaultSkill);
-        _skills.CurrentState = defaultSkill;
     }
 
     public void AddSkill(AbstractSkill skill) { _skills.AddState(skill); }

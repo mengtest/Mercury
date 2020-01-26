@@ -14,18 +14,18 @@ public class SceneData : MonoBehaviour
     public bool whetherWaitForPools;
     public UltimateTextDamageManager textDamage;
     public EventSystem eventSystem;
-    protected Dictionary<string, ObjectPool<GameObject>> _pools;
+    protected Dictionary<string, ObjectPool<GameObject, Transform>> _pools;
     protected bool _isPoolsDone;
     protected bool _isStartLoadAssets;
     protected bool _isAllDone;
 
-    public IReadOnlyDictionary<string, ObjectPool<GameObject>> Pools => _pools;
+    public IReadOnlyDictionary<string, ObjectPool<GameObject, Transform>> Pools => _pools;
 
     private void Start()
     {
         GameManager.Instance.nowScene = this;
         UIManager.Instance.textDamageManager = textDamage;
-        _pools = new Dictionary<string, ObjectPool<GameObject>>(pools.Count);
+        _pools = new Dictionary<string, ObjectPool<GameObject, Transform>>(pools.Count);
         StartCoroutine(LoadElementsAsync<GameObject>(pools,
             () =>
             {
@@ -34,7 +34,7 @@ public class SceneData : MonoBehaviour
                     var obj = e.Asset as GameObject;
                     var go = new GameObject(obj.name + "_Pool");
                     go.transform.parent = poolTrans;
-                    var sePool = new ObjectPool<GameObject>(obj,
+                    var sePool = new ObjectPool<GameObject, Transform>(obj,
                         (o) =>
                         {
                             var res = Instantiate(o).Hide();
@@ -44,7 +44,11 @@ public class SceneData : MonoBehaviour
                         },
                         1);
                     sePool.Factory.OnDestruct += Destroy;
-                    sePool.OnGet += ob => ob.Show();
+                    sePool.Distinguish += ob =>
+                    {
+                        ob.Show();
+                        return ob.transform;
+                    };
                     sePool.OnRecycle += ob => ob.Hide();
                     _pools.Add(obj.name, sePool);
                 }
