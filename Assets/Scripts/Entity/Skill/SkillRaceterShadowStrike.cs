@@ -38,10 +38,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
         _seColl = _se.GetComponent<SkillObject>();
     }
 
-    public override bool CanEnter()
-    {
-        return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown();
-    }
+    public override bool CanEnter() { return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown(); }
 
     public override void OnAct()
     {
@@ -67,7 +64,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
             {
                 if (!_attacked.Contains(attackable))
                 {
-                    attackable.UnderAttack(_player.DealDamage(0.95f, DamageType.Physics));
+                    attackable.UnderAttack(_player.DealDamage(95, DamageType.Physics));
                     _attacked.Add(attackable);
                 }
             }

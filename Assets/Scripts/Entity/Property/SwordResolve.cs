@@ -1,7 +1,10 @@
 ﻿using System;
 
+/// <summary>
+/// 剑意
+/// </summary>
 [Serializable]
-public class SwordExistence : IEntityProperty
+public class SwordResolve : IEntityProperty
 {
     /// <summary>
     /// 剑气

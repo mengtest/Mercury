@@ -5,13 +5,13 @@ using UnityEngine;
 /// <summary>
 /// 包装IBuffable接口
 /// </summary>
-public class BuffWapper
+public class BuffWrapper
 {
 	private readonly IBuffable _buffHolder;
 	private readonly Dictionary<Type, IBuff> _stateBuffs = new Dictionary<Type, IBuff>();
 	private readonly Dictionary<Type, IBuff> _dotBuffs = new Dictionary<Type, IBuff>();
 
-	public BuffWapper(IBuffable buffHolder)
+	public BuffWrapper(IBuffable buffHolder)
 	{
 		_buffHolder = buffHolder;
 	}

@@ -61,7 +61,7 @@ public class SkillRaceterBladeWave : AbstractSkill
                 throw new ArgumentException("未实现IAttackable却是Enemy");
             }
 
-            attackable.UnderAttack(_playerAttack.DealDamage(1.5f, DamageType.Physics));
+            attackable.UnderAttack(_playerAttack.DealDamage(150, DamageType.Physics));
             //TODO:剑意
             return true;
         };

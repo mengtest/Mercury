@@ -1,6 +1,6 @@
 ﻿public enum DamageType
 {
-	Physics,
-	Magic,
-	True
+	Physics = 0,
+	Magic = 1,
+	True = 2
 }

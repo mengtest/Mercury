@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// 玩家
@@ -9,9 +11,9 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
     [SerializeField] private BasicCapability _basicCapability = new BasicCapability();
     [SerializeField] private ElementAffinity _elementAffinity = new ElementAffinity();
     [SerializeField] private MoveCapability _moveCapability = new MoveCapability();
-    [SerializeField] private SwordExistence _swordExistence = new SwordExistence();
+    [SerializeField] private SwordResolve _swordResolve = new SwordResolve();
 
-    private BuffWapper _buffs;
+    private BuffWrapper _buffs;
     private SkillWrapper _skills;
 
     public FSMSystem Skills => _skills.FSMSystem;
@@ -24,11 +26,16 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
         SetProperty(_basicCapability);
         SetProperty(_elementAffinity);
         SetProperty(_moveCapability);
-        SetProperty(_swordExistence);
+        SetProperty(_swordResolve);
 
         AddSystem<MoveSystem>();
+        DamageCalculators = new DamageChain(this);
+        DamageCalculators.Add(new DamageCalculator(DamageIncome.Subjoin, this, 0.1f, DamageType.Physics));
+        DamageCalculators.Add(new DamageCalculator(DamageIncome.Subjoin, this, 0.2f, DamageType.Physics));
 
-        _buffs = new BuffWapper(this);
+        DamageCalculators.Add(new DamageCalculator(DamageIncome.Upgrade, this, 0.2f, DamageType.Physics));
+
+        _buffs = new BuffWrapper(this);
         _skills = new SkillWrapper(this, new NormalState(this));
         _skills.AddSkill(new StiffnessState(this));
         _skills.AddSkill(new SkillRaceterShadowStrike(this));
@@ -67,9 +74,13 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
     #region IAttackable
 
+    public float PhysicsAttack => _basicCapability.phyAttack;
+    public float MagicAttack => _basicCapability.magAttack;
+    public DamageChain DamageCalculators { get; private set; }
+
     public Damage DealDamage(float coe, DamageType damageType)
     {
-        return new Damage(this, DamageUtility.DealDmgFormula(_basicCapability, coe, damageType), damageType);
+        return new Damage(this, DamageCalculators.Calculate(coe, damageType), damageType);
     }
 
     public void UnderAttack(in Damage damage)
