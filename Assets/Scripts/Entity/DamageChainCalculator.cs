@@ -28,6 +28,8 @@ public class DamageChainCalculator
         new DisorderList<DamageChain>(DamageChain.defaultChain)
     };
 
+    private readonly DisorderList<DamageCritChain> _crit = new DisorderList<DamageCritChain>();
+
     private readonly IAttackable _attackable;
 
     /// <summary>
@@ -45,12 +47,16 @@ public class DamageChainCalculator
     /// </summary>
     private readonly float[] _damageUpgrade = {1f, 1f, 1f};
 
+    private float _critCoe = 1.5f;
+
+    public float CritProbability => DamageUtility.CalculateCritProbability(_attackable.Crit);
+
     public DamageChainCalculator(IAttackable attackable) { _attackable = attackable; }
 
     /// <summary>
     /// 添加收益链
     /// </summary>
-    public void Add(in DamageChain chain)
+    public void AddDamageChain(in DamageChain chain)
     {
         switch (chain.incomeType)
         {
@@ -74,7 +80,7 @@ public class DamageChainCalculator
     /// <summary>
     /// 删除收益链
     /// </summary>
-    public bool Remove(in DamageChain chain)
+    public bool RemoveDamageChain(in DamageChain chain)
     {
         switch (chain.incomeType)
         {
@@ -95,12 +101,27 @@ public class DamageChainCalculator
         }
     }
 
+    public void AddCritChain(in DamageCritChain critChain)
+    {
+        _crit.Add(critChain);
+        RefuseCrit();
+    }
+
+    public bool RemoveCritChain(in DamageCritChain critChain)
+    {
+        var res = _crit.Remove(critChain);
+        RefuseCrit();
+        return res;
+    }
+
+    private void RefuseCrit() { _critCoe = DamageUtility.CalculateCritIncome(_crit); }
+
     /// <summary>
     /// 计算技能伤害最终值
     /// </summary>
     /// <param name="coe">技能伤害系数</param>
     /// <param name="damageType">伤害类型</param>
-    public float Calculate(float coe, DamageType damageType)
+    public float CalculateDamage(float coe, DamageType damageType)
     {
         switch (damageType)
         {
@@ -119,6 +140,27 @@ public class DamageChainCalculator
             default:
                 throw new ArgumentOutOfRangeException(nameof(damageType), damageType, "你怎么做到的？");
         }
+    }
+
+    public float CalculateFinalDamage(float coe, DamageType damageType, out float extraCritDamage)
+    {
+        var dmg = CalculateDamage(coe, damageType);
+        if (damageType == DamageType.True)
+        {
+            extraCritDamage = 0;
+            return dmg;
+        }
+
+        var p = GameManager.Instance.Rand.NextFloat();
+        if (p < CritProbability)
+        {
+            var res = dmg * _critCoe;
+            extraCritDamage = res - dmg;
+            return res;
+        }
+
+        extraCritDamage = 0;
+        return dmg;
     }
 
     /// <summary>

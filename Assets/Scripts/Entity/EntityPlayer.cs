@@ -28,11 +28,13 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
         AddSystem<MoveSystem>();
         DamageCalculator = new DamageChainCalculator(this);
-        DamageCalculator.Add(new DamageChain(DamageIncome.Subjoin, this, 0.1f, DamageType.Physics));
-        DamageCalculator.Add(new DamageChain(DamageIncome.Subjoin, this, 0.2f, DamageType.Physics));
+        DamageCalculator.AddDamageChain(new DamageChain(DamageIncome.Subjoin, this, 0.1f, DamageType.Physics));
+        DamageCalculator.AddDamageChain(new DamageChain(DamageIncome.Subjoin, this, 0.2f, DamageType.Physics));
 
-        DamageCalculator.Add(new DamageChain(DamageIncome.Upgrade, this, 1.3f, DamageType.Physics));
-        DamageCalculator.Add(new DamageChain(DamageIncome.Upgrade, this, 1.2f, DamageType.True));
+        DamageCalculator.AddDamageChain(new DamageChain(DamageIncome.Upgrade, this, 1.3f, DamageType.Physics));
+        DamageCalculator.AddDamageChain(new DamageChain(DamageIncome.Upgrade, this, 1.2f, DamageType.True));
+
+        DamageCalculator.AddCritChain(new DamageCritChain(this, 1.1f));
 
         _buffs = new BuffWrapper(this);
         _skills = new SkillWrapper(this, new NormalState(this));
@@ -75,11 +77,12 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
     public float PhysicsAttack => _basicCapability.phyAttack;
     public float MagicAttack => _basicCapability.magAttack;
+    public int Crit => _basicCapability.criticalPoint;
     public DamageChainCalculator DamageCalculator { get; private set; }
 
     public Damage DealDamage(float coe, DamageType damageType)
     {
-        return new Damage(this, DamageCalculator.Calculate(coe, damageType), damageType);
+        return new Damage(this, DamageCalculator.CalculateFinalDamage(coe, damageType, out _), damageType);
     }
 
     public void UnderAttack(in Damage damage)

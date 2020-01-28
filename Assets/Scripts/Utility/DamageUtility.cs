@@ -118,4 +118,20 @@ public static class DamageUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float CalculateDamage(float rawAttack, float coe, float income, float dmgCoe) =>
         coe * (rawAttack + income) / 100 * dmgCoe;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float CalculateCritProbability(int value)
+    {
+        if (value == 0)
+        {
+            return 0;
+        }
+
+        var a = value * 0.003f;
+        return a / (a + 1);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float CalculateCritIncome(IList<DamageCritChain> critChains) =>
+        critChains.Aggregate(1.5f, (current, c) => current * c.coefficient);
 }

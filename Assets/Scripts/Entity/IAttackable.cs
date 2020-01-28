@@ -5,6 +5,7 @@ public interface IAttackable
 {
     float PhysicsAttack { get; }
     float MagicAttack { get; }
+    int Crit { get; }
 
     /// <summary>
     /// 伤害计算链

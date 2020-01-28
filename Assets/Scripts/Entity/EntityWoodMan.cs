@@ -14,6 +14,7 @@ public class EntityWoodMan : Entity, IAttackable
 
     public float PhysicsAttack { get; } = 0;
     public float MagicAttack { get; } = 0;
+    public int Crit { get; } = 0;
     public DamageChainCalculator DamageCalculator { get; }
 
     public Damage DealDamage(float coefficient, DamageType damageType) { return new Damage(this, 0, damageType); }

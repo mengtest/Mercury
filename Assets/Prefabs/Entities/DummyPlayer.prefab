@@ -159,7 +159,7 @@ MonoBehaviour:
     spiritPoint: 0
     intelligencePoint: 0
     strengthPoint: 0
-    criticalPoint: 0
+    criticalPoint: 999999999
     attackSpeedPoint: 0
     chantSpeedPoint: 0
     furtunePoint: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
     maxJumpCount: 2
     maxJumpCD: 0.2
     canMove: 1
-  _swordExistence:
+  _swordResolve:
     existence: 0
     swordState: 0
     tan: 0
