@@ -35,7 +35,6 @@ public class SceneData : MonoBehaviour
                     var go = new GameObject(obj.name + "_Pool");
                     go.transform.parent = poolTrans;
                     var sePool = new ObjectPool<GameObject, Transform>(
-                        5,
                         () =>
                         {
                             var res = Instantiate(obj).Hide();

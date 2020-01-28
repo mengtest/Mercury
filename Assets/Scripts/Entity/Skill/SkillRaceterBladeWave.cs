@@ -20,10 +20,7 @@ public class SkillRaceterBladeWave : AbstractSkill
         return GameManager.Instance.GetEffect(Consts.PREFAB_SE_SkillRaceterBladeWave).Hide();
     }
 
-    public override bool CanEnter()
-    {
-        return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown();
-    }
+    public override bool CanEnter() { return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown(); }
 
     public override void OnAct() { EnterStiffness(0); }
 
@@ -61,7 +58,7 @@ public class SkillRaceterBladeWave : AbstractSkill
                 throw new ArgumentException("未实现IAttackable却是Enemy");
             }
 
-            attackable.UnderAttack(_playerAttack.DealDamage(150, DamageType.Physics));
+            attackable.UnderAttack(_playerAttack.DealDamage(150, DamageType.Physics, entity));
             //TODO:剑意
             return true;
         };

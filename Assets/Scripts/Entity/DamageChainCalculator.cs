@@ -121,7 +121,7 @@ public class DamageChainCalculator
     /// </summary>
     /// <param name="coe">技能伤害系数</param>
     /// <param name="damageType">伤害类型</param>
-    public float CalculateDamage(float coe, DamageType damageType)
+    public float GetDamage(float coe, DamageType damageType)
     {
         switch (damageType)
         {
@@ -142,25 +142,42 @@ public class DamageChainCalculator
         }
     }
 
-    public float CalculateFinalDamage(float coe, DamageType damageType, out float extraCritDamage)
+    /// <summary>
+    /// 计算最终伤害
+    /// </summary>
+    /// <param name="coe">技能系数</param>
+    /// <param name="damageType">伤害类型</param>
+    /// <param name="extraCritDamage">返回暴击伤害</param>
+    /// <returns>未暴击的伤害</returns>
+    public float GetFinalDamage(float coe, DamageType damageType, out float extraCritDamage)
     {
-        var dmg = CalculateDamage(coe, damageType);
+        var dmg = GetDamage(coe, damageType);
+        extraCritDamage = GetCritDamage(dmg, CritProbability, damageType);
+        return dmg;
+    }
+
+    /// <summary>
+    /// 计算额外暴击伤害
+    /// </summary>
+    /// <param name="dmg">未暴击伤害</param>
+    /// <param name="probability">暴击概率</param>
+    /// <param name="damageType">伤害类型</param>
+    /// <returns>计算额外暴击伤害</returns>
+    public float GetCritDamage(float dmg, float probability, DamageType damageType)
+    {
         if (damageType == DamageType.True)
         {
-            extraCritDamage = 0;
             return dmg;
         }
 
         var p = GameManager.Instance.Rand.NextFloat();
-        if (p < CritProbability)
+        if (!(p < probability))
         {
-            var res = dmg * _critCoe;
-            extraCritDamage = res - dmg;
-            return res;
+            return 0;
         }
 
-        extraCritDamage = 0;
-        return dmg;
+        var res = dmg * _critCoe;
+        return res - dmg;
     }
 
     /// <summary>

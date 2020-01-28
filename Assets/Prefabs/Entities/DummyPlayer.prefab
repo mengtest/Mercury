@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3495173415748184956}
   - component: {fileID: 4743790164495420810}
   - component: {fileID: 6765454326289310770}
-  - component: {fileID: 3100519788166477109}
   - component: {fileID: 8461453731299177309}
   - component: {fileID: 3068284552745270928}
+  - component: {fileID: 4087466119814683715}
   m_Layer: 9
   m_Name: DummyPlayer
   m_TagString: Entity
@@ -131,59 +131,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &3100519788166477109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3495173415748184959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23dc979eb3019d547bd5946eb4f2015e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _healthPoint: 100
-  _maxHealthPoint: 100
-  _hpRecoverPerSec: 0.5
-  _deadBodySurviveTime: 0
-  _basicCapability:
-    manaPoint: 0
-    mpRecoverPerSec: 0
-    maxManaPoint: 0
-    phyAttack: 100
-    magAttack: 0
-    phyDefense: 0
-    magDefense: 0
-    endurancePoint: 0
-    spiritPoint: 0
-    intelligencePoint: 0
-    strengthPoint: 0
-    criticalPoint: 999999999
-    attackSpeedPoint: 0
-    chantSpeedPoint: 0
-    furtunePoint: 0
-  _elementAffinity:
-    fire: 0
-    ice: 0
-    land: 0
-    wind: 0
-    thunder: 0
-    light: 0
-    dark: 0
-  _moveCapability:
-    isJumpReady: 1
-    jumpCount: 0
-    moveSpeed: 15
-    jumpSpeed: 10
-    jumpCD: 0
-    maxJumpCount: 2
-    maxJumpCD: 0.2
-    canMove: 1
-  _swordResolve:
-    existence: 0
-    swordState: 0
-    tan: 0
 --- !u!61 &8461453731299177309
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -236,3 +183,56 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &4087466119814683715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3495173415748184959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3ad35d93c24c70aa3363ce60bedbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthPoint: 100
+  _maxHealthPoint: 100
+  _hpRecoverPerSec: 0.5
+  _deadBodySurviveTime: 0
+  _basicCapability:
+    manaPoint: 0
+    mpRecoverPerSec: 0
+    maxManaPoint: 0
+    phyAttack: 100
+    magAttack: 0
+    phyDefense: 0
+    magDefense: 0
+    endurancePoint: 0
+    spiritPoint: 0
+    intelligencePoint: 0
+    strengthPoint: 0
+    criticalPoint: 0
+    attackSpeedPoint: 0
+    chantSpeedPoint: 0
+    furtunePoint: 0
+  _elementAffinity:
+    fire: 0
+    ice: 0
+    land: 0
+    wind: 0
+    thunder: 0
+    light: 0
+    dark: 0
+  _moveCapability:
+    isJumpReady: 1
+    jumpCount: 0
+    moveSpeed: 15
+    jumpSpeed: 10
+    jumpCD: 0
+    maxJumpCount: 2
+    maxJumpCD: 0.2
+    canMove: 1
+  _swordResolve:
+    existence: 0
+    swordState: 0
+    tan: 0

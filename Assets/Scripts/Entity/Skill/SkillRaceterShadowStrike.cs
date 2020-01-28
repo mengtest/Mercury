@@ -17,7 +17,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
     private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
     private readonly MoveCapability _playerMove;
 
-    public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 12)
+    public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 1)
     {
         _player = holder as EntityPlayer;
         _rigid = _player.GetComponent<Rigidbody2D>();
@@ -64,7 +64,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
             {
                 if (!_attacked.Contains(attackable))
                 {
-                    attackable.UnderAttack(_player.DealDamage(95, DamageType.Physics));
+                    attackable.UnderAttack(_player.DealDamage(95, DamageType.Physics, e));
                     _attacked.Add(attackable);
                 }
             }
@@ -76,9 +76,10 @@ public class SkillRaceterShadowStrike : AbstractSkill
         SetSpecialEffect();
         _playerMove.canMove = false;
         var seR = _se.transform.eulerAngles;
-        var pR = _player.transform.eulerAngles;
+        var transform = _player.transform;
+        var pR = transform.eulerAngles;
         _se.transform.eulerAngles = new Vector3(seR.x, pR.y - 180, seR.z);
-        _se.transform.position = _player.transform.position;
+        _se.transform.position = transform.position;
         _rigid.velocity = Vector2.zero;
         const int force = 40;
         if (_player.GetFace() == Face.Left)

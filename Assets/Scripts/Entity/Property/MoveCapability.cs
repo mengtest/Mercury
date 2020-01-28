@@ -7,7 +7,7 @@ public class MoveCapability : IEntityProperty
 	public bool isJumpReady = true;
 	public int jumpCount;
 	public float moveSpeed = 15;
-	public float jumpSpeed = 12;
+	public float jumpSpeed = 10;
 	public float jumpCD = 0;
 
 	public int maxJumpCount = 2;

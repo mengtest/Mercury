@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 public class EntityWoodMan : Entity, IAttackable
 {
@@ -17,11 +17,19 @@ public class EntityWoodMan : Entity, IAttackable
     public int Crit { get; } = 0;
     public DamageChainCalculator DamageCalculator { get; }
 
-    public Damage DealDamage(float coefficient, DamageType damageType) { return new Damage(this, 0, damageType); }
+    public event Action<Damage, Entity> OnAttackTarget;
+
+    public Damage DealDamage(float coe, DamageType damage, Entity target)
+    {
+        var dmg = new Damage(this, 0, 0, damage);
+        OnAttackTarget?.Invoke(dmg, target);
+        return dmg;
+    }
 
     public void UnderAttack(in Damage damage)
     {
-        _healthPoint -= damage.value;
-        UIManager.Instance.ShowDamage(transform, (int) damage.value, damage.type);
+        var dmg = damage.FinalDamage;
+        _healthPoint -= dmg;
+        UIManager.Instance.ShowDamage(transform, (int) dmg, damage.type);
     }
 }
