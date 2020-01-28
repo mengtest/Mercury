@@ -1,5 +1,5 @@
 /// <summary>
-/// 伤害收益类型
+/// 收益类型
 /// </summary>
 public enum DamageIncome
 {
@@ -17,12 +17,4 @@ public enum DamageIncome
     /// 默认，用于区分收益
     /// </summary>
     Default = -1
-}
-
-public enum DamageUpgradeType
-{
-    None = -1,
-    Physics = 0,
-    Magic = 1,
-    All = 2
 }

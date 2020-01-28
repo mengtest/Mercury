@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 
 public static class DamageUtility
@@ -60,7 +61,7 @@ public static class DamageUtility
     /// </summary>
     /// <param name="rawAttack">初始攻击力</param>
     /// <param name="incomeChain">攻击力收益链</param>
-    public static float CalculateAttackIncome(float rawAttack, IList<DamageCalculator> incomeChain)
+    public static float CalculateAttackIncome(float rawAttack, IList<DamageChain> incomeChain)
     {
         var income = 0f;
         foreach (var c in incomeChain)
@@ -75,10 +76,18 @@ public static class DamageUtility
     /// 计算伤害收益
     /// </summary>
     /// <param name="coeChain">收益链</param>
-    public static float CalculateAttackCoe(IList<DamageCalculator> coeChain)
-    {
-        return coeChain.Aggregate(1f, (current, c) => current * c.coefficient);
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float CalculateAttackCoe(IList<DamageChain> coeChain) =>
+        coeChain.Aggregate(1f, (current, c) => current * c.coefficient);
+
+    /// <summary>
+    /// 计算全伤害收益
+    /// </summary>
+    /// <param name="coeChain">普通伤害收益链</param>
+    /// <param name="allChain">全伤害收益链</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float CalculateAttackCoeAll(IList<DamageChain> coeChain, IList<DamageChain> allChain) =>
+        allChain.Aggregate(CalculateAttackCoe(coeChain), (current, c) => current * c.coefficient);
 
     /// <summary>
     /// 计算最终伤害
@@ -90,20 +99,23 @@ public static class DamageUtility
     public static float CalculateDamage(
         float rawAttack,
         float coe,
-        IList<DamageCalculator> incomeChain,
-        IList<DamageCalculator> coeChain)
+        IList<DamageChain> incomeChain,
+        IList<DamageChain> coeChain)
     {
         var atk = rawAttack + CalculateAttackIncome(rawAttack, incomeChain);
         var dmg = coe * atk / 100;
         var atkCoe = CalculateAttackCoe(coeChain);
-        return dmg + dmg * atkCoe;
+        return dmg * atkCoe;
     }
 
-    public static float CalculateDamage(float rawAttack, float coe, float income, float dmgCoe)
-    {
-        var atk = rawAttack + income;
-        var dmg = coe * atk / 100;
-        var atkCoe = dmgCoe;
-        return dmg + dmg * atkCoe;
-    }
+    /// <summary>
+    /// 计算最终伤害
+    /// </summary>
+    /// <param name="rawAttack">初始攻击力</param>
+    /// <param name="coe">技能/伤害系数</param>
+    /// <param name="income">攻击力收益</param>
+    /// <param name="dmgCoe">伤害收益</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float CalculateDamage(float rawAttack, float coe, float income, float dmgCoe) =>
+        coe * (rawAttack + income) / 100 * dmgCoe;
 }

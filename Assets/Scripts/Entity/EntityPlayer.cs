@@ -16,8 +16,6 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
     private BuffWrapper _buffs;
     private SkillWrapper _skills;
 
-    public FSMSystem Skills => _skills.FSMSystem;
-
     public override EntityType EntityType { get; } = EntityType.Player;
 
     protected override void Start()
@@ -29,11 +27,12 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
         SetProperty(_swordResolve);
 
         AddSystem<MoveSystem>();
-        DamageCalculators = new DamageChain(this);
-        DamageCalculators.Add(new DamageCalculator(DamageIncome.Subjoin, this, 0.1f, DamageType.Physics));
-        DamageCalculators.Add(new DamageCalculator(DamageIncome.Subjoin, this, 0.2f, DamageType.Physics));
+        DamageCalculator = new DamageChainCalculator(this);
+        DamageCalculator.Add(new DamageChain(DamageIncome.Subjoin, this, 0.1f, DamageType.Physics));
+        DamageCalculator.Add(new DamageChain(DamageIncome.Subjoin, this, 0.2f, DamageType.Physics));
 
-        DamageCalculators.Add(new DamageCalculator(DamageIncome.Upgrade, this, 0.2f, DamageType.Physics));
+        DamageCalculator.Add(new DamageChain(DamageIncome.Upgrade, this, 1.3f, DamageType.Physics));
+        DamageCalculator.Add(new DamageChain(DamageIncome.Upgrade, this, 1.2f, DamageType.True));
 
         _buffs = new BuffWrapper(this);
         _skills = new SkillWrapper(this, new NormalState(this));
@@ -76,11 +75,11 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
     public float PhysicsAttack => _basicCapability.phyAttack;
     public float MagicAttack => _basicCapability.magAttack;
-    public DamageChain DamageCalculators { get; private set; }
+    public DamageChainCalculator DamageCalculator { get; private set; }
 
     public Damage DealDamage(float coe, DamageType damageType)
     {
-        return new Damage(this, DamageCalculators.Calculate(coe, damageType), damageType);
+        return new Damage(this, DamageCalculator.Calculate(coe, damageType), damageType);
     }
 
     public void UnderAttack(in Damage damage)
@@ -91,6 +90,8 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
     #endregion
 
     #region ISkillable
+
+    public FSMSystem Skills => _skills.FSMSystem;
 
     public void AddSkill(AbstractSkill skill) { _skills.AddSkill(skill); }
 

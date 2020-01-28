@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
+﻿/// <summary>
 /// 可攻击和被攻击的实体
 /// </summary>
 public interface IAttackable
@@ -11,7 +9,7 @@ public interface IAttackable
     /// <summary>
     /// 伤害计算链
     /// </summary>
-    DamageChain DamageCalculators { get; }
+    DamageChainCalculator DamageCalculator { get; }
 
     /// <summary>
     /// 攻击时造成的伤害
