@@ -132,6 +132,30 @@ public static class DamageUtility
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float CalculateCritIncome(IList<DamageCritChain> critChains) =>
+    public static float CalculateCritCoeIncome(IList<DamageCritCoeChain> critChains) =>
         critChains.Aggregate(1.5f, (current, c) => current * c.coefficient);
+
+    public static float CalculateCritProbabilityChain(int rawCrit, IList<DamageCritProbabilityChain> chains)
+    {
+        var val = 0;
+        var per = 0f;
+        foreach (var c in chains)
+        {
+            switch (c.incomeType)
+            {
+                case CritProbabilityIncomeType.Value:
+                    val += (int) c.probability;
+                    break;
+                case CritProbabilityIncomeType.Percentage:
+                    per += c.probability;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        var resCrit = rawCrit + val;
+        per += CalculateCritProbability(resCrit);
+        return per;
+    }
 }

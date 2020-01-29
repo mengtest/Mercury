@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.UI;
-using Random = Unity.Mathematics.Random;
 
 [Serializable]
 public struct LevelAsset
@@ -20,7 +19,6 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject canvas;
     public List<LevelAsset> levels;
     public SceneData nowScene;
-    public Random Rand { get; } = new Random((uint) DateTime.Now.Ticks);
 
     protected override void Awake()
     {

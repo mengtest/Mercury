@@ -20,47 +20,88 @@ public class SwordResolve : IEntityProperty
 
     private readonly EntityRaceter _raceter;
     private float _timeOverlay;
-    private float _lastAtkAdd;
+    private float _lastDamageUpgrade;
+    private float _lastAtkTime;
+    private float _lastCritProAdd;
+    private bool _isRetractSwordState;
+    private float _retractTime;
 
     public bool IsResolveFull => resolve >= 100;
 
     public SwordResolve(EntityRaceter raceter)
     {
         _raceter = raceter;
-        _raceter.OnAttackTarget += (dmg, target) =>
+        _raceter.OnAttackTarget += (dmg, target) => //攻击敌人时
         {
-            if (swordState)
+            if (swordState) //拔刀状态
             {
-                //TODO:拔刀状态
+                OverlayResolve(2); //增加2剑意
+                RefuseCritPro();
+                _lastAtkTime = Time.time; //重置攻击敌人计时器
             }
-            else
+            else //收刀状态
             {
-                RemoveDamageUpgrade();
-                resolve /= 2;
-                swordState = true;
+                RemoveDamageUpgrade(); //移除伤害增益
+                resolve /= 2; //剑意减半
+                swordState = true; //切换为拔刀状态
+                _timeOverlay = 0f; //重置计时器
+                _lastDamageUpgrade = 0f; //重置增伤累加
             }
         };
     }
 
     public void OnUpdate()
     {
-        _timeOverlay += Time.deltaTime;
+        if (_isRetractSwordState)
+        {
+            _retractTime += Time.deltaTime;
+            if (_retractTime >= 1) //切换为收刀
+            {
+                RemoveCritPro();
+                resolve = 0;
+                swordState = false;
+                _timeOverlay = 0f;
+                _lastCritProAdd = 0f;
+                _isRetractSwordState = false;
+                _retractTime = 0f;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        _timeOverlay += Time.deltaTime; //拔刀时表示每隔0.5s剑意减少，收刀时表示每隔1s剑意增加
         if (swordState)
         {
-            //TODO:拔刀状态
+            var now = Time.time;
+            if (now - _lastAtkTime >= 1f) //距离上次攻击超过1s
+            {
+                if (_timeOverlay >= 0.5f) //距上次剑意减少超过0.5s
+                {
+                    OverlayResolve(-5);
+                    RefuseCritPro();
+                    _timeOverlay = 0f;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                _isRetractSwordState = true;
+            }
         }
         else
         {
-            if (_timeOverlay >= 1f)
+            if (_timeOverlay >= 1f) //距上次剑意增加超过1s
             {
-                AddResolve(20);
-                AddDamageUpgrade();
+                OverlayResolve(20);
+                RefuseDamageUpgrade();
                 _timeOverlay = 0f;
             }
         }
     }
 
-    public void AddResolve(int point)
+    public void OverlayResolve(int point)
     {
         if (IsResolveFull)
         {
@@ -68,13 +109,13 @@ public class SwordResolve : IEntityProperty
         }
 
         var tryAdd = resolve + point;
-        resolve = math.min(100, tryAdd);
+        resolve = math.max(0, math.min(100, tryAdd));
     }
 
-    private void AddDamageUpgrade()
+    private void RefuseDamageUpgrade()
     {
         var coe = resolve * 0.005f + 1;
-        if (math.abs(coe - _lastAtkAdd) < 0.001f)
+        if (math.abs(coe - _lastDamageUpgrade) < 0.001f)
         {
             return;
         }
@@ -84,14 +125,34 @@ public class SwordResolve : IEntityProperty
             _raceter,
             coe,
             DamageType.True));
-        _lastAtkAdd = coe;
+        _lastDamageUpgrade = coe;
     }
 
     private void RemoveDamageUpgrade()
     {
         _raceter.DamageCalculator.RemoveDamageChain(new DamageChain(DamageIncome.Upgrade,
             _raceter,
-            _lastAtkAdd,
+            _lastDamageUpgrade,
             DamageType.True));
+    }
+
+    private void RemoveCritPro()
+    {
+        _raceter.DamageCalculator.RemoveCritProbabilityChain(
+            new DamageCritProbabilityChain(_lastCritProAdd, CritProbabilityIncomeType.Percentage, _raceter));
+    }
+
+    private void RefuseCritPro()
+    {
+        var pro = resolve * 0.001f;
+        if (math.abs(pro - _lastCritProAdd) < 0.001f)
+        {
+            return;
+        }
+
+        RemoveCritPro();
+        _raceter.DamageCalculator.AddCritProbabilityChain(
+            new DamageCritProbabilityChain(pro, CritProbabilityIncomeType.Percentage, _raceter));
+        _lastCritProAdd = pro;
     }
 }

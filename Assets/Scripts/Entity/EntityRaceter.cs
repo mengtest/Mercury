@@ -35,22 +35,22 @@ public class EntityRaceter : EntityPlayer
     public override Damage DealDamage(float coe, DamageType damageType, Entity target)
     {
         Damage dmg;
-        if (_swordResolve.IsResolveFull)
+        if (!_swordResolve.swordState && _swordResolve.IsResolveFull)
         {
             var normalDmg = DamageCalculator.GetDamage(coe, damageType);
+            var critDmg = DamageCalculator.GetCritDamage(normalDmg, 1, damageType);
             dmg = new Damage(this,
                 normalDmg,
-                DamageCalculator.GetCritDamage(normalDmg, 1, damageType),
+                critDmg,
                 damageType);
-        }
-        else
-        {
-            dmg = new Damage(this,
-                DamageCalculator.GetFinalDamage(coe, damageType, out var extraCritDamage),
-                extraCritDamage,
-                damageType);
+            EventOnAttackTarget(ref dmg, target);
+            return dmg;
         }
 
+        dmg = new Damage(this,
+            DamageCalculator.GetFinalDamage(coe, damageType, out var extraCritDamage),
+            extraCritDamage,
+            damageType);
         EventOnAttackTarget(ref dmg, target);
         return dmg;
     }

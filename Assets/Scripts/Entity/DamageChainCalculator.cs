@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using UnityEngine;
 
 /// <summary>
 /// 伤害链计算
@@ -28,7 +30,10 @@ public class DamageChainCalculator
         new DisorderList<DamageChain>(DamageChain.defaultChain)
     };
 
-    private readonly DisorderList<DamageCritChain> _crit = new DisorderList<DamageCritChain>();
+    private readonly DisorderList<DamageCritCoeChain> _critCoeChain = new DisorderList<DamageCritCoeChain>();
+
+    private readonly DisorderList<DamageCritProbabilityChain> _critProChain =
+        new DisorderList<DamageCritProbabilityChain>();
 
     private readonly IAttackable _attackable;
 
@@ -48,8 +53,9 @@ public class DamageChainCalculator
     private readonly float[] _damageUpgrade = {1f, 1f, 1f};
 
     private float _critCoe = 1.5f;
+    private float _critPro;
 
-    public float CritProbability => DamageUtility.CalculateCritProbability(_attackable.Crit);
+    public float CritProbability => _critPro;
 
     public DamageChainCalculator(IAttackable attackable) { _attackable = attackable; }
 
@@ -101,20 +107,38 @@ public class DamageChainCalculator
         }
     }
 
-    public void AddCritChain(in DamageCritChain critChain)
+    public void AddCritCoeChain(in DamageCritCoeChain critCoeChain)
     {
-        _crit.Add(critChain);
-        RefuseCrit();
+        _critCoeChain.Add(critCoeChain);
+        RefuseCritCoe();
     }
 
-    public bool RemoveCritChain(in DamageCritChain critChain)
+    public bool RemoveCritCoeChain(in DamageCritCoeChain critCoeChain)
     {
-        var res = _crit.Remove(critChain);
-        RefuseCrit();
+        var res = _critCoeChain.Remove(critCoeChain);
+        RefuseCritCoe();
         return res;
     }
 
-    private void RefuseCrit() { _critCoe = DamageUtility.CalculateCritIncome(_crit); }
+    public void AddCritProbabilityChain(in DamageCritProbabilityChain probabilityChain)
+    {
+        _critProChain.Add(probabilityChain);
+        RefuseCritProbability();
+    }
+
+    public bool RemoveCritProbabilityChain(in DamageCritProbabilityChain probabilityChain)
+    {
+        var res = _critProChain.Remove(probabilityChain);
+        RefuseCritProbability();
+        return res;
+    }
+
+    private void RefuseCritProbability()
+    {
+        _critPro = DamageUtility.CalculateCritProbabilityChain(_attackable.Crit, _critProChain);
+    }
+
+    private void RefuseCritCoe() { _critCoe = DamageUtility.CalculateCritCoeIncome(_critCoeChain); }
 
     /// <summary>
     /// 计算技能伤害最终值
@@ -170,7 +194,7 @@ public class DamageChainCalculator
             return dmg;
         }
 
-        var p = GameManager.Instance.Rand.NextFloat();
+        var p = new Unity.Mathematics.Random((uint) DateTime.Now.Ticks).NextFloat();
         if (!(p < probability))
         {
             return 0;
