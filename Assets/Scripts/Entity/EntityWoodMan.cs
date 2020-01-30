@@ -17,13 +17,14 @@ public class EntityWoodMan : Entity, IAttackable
     public int Crit { get; } = 0;
     public DamageChainCalculator DamageCalculator { get; }
 
-    public event Action<Damage, Entity> OnAttackTarget;
+    public event Action<Damage, IAttackable> OnAttackTarget;
 
-    public Damage DealDamage(float coe, DamageType damage, Entity target)
+    public Damage CalculateDamage(float coe, DamageType damage) { return new Damage(this, 0, 0, DamageType.Physics); }
+
+    public Damage DealDamage(in Damage damage, IAttackable target)
     {
-        var dmg = new Damage(this, 0, 0, damage);
-        OnAttackTarget?.Invoke(dmg, target);
-        return dmg;
+        OnAttackTarget?.Invoke(damage, target);
+        return damage;
     }
 
     public void UnderAttack(in Damage damage)

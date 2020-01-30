@@ -28,15 +28,21 @@ public interface IAttackable
     /// <summary>
     /// 攻击目标时触发，arg1表示攻击伤害，arg2表示目标
     /// </summary>
-    event Action<Damage, Entity> OnAttackTarget;
+    event Action<Damage, IAttackable> OnAttackTarget;
 
     /// <summary>
-    /// 攻击时造成的伤害
+    /// 计算伤害
     /// </summary>
     /// <param name="coe">系数</param>
     /// <param name="damage">类型</param>
-    /// <param name="target">攻击目标</param>
-    Damage DealDamage(float coe, DamageType damage, Entity target);
+    Damage CalculateDamage(float coe, DamageType damage);
+
+    /// <summary>
+    /// 攻击
+    /// </summary>
+    /// <param name="damage">将要造成的伤害伤害</param>
+    /// <param name="target">目标</param>
+    Damage DealDamage(in Damage damage, IAttackable target);
 
     /// <summary>
     /// 当被攻击时调用

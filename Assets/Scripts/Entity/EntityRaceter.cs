@@ -26,32 +26,33 @@ public class EntityRaceter : EntityPlayer
     {
         base.Update();
         _swordResolve.OnUpdate();
+        //Debug.Log($"暴击率:{DamageCalculator.CritProbability}\t全伤害收益:{DamageCalculator.DamageUpgrade[2]}");
         if (Input.GetKeyDown(KeyCode.K))
         {
-            UseSkill(typeof(SkillRaceterShadowStrike));
+            UseSkill(typeof(SkillRaceterBladeWave));
         }
     }
 
-    public override Damage DealDamage(float coe, DamageType damageType, Entity target)
+    public override Damage CalculateDamage(float coe, DamageType damage)
     {
         Damage dmg;
         if (!_swordResolve.swordState && _swordResolve.IsResolveFull)
         {
-            var normalDmg = DamageCalculator.GetDamage(coe, damageType);
-            var critDmg = DamageCalculator.GetCritDamage(normalDmg, 1, damageType);
+            var normalDmg = DamageCalculator.GetDamage(coe, damage);
+            var critDmg = DamageCalculator.GetCritDamage(normalDmg, 1, damage);
             dmg = new Damage(this,
                 normalDmg,
                 critDmg,
-                damageType);
-            EventOnAttackTarget(ref dmg, target);
-            return dmg;
+                damage);
+        }
+        else
+        {
+            dmg = new Damage(this,
+                DamageCalculator.GetFinalDamage(coe, damage, out var extraCritDamage),
+                extraCritDamage,
+                damage);
         }
 
-        dmg = new Damage(this,
-            DamageCalculator.GetFinalDamage(coe, damageType, out var extraCritDamage),
-            extraCritDamage,
-            damageType);
-        EventOnAttackTarget(ref dmg, target);
         return dmg;
     }
 }

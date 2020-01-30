@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEngine;
 
 /// <summary>
 /// 伤害链计算
@@ -30,8 +28,14 @@ public class DamageChainCalculator
         new DisorderList<DamageChain>(DamageChain.defaultChain)
     };
 
+    /// <summary>
+    /// 暴击伤害系数
+    /// </summary>
     private readonly DisorderList<DamageCritCoeChain> _critCoeChain = new DisorderList<DamageCritCoeChain>();
 
+    /// <summary>
+    /// 暴击概率
+    /// </summary>
     private readonly DisorderList<DamageCritProbabilityChain> _critProChain =
         new DisorderList<DamageCritProbabilityChain>();
 
@@ -55,7 +59,20 @@ public class DamageChainCalculator
     private float _critCoe = 1.5f;
     private float _critPro;
 
+    /// <summary>
+    /// 暴击率
+    /// </summary>
     public float CritProbability => _critPro;
+
+    /// <summary>
+    /// 攻击力收益
+    /// </summary>
+    public IReadOnlyList<float> DamageSubjoin => _damageSubjoin;
+
+    /// <summary>
+    /// 伤害收益
+    /// </summary>
+    public IReadOnlyList<float> DamageUpgrade => _damageUpgrade;
 
     public DamageChainCalculator(IAttackable attackable) { _attackable = attackable; }
 

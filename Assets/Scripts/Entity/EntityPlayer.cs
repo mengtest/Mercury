@@ -60,16 +60,18 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
     public int Crit => _basicCapability.criticalPoint;
     public DamageChainCalculator DamageCalculator { get; private set; }
 
-    public event Action<Damage, Entity> OnAttackTarget;
+    public event Action<Damage, IAttackable> OnAttackTarget;
 
-    public virtual Damage DealDamage(float coe, DamageType damageType, Entity target)
+    public virtual Damage CalculateDamage(float coe, DamageType damage)
     {
-        var dmg = new Damage(this, DamageCalculator.GetFinalDamage(coe, damageType, out var c), c, damageType);
-        EventOnAttackTarget(ref dmg, target);
-        return dmg;
+        return new Damage(this, DamageCalculator.GetFinalDamage(coe, damage, out var c), c, damage);
     }
 
-    protected void EventOnAttackTarget(ref Damage dmg, Entity target) { OnAttackTarget?.Invoke(dmg, target); }
+    public Damage DealDamage(in Damage damage, IAttackable target)
+    {
+        OnAttackTarget?.Invoke(damage, target);
+        return damage;
+    }
 
     public virtual void UnderAttack(in Damage damage)
     {
