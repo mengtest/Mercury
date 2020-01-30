@@ -17,7 +17,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
     private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
     private readonly MoveCapability _playerMove;
 
-    public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 12)
+    public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 0)
     {
         _player = holder as EntityPlayer;
         _rigid = _player.GetComponent<Rigidbody2D>();

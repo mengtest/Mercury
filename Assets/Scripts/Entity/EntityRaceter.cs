@@ -31,6 +31,11 @@ public class EntityRaceter : EntityPlayer
         {
             UseSkill(typeof(SkillRaceterBladeWave));
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            UseSkill(typeof(SkillRaceterShadowStrike));
+        }
     }
 
     public override Damage CalculateDamage(float coe, DamageType damage)

@@ -10,3 +10,5 @@
 * 更多Buff、技能
 ### 0.0.3
 * to be continue...
+## License
+* 保留所有权利
