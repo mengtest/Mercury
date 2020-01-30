@@ -20,6 +20,7 @@ public class EntityRaceter : EntityPlayer
         skills.AddSkill(new SkillRaceterShadowStrike(this));
         skills.AddSkill(new SkillRaceterBladeWave(this));
         skills.AddSkill(new SkillRaceterHasaki(this));
+        skills.AddSkill(new SkillRaceterIaiAndSwallowFlip(this));
     }
 
     protected override void Update()
