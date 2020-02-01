@@ -20,6 +20,7 @@ public class EntityRaceter : EntityPlayer
         skills.AddSkill(new SkillRaceterShadowStrike(this));
         skills.AddSkill(new SkillRaceterBladeWave(this));
         skills.AddSkill(new SkillRaceterHasaki(this));
+        skills.AddSkill(new SkillRaceterIaiAndSwallowFlip(this));
     }
 
     protected override void Update()
@@ -30,6 +31,11 @@ public class EntityRaceter : EntityPlayer
         if (Input.GetKeyDown(KeyCode.K))
         {
             UseSkill(typeof(SkillRaceterBladeWave));
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            UseSkill(typeof(SkillRaceterShadowStrike));
         }
     }
 

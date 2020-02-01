@@ -18,21 +18,28 @@ MonoBehaviour:
   m_GUID: f7f6b368b1eef3643829927110287842
   m_SerializeEntries:
   - m_GUID: 289a07498a57ebd4cb9a73c427a07540
-    m_Address: Assets/Prefabs/Entities/Skills/SkillRaceterHasaki.prefab
+    m_Address: SkillRaceterHasaki
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 621f557931ea6d3429ded1260207a7f0
-    m_Address: Assets/Prefabs/SpecialEffects/SkillRaceterShadowStrike.prefab
+    m_Address: SkillRaceterShadowStrike
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 799d83b2403f75243a38e234a6b3b0ef
-    m_Address: Assets/Prefabs/Entities/Skills/SkillRaceterBladeWave.prefab
+    m_Address: SkillRaceterBladeWave
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SpecialEffects
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: b25050ea435869d4aa26b17b76ed9c36
+    m_Address: SkillRaceterSwallowFlip
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects

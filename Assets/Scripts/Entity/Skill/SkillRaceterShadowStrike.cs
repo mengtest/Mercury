@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 /// <summary>
@@ -17,12 +19,12 @@ public class SkillRaceterShadowStrike : AbstractSkill
     private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
     private readonly MoveCapability _playerMove;
 
-    public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 12)
+    public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 0)
     {
         _player = holder as EntityPlayer;
         _rigid = _player.GetComponent<Rigidbody2D>();
         SetSpecialEffect();
-        _rawDura = GetClipLength(_seAnim, Consts.PREFAB_SE_SkillRaceterShadowStrike) * 1000;
+        _rawDura = GetClipLength(_seAnim, Consts.PREFAB_SE_SkillRaceterShadowStrike);
         _duration = _rawDura;
         _playerMove = _player.GetProperty<MoveCapability>();
         GameManager.Instance.RecycleEffect(_se);
@@ -42,16 +44,16 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
     public override void OnAct()
     {
-        _duration -= Time.deltaTime * 1000;
+        _duration -= Time.deltaTime;
         if (_duration <= 0)
         {
             EnterStiffness(200);
             return;
         }
 
-        var playerVelocity = _rigid.velocity;
-        _se.transform.position = _player.transform.position;
-        _rigid.AddForce(new Vector2(-playerVelocity.x * (_rawDura - _duration / _rawDura) * 0.01f, 0));
+        //var playerVelocity = _rigid.velocity;
+        //_se.transform.position = _player.transform.position;
+        //_rigid.AddForce(new Vector2(-playerVelocity.x * (_rawDura - _duration / _rawDura) * 0.005f, 0));
         if (_seColl.Contact)
         {
             var e = _seColl.Contact.GetComponent<Entity>();
@@ -80,16 +82,20 @@ public class SkillRaceterShadowStrike : AbstractSkill
         var transform = _player.transform;
         var pR = transform.eulerAngles;
         _se.transform.eulerAngles = new Vector3(seR.x, pR.y - 180, seR.z);
-        _se.transform.position = transform.position;
         _rigid.velocity = Vector2.zero;
-        const int force = 40;
+        //const int force = 42;
+        _rigid.Sleep();
         if (_player.GetFace() == Face.Left)
         {
-            _rigid.AddForce(new Vector3(-force, 0), ForceMode2D.Impulse);
+            _se.transform.position = transform.position + new Vector3(-3, 0);
+            //_rigid.AddForce(new Vector3(-force, 0), ForceMode2D.Impulse);
+            _player.transform.DOBlendableLocalMoveBy(new Vector3(-5, 0), _rawDura).SetEase(Ease.OutExpo);
         }
         else if (_player.GetFace() == Face.Right)
         {
-            _rigid.AddForce(new Vector3(force, 0), ForceMode2D.Impulse);
+            _se.transform.position = transform.position + new Vector3(3, 0);
+            //_rigid.AddForce(new Vector3(force, 0), ForceMode2D.Impulse);
+            _player.transform.DOBlendableLocalMoveBy(new Vector3(5, 0), _rawDura).SetEase(Ease.OutExpo);
         }
 
         _g = _rigid.gravityScale;
@@ -108,5 +114,6 @@ public class SkillRaceterShadowStrike : AbstractSkill
         _se = null;
         _seAnim = null;
         _seColl = null;
+        _rigid.WakeUp();
     }
 }
