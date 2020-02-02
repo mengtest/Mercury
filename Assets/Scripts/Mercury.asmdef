@@ -2,12 +2,13 @@
     "name": "Mercury",
     "references": [
         "DOTween.Modules",
+        "DOTweenPro.EditorScripts",
+        "DOTweenPro.Scripts",
         "UltimateTextDamage",
         "Unity.Addressables",
         "Unity.Mathematics",
-        "DOTweenPro.Scripts",
         "Unity.ResourceManager",
-        "DOTweenPro.EditorScripts"
+        "Prime31.CharacterController2D"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

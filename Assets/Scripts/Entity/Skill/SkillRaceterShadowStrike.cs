@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -9,21 +8,23 @@ using UnityEngine;
 public class SkillRaceterShadowStrike : AbstractSkill
 {
     private float _duration;
+
     private readonly float _rawDura;
-    private readonly Rigidbody2D _rigid;
+
     private GameObject _se;
     private Animator _seAnim;
-    private readonly EntityPlayer _player;
+    private readonly EntityRaceter _player;
     private float _g;
     private SkillObject _seColl;
     private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
     private readonly MoveCapability _playerMove;
+    private float _magic;
+    private float _lastMagic;
 
     public SkillRaceterShadowStrike(ISkillable holder) : base(holder, 0)
     {
-        _player = holder as EntityPlayer;
-        _rigid = _player.GetComponent<Rigidbody2D>();
-        SetSpecialEffect();
+        _player = holder as EntityRaceter;
+        GetSpecialEffect();
         _rawDura = GetClipLength(_seAnim, Consts.PREFAB_SE_SkillRaceterShadowStrike);
         _duration = _rawDura;
         _playerMove = _player.GetProperty<MoveCapability>();
@@ -33,7 +34,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
         _seColl = null;
     }
 
-    private void SetSpecialEffect()
+    private void GetSpecialEffect()
     {
         _se = GameManager.Instance.GetEffect(Consts.PREFAB_SE_SkillRaceterShadowStrike);
         _seAnim = _se.GetComponent<Animator>();
@@ -51,9 +52,10 @@ public class SkillRaceterShadowStrike : AbstractSkill
             return;
         }
 
-        //var playerVelocity = _rigid.velocity;
-        //_se.transform.position = _player.transform.position;
-        //_rigid.AddForce(new Vector2(-playerVelocity.x * (_rawDura - _duration / _rawDura) * 0.005f, 0));
+        var v = new Vector2(_lastMagic - _magic, 0);
+        _player.Move(v);
+        _lastMagic = _magic;
+
         if (_seColl.Contact)
         {
             var e = _seColl.Contact.GetComponent<Entity>();
@@ -76,44 +78,41 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
     public override void OnEnter()
     {
-        SetSpecialEffect();
+        _player.Velocity = Vector2.zero;
+        GetSpecialEffect();
         _playerMove.canMove = false;
-        var seR = _se.transform.eulerAngles;
         var transform = _player.transform;
-        var pR = transform.eulerAngles;
-        _se.transform.eulerAngles = new Vector3(seR.x, pR.y - 180, seR.z);
-        _rigid.velocity = Vector2.zero;
-        //const int force = 42;
-        _rigid.Sleep();
         if (_player.GetFace() == Face.Left)
         {
-            _se.transform.position = transform.position + new Vector3(-3, 0);
-            //_rigid.AddForce(new Vector3(-force, 0), ForceMode2D.Impulse);
-            _player.transform.DOBlendableLocalMoveBy(new Vector3(-5, 0), _rawDura).SetEase(Ease.OutExpo);
+            DifferentDir(_se, transform, 180, -1);
         }
         else if (_player.GetFace() == Face.Right)
         {
-            _se.transform.position = transform.position + new Vector3(3, 0);
-            //_rigid.AddForce(new Vector3(force, 0), ForceMode2D.Impulse);
-            _player.transform.DOBlendableLocalMoveBy(new Vector3(5, 0), _rawDura).SetEase(Ease.OutExpo);
+            DifferentDir(_se, transform, 0, 1);
         }
 
-        _g = _rigid.gravityScale;
-        _rigid.gravityScale = 0;
         _seAnim.Play(Consts.PREFAB_SE_SkillRaceterShadowStrike, 0, 0);
+    }
+
+    private void DifferentDir(GameObject se, Transform t, float y, int coe)
+    {
+        se.transform.eulerAngles = new Vector2(0, y);
+        se.transform.position = t.position + new Vector3(3 * coe, -0.2f);
+        _magic = 0f;
+        _lastMagic = 0f;
+        DOTween.To(() => _magic, v => _magic = v, 4f * -coe, _rawDura).SetEase(Ease.OutExpo);
     }
 
     public override void OnLeave()
     {
         _playerMove.canMove = true;
+        _playerMove.velocity = Vector2.zero;
         _duration = _rawDura;
-        _rigid.gravityScale = _g;
         _attacked.Clear();
         RefreshCoolDown();
         GameManager.Instance.RecycleEffect(_se);
         _se = null;
         _seAnim = null;
         _seColl = null;
-        _rigid.WakeUp();
     }
 }

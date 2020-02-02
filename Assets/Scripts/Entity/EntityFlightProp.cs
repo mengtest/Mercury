@@ -10,7 +10,7 @@ public class EntityFlightProp : Entity
 
     private float _liveTime;
 
-    public event Action<EntityFlightProp> OnUpdate;
+    public event Action<EntityFlightProp> OnUpdateAction;
     public event Func<EntityFlightProp, bool> IsDead;
     public event Action<EntityFlightProp> OnDead;
     
@@ -18,14 +18,14 @@ public class EntityFlightProp : Entity
 
     public override EntityType EntityType { get; } = EntityType.Flight;
 
-    protected override void Awake() { _collider = GetComponent<Collider2D>(); }
+    protected override void OnAwake() { _collider = GetComponent<Collider2D>(); }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
         if (_liveTime > 0)
         {
             _liveTime -= Time.deltaTime;
-            OnUpdate?.Invoke(this);
+            OnUpdateAction?.Invoke(this);
             var res = IsDead?.Invoke(this);
             if (res.HasValue && res.Value)
             {
@@ -38,7 +38,7 @@ public class EntityFlightProp : Entity
         }
     }
 
-    protected override void FixedUpdate() { }
+    protected override void OnFixedUpdate() { }
 
     private void OnTriggerEnter2D(Collider2D other) { Trigger = other; }
 
@@ -48,7 +48,7 @@ public class EntityFlightProp : Entity
 
     public void Reset()
     {
-        OnUpdate = null;
+        OnUpdateAction = null;
         OnDead = null;
         IsDead = null;
         _liveTime = maxLiveTime;

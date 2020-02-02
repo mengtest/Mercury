@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7830643402114416960}
   - component: {fileID: 4662480292309454906}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3971083934827006487}
   - component: {fileID: 8113111721765539914}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SkillRaceterShadowStrike-normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6035224455224979987}
   - component: {fileID: 4050945776196609215}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sword-normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 4710905127317525368}
   - component: {fileID: 4498560291832822261}
   - component: {fileID: 4826088125752265468}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SkillRaceterShadowStrike
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 
-public class SceneData : MonoBehaviour
+public class SceneData : MonoBehaviour//TODO:由Entity报告它们需要什么资源
 {
     public Transform poolTrans;
     public List<AssetReference> assets;

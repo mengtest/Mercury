@@ -19,69 +19,70 @@ public abstract class Entity : MonoBehaviour
     /// <summary>
     /// 血量
     /// </summary>
-    [SerializeField] protected float _healthPoint;
+    [SerializeField] protected float healthPoint;
 
     /// <summary>
     /// 最大血量
     /// </summary>
-    [SerializeField] protected float _maxHealthPoint;
+    [SerializeField] protected float maxHealthPoint;
 
     /// <summary>
     /// 每秒血量变化
     /// </summary>
-    [SerializeField] protected float _hpRecoverPerSec;
+    [SerializeField] protected float hpRecoverPerSec;
 
     /// <summary>
     /// 死亡后实体消失时间
     /// </summary>
-    [SerializeField] protected float _deadBodySurviveTime;
+    [SerializeField] protected float deadBodySurviveTime;
 
     /// <summary>
     /// 属性容器
     /// </summary>
-    protected Dictionary<Type, IEntityProperty> _properties;
+    protected Dictionary<Type, IEntityProperty> properties;
 
-    /// <summary>
-    /// 物理系统
-    /// </summary>
-    protected List<IEntitySystem> _physicalSystems;
-
-    /// <summary>
-    /// 普通系统
-    /// </summary>
-    protected List<IEntitySystem> _normalSystems;
+    protected List<IEntitySystem> physicalSystems;
+    protected List<IEntitySystem> normalSystems;
 
     protected Collider2D _collider;
 
-    public float HealthPoint => _healthPoint;
-    public float MaxHealthPoint => _maxHealthPoint;
-    public float HpRecoverPerSec => _hpRecoverPerSec;
-    public float DeadBodySurviveTime => _deadBodySurviveTime;
+    public float HealthPoint => healthPoint;
+    public float MaxHealthPoint => maxHealthPoint;
+    public float HpRecoverPerSec => hpRecoverPerSec;
+    public float DeadBodySurviveTime => deadBodySurviveTime;
     public abstract EntityType EntityType { get; }
 
-    protected virtual void Awake()
+    private void Awake() { OnAwake(); }
+
+    protected virtual void OnAwake()
     {
-        _properties = new Dictionary<Type, IEntityProperty>();
-        _physicalSystems = new List<IEntitySystem>();
-        _normalSystems = new List<IEntitySystem>();
+        properties = new Dictionary<Type, IEntityProperty>();
+        physicalSystems = new List<IEntitySystem>();
+        normalSystems = new List<IEntitySystem>();
         _collider = GetComponent<Collider2D>();
     }
 
-    protected virtual void Start() { }
+    private void Start() { OnStart(); }
 
-    protected virtual void Update()
+    protected virtual void OnStart() { }
+
+    private void Update() { OnUpdate(); }
+
+    protected virtual void OnUpdate()
     {
-        var afterHeal = DataChangePerSec(_healthPoint, _hpRecoverPerSec, _maxHealthPoint);
-        _healthPoint = afterHeal > _maxHealthPoint ? _maxHealthPoint : afterHeal;
-        foreach (var sys in _normalSystems)
+        var afterHeal = DataChangePerSec(healthPoint, hpRecoverPerSec, maxHealthPoint);
+        healthPoint = afterHeal > maxHealthPoint ? maxHealthPoint : afterHeal;
+        foreach (var sys in normalSystems)
         {
             sys.OnUpdate(this);
         }
     }
 
-    protected virtual void FixedUpdate()
+    private void FixedUpdate() { OnFixedUpdate(); }
+
+    protected virtual void OnFixedUpdate()
     {
-        foreach (var sys in _physicalSystems)
+        foreach (var sys in physicalSystems)
         {
             sys.OnUpdate(this);
         }
@@ -103,19 +104,19 @@ public abstract class Entity : MonoBehaviour
     public void SetProperty<T>(T property) where T : class, IEntityProperty
     {
         //_properties.TryAdd(typeof(T), property);//草，没有.Net Standand 2.1的我要死了
-        if (_properties.ContainsKey(typeof(T)))
+        if (properties.ContainsKey(typeof(T)))
         {
-            _properties[typeof(T)] = property;
+            properties[typeof(T)] = property;
         }
         else
         {
-            _properties.Add(typeof(T), property);
+            properties.Add(typeof(T), property);
         }
     }
 
     public T GetProperty<T>() where T : class, IEntityProperty
     {
-        if (_properties.TryGetValue(typeof(T), out var property))
+        if (properties.TryGetValue(typeof(T), out var property))
         {
             return property as T;
         }
@@ -129,11 +130,11 @@ public abstract class Entity : MonoBehaviour
         {
             if (sys.IsPhysic)
             {
-                _physicalSystems.Add(sys);
+                physicalSystems.Add(sys);
             }
             else
             {
-                _normalSystems.Add(sys);
+                normalSystems.Add(sys);
             }
         }
         else
@@ -144,11 +145,11 @@ public abstract class Entity : MonoBehaviour
 
     public void Heal(float amount)
     {
-        var tryAdd = _healthPoint + amount;
-        _healthPoint = tryAdd > _maxHealthPoint ? _maxHealthPoint : tryAdd;
+        var tryAdd = healthPoint + amount;
+        healthPoint = tryAdd > maxHealthPoint ? maxHealthPoint : tryAdd;
     }
 
-    public bool IsGround(float distance)
+    public virtual bool IsGround(float distance)
     {
         var bound = _collider.bounds.extents;
         var left = Physics2D.Raycast(transform.position + new Vector3(bound.x, -bound.y - 0.01f, 0),
@@ -162,6 +163,7 @@ public abstract class Entity : MonoBehaviour
         return left.collider || right.collider;
     }
 
+    [Obsolete]
     public bool IsGround(float distance, out Collider2D step)
     {
         var bound = _collider.bounds.extents;

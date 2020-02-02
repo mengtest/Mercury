@@ -1,10 +1,12 @@
 ﻿using System;
+using Prime31;
+using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
 /// 玩家
 /// </summary>
-public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
+public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveable
 {
     [SerializeField] private BasicCapability _basicCapability = new BasicCapability();
     [SerializeField] private ElementAffinity _elementAffinity = new ElementAffinity();
@@ -13,28 +15,85 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
     protected BuffWrapper buffs;
     protected SkillWrapper skills;
 
+    protected CharacterController2D controller;
+
+
     public override EntityType EntityType { get; } = EntityType.Player;
 
-    protected override void Start()
+    protected override void OnStart()
     {
-        base.Start();
+        base.OnStart();
+        controller = GetComponent<CharacterController2D>();
         SetProperty(_basicCapability);
         SetProperty(_elementAffinity);
         SetProperty(_moveCapability);
 
-        AddSystem<MoveSystem>();
         DamageCalculator = new DamageChainCalculator(this);
         buffs = new BuffWrapper(this);
         skills = new SkillWrapper(this, new NormalState(this));
         skills.AddSkill(new StiffnessState(this));
     }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
+        base.OnUpdate();
         buffs.OnUpdate();
-        skills.OnUpdate();
+        OnUpdateSkills();
+
+        if (_moveCapability.canMove)
+        {
+            if (controller.isGrounded)
+            {
+                _moveCapability.velocity.y = 0;
+                _moveCapability.RecoverJumpCount();
+            }
+            else
+            {
+                _moveCapability.UpdateJumpCD();
+            }
+
+            float normalizedHorizontalSpeed;
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                normalizedHorizontalSpeed = 1;
+                Rotate(Face.Right);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                normalizedHorizontalSpeed = -1;
+                Rotate(Face.Left);
+            }
+            else
+            {
+                normalizedHorizontalSpeed = 0;
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (_moveCapability.TryJump())
+                {
+                    _moveCapability.velocity.y = math.sqrt(2f * _moveCapability.jumpHeight * -_moveCapability.gravity);
+                }
+            }
+
+            var smoothedMovementFactor =
+                controller.isGrounded ? _moveCapability.groundDamping : _moveCapability.inAirDamping;
+            _moveCapability.velocity.x = math.lerp(_moveCapability.velocity.x,
+                normalizedHorizontalSpeed * _moveCapability.runSpeed,
+                Time.deltaTime * smoothedMovementFactor);
+            _moveCapability.velocity.y += _moveCapability.gravity * Time.deltaTime;
+            if (controller.isGrounded && Input.GetKey(KeyCode.DownArrow) && _moveCapability.canMove)
+            {
+                _moveCapability.velocity.y *= 3f;
+                transform.position -= new Vector3(0, 0.025f, 0);
+                controller.ignoreOneWayPlatformsThisFrame = true;
+            }
+
+            Move(_moveCapability.velocity * Time.deltaTime);
+        }
     }
+
+    public override bool IsGround(float distance) { return controller.isGrounded; }
 
     #region IBuffable
 
@@ -75,7 +134,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
     public virtual void UnderAttack(in Damage damage)
     {
-        _healthPoint -= DamageUtility.ReduceDmgFormula(damage.value, _basicCapability, damage.type);
+        healthPoint -= DamageUtility.ReduceDmgFormula(damage.value, _basicCapability, damage.type);
     }
 
     #endregion
@@ -92,19 +151,24 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable
 
     public void UseSkill<T>(out T skill) where T : AbstractSkill { skills.UseSkill(out skill); }
 
-    public void OnUpdate() { skills.OnUpdate(); }
+    public void OnUpdateSkills() { skills.OnUpdate(); }
 
     #endregion
 
-    private void OnTriggerEnter2D(Collider2D other) { UpTriggerStep(other); }
+    #region IMoveable
 
-    private void OnTriggerStay2D(Collider2D other) { UpTriggerStep(other); }
+    public float MoveSpeed { get => _moveCapability.runSpeed; set => _moveCapability.runSpeed = value; }
+    public float JumpSpeed { get => _moveCapability.jumpHeight; set => _moveCapability.jumpHeight = value; }
+    public float GroundDamping { get => _moveCapability.groundDamping; set => _moveCapability.groundDamping = value; }
+    public float AirDamping { get => _moveCapability.inAirDamping; set => _moveCapability.inAirDamping = value; }
+    public float Gravity { get => _moveCapability.gravity; set => _moveCapability.gravity = value; }
+    public Vector2 Velocity { get => _moveCapability.velocity; set => _moveCapability.velocity = value; }
 
-    private void UpTriggerStep(Collider2D other)
+    public void Move(Vector2 velocity)
     {
-        if (other.CompareTag(Consts.TAG_StepCross))
-        {
-            Physics2D.IgnoreCollision(_collider, other, true);
-        }
+        controller.move(velocity);
+        _moveCapability.velocity = controller.velocity;
     }
+
+    #endregion
 }

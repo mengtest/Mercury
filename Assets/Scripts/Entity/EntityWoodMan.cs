@@ -4,12 +4,12 @@ public class EntityWoodMan : Entity, IAttackable
 {
     public override EntityType EntityType { get; } = EntityType.Enemy;
 
-    protected override void Start()
+    protected override void OnStart()
     {
-        base.Start();
-        _healthPoint = 100_000;
-        _maxHealthPoint = 100_000;
-        _hpRecoverPerSec = 100;
+        base.OnStart();
+        healthPoint = 100_000;
+        maxHealthPoint = 100_000;
+        hpRecoverPerSec = 100;
     }
 
     public float PhysicsAttack { get; } = 0;
@@ -30,7 +30,7 @@ public class EntityWoodMan : Entity, IAttackable
     public void UnderAttack(in Damage damage)
     {
         var dmg = damage.FinalDamage;
-        _healthPoint -= dmg;
+        healthPoint -= dmg;
         UIManager.Instance.ShowDamage(transform, (int) dmg, damage.type);
     }
 }

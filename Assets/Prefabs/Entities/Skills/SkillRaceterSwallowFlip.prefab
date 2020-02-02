@@ -11,7 +11,7 @@ GameObject:
   m_Component:
   - component: {fileID: 639221954451474179}
   - component: {fileID: 639221954451474178}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SkillRaceterSwallowFlip-normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 639221955290232999}
   - component: {fileID: 1511143015341763601}
   - component: {fileID: 8402353834808739359}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SkillRaceterSwallowFlip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,6 +233,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkillRaceterSwallowFlip-normal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700464039877387846, guid: 94904a60590f08f48964089b480117d4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4700464039877387865, guid: 94904a60590f08f48964089b480117d4,
         type: 3}

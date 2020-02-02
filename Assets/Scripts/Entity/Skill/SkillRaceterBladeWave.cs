@@ -104,7 +104,7 @@ public class SkillRaceterBladeWave : AbstractSkill
             GameManager.Instance.RecycleEffect(e.gameObject);
             flight.Reset();
         };
-        flight.OnUpdate += e => e.transform.position += new Vector3(3f * Time.deltaTime, 0) * dir;
+        flight.OnUpdateAction += e => e.transform.position += new Vector3(3f * Time.deltaTime, 0) * dir;
         _launchCount -= 1;
         _timeRecord = 0f;
     }

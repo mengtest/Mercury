@@ -7,15 +7,15 @@ public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
 
-    protected override void Awake()
+    protected override void OnAwake()
     {
-        base.Awake();
+        base.OnAwake();
         _swordResolve = new SwordResolve(this);
     }
 
-    protected override void Start()
+    protected override void OnStart()
     {
-        base.Start();
+        base.OnStart();
         SetProperty(_swordResolve);
         skills.AddSkill(new SkillRaceterShadowStrike(this));
         skills.AddSkill(new SkillRaceterBladeWave(this));
@@ -23,9 +23,9 @@ public class EntityRaceter : EntityPlayer
         skills.AddSkill(new SkillRaceterIaiAndSwallowFlip(this));
     }
 
-    protected override void Update()
+    protected override void OnUpdate()
     {
-        base.Update();
+        base.OnUpdate();
         _swordResolve.OnUpdate();
         //Debug.Log($"暴击率:{DamageCalculator.CritProbability}\t全伤害收益:{DamageCalculator.DamageUpgrade[2]}");
         if (Input.GetKeyDown(KeyCode.K))

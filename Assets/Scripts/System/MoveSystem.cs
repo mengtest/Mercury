@@ -1,6 +1,8 @@
-﻿using Unity.Mathematics;
+﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 
+[Obsolete("System可能只会用在mod上，目前完全没用")]
 public class MoveSystem : IEntitySystem
 {
 	public bool IsPhysic { get; } = false;
@@ -9,6 +11,7 @@ public class MoveSystem : IEntitySystem
 
 	public void OnUpdate(Entity entity)
 	{
+		/*
 		var move = entity.GetProperty<MoveCapability>();
 		var rigid = entity.GetComponent<Rigidbody2D>();
 		var coll = entity.GetComponent<Collider2D>();
