@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 狂风剑刃
 /// </summary>
-public class SkillRaceterBladeWave : AbstractSkill
+public class SkillRaceterBladeWave : AbstractSkill//TODO:技能作为GameObject存在
 {
     private readonly IAttackable _playerAttack;
     private readonly EntityRaceter _raceter;

@@ -70,8 +70,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - SpecialEffects
-    - Entity
+    - Mercury
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: c937c1a50929d06459bddb1e8608d885, type: 2}

@@ -20,9 +20,9 @@ public class GameManager : MonoSingleton<GameManager>
     public List<LevelAsset> levels;
     public SceneData nowScene;
 
-    protected override void Awake()
+    protected override void OnAwake()
     {
-        base.Awake();
+        base.OnAwake();
 #if UNITY_EDITOR
         canvas = GameObject.Find("Canvas");
         if (!canvas)
@@ -37,10 +37,13 @@ public class GameManager : MonoSingleton<GameManager>
         DontDestroyOnLoad(canvas);
     }
 
+    [Obsolete("不再使用对象池的方式储存技能特效")]
     public GameObject GetEffect(string key) { return nowScene.Pools[key].Get(); }
 
+    [Obsolete("不再使用对象池的方式储存技能特效")]
     public bool RecycleEffect(GameObject go) { return nowScene.Pools[go.name].Recycle(go); }
 
+    [Obsolete("不再使用对象池的方式储存技能特效")]
     public void DestroyEffect(string key)
     {
         var pool = nowScene.Pools[key];

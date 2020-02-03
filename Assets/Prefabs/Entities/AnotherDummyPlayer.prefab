@@ -242,6 +242,9 @@ MonoBehaviour:
     inAirDamping: 5
     jumpHeight: 1.5
     velocity: {x: 0, y: 0}
+  _skillObjects:
+  - m_AssetGUID: 621f557931ea6d3429ded1260207a7f0
+    m_SubObjectName: 
   _swordResolve:
     swordState: 0
     resolve: 0

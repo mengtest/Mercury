@@ -17,25 +17,23 @@ public class EntityRaceter : EntityPlayer
     {
         base.OnStart();
         SetProperty(_swordResolve);
-        skills.AddSkill(new SkillRaceterShadowStrike(this));
-        skills.AddSkill(new SkillRaceterBladeWave(this));
-        skills.AddSkill(new SkillRaceterHasaki(this));
-        skills.AddSkill(new SkillRaceterIaiAndSwallowFlip(this));
+        AddSkill(new SkillRaceterBladeWave(this));
+        AddSkill(new SkillRaceterHasaki(this));
+        AddSkill(new SkillRaceterIaiAndSwallowFlip(this));
     }
 
     protected override void OnUpdate()
     {
         base.OnUpdate();
         _swordResolve.OnUpdate();
-        //Debug.Log($"暴击率:{DamageCalculator.CritProbability}\t全伤害收益:{DamageCalculator.DamageUpgrade[2]}");
         if (Input.GetKeyDown(KeyCode.K))
         {
-            UseSkill(typeof(SkillRaceterBladeWave));
+            UseSkill<SkillRaceterBladeWave>();
         }
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            UseSkill(typeof(SkillRaceterShadowStrike));
+            UseSkill<SkillRaceterShadowStrike>();
         }
     }
 

@@ -6,72 +6,81 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 
-public class SceneData : MonoBehaviour//TODO:由Entity报告它们需要什么资源
+public class SceneData : MonoBehaviour //TODO:由Entity报告它们需要什么资源
 {
     public Transform poolTrans;
+
     public List<AssetReference> assets;
-    public List<AssetReference> pools;
+
+    //public List<AssetReference> pools;
     public bool whetherWaitForPools;
     public UltimateTextDamageManager textDamage;
+
     public EventSystem eventSystem;
-    protected Dictionary<string, ObjectPool<GameObject, Transform>> _pools;
+
+    //protected Dictionary<string, ObjectPool<GameObject, Transform>> _pools;
     protected bool _isPoolsDone;
     protected bool _isStartLoadAssets;
     protected bool _isAllDone;
 
-    public IReadOnlyDictionary<string, ObjectPool<GameObject, Transform>> Pools => _pools;
+    public IReadOnlyDictionary<string, ObjectPool<GameObject, Transform>> Pools => null;
 
-    private void Start()
+    private async void Start()
     {
         GameManager.Instance.nowScene = this;
         UIManager.Instance.textDamageManager = textDamage;
-        _pools = new Dictionary<string, ObjectPool<GameObject, Transform>>(pools.Count);
-        StartCoroutine(LoadElementsAsync<GameObject>(pools,
-            () =>
-            {
-                foreach (var e in pools)
-                {
-                    var obj = e.Asset as GameObject;
-                    var go = new GameObject(obj.name + "_Pool");
-                    go.transform.parent = poolTrans;
-                    var sePool = new ObjectPool<GameObject, Transform>(
-                        () =>
-                        {
-                            var res = Instantiate(obj).Hide();
-                            res.name = obj.name;
-                            res.transform.parent = go.transform;
-                            return res;
-                        },
-                        o => o.transform);
-                    sePool.Factory.OnDestruct += Destroy;
-                    sePool.OnGet += ob => ob.Show();
-                    sePool.OnRecycle += ob => ob.Hide();
-                    _pools.Add(obj.name, sePool);
-                }
-
-                _isPoolsDone = true;
-            }));
-        if (!whetherWaitForPools)
+        foreach (var ass in assets)
         {
-            LoadAssets();
+            await ass.InstantiateAsync(null, true).Task;
         }
+
+        // _pools = new Dictionary<string, ObjectPool<GameObject, Transform>>(pools.Count);
+        // StartCoroutine(LoadElementsAsync<GameObject>(pools,
+        //     () =>
+        //     {
+        //         foreach (var e in pools)
+        //         {
+        //             var obj = e.Asset as GameObject;
+        //             var go = new GameObject(obj.name + "_Pool");
+        //             go.transform.parent = poolTrans;
+        //             var sePool = new ObjectPool<GameObject, Transform>(
+        //                 () =>
+        //                 {
+        //                     var res = Instantiate(obj).Hide();
+        //                     res.name = obj.name;
+        //                     res.transform.parent = go.transform;
+        //                     return res;
+        //                 },
+        //                 o => o.transform);
+        //             sePool.Factory.OnDestruct += Destroy;
+        //             sePool.OnGet += ob => ob.Show();
+        //             sePool.OnRecycle += ob => ob.Hide();
+        //             _pools.Add(obj.name, sePool);
+        //         }
+        //
+        //         _isPoolsDone = true;
+        //     }));
+        // if (!whetherWaitForPools)
+        // {
+        //     LoadAssets();
+        // }
     }
 
-    private void Update()
-    {
-        if (_isAllDone)
-        {
-            return;
-        }
-
-        if (!whetherWaitForPools || !_isPoolsDone || _isStartLoadAssets)
-        {
-            return;
-        }
-
-        LoadAssets();
-        _isStartLoadAssets = true;
-    }
+    // private void Update()
+    // {
+    //     if (_isAllDone)
+    //     {
+    //         return;
+    //     }
+    //
+    //     if (!whetherWaitForPools || !_isPoolsDone || _isStartLoadAssets)
+    //     {
+    //         return;
+    //     }
+    //
+    //     LoadAssets();
+    //     _isStartLoadAssets = true;
+    // }
 
     public static IEnumerator LoadElementsAsync<T>(IList<AssetReference> assetList, Action onComplete)
         where T : UnityEngine.Object

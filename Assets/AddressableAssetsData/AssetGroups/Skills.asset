@@ -22,6 +22,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects
+    - Skill
+    - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 621f557931ea6d3429ded1260207a7f0
@@ -29,6 +31,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects
+    - Skill
+    - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 799d83b2403f75243a38e234a6b3b0ef
@@ -36,6 +40,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects
+    - Skill
+    - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: b25050ea435869d4aa26b17b76ed9c36
@@ -43,6 +49,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects
+    - Skill
+    - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0

@@ -45,6 +45,7 @@ public abstract class Entity : MonoBehaviour
     protected List<IEntitySystem> normalSystems;
 
     protected Collider2D _collider;
+    protected readonly List<AssetLocation> requiredAssets = new List<AssetLocation>();
 
     public float HealthPoint => healthPoint;
     public float MaxHealthPoint => maxHealthPoint;

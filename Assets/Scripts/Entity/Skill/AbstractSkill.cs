@@ -10,13 +10,15 @@ public abstract class AbstractSkill : IFSMState
     protected readonly float cd;
     protected float lastUse = float.MinValue;
 
-    public FSMSystem System => skillHolder.Skills;
+    public FSMSystem System => skillHolder.SkillFsmSystem;
 
     protected AbstractSkill(ISkillable holder, float cd)
     {
         skillHolder = holder;
         this.cd = cd;
     }
+
+    public virtual void Init() { }
 
     /// <summary>
     /// 检查该技能是否准备好

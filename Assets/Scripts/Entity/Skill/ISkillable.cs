@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEngine.AddressableAssets;
 
 public interface ISkillable
 {
-	FSMSystem Skills { get; }
+    FSMSystem SkillFsmSystem { get; }
 
-	void AddSkill(AbstractSkill skill);
+    List<AssetReference> SkillObjects { get; }
 
-	bool RemoveSkill(Type skillType);
+    void AddSkill(IFSMState skill);
 
-	void UseSkill(Type skillType);
+    bool RemoveSkill<T>() where T : class, IFSMState;
 
-	void UseSkill<T>(out T skill) where T : AbstractSkill;
+    void UseSkill<T>() where T : class, IFSMState;
 
-	void OnUpdateSkills();
+    void UseSkill<T>(out T skill) where T : class, IFSMState;
+
+    void OnUpdateSkills();
 }

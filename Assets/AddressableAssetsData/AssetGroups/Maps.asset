@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: 92c46fc592c239940b5939b181669d0f
     m_Address: Assets/Scenes/Level0.unity
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Mercury
     m_mainAssetType: UnityEditor.SceneAsset, UnityEditor, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_ReadOnly: 0

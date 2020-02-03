@@ -18,24 +18,27 @@ MonoBehaviour:
   m_GUID: e2aa00d6bc9e61f4f96ab9096e7ea928
   m_SerializeEntries:
   - m_GUID: 04142f3b2b652c4459c79133a933d978
-    m_Address: Assets/Prefabs/Entities/AnotherDummyPlayer.prefab
+    m_Address: EntityAnotherDummyPlayer
     m_ReadOnly: 0
     m_SerializedLabels:
     - Entity
+    - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: cfa11305be490e541939feb59fba72fd
-    m_Address: Assets/Prefabs/Entities/DummyPlayer.prefab
+    m_Address: EntityDummyPlayer
     m_ReadOnly: 0
     m_SerializedLabels:
     - Entity
+    - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: f3c5d65566b7c05409af1827fcd6313b
-    m_Address: Assets/Prefabs/Entities/WoodMan.prefab
+    m_Address: EntityWoodMan
     m_ReadOnly: 0
     m_SerializedLabels:
     - Entity
+    - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0

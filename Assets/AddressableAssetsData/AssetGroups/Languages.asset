@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: 8161b72716c66c24abda222d74cdddb9
     m_Address: Assets/Languages/zh_CN.json
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Mercury
     m_mainAssetType: UnityEngine.TextAsset, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0

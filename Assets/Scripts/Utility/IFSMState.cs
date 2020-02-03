@@ -1,7 +1,12 @@
 ﻿public interface IFSMState
 {
     FSMSystem System { get; }
-    
+
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    void Init();
+
     /// <summary>
     /// 是否可以从当前激活的状态切换至本状态
     /// </summary>

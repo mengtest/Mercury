@@ -14,9 +14,9 @@ public class UIManager : MonoSingleton<UIManager>
     public LevelPanel levelPanel;
     public UltimateTextDamageManager textDamageManager;
 
-    protected override void Awake()
+    protected override void OnAwake()
     {
-        base.Awake();
+        base.OnAwake();
 #if UNITY_EDITOR
         loadPanelPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UIPanel/LoadPanel.prefab");
 #endif

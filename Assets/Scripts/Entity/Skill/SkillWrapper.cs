@@ -1,5 +1,6 @@
 ﻿using System;
 
+[Obsolete("完全没啥用")]
 public class SkillWrapper
 {
     private readonly FSMSystem _skills;
@@ -13,13 +14,13 @@ public class SkillWrapper
         _skillHolder = holder;
     }
 
-    public void AddSkill(AbstractSkill skill) { _skills.AddState(skill); }
+    public void AddSkill(IFSMState skill) { _skills.AddState(skill ?? throw new ArgumentNullException()); }
 
     public bool RemoveSkill(Type skillType) { return _skills.RemoveState(skillType); }
 
     public void UseSkill(Type skillType) { _skills.SwitchState(skillType); }
 
-    public void UseSkill<T>(out T skill) where T : AbstractSkill
+    public void UseSkill<T>(out T skill) where T : class, IFSMState
     {
         _skills.SwitchState(typeof(T), out var state);
         skill = state as T;

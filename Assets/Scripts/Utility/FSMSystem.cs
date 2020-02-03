@@ -74,6 +74,13 @@ public class FSMSystem
         return true;
     }
 
+    public bool SwitchState<T>(out T state) where T : class, IFSMState
+    {
+        var res = SwitchState(typeof(T), out var fsmState);
+        state = fsmState as T;
+        return res;
+    }
+
     /// <summary>
     /// 每帧调用当前状态
     /// </summary>

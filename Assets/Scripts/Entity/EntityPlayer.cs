@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Prime31;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// 玩家
@@ -13,14 +15,13 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
     [SerializeField] private MoveCapability _moveCapability = new MoveCapability();
 
     protected BuffWrapper buffs;
-    protected SkillWrapper skills;
+    //protected SkillWrapper skills;
 
     protected CharacterController2D controller;
 
-
     public override EntityType EntityType { get; } = EntityType.Player;
 
-    protected override void OnStart()
+    protected override async void OnStart()
     {
         base.OnStart();
         controller = GetComponent<CharacterController2D>();
@@ -30,8 +31,20 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
         DamageCalculator = new DamageChainCalculator(this);
         buffs = new BuffWrapper(this);
-        skills = new SkillWrapper(this, new NormalState(this));
-        skills.AddSkill(new StiffnessState(this));
+        _skillFsmSystem = new FSMSystem(new NormalState(this));
+        AddSkill(new StiffnessState(this));
+        foreach (var skill in SkillObjects)
+        {
+            var obj = await skill.InstantiateAsync(transform, true).Task;
+            var skillObj = obj.GetComponent<SkillObject>();
+            if (skillObj)
+            {
+                var fsmState = skillObj as IFSMState;
+                AddSkill(fsmState);
+                fsmState.Init();
+                obj.Hide();
+            }
+        }
     }
 
     protected override void OnUpdate()
@@ -141,17 +154,22 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
     #region ISkillable
 
-    public FSMSystem Skills => skills.FSMSystem;
+    [SerializeField] private List<AssetReference> _skillObjects = new List<AssetReference>();
 
-    public void AddSkill(AbstractSkill skill) { skills.AddSkill(skill); }
+    private FSMSystem _skillFsmSystem;
 
-    public bool RemoveSkill(Type skillType) { return skills.RemoveSkill(skillType); }
+    public FSMSystem SkillFsmSystem => _skillFsmSystem;
+    public List<AssetReference> SkillObjects => _skillObjects;
 
-    public void UseSkill(Type skillType) { skills.UseSkill(skillType); }
+    public void AddSkill(IFSMState skill) { _skillFsmSystem.AddState(skill); }
 
-    public void UseSkill<T>(out T skill) where T : AbstractSkill { skills.UseSkill(out skill); }
+    public bool RemoveSkill<T>() where T : class, IFSMState { return _skillFsmSystem.RemoveState(typeof(T)); }
 
-    public void OnUpdateSkills() { skills.OnUpdate(); }
+    public void UseSkill<T>() where T : class, IFSMState { _skillFsmSystem.SwitchState(typeof(T)); }
+
+    public void UseSkill<T>(out T skill) where T : class, IFSMState { _skillFsmSystem.SwitchState(out skill); }
+
+    public void OnUpdateSkills() { _skillFsmSystem.OnUpdate(); }
 
     #endregion
 
