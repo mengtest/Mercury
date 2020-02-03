@@ -5,21 +5,17 @@ public class SkillObject : MonoBehaviour
     public float cd;
     public float lastUse = float.MinValue;
 
-    public Collider2D Contact { get; private set; }
+    private void OnTriggerEnter2D(Collider2D collision) { OnTriggerEnterEvent(collision); }
 
-    private void OnTriggerEnter2D(Collider2D collision) { OnEntityTrigger(collision); }
+    protected virtual void OnTriggerEnterEvent(Collider2D coll) { }
 
-    private void OnTriggerStay2D(Collider2D collision) { OnEntityTrigger(collision); }
+    private void OnTriggerStay2D(Collider2D collision) { OnTriggerStayEvent(collision); }
 
-    private void OnTriggerExit2D(Collider2D collision) { Contact = null; }
+    protected virtual void OnTriggerStayEvent(Collider2D coll) { }
 
-    private void OnEntityTrigger(Collider2D collision)
-    {
-        if (collision.CompareTag(Consts.TAG_Entity))
-        {
-            Contact = collision;
-        }
-    }
+    private void OnTriggerExit2D(Collider2D collision) { OnTriggerExitEvent(collision); }
+
+    protected virtual void OnTriggerExitEvent(Collider2D coll) { }
 
     /// <summary>
     /// 是否冷却完毕
@@ -30,4 +26,10 @@ public class SkillObject : MonoBehaviour
     /// 刷新冷却时间
     /// </summary>
     protected void RefreshCoolDown() { lastUse = Time.time; }
+
+    protected static void EnterStiffness(FSMSystem system, float time)
+    {
+        system.SwitchState<StiffnessState>(out var state);
+        state.Duration = time;
+    }
 }

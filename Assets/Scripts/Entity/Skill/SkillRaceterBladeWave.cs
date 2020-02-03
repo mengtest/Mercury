@@ -1,33 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// 狂风剑刃
 /// </summary>
-public class SkillRaceterBladeWave : AbstractSkill//TODO:技能作为GameObject存在
+public class SkillRaceterBladeWave : SkillObject, IFSMState
 {
-    private readonly IAttackable _playerAttack;
-    private readonly EntityRaceter _raceter;
+    public EntityRaceter raceter;
+    public AssetReference bladeWave;
+    private GameObject _wavePrefab;
+    private Stack<EntityFlightProp> _wavePool;
+    private MoveCapability _move;
+    private SwordResolve _swordResolve;
+    private Damage _damage;
     private float _timeRecord;
     private int _launchCount;
-    private Damage _damage;
-    private readonly MoveCapability _move;
 
-    public SkillRaceterBladeWave(ISkillable holder) : base(holder, 1)
+    public FSMSystem System => raceter.SkillFsmSystem;
+
+    private void OnDestroy()
     {
-        _playerAttack = holder as IAttackable;
-        _raceter = holder as EntityRaceter;
-        _move = _raceter.GetProperty<MoveCapability>();
+        foreach (var wave in _wavePool)
+        {
+            Destroy(wave.gameObject);
+        }
+
+        _wavePool = null;
     }
 
-    private static GameObject GetWave()
+    public async void Init()
     {
-        return GameManager.Instance.GetEffect(Consts.PREFAB_SE_SkillRaceterBladeWave).Hide();
+        raceter = transform.parent.GetComponent<EntityRaceter>();
+        _move = raceter.GetProperty<MoveCapability>();
+        _swordResolve = raceter.GetProperty<SwordResolve>();
+        _wavePool = new Stack<EntityFlightProp>(5);
+        _wavePrefab = await bladeWave.LoadAssetAsync<GameObject>().Task;
+        transform.parent = null;
     }
 
-    public override bool CanEnter() { return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown(); }
+    private EntityFlightProp GetBladeWave()//不知道为什么，异步加载的Task，手动Wait会炸掉...
+    {
+        return _wavePool.Count != 0
+            ? _wavePool.Pop()
+            : Instantiate(_wavePrefab, transform, true).GetComponent<EntityFlightProp>();
+    }
 
-    public override void OnAct()
+    public bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
+
+    public void OnAct()
     {
         if (_launchCount > 0)
         {
@@ -39,38 +61,36 @@ public class SkillRaceterBladeWave : AbstractSkill//TODO:技能作为GameObject�
         }
         else
         {
-            EnterStiffness(0.5f);
+            EnterStiffness(System, 0);
         }
 
         _move.canMove = false;
     }
 
-    public override void OnEnter()
+    public void OnEnter()
     {
         var loopCount = 1;
-        var sr = _raceter.GetProperty<SwordResolve>();
-        if (!sr.swordState)
+        if (!_swordResolve.swordState)
         {
-            loopCount += sr.resolve / 20;
+            loopCount += _swordResolve.resolve / 20;
         }
 
         _launchCount = loopCount;
-        _damage = _raceter.CalculateDamage(150, DamageType.Physics);
+        _damage = raceter.CalculateDamage(150, DamageType.Physics);
         LaunchWave();
     }
 
-    public override void OnLeave() { RefreshCoolDown(); }
+    public void OnLeave() { RefreshCoolDown(); }
 
     private void LaunchWave()
     {
-        var wave = GetWave();
-        wave.Show();
-        var flight = wave.GetComponent<EntityFlightProp>();
+        var flight = GetBladeWave();
+        flight.gameObject.Show();
         flight.Reset();
-        var transform = _raceter.transform;
-        var dir = _raceter.GetFace() == Face.Left ? -1 : 1;
-        wave.transform.position = transform.position;
-        flight.Rotate(_raceter.GetFace());
+        var playerTrans = raceter.transform;
+        var dir = raceter.GetFace() == Face.Left ? -1 : 1;
+        flight.transform.position = playerTrans.position;
+        flight.Rotate(raceter.GetFace());
         flight.IsDead += e =>
         {
             var t = e.Trigger;
@@ -95,14 +115,13 @@ public class SkillRaceterBladeWave : AbstractSkill//TODO:技能作为GameObject�
                 throw new ArgumentException("未实现IAttackable却是Enemy");
             }
 
-            attackable.UnderAttack(_playerAttack.DealDamage(_damage, attackable));
+            attackable.UnderAttack(raceter.DealDamage(_damage, attackable));
             return true;
         };
         flight.OnDead += e =>
         {
-            wave.Hide();
-            GameManager.Instance.RecycleEffect(e.gameObject);
-            flight.Reset();
+            e.gameObject.Hide();
+            _wavePool.Push(e);
         };
         flight.OnUpdateAction += e => e.transform.position += new Vector3(3f * Time.deltaTime, 0) * dir;
         _launchCount -= 1;

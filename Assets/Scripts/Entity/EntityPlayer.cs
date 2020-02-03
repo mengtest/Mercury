@@ -42,7 +42,6 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
                 var fsmState = skillObj as IFSMState;
                 AddSkill(fsmState);
                 fsmState.Init();
-                obj.Hide();
             }
         }
     }

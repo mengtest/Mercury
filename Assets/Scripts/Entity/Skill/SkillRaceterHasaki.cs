@@ -4,50 +4,16 @@ using UnityEngine;
 /// <summary>
 /// 气旋斩
 /// </summary>
-public class SkillRaceterHasaki : AbstractSkill
+public class SkillRaceterHasaki : SkillObject ,IFSMState
 {
-    private readonly Stack<GameObject> _hasakis = new Stack<GameObject>();
-    private readonly float _animTime;
-    private float _duration;
-    private readonly IAttackable _playerAttack;
-    private readonly EntityPlayer _player;
+    public FSMSystem System { get; }
+    public void Init() { throw new System.NotImplementedException(); }
 
-    public SkillRaceterHasaki(ISkillable holder) : base(holder, 1)
-    {
-        _hasakis.Push(GetHasaki(true));
-        var hasaki = _hasakis.Peek();
-        _animTime = GetClipLength(hasaki.GetComponent<Animator>(), Consts.PREFAB_SE_SkillRaceterHasaki);
-        _duration = _animTime;
-        _player = holder as EntityPlayer;
-        _playerAttack = holder as IAttackable;
-        hasaki.Hide();
-    }
+    public bool CanEnter() { throw new System.NotImplementedException(); }
 
-    private GameObject GetHasaki(bool show = false)
-    {
-        var go = GameManager.Instance.GetEffect(Consts.PREFAB_SE_SkillRaceterHasaki);
-        go.SetActive(show);
-        return go;
-    }
+    public void OnEnter() { throw new System.NotImplementedException(); }
 
-    public override bool CanEnter()
-    {
-        return CurrentSkill().GetType() == typeof(NormalState) && IsCoolDown();
-    }
+    public void OnAct() { throw new System.NotImplementedException(); }
 
-    public override void OnEnter()
-    {
-        var hasaki = _hasakis.Count == 0 ? GetHasaki() : _hasakis.Pop();
-        hasaki.Show();
-        var flight = hasaki.GetComponent<EntityFlightProp>();
-        flight.Reset();
-        var transform = _player.transform;
-        var dir = _player.GetFace() == Face.Left ? -1 : 1;
-        hasaki.transform.position = transform.position;
-        flight.Rotate(_player.GetFace());
-    }
-
-    public override void OnLeave() { throw new System.NotImplementedException(); }
-
-    public override void OnAct() { throw new System.NotImplementedException(); }
+    public void OnLeave() { throw new System.NotImplementedException(); }
 }

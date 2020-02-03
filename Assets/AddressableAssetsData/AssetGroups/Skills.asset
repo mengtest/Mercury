@@ -26,17 +26,15 @@ MonoBehaviour:
     - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  - m_GUID: 621f557931ea6d3429ded1260207a7f0
-    m_Address: SkillRaceterShadowStrike
+  - m_GUID: 6087095f27f77f246b36c5bb861e3724
+    m_Address: SkillRaceterBladeWave
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SpecialEffects
-    - Skill
     - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  - m_GUID: 799d83b2403f75243a38e234a6b3b0ef
-    m_Address: SkillRaceterBladeWave
+  - m_GUID: 621f557931ea6d3429ded1260207a7f0
+    m_Address: SkillRaceterShadowStrike
     m_ReadOnly: 0
     m_SerializedLabels:
     - SpecialEffects

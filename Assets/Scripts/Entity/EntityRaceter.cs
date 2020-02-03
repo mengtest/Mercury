@@ -17,9 +17,6 @@ public class EntityRaceter : EntityPlayer
     {
         base.OnStart();
         SetProperty(_swordResolve);
-        AddSkill(new SkillRaceterBladeWave(this));
-        AddSkill(new SkillRaceterHasaki(this));
-        AddSkill(new SkillRaceterIaiAndSwallowFlip(this));
     }
 
     protected override void OnUpdate()

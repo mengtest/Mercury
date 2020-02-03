@@ -8,28 +8,37 @@ using UnityEditor;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-    public GameObject loadPanelPrefab;
     public LoadPanel loadPanel;
     public GameObject bootstrapPanel;
     public LevelPanel levelPanel;
+    public GameObject canvas;
     public UltimateTextDamageManager textDamageManager;
 
     protected override void OnAwake()
     {
         base.OnAwake();
 #if UNITY_EDITOR
-        loadPanelPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UIPanel/LoadPanel.prefab");
-#endif
-        loadPanel = Instantiate(loadPanelPrefab).GetComponent<LoadPanel>();
-        loadPanel.transform.SetParent(GameManager.Instance.canvas.transform);
+        if (!canvas)
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UIPanel/LoadPanelWithCanvas.prefab");
+            canvas = Instantiate(prefab);
+            canvas.name = "Canvas";
+        }
+
+        if (!loadPanel)
+        {
+            loadPanel = canvas.GetComponentInChildren<LoadPanel>();
+        }
+
         loadPanel.gameObject.Hide();
-#if UNITY_EDITOR
         bootstrapPanel?.Show();
         levelPanel?.gameObject.Hide();
 #else
         bootstrapPanel.Show();
         levelPanel.gameObject.Hide();
+        loadPanel.gameObject.Hide();
 #endif
+        DontDestroyOnLoad(canvas);
     }
 
     public void OnBootstrapStartBtnEnter()

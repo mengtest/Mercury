@@ -25,6 +25,15 @@ MonoBehaviour:
     - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 799d83b2403f75243a38e234a6b3b0ef
+    m_Address: EntityRaceterBladeWave
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SpecialEffects
+    - Skill
+    - Mercury
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: cfa11305be490e541939feb59fba72fd
     m_Address: EntityDummyPlayer
     m_ReadOnly: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 飞行道具
 /// </summary>
-public class EntityFlightProp : Entity
+public class EntityFlightProp : Entity //TODO：将Trigger做成事件
 {
     public float maxLiveTime;
 
@@ -13,7 +13,7 @@ public class EntityFlightProp : Entity
     public event Action<EntityFlightProp> OnUpdateAction;
     public event Func<EntityFlightProp, bool> IsDead;
     public event Action<EntityFlightProp> OnDead;
-    
+
     public Collider2D Trigger { get; private set; }
 
     public override EntityType EntityType { get; } = EntityType.Flight;

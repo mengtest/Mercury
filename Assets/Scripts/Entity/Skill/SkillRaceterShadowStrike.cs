@@ -18,6 +18,8 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
 
     public FSMSystem System => player.SkillFsmSystem;
 
+    private void Awake() { gameObject.Hide(); }
+
     public void Init()
     {
         player = transform.parent.GetComponent<EntityPlayer>();
@@ -34,32 +36,13 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
         _duration -= Time.deltaTime;
         if (_duration <= 0)
         {
-            System.SwitchState<StiffnessState>(out var state);
-            state.Duration = 200;
+            EnterStiffness(System, 200);
             return;
         }
 
         var v = new Vector2(_lastMove - _move, 0);
         player.Move(v);
         _lastMove = _move;
-        if (Contact)
-        {
-            var e = Contact.GetComponent<Entity>();
-            if (e.EntityType != EntityType.Enemy)
-            {
-                return;
-            }
-
-            if (e is IAttackable attackable)
-            {
-                if (!_attacked.Contains(attackable))
-                {
-                    attackable.UnderAttack(player.DealDamage(player.CalculateDamage(95, DamageType.Physics),
-                        attackable));
-                    _attacked.Add(attackable);
-                }
-            }
-        }
     }
 
     public void OnEnter()
@@ -97,5 +80,33 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
         _attacked.Clear();
         RefreshCoolDown();
         gameObject.Hide();
+    }
+
+    protected override void OnTriggerEnterEvent(Collider2D coll)
+    {
+        if (!coll.CompareTag(Consts.TAG_Entity))
+        {
+            return;
+        }
+
+        var e = coll.GetComponent<Entity>();
+        if (e.EntityType != EntityType.Enemy)
+        {
+            return;
+        }
+
+        if (!(e is IAttackable attackable))
+        {
+            return;
+        }
+
+        if (_attacked.Contains(attackable))
+        {
+            return;
+        }
+
+        attackable.UnderAttack(player.DealDamage(player.CalculateDamage(95, DamageType.Physics),
+            attackable));
+        _attacked.Add(attackable);
     }
 }
