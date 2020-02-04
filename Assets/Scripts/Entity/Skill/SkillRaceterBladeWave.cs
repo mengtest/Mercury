@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 /// <summary>
 /// 狂风剑刃
 /// </summary>
-public class SkillRaceterBladeWave : SkillObject, IFSMState
+public class SkillRaceterBladeWave : SkillObject
 {
     public EntityRaceter raceter;
     public AssetReference bladeWave;
@@ -18,7 +18,7 @@ public class SkillRaceterBladeWave : SkillObject, IFSMState
     private float _timeRecord;
     private int _launchCount;
 
-    public FSMSystem System => raceter.SkillFsmSystem;
+    public override FSMSystem System => raceter.SkillFsmSystem;
 
     private void OnDestroy()
     {
@@ -30,7 +30,7 @@ public class SkillRaceterBladeWave : SkillObject, IFSMState
         _wavePool = null;
     }
 
-    public async void Init()
+    public override async void Init()
     {
         raceter = transform.parent.GetComponent<EntityRaceter>();
         _move = raceter.GetProperty<MoveCapability>();
@@ -40,16 +40,16 @@ public class SkillRaceterBladeWave : SkillObject, IFSMState
         transform.parent = raceter.SkillObjCollection.transform;
     }
 
-    private EntityFlightProp GetBladeWave()//不知道为什么，异步加载的Task，手动Wait会炸掉...
+    private EntityFlightProp GetBladeWave() //不知道为什么，异步加载的Task，手动Wait会炸掉...
     {
         return _wavePool.Count != 0
             ? _wavePool.Pop()
             : Instantiate(_wavePrefab, transform, true).GetComponent<EntityFlightProp>();
     }
 
-    public bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
+    public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
 
-    public void OnAct()
+    public override void OnAct()
     {
         if (_launchCount > 0)
         {
@@ -61,13 +61,13 @@ public class SkillRaceterBladeWave : SkillObject, IFSMState
         }
         else
         {
-            EnterStiffness(System, 0);
+            EnterStiffness(0);
         }
 
         _move.canMove = false;
     }
 
-    public void OnEnter()
+    public override void OnEnter()
     {
         var loopCount = 1;
         if (!_swordResolve.swordState)
@@ -81,7 +81,7 @@ public class SkillRaceterBladeWave : SkillObject, IFSMState
         LaunchWave();
     }
 
-    public void OnLeave() { RefreshCoolDown(); }
+    public override void OnLeave() { RefreshCoolDown(); }
 
     private void LaunchWave()
     {

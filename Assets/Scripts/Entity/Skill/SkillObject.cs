@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 
-public class SkillObject : MonoBehaviour
+public abstract class SkillObject : MonoBehaviour, IFSMState
 {
     public float cd;
     public float lastUse = float.MinValue;
 
+    public abstract FSMSystem System { get; }
+    
     private void OnTriggerEnter2D(Collider2D collision) { OnTriggerEnterEvent(collision); }
 
     protected virtual void OnTriggerEnterEvent(Collider2D coll) { }
@@ -27,9 +29,19 @@ public class SkillObject : MonoBehaviour
     /// </summary>
     protected void RefreshCoolDown() { lastUse = Time.time; }
 
-    protected static void EnterStiffness(FSMSystem system, float time)
+    protected void EnterStiffness(float time)
     {
-        system.SwitchState<StiffnessState>(out var state);
+        System.SwitchState<StiffnessState>(out var state);
         state.Duration = time;
     }
+    
+    public abstract void Init();
+
+    public abstract bool CanEnter();
+
+    public abstract void OnEnter();
+
+    public abstract void OnAct();
+
+    public abstract void OnLeave();
 }

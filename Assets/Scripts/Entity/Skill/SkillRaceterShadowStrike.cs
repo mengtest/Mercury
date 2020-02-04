@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 斩影
 /// </summary>
-public class SkillRaceterShadowStrike : SkillObject, IFSMState
+public class SkillRaceterShadowStrike : SkillObject
 {
     public Animator skillAnimator;
     public EntityRaceter raceter;
@@ -18,11 +18,11 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
     private float _lastMove;
     private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
 
-    public FSMSystem System => raceter.SkillFsmSystem;
+    public override FSMSystem System => raceter.SkillFsmSystem;
 
     private void Awake() { gameObject.Hide(); }
 
-    public void Init()
+    public override void Init()
     {
         raceter = transform.parent.GetComponent<EntityRaceter>();
         _playerMove = raceter.GetProperty<MoveCapability>();
@@ -32,14 +32,14 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
         transform.parent = raceter.SkillObjCollection.transform;
     }
 
-    public bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
+    public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
 
-    public void OnAct()
+    public override void OnAct()
     {
         _duration -= Time.deltaTime;
         if (_duration <= 0)
         {
-            EnterStiffness(System, 200);
+            EnterStiffness(200);
             return;
         }
 
@@ -48,7 +48,7 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
         _lastMove = _move;
     }
 
-    public void OnEnter()
+    public override void OnEnter()
     {
         _damage = raceter.CalculateDamage(95, DamageType.Physics);
         _swordResolve.RetractSwordStateUseSkill();
@@ -77,7 +77,7 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
         DOTween.To(() => _move, v => _move = v, 4f * -coe, _animLength).SetEase(Ease.OutExpo);
     }
 
-    public void OnLeave()
+    public override void OnLeave()
     {
         _playerMove.canMove = true;
         _playerMove.velocity = Vector2.zero;

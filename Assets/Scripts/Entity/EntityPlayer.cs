@@ -92,10 +92,9 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
                 normalizedHorizontalSpeed * _moveCapability.runSpeed,
                 Time.deltaTime * smoothedMovementFactor);
             _moveCapability.velocity.y += _moveCapability.gravity * Time.deltaTime;
-            if (controller.isGrounded && Input.GetKey(KeyCode.DownArrow) && _moveCapability.canMove)
+            if (controller.isGrounded && Input.GetKey(KeyCode.DownArrow))
             {
-                _moveCapability.velocity.y *= 3f;
-                transform.position -= new Vector3(0, 0.025f, 0);
+                _moveCapability.velocity.y *= 11f;
                 controller.ignoreOneWayPlatformsThisFrame = true;
             }
 
