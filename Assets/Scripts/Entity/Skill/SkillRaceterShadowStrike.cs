@@ -8,25 +8,28 @@ using UnityEngine;
 public class SkillRaceterShadowStrike : SkillObject, IFSMState
 {
     public Animator skillAnimator;
-    public EntityPlayer player;
+    public EntityRaceter raceter;
     private MoveCapability _playerMove;
+    private SwordResolve _swordResolve;
+    private Damage _damage;
     private float _animLength;
     private float _duration;
     private float _move;
     private float _lastMove;
     private readonly HashSet<IAttackable> _attacked = new HashSet<IAttackable>();
 
-    public FSMSystem System => player.SkillFsmSystem;
+    public FSMSystem System => raceter.SkillFsmSystem;
 
     private void Awake() { gameObject.Hide(); }
 
     public void Init()
     {
-        player = transform.parent.GetComponent<EntityPlayer>();
-        _playerMove = player.GetProperty<MoveCapability>();
+        raceter = transform.parent.GetComponent<EntityRaceter>();
+        _playerMove = raceter.GetProperty<MoveCapability>();
+        _swordResolve = raceter.GetProperty<SwordResolve>();
         _animLength = SkillUtility.GetClipLength(skillAnimator, Consts.PREFAB_SE_SkillRaceterShadowStrike);
         _duration = _animLength;
-        transform.parent = null;
+        transform.parent = raceter.SkillObjCollection.transform;
     }
 
     public bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
@@ -41,20 +44,22 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
         }
 
         var v = new Vector2(_lastMove - _move, 0);
-        player.Move(v);
+        raceter.Move(v);
         _lastMove = _move;
     }
 
     public void OnEnter()
     {
+        _damage = raceter.CalculateDamage(95, DamageType.Physics);
+        _swordResolve.RetractSwordStateUseSkill();
         gameObject.Show();
-        player.Velocity = Vector2.zero;
+        raceter.Velocity = Vector2.zero;
         _playerMove.canMove = false;
-        if (player.GetFace() == Face.Left)
+        if (raceter.GetFace() == Face.Left)
         {
             DifferentDir(180, -1);
         }
-        else if (player.GetFace() == Face.Right)
+        else if (raceter.GetFace() == Face.Right)
         {
             DifferentDir(0, 1);
         }
@@ -66,7 +71,7 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
     {
         var t = transform;
         t.eulerAngles = new Vector2(0, y);
-        t.position = player.transform.position + new Vector3(3 * coe, -0.2f);
+        t.position = raceter.transform.position + new Vector3(3 * coe, -0.2f);
         _move = 0f;
         _lastMove = 0f;
         DOTween.To(() => _move, v => _move = v, 4f * -coe, _animLength).SetEase(Ease.OutExpo);
@@ -105,8 +110,7 @@ public class SkillRaceterShadowStrike : SkillObject, IFSMState
             return;
         }
 
-        attackable.UnderAttack(player.DealDamage(player.CalculateDamage(95, DamageType.Physics),
-            attackable));
+        attackable.UnderAttack(raceter.DealDamage(_damage, attackable));
         _attacked.Add(attackable);
     }
 }

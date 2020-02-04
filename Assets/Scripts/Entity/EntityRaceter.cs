@@ -6,11 +6,13 @@ using UnityEngine;
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
+    public GameObject SkillObjCollection { get; private set; }
 
     protected override void OnAwake()
     {
         base.OnAwake();
         _swordResolve = new SwordResolve(this);
+        SkillObjCollection = new GameObject("EntityRaceterSkills");
     }
 
     protected override void OnStart()

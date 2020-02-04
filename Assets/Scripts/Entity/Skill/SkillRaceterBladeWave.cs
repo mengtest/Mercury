@@ -37,7 +37,7 @@ public class SkillRaceterBladeWave : SkillObject, IFSMState
         _swordResolve = raceter.GetProperty<SwordResolve>();
         _wavePool = new Stack<EntityFlightProp>(5);
         _wavePrefab = await bladeWave.LoadAssetAsync<GameObject>().Task;
-        transform.parent = null;
+        transform.parent = raceter.SkillObjCollection.transform;
     }
 
     private EntityFlightProp GetBladeWave()//不知道为什么，异步加载的Task，手动Wait会炸掉...
@@ -77,6 +77,7 @@ public class SkillRaceterBladeWave : SkillObject, IFSMState
 
         _launchCount = loopCount;
         _damage = raceter.CalculateDamage(150, DamageType.Physics);
+        _swordResolve.RetractSwordStateUseSkill();
         LaunchWave();
     }
 

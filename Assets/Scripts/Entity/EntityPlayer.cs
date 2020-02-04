@@ -15,8 +15,6 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
     [SerializeField] private MoveCapability _moveCapability = new MoveCapability();
 
     protected BuffWrapper buffs;
-    //protected SkillWrapper skills;
-
     protected CharacterController2D controller;
 
     public override EntityType EntityType { get; } = EntityType.Player;
@@ -31,7 +29,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
         DamageCalculator = new DamageChainCalculator(this);
         buffs = new BuffWrapper(this);
-        _skillFsmSystem = new FSMSystem(new NormalState(this));
+        SkillFsmSystem = new FSMSystem(new NormalState(this));
         AddSkill(new StiffnessState(this));
         foreach (var skill in SkillObjects)
         {
@@ -155,20 +153,19 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
     [SerializeField] private List<AssetReference> _skillObjects = new List<AssetReference>();
 
-    private FSMSystem _skillFsmSystem;
+    public FSMSystem SkillFsmSystem { get; private set; }
 
-    public FSMSystem SkillFsmSystem => _skillFsmSystem;
     public List<AssetReference> SkillObjects => _skillObjects;
 
-    public void AddSkill(IFSMState skill) { _skillFsmSystem.AddState(skill); }
+    public void AddSkill(IFSMState skill) { SkillFsmSystem.AddState(skill); }
 
-    public bool RemoveSkill<T>() where T : class, IFSMState { return _skillFsmSystem.RemoveState(typeof(T)); }
+    public bool RemoveSkill<T>() where T : class, IFSMState { return SkillFsmSystem.RemoveState(typeof(T)); }
 
-    public void UseSkill<T>() where T : class, IFSMState { _skillFsmSystem.SwitchState(typeof(T)); }
+    public void UseSkill<T>() where T : class, IFSMState { SkillFsmSystem.SwitchState(typeof(T)); }
 
-    public void UseSkill<T>(out T skill) where T : class, IFSMState { _skillFsmSystem.SwitchState(out skill); }
+    public void UseSkill<T>(out T skill) where T : class, IFSMState { SkillFsmSystem.SwitchState(out skill); }
 
-    public void OnUpdateSkills() { _skillFsmSystem.OnUpdate(); }
+    public void OnUpdateSkills() { SkillFsmSystem.OnUpdate(); }
 
     #endregion
 

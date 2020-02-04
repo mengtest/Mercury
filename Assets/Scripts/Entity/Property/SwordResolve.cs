@@ -36,16 +36,8 @@ public class SwordResolve : IEntityProperty
             if (swordState) //拔刀状态
             {
                 OverlayResolve(2); //增加2剑意
-                RefuseCritPro();
+                RefuseCritPro(); //刷新暴击率
                 _lastAtkTime = Time.time; //重置攻击敌人计时器
-            }
-            else //收刀状态
-            {
-                RemoveDamageUpgrade(); //移除伤害增益
-                resolve /= 2; //剑意减半
-                swordState = true; //切换为拔刀状态
-                _timeOverlay = 0f; //重置计时器
-                _lastDamageUpgrade = 0f; //重置增伤累加
             }
         };
     }
@@ -110,6 +102,21 @@ public class SwordResolve : IEntityProperty
 
         var tryAdd = resolve + point;
         resolve = math.max(0, math.min(100, tryAdd));
+    }
+
+    /// <summary>
+    /// 收刀状态下使用技能
+    /// </summary>
+    public void RetractSwordStateUseSkill()
+    {
+        if (!swordState) //收刀状态
+        {
+            RemoveDamageUpgrade(); //移除伤害增益
+            resolve /= 2; //剑意减半
+            swordState = true; //切换为拔刀状态
+            _timeOverlay = 0f; //重置计时器
+            _lastDamageUpgrade = 0f; //重置增伤累加
+        }
     }
 
     private void RefuseDamageUpgrade()
