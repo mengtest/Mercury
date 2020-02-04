@@ -34,6 +34,11 @@ public class EntityRaceter : EntityPlayer
         {
             UseSkill<SkillRaceterShadowStrike>();
         }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            UseSkill<SkillRaceterIaiAndSwallowFlip>();
+        }
     }
 
     public override Damage CalculateDamage(float coe, DamageType damage)

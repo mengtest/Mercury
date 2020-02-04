@@ -247,6 +247,8 @@ MonoBehaviour:
     m_SubObjectName: 
   - m_AssetGUID: 6087095f27f77f246b36c5bb861e3724
     m_SubObjectName: 
+  - m_AssetGUID: 49112cfc2692e454fa136084b32f286d
+    m_SubObjectName: 
   _swordResolve:
     swordState: 0
     resolve: 0

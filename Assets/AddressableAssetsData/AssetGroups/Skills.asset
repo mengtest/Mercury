@@ -42,15 +42,6 @@ MonoBehaviour:
     - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  - m_GUID: b25050ea435869d4aa26b17b76ed9c36
-    m_Address: SkillRaceterSwallowFlip
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SpecialEffects
-    - Skill
-    - Mercury
-    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3a6ee38575ce47a4d8e28f1efe6eb251, type: 2}
   m_SchemaSet:

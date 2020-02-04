@@ -379,5 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6198c79090536594785e9a0db1dc3760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cd: 0
+  lastUse: -3.4028235e+38
   skillAnimator: {fileID: 4710905127317525368}
   raceter: {fileID: 0}

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
+using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
@@ -55,22 +56,15 @@ public class SkillRaceterShadowStrike : SkillObject
         gameObject.Show();
         raceter.Velocity = Vector2.zero;
         _playerMove.canMove = false;
-        if (raceter.GetFace() == Face.Left)
-        {
-            DifferentDir(180, -1);
-        }
-        else if (raceter.GetFace() == Face.Right)
-        {
-            DifferentDir(0, 1);
-        }
-
+        DifferentDir((int) raceter.GetFace());
         skillAnimator.Play(Consts.PREFAB_SE_SkillRaceterShadowStrike, 0, 0);
     }
 
-    private void DifferentDir(float y, int coe)
+    private void DifferentDir(int coe)
     {
         var t = transform;
-        t.eulerAngles = new Vector2(0, y);
+        var scale = t.localScale;
+        t.localScale = new Vector3(math.abs(scale.x) * coe, scale.y, scale.z);
         t.position = raceter.transform.position + new Vector3(3 * coe, -0.2f);
         _move = 0f;
         _lastMove = 0f;

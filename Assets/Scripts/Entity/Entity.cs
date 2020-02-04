@@ -5,8 +5,8 @@ using UnityEngine;
 
 public enum Face
 {
-    Left,
-    Right,
+    Left = -1,
+    Right = 1,
     Up,
     Down
 }
