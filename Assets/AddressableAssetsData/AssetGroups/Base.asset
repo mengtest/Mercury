@@ -16,7 +16,36 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: be8d2285e3bd6e84bb9395e72cb47d74
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 036e483b87567ed4793d1063c311b476
+    m_Address: Assets/Prefabs/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: 
+  - m_GUID: 26913de2a41c3b443948b7df7f980f49
+    m_Address: Assets/Textures
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEditor.DefaultAsset, UnityEditor, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - m_GUID: 71a6e926f02187f478ef875a4c54826e
+    m_Address: Assets/Materials
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEditor.DefaultAsset, UnityEditor, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - m_GUID: e061315659aff8247a566b56920f9500
+    m_Address: Assets/Animations
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEditor.DefaultAsset, UnityEditor, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - m_GUID: e2bbd8d1dddf478499260501dbaf7824
+    m_Address: Assets/Shaders
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEditor.DefaultAsset, UnityEditor, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3a6ee38575ce47a4d8e28f1efe6eb251, type: 2}
   m_SchemaSet:

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Guirao.UltimateTextDamage
 {
@@ -9,9 +7,9 @@ namespace Guirao.UltimateTextDamage
         public string offsetParamName = "offsetX";
         public Animator animator;
 
-        private void OnEnable( )
+        private void OnEnable()
         {
-            animator.SetFloat( offsetParamName , Random.value );
+            animator.SetFloat(offsetParamName, Random.value);
         }
     }
 }
