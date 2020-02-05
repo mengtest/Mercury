@@ -18,415 +18,249 @@ MonoBehaviour:
     - m_ResultName: No issues found
       m_Severity: 0
   - RuleName: Check Resources to Addressable Duplicate Dependencies
-    Results: []
+    Results:
+    - m_ResultName: Assets\TextMesh Pro\Resources\TMP Settings.asset:base_assets_all.bundle:Assets/TextMesh
+        Pro/Fonts/LiberationSans.ttf
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\TMP Settings.asset:base_assets_all.bundle:Assets/TextMesh
+        Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\TMP Settings.asset:base_assets_all.bundle:Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\TMP Settings.asset:base_assets_all.bundle:Assets/TextMesh
+        Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\TMP Settings.asset:base_assets_all.bundle:Assets/TextMesh
+        Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Drop Shadow.mat:base_assets_all.bundle:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Drop Shadow.mat:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Drop Shadow.mat:base_assets_all.bundle:Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Drop Shadow.mat:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Fallback.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Drop Shadow.mat:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Fallback.asset:base_assets_all.bundle:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Fallback.asset:base_assets_all.bundle:Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Fallback.asset:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Fallback.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Fallback.asset:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Outline.mat:base_assets_all.bundle:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Outline.mat:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Outline.mat:base_assets_all.bundle:Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Outline.mat:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Fallback.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Outline.mat:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF - Outline.mat:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Outline.mat
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF.asset:base_assets_all.bundle:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF.asset:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+        SDF.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF.asset:base_assets_all.bundle:Packages/com.unity.textmeshpro/Scripts/Runtime/TMP_FontAsset.cs
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF.asset:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+        SDF - Fallback.asset
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans
+        SDF.asset:base_assets_all.bundle:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+      m_Severity: 2
+    - m_ResultName: Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader:base_assets_all.bundle:Assets/TextMesh
+        Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+      m_Severity: 2
   - RuleName: Check Scene to Addressable Duplicate Dependencies
-    Results: []
+    Results:
+    - m_ResultName: Check Scene to Addressable Duplicate Dependencies - No issues
+        found.
+      m_Severity: 0
   - RuleName: Check Sprite Atlas to Addressable Duplicate Dependencies
-    Results: []
+    Results:
+    - m_ResultName: No issues found
+      m_Severity: 0
   - RuleName: Build Bundle Layout
     Results:
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Prefabs/UI/MagicDamage.prefab
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Prefabs/UI/PhysicsDamage.prefab
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Prefabs/UI/TrueDamage.prefab
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/awesome.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/background-firemountain.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/background0.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/floor-firemountain.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/whatthefuck.jpg
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/2-1-dodge.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/buff-effect-dodge.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/doblemoonslash-dodge.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/DropEffect-Lightbar-dodge.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/fastslash-dodge.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterBladeWave-normal.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterBladeWave.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Textures/SpecialEffects/tp-light.png
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Materials/LinearReduction.mat
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Materials/NormalStep.physicsMaterial2D
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/New Animation.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/PhysicsDamage.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/PhysicsDamageEmerge.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/buff-effect-dodge.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/buff-effect-dodge_0.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/doblemoonslash-dodge.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/doblemoonslash-dodge_0.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/DropEffect-Lightbar-dodge.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/DropEffect-Lightbar-dodge.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/fastslash-dodge.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/fastslash-dodge_1.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/SkillRaceterHasaki.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/SkillRaceterHasaki_0.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/SkillRaceterShadowStrike.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/SkillRaceterShadowStrike_0.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/SkillRaceterSwallowFlip.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/SkillRaceterSwallowFlip_0.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/tp-light.anim
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Animations/SpecialEffects/tp-light.controller
+      m_Severity: 0
+    - m_ResultName: base_assets_all.bundle:Explicit:Assets/Shaders/LinearReduction.shader
+      m_Severity: 0
     - m_ResultName: skills_assets_all.bundle:Explicit:Assets/Prefabs/Entities/Skills/SkillRaceterHasaki.prefab
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Explicit:Assets/Prefabs/Entities/Skills/SkillRaceterShadowStrike.prefab
+    - m_ResultName: skills_assets_all.bundle:Explicit:Assets/Prefabs/Entities/Skills/SkillRaceterIaiAndSwallowFlip.prefab
       m_Severity: 0
     - m_ResultName: skills_assets_all.bundle:Explicit:Assets/Prefabs/Entities/Skills/SkillRaceterBladeWave.prefab
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Explicit:Assets/Prefabs/Entities/Skills/SkillRaceterSwallowFlip.prefab
+    - m_ResultName: skills_assets_all.bundle:Explicit:Assets/Prefabs/Entities/Skills/SkillRaceterShadowStrike.prefab
       m_Severity: 0
     - m_ResultName: entities_assets_all.bundle:Explicit:Assets/Prefabs/Entities/AnotherDummyPlayer.prefab
+      m_Severity: 0
+    - m_ResultName: entities_assets_all.bundle:Explicit:Assets/Prefabs/Entities/RaceterBladeWave.prefab
       m_Severity: 0
     - m_ResultName: entities_assets_all.bundle:Explicit:Assets/Prefabs/Entities/DummyPlayer.prefab
       m_Severity: 0
     - m_ResultName: entities_assets_all.bundle:Explicit:Assets/Prefabs/Entities/WoodMan.prefab
       m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Explicit:Assets/Scenes/Level0.unity
-      m_Severity: 0
     - m_ResultName: languages_assets_all.bundle:Explicit:Assets/Languages/zh_CN.json
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/text_default.anim
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/Controllers/text_default_ac.controller
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/text_UI_default_TMP.anim
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF.asset
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF.asset
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF.asset
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/Controllers/TextMeshPro/text_ui_override.overrideController
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Fallback.asset
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Fallback.asset
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Fallback.asset
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
+    - m_ResultName: base_assets_all.bundle:Implicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Outline.mat
       m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Shaders/LinearReduction.shader
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Animations/SpecialEffects/SkillRaceterHasaki.anim
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Animations/SpecialEffects/SkillRaceterHasaki_0.controller
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterHasaki-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Materials/LinearReduction.mat
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Animations/SpecialEffects/SkillRaceterShadowStrike_0.controller
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Animations/SpecialEffects/SkillRaceterShadowStrike.anim
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterBladeWave.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterBladeWave.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterBladeWave-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterBladeWave-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip-normal.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Animations/SpecialEffects/SkillRaceterSwallowFlip_0.controller
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Textures/SpecialEffects/SkillRaceterSwallowFlip.png
-      m_Severity: 0
-    - m_ResultName: skills_assets_all.bundle:Implicit:Assets/Animations/SpecialEffects/SkillRaceterSwallowFlip.anim
-      m_Severity: 0
-    - m_ResultName: entities_assets_all.bundle:Implicit:Assets/Textures/awesome.png
-      m_Severity: 0
-    - m_ResultName: entities_assets_all.bundle:Implicit:Assets/Textures/awesome.png
-      m_Severity: 0
-    - m_ResultName: entities_assets_all.bundle:Implicit:Assets/Textures/whatthefuck.jpg
-      m_Severity: 0
-    - m_ResultName: entities_assets_all.bundle:Implicit:Assets/Textures/whatthefuck.jpg
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/TextMesh
-        Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/TextMesh
-        Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Textures/floor-firemountain.png
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/TextMesh
-        Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Textures/background-firemountain.png
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/TextMesh
-        Pro/Resources/Shaders/TMP_SDF-Mobile.shader
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/text_default.anim
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/text_UI_default_TMP.anim
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/Controllers/text_default_ac.controller
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Textures/floor-firemountain.png
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Textures/background-firemountain.png
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/Animations/Controllers/TextMeshPro/text_ui_override.overrideController
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Plugins/UltimateTextDamage/TextMesh
-        Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/PhyDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/MagicDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
-    - m_ResultName: maps_scenes_all.bundle:Implicit:Assets/Prefabs/UI/TrueDamage.prefab
-      m_Severity: 0
+  - RuleName: UnityEditor.AddressableAssets.Build.AnalyzeRules.AnalyzeRule
+    Results: []
