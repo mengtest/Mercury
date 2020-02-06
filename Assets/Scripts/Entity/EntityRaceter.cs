@@ -39,6 +39,11 @@ public class EntityRaceter : EntityPlayer
         {
             UseSkill<SkillRaceterIaiAndSwallowFlip>();
         }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            AddBuff(BuffFactory.Instance.GetDot<BuffHeal>(this, 1f, 10, 1));
+        }
     }
 
     public override Damage CalculateDamage(float coe, DamageType damage)

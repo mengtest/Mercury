@@ -14,7 +14,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
     [SerializeField] private ElementAffinity _elementAffinity = new ElementAffinity();
     [SerializeField] private MoveCapability _moveCapability = new MoveCapability();
 
-    protected BuffWrapper buffs;
+    protected BuffHandler buffs;
     protected CharacterController2D controller;
 
     public override EntityType EntityType { get; } = EntityType.Player;
@@ -28,7 +28,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
         SetProperty(_moveCapability);
 
         DamageCalculator = new DamageChainCalculator(this);
-        buffs = new BuffWrapper(this);
+        buffs = new BuffHandler(this);
         SkillFsmSystem = new FSMSystem(new NormalState(this));
         AddSkill(new StiffnessState(this));
         foreach (var skill in SkillObjects)
@@ -47,7 +47,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
     protected override void OnUpdate()
     {
         base.OnUpdate();
-        buffs.OnUpdate();
+        OnUpdateBuffs();
         OnUpdateSkills();
 
         if (_moveCapability.canMove)
@@ -106,18 +106,15 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
     #region IBuffable
 
-    public void AddBuff(IBuff buff) { buffs.AddBuff(buff); }
+    public void OnUpdateBuffs() { buffs.OnUpdate(); }
 
-    public IBuff GetBuff(Type buffType, BuffVariant variant) { return buffs.GetBuff(buffType, variant); }
+    public void AddBuff(BuffFlyweightDot dot) { buffs.Add(dot); }
 
-    public bool RemoveBuff(Type buffType, BuffVariant variant) { return buffs.RemoveBuff(buffType, variant); }
+    public bool RemoveDotBuff<T>() where T : DotBuff { return buffs.RemoveDot<T>(); }
 
-    public bool TryGetBuff(Type buffType, BuffVariant variant, out IBuff buff)
-    {
-        return buffs.TryGetBuff(buffType, variant, out buff);
-    }
+    public bool ContainsDotBuff<T>() where T : DotBuff { return buffs.ContainsDot<T>(); }
 
-    public bool HasBuff(Type buffType, BuffVariant variant) { return buffs.HasBuff(buffType, variant); }
+    public bool TryGetDotBuff<T>(out BuffFlyweightDot dot) { return buffs.TryGetDot<T>(out dot); }
 
     #endregion
 

@@ -1,15 +1,85 @@
+using UnityEngine;
+
 public struct BuffFlyweightDot
 {
+    /// <summary>
+    /// 原型
+    /// </summary>
     public readonly DotBuff prototype;
+
+    /// <summary>
+    /// 来源
+    /// </summary>
     public readonly Entity source;
-    public float Duration { get; }
+
+    /// <summary>
+    /// 下次触发时间
+    /// </summary>
+    public readonly float nextTime;
+
+    /// <summary>
+    /// 剩余触发次数
+    /// </summary>
+    public int TriggerCount { get; set; }
+
+    /// <summary>
+    /// 触发间隔
+    /// </summary>
+    public float Interval { get; }
+
+    /// <summary>
+    /// 强度
+    /// </summary>
     public int Intensity { get; }
 
-    public BuffFlyweightDot(DotBuff prototype, Entity source, float duration, int intensity)
+    /// <param name="prototype">原型</param>
+    /// <param name="source">来源</param>
+    /// <param name="interval">触发间隔</param>
+    /// <param name="triggerCount">触发次数</param>
+    /// <param name="intensity">强度</param>
+    public BuffFlyweightDot(DotBuff prototype, Entity source, float interval, int triggerCount, int intensity) : this(
+        prototype,
+        source,
+        interval,
+        triggerCount,
+        intensity,
+        Time.time)
+    {
+    }
+
+    /// <param name="prototype">原型</param>
+    /// <param name="source">来源</param>
+    /// <param name="duration">总持续时间</param>
+    /// <param name="interval">触发间隔</param>
+    /// <param name="intensity">强度</param>
+    public BuffFlyweightDot(DotBuff prototype, Entity source, float duration, float interval, int intensity)
+        : this(prototype, source, interval, (int) (duration / interval), intensity)
+    {
+    }
+
+    public BuffFlyweightDot(
+        DotBuff prototype,
+        Entity source,
+        float interval,
+        int triggerCount,
+        int intensity,
+        float nextTime)
     {
         this.prototype = prototype;
         this.source = source;
-        Duration = duration;
+        Interval = interval;
         Intensity = intensity;
+        this.nextTime = nextTime;
+        TriggerCount = triggerCount;
+    }
+
+    public BuffFlyweightDot AfterTrigger()
+    {
+        return new BuffFlyweightDot(prototype,
+            source,
+            Interval,
+            TriggerCount - 1,
+            Intensity,
+            nextTime + Interval);
     }
 }
