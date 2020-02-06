@@ -1,12 +1,12 @@
-﻿public abstract class DotBuff
+﻿/// <summary>
+/// 公共抽象Dot buff
+/// </summary>
+public abstract class DotBuff : AbstractBuff<BuffFlyweightDot>
 {
-    public abstract ref BuffFlyweightDot Merge(ref BuffFlyweightDot left, ref BuffFlyweightDot right);
-
+    /// <summary>
+    /// 触发时调用
+    /// </summary>
+    /// <param name="holder">buff持有者</param>
+    /// <param name="buff">享元</param>
     public abstract void OnTrigger(IBuffable holder, in BuffFlyweightDot buff);
-
-    public abstract void OnFirstAdd(IBuffable holder, in BuffFlyweightDot buff);
-
-    public abstract void OnRepeatAdd(IBuffable holder, in BuffFlyweightDot buff);
-
-    public abstract bool OnRemove(IBuffable holder, in BuffFlyweightDot buff);
 }

@@ -1,13 +1,16 @@
-﻿public class BuffHeal : DotBuff
+﻿/// <summary>
+/// 回血
+/// </summary>
+public class BuffHeal : DotBuff
 {
     public override ref BuffFlyweightDot Merge(ref BuffFlyweightDot left, ref BuffFlyweightDot right)
     {
-        if (left.Intensity > right.Intensity)
+        if (left.intensity > right.intensity)
         {
             return ref left;
         }
 
-        if (left.Intensity < right.Intensity)
+        if (left.intensity < right.intensity)
         {
             return ref right;
         }
@@ -18,7 +21,7 @@
 
     public override void OnTrigger(IBuffable holder, in BuffFlyweightDot buff)
     {
-        (holder as Entity)?.Heal(buff.Intensity * 0.5f);
+        (holder as Entity)?.Heal(buff.intensity * 0.5f);
     }
 
     public override void OnFirstAdd(IBuffable holder, in BuffFlyweightDot buff) { }

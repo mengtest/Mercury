@@ -107,14 +107,14 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
     #region IBuffable
 
     public void OnUpdateBuffs() { buffs.OnUpdate(); }
-
     public void AddBuff(BuffFlyweightDot dot) { buffs.Add(dot); }
-
+    public void AddBuff(BuffFlyweightState state) { buffs.Add(state); }
     public bool RemoveDotBuff<T>() where T : DotBuff { return buffs.RemoveDot<T>(); }
-
+    public bool RemoveStateBuff<T>() where T : StateBuff { return buffs.RemoveState<T>(); }
     public bool ContainsDotBuff<T>() where T : DotBuff { return buffs.ContainsDot<T>(); }
-
+    public bool ContainsStateBuff<T>() where T : StateBuff { return buffs.ContainsState<T>(); }
     public bool TryGetDotBuff<T>(out BuffFlyweightDot dot) { return buffs.TryGetDot<T>(out dot); }
+    public bool TryGetStateBuff<T>(out BuffFlyweightState state) { return buffs.TryGetState<T>(out state); }
 
     #endregion
 

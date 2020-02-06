@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public struct BuffFlyweightDot
+/// <summary>
+/// 享元模式Dot buff实例
+/// </summary>
+public struct BuffFlyweightDot : IBuffFlyweight<BuffFlyweightDot>
 {
     /// <summary>
     /// 原型
@@ -18,19 +21,21 @@ public struct BuffFlyweightDot
     public readonly float nextTime;
 
     /// <summary>
-    /// 剩余触发次数
-    /// </summary>
-    public int TriggerCount { get; set; }
-
-    /// <summary>
     /// 触发间隔
     /// </summary>
-    public float Interval { get; }
+    public readonly float interval;
 
     /// <summary>
     /// 强度
     /// </summary>
-    public int Intensity { get; }
+    public readonly int intensity;
+
+    /// <summary>
+    /// 剩余触发次数，如果为-1则永久存在
+    /// </summary>
+    public int TriggerCount { get; set; }
+
+    public AbstractBuff<BuffFlyweightDot> Prototype => prototype;
 
     /// <param name="prototype">原型</param>
     /// <param name="source">来源</param>
@@ -67,8 +72,8 @@ public struct BuffFlyweightDot
     {
         this.prototype = prototype;
         this.source = source;
-        Interval = interval;
-        Intensity = intensity;
+        this.interval = interval;
+        this.intensity = intensity;
         this.nextTime = nextTime;
         TriggerCount = triggerCount;
     }
@@ -77,9 +82,9 @@ public struct BuffFlyweightDot
     {
         return new BuffFlyweightDot(prototype,
             source,
-            Interval,
+            interval,
             TriggerCount - 1,
-            Intensity,
-            nextTime + Interval);
+            intensity,
+            nextTime + interval);
     }
 }

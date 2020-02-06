@@ -1,18 +1,26 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Buff处理者
+/// </summary>
 public class BuffHandler
 {
-    private readonly Dictionary<DotBuff, BuffFlyweightDot> _dots;
+    private readonly Dictionary<Type, BuffFlyweightDot> _dots; //TODO:哈希堆？
+    private readonly Dictionary<Type, BuffFlyweightState> _states;
     private readonly IBuffable _holder;
 
-    private List<BuffFlyweightDot> _modifyDots;
+    private readonly List<BuffFlyweightDot> _modifyDots;
+    private readonly List<BuffFlyweightState> _modifyStates;
 
     public BuffHandler(IBuffable holder, int capacity = 2)
     {
         _holder = holder;
-        _dots = new Dictionary<DotBuff, BuffFlyweightDot>(capacity);
+        _dots = new Dictionary<Type, BuffFlyweightDot>(capacity);
         _modifyDots = new List<BuffFlyweightDot>(capacity);
+        _states = new Dictionary<Type, BuffFlyweightState>(capacity);
+        _modifyStates = new List<BuffFlyweightState>(capacity);
     }
 
     public void OnUpdate()
@@ -37,45 +45,75 @@ public class BuffHandler
             var temp = modify.AfterTrigger();
             if (temp.TriggerCount == 0) //触发次数归0直接删除
             {
-                _dots.Remove(modify.prototype);
+                _dots.Remove(modify.prototype.GetType());
                 continue;
             }
 
-            _dots[modify.prototype] = temp;
+            _dots[modify.prototype.GetType()] = temp;
         }
 
         _modifyDots.Clear();
+
+        foreach (var state in _states.Values)
+        {
+            if (state.expireTime <= nowTime) //到期时间小于现在，过期了
+            {
+                _modifyStates.Add(state);
+            }
+        }
+
+        foreach (var state in _modifyStates)
+        {
+            _states.Remove(state.prototype.GetType());
+        }
+
+        _modifyStates.Clear();
     }
 
-    public void Add(BuffFlyweightDot dot)
+    public void Add(BuffFlyweightDot dot) { Add(dot, _dots); }
+
+    public void Add(BuffFlyweightState state) { Add(state, _states); }
+
+    private void Add<T>(T buff, IDictionary<Type, T> dict) where T : struct, IBuffFlyweight<T>
     {
-        if (_dots.TryGetValue(dot.prototype, out var exist))
+        if (dict.TryGetValue(buff.Prototype.GetType(), out var exist))
         {
-            _dots[dot.prototype] = dot.prototype.Merge(ref dot, ref exist);
-            dot.prototype.OnRepeatAdd(_holder, in dot);
+            var tmp = buff.Prototype.Merge(ref buff, ref exist);
+            dict[buff.Prototype.GetType()] = tmp;
+            buff.Prototype.OnRepeatAdd(_holder, in tmp);
         }
         else
         {
-            dot.prototype.OnFirstAdd(_holder, in dot);
-            _dots.Add(dot.prototype, dot);
+            buff.Prototype.OnFirstAdd(_holder, in buff);
+            dict.Add(buff.Prototype.GetType(), buff);
         }
     }
 
     public bool RemoveDot<T>() where T : DotBuff
     {
-        var ins = BuffFactory.Instance.Dots[typeof(T)];
-        if (!_dots.TryGetValue(ins, out var dot))
+        if (!_dots.TryGetValue(typeof(T), out var dot))
         {
             return false;
         }
 
-        return dot.prototype.OnRemove(_holder, in dot) && _dots.Remove(ins);
+        return dot.prototype.OnRemove(_holder, in dot) && _dots.Remove(typeof(T));
     }
 
-    public bool ContainsDot<T>() where T : DotBuff { return _dots.ContainsKey(BuffFactory.Instance.Dots[typeof(T)]); }
-
-    public bool TryGetDot<T>(out BuffFlyweightDot dot)
+    public bool RemoveState<T>() where T : StateBuff
     {
-        return _dots.TryGetValue(BuffFactory.Instance.Dots[typeof(T)], out dot);
+        if (!_states.TryGetValue(typeof(T), out var dot))
+        {
+            return false;
+        }
+
+        return dot.prototype.OnRemove(_holder, in dot) && _states.Remove(typeof(T));
     }
+
+    public bool ContainsDot<T>() where T : DotBuff { return _dots.ContainsKey(typeof(T)); }
+
+    public bool ContainsState<T>() where T : StateBuff { return _states.ContainsKey(typeof(T)); }
+
+    public bool TryGetDot<T>(out BuffFlyweightDot dot) { return _dots.TryGetValue(typeof(T), out dot); }
+
+    public bool TryGetState<T>(out BuffFlyweightState state) { return _states.TryGetValue(typeof(T), out state); }
 }
