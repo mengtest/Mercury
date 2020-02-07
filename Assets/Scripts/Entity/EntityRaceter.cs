@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +8,7 @@ public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
     public GameObject SkillObjCollection { get; private set; }
+    public HashSet<Entity> HasWindMarkBuff { get; } = new HashSet<Entity>();
 
     protected override void OnAwake()
     {
@@ -42,7 +44,17 @@ public class EntityRaceter : EntityPlayer
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            AddBuff(BuffFactory.Instance.GetDot<BuffHeal>(this, 1f, 10, 1));
+            AddBuff(BuffFactory.GetDot(Consts.BUFF_Heal, this, 1f, 10, 1));
+        }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            AddBuff(BuffFactory.GetState(Consts.BUFF_WindMark, this, 30, 1));
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            UseSkill<SkillRaceterFlashCut>();
         }
     }
 
@@ -52,7 +64,16 @@ public class EntityRaceter : EntityPlayer
         if (!_swordResolve.swordState && _swordResolve.IsResolveFull)
         {
             var normalDmg = DamageCalculator.GetDamage(coe, damage);
-            var critDmg = DamageCalculator.GetCritDamage(normalDmg, 1, damage);
+            float critDmg;
+            if (damage == DamageType.True)
+            {
+                critDmg = 0;
+            }
+            else
+            {
+                critDmg = DamageCalculator.GetCritDamage(normalDmg, 1, damage);
+            }
+
             dmg = new Damage(this,
                 normalDmg,
                 critDmg,
@@ -60,8 +81,14 @@ public class EntityRaceter : EntityPlayer
         }
         else
         {
+            var v = DamageCalculator.GetFinalDamage(coe, damage, out var extraCritDamage);
+            if (damage == DamageType.True)
+            {
+                extraCritDamage = 0;
+            }
+
             dmg = new Damage(this,
-                DamageCalculator.GetFinalDamage(coe, damage, out var extraCritDamage),
+                v,
                 extraCritDamage,
                 damage);
         }

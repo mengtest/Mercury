@@ -52,7 +52,7 @@ public class SkillRaceterShadowStrike : SkillObject
     public override void OnEnter()
     {
         _damage = raceter.CalculateDamage(95, DamageType.Physics);
-        _swordResolve.RetractSwordStateUseSkill();
+        _swordResolve.PullSword();
         gameObject.Show();
         raceter.Velocity = Vector2.zero;
         _playerMove.canMove = false;

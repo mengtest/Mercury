@@ -41,7 +41,7 @@ public class SkillRaceterIaiAndSwallowFlip : SkillObject //TODO:居合等特效�
         if (_swordResolve.swordState)
         {
             _damage = raceter.CalculateDamage(60, DamageType.Physics);
-            _swordResolve.RetractSwordStateUseSkill();
+            _swordResolve.PullSword();
             swallowFlipAnim.gameObject.Show();
             _playerMove.canMove = false;
             var face = (int) raceter.GetFace();

@@ -41,6 +41,10 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
                 AddSkill(fsmState);
                 fsmState.Init();
             }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
     }
 
@@ -109,12 +113,18 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
     public void OnUpdateBuffs() { buffs.OnUpdate(); }
     public void AddBuff(BuffFlyweightDot dot) { buffs.Add(dot); }
     public void AddBuff(BuffFlyweightState state) { buffs.Add(state); }
-    public bool RemoveDotBuff<T>() where T : DotBuff { return buffs.RemoveDot<T>(); }
-    public bool RemoveStateBuff<T>() where T : StateBuff { return buffs.RemoveState<T>(); }
-    public bool ContainsDotBuff<T>() where T : DotBuff { return buffs.ContainsDot<T>(); }
-    public bool ContainsStateBuff<T>() where T : StateBuff { return buffs.ContainsState<T>(); }
-    public bool TryGetDotBuff<T>(out BuffFlyweightDot dot) { return buffs.TryGetDot<T>(out dot); }
-    public bool TryGetStateBuff<T>(out BuffFlyweightState state) { return buffs.TryGetState<T>(out state); }
+    public bool RemoveDotBuff(string buffName) { return buffs.RemoveDot(buffName); }
+    public bool RemoveStateBuff(string buffName) { return buffs.RemoveState(buffName); }
+    public BuffFlyweightDot GetDotBuff(string buffName) { return buffs.GetDot(buffName); }
+    public BuffFlyweightState GetStateBuff(string buffName) { return buffs.GetState(buffName); }
+    public bool ContainsDotBuff(string buffName) { return buffs.ContainsDot(buffName); }
+    public bool ContainsStateBuff(string buffName) { return buffs.ContainsState(buffName); }
+    public bool TryGetDotBuff(string buffName, out BuffFlyweightDot dot) { return buffs.TryGetDot(buffName, out dot); }
+
+    public bool TryGetStateBuff(string buffName, out BuffFlyweightState state)
+    {
+        return buffs.TryGetState(buffName, out state);
+    }
 
     #endregion
 
@@ -140,6 +150,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
     public virtual void UnderAttack(in Damage damage)
     {
+        UIManager.Instance.ShowDamage(transform, damage.FinalDamage, damage.type);
         healthPoint -= DamageUtility.ReduceDmgFormula(damage.value, _basicCapability, damage.type);
     }
 

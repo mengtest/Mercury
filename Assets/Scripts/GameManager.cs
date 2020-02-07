@@ -21,6 +21,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         base.OnAwake();
         BuffFactory.Instance.Register(new BuffHeal());
+        BuffFactory.Instance.Register(new BuffWindMark());
     }
 
     public IEnumerator AsyncLoadScene(AssetReference scene, Action<SceneInstance> callback)

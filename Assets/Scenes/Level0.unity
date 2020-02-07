@@ -544,7 +544,7 @@ PrefabInstance:
         type: 3}
       propertyPath: textTypes.Array.data[2].prefab
       value: 
-      objectReference: {fileID: 4863619415112777395, guid: 6d3f8aee5bc130b45a65c4d100cf4813,
+      objectReference: {fileID: 6859662181904809706, guid: 5428828b32b84a2438ae9fcc7524e646,
         type: 3}
     - target: {fileID: 114781188809633792, guid: 960390479103bc945b842e660c2dd922,
         type: 3}

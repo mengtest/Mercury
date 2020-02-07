@@ -18,15 +18,19 @@ public interface IBuffable
     /// </summary>
     void AddBuff(BuffFlyweightState state);
 
-    bool RemoveDotBuff<T>() where T : DotBuff;
+    bool RemoveDotBuff(string buffName);
 
-    bool RemoveStateBuff<T>() where T : StateBuff;
+    bool RemoveStateBuff(string buffName);
 
-    bool ContainsDotBuff<T>() where T : DotBuff;
+    BuffFlyweightDot GetDotBuff(string buffName);
 
-    bool ContainsStateBuff<T>() where T : StateBuff;
+    BuffFlyweightState GetStateBuff(string buffName);
 
-    bool TryGetDotBuff<T>(out BuffFlyweightDot dot);
+    bool ContainsDotBuff(string buffName);
 
-    bool TryGetStateBuff<T>(out BuffFlyweightState state);
+    bool ContainsStateBuff(string buffName);
+
+    bool TryGetDotBuff(string buffName, out BuffFlyweightDot dot);
+
+    bool TryGetStateBuff(string buffName, out BuffFlyweightState state);
 }

@@ -192,6 +192,12 @@ public class DamageChainCalculator
     /// <returns>未暴击的伤害</returns>
     public float GetFinalDamage(float coe, DamageType damageType, out float extraCritDamage)
     {
+        if (damageType == DamageType.True)
+        {
+            extraCritDamage = 0;
+            return GetDamage(coe, damageType);
+        }
+
         var dmg = GetDamage(coe, damageType);
         extraCritDamage = GetCritDamage(dmg, CritProbability, damageType);
         return dmg;

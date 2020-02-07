@@ -77,7 +77,7 @@ public class SkillRaceterBladeWave : SkillObject
 
         _launchCount = loopCount;
         _damage = raceter.CalculateDamage(150, DamageType.Physics);
-        _swordResolve.RetractSwordStateUseSkill();
+        _swordResolve.PullSword();
         LaunchWave();
     }
 

@@ -49,6 +49,20 @@ MonoBehaviour:
     - Mercury
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 78969018e0f305f48a37665b3f80a6cd
+    m_Address: SkillRaceterFlashCut_Effect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mercury
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 8763a6b269b5f204684ed221d53d1635
+    m_Address: SkillRaceterFlashCut
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mercury
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 3a6ee38575ce47a4d8e28f1efe6eb251, type: 2}
   m_SchemaSet:

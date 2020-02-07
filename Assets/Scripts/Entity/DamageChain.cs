@@ -47,7 +47,7 @@ public struct DamageChain : IEquatable<DamageChain>
 
     public bool Equals(DamageChain other)
     {
-        return math.abs(other.coefficient - coefficient) < 0.001f &&
+        return math.abs(other.coefficient - coefficient) < 0.00001f &&
                other.incomeType == incomeType &&
                other.source == source &&
                other.damageType == damageType;

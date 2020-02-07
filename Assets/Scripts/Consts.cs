@@ -7,6 +7,7 @@
     public static readonly string PREFAB_SE_SkillRaceterBladeWave = "SkillRaceterBladeWave";
     public static readonly string PREFAB_SE_SkillRaceterHasaki = "SkillRaceterHasaki";
     public static readonly string PREFAB_SE_SkillRaceterSwallowFlip = "SkillRaceterSwallowFlip";
+    public static readonly string PREFAB_SE_SkillRaceterFlashCut = "SkillRaceterFlashCut";
 
     public static readonly string TAG_SpecialEffect = "SpecialEffect";
     public static readonly string TAG_Step = "Step";
@@ -14,4 +15,7 @@
     public static readonly string TAG_Entity = "Entity";
 
     public static readonly string AddrLable_Mercury = "Mercury";
+
+    public static readonly string BUFF_WindMark = "Mercury:WindMark";
+    public static readonly string BUFF_Heal = "Mercury:Heal";
 }

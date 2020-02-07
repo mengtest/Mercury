@@ -2,13 +2,15 @@
 /// 公共抽象Buff类
 /// </summary>
 /// <typeparam name="T">享元结构体</typeparam>
-public abstract class AbstractBuff<T> where T : struct, IBuffFlyweight<T>
+public abstract class AbstractBuff<T> where T : struct, IBuffFlyweight
 {
+    public abstract string Name { get; }
+
     /// <summary>
     /// 合并已有Buff和新添加Buff，在添加Buff时，如果已有Buff则会触发
     /// </summary>
     /// <returns>合并完成后的buff</returns>
-    public abstract ref T Merge(ref T left, ref T right);
+    public abstract ref T Merge(ref T willAdded, ref T exist);
 
     /// <summary>
     /// 第一次添加Buff时调用

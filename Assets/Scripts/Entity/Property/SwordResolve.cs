@@ -49,13 +49,7 @@ public class SwordResolve : IEntityProperty
             _retractTime += Time.deltaTime;
             if (_retractTime >= 1) //切换为收刀
             {
-                RemoveCritPro();
-                resolve = 0;
-                swordState = false;
-                _timeOverlay = 0f;
-                _lastCritProAdd = 0f;
-                _isRetractSwordState = false;
-                _retractTime = 0f;
+                Retract();
             }
             else
             {
@@ -105,9 +99,9 @@ public class SwordResolve : IEntityProperty
     }
 
     /// <summary>
-    /// 收刀状态下使用技能
+    /// 拔刀
     /// </summary>
-    public void RetractSwordStateUseSkill()
+    public void PullSword()
     {
         if (!swordState) //收刀状态
         {
@@ -116,6 +110,23 @@ public class SwordResolve : IEntityProperty
             swordState = true; //切换为拔刀状态
             _timeOverlay = 0f; //重置计时器
             _lastDamageUpgrade = 0f; //重置增伤累加
+        }
+    }
+    
+    /// <summary>
+    /// 收刀
+    /// </summary>
+    public void Retract()
+    {
+        if (swordState)
+        {
+            RemoveCritPro();
+            resolve = 0;
+            swordState = false;
+            _timeOverlay = 0f;
+            _lastCritProAdd = 0f;
+            _isRetractSwordState = false;
+            _retractTime = 0f;
         }
     }
 

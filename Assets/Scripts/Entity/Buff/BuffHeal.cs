@@ -3,20 +3,22 @@
 /// </summary>
 public class BuffHeal : DotBuff
 {
-    public override ref BuffFlyweightDot Merge(ref BuffFlyweightDot left, ref BuffFlyweightDot right)
+    public override string Name { get; } = Consts.BUFF_Heal;
+
+    public override ref BuffFlyweightDot Merge(ref BuffFlyweightDot willAdded, ref BuffFlyweightDot exist)
     {
-        if (left.intensity > right.intensity)
+        if (willAdded.intensity > exist.intensity)
         {
-            return ref left;
+            return ref willAdded;
         }
 
-        if (left.intensity < right.intensity)
+        if (willAdded.intensity < exist.intensity)
         {
-            return ref right;
+            return ref exist;
         }
 
-        left.TriggerCount += right.TriggerCount;
-        return ref left;
+        willAdded.TriggerCount += exist.TriggerCount;
+        return ref willAdded;
     }
 
     public override void OnTrigger(IBuffable holder, in BuffFlyweightDot buff)

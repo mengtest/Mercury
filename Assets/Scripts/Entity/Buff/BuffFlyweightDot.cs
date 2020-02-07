@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// 享元模式Dot buff实例
 /// </summary>
-public struct BuffFlyweightDot : IBuffFlyweight<BuffFlyweightDot>
+public struct BuffFlyweightDot : IBuffFlyweight
 {
     /// <summary>
     /// 原型
@@ -35,7 +36,16 @@ public struct BuffFlyweightDot : IBuffFlyweight<BuffFlyweightDot>
     /// </summary>
     public int TriggerCount { get; set; }
 
-    public AbstractBuff<BuffFlyweightDot> Prototype => prototype;
+    public AbstractBuff<T> GetPrototype<T>() where T : struct, IBuffFlyweight
+    {
+        var cast = prototype as AbstractBuff<T>;
+        if (cast == null)
+        {
+            throw new InvalidCastException();
+        }
+
+        return cast;
+    }
 
     /// <param name="prototype">原型</param>
     /// <param name="source">来源</param>

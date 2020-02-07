@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +6,8 @@ using UnityEngine;
 /// </summary>
 public class BuffHandler
 {
-    private readonly Dictionary<Type, BuffFlyweightDot> _dots; //TODO:哈希堆？
-    private readonly Dictionary<Type, BuffFlyweightState> _states;
+    private readonly Dictionary<string, BuffFlyweightDot> _dots;
+    private readonly Dictionary<string, BuffFlyweightState> _states;
     private readonly IBuffable _holder;
 
     private readonly List<BuffFlyweightDot> _modifyDots;
@@ -17,9 +16,9 @@ public class BuffHandler
     public BuffHandler(IBuffable holder, int capacity = 2)
     {
         _holder = holder;
-        _dots = new Dictionary<Type, BuffFlyweightDot>(capacity);
+        _dots = new Dictionary<string, BuffFlyweightDot>(capacity);
         _modifyDots = new List<BuffFlyweightDot>(capacity);
-        _states = new Dictionary<Type, BuffFlyweightState>(capacity);
+        _states = new Dictionary<string, BuffFlyweightState>(capacity);
         _modifyStates = new List<BuffFlyweightState>(capacity);
     }
 
@@ -43,20 +42,21 @@ public class BuffHandler
         foreach (var modify in _modifyDots)
         {
             var temp = modify.AfterTrigger();
+            var name = modify.GetPrototype<BuffFlyweightDot>().Name;
             if (temp.TriggerCount == 0) //触发次数归0直接删除
             {
-                _dots.Remove(modify.prototype.GetType());
+                _dots.Remove(name);
                 continue;
             }
 
-            _dots[modify.prototype.GetType()] = temp;
+            _dots[name] = temp;
         }
 
         _modifyDots.Clear();
 
         foreach (var state in _states.Values)
         {
-            if (state.expireTime <= nowTime) //到期时间小于现在，过期了
+            if (state.ExpireTime <= nowTime) //到期时间小于现在，过期了
             {
                 _modifyStates.Add(state);
             }
@@ -64,7 +64,7 @@ public class BuffHandler
 
         foreach (var state in _modifyStates)
         {
-            _states.Remove(state.prototype.GetType());
+            _states.Remove(state.GetPrototype<BuffFlyweightState>().Name);
         }
 
         _modifyStates.Clear();
@@ -74,46 +74,52 @@ public class BuffHandler
 
     public void Add(BuffFlyweightState state) { Add(state, _states); }
 
-    private void Add<T>(T buff, IDictionary<Type, T> dict) where T : struct, IBuffFlyweight<T>
+    private void Add<T>(T buff, IDictionary<string, T> dict) where T : struct, IBuffFlyweight
     {
-        if (dict.TryGetValue(buff.Prototype.GetType(), out var exist))
+        var prototype = buff.GetPrototype<T>();
+        var type = prototype.Name;
+        if (dict.TryGetValue(type, out var exist))
         {
-            var tmp = buff.Prototype.Merge(ref buff, ref exist);
-            dict[buff.Prototype.GetType()] = tmp;
-            buff.Prototype.OnRepeatAdd(_holder, in tmp);
+            var tmp = prototype.Merge(ref buff, ref exist);
+            dict[type] = tmp;
+            prototype.OnRepeatAdd(_holder, in tmp);
         }
         else
         {
-            buff.Prototype.OnFirstAdd(_holder, in buff);
-            dict.Add(buff.Prototype.GetType(), buff);
+            prototype.OnFirstAdd(_holder, in buff);
+            dict.Add(type, buff);
         }
     }
 
-    public bool RemoveDot<T>() where T : DotBuff
+    public bool RemoveDot(string name)
     {
-        if (!_dots.TryGetValue(typeof(T), out var dot))
+        if (!_dots.TryGetValue(name, out var dot))
         {
             return false;
         }
 
-        return dot.prototype.OnRemove(_holder, in dot) && _dots.Remove(typeof(T));
+        return dot.prototype.OnRemove(_holder, in dot) && _dots.Remove(name);
     }
 
-    public bool RemoveState<T>() where T : StateBuff
+    public bool RemoveState(string name)
     {
-        if (!_states.TryGetValue(typeof(T), out var dot))
+        if (!_states.TryGetValue(name, out var dot))
         {
             return false;
         }
 
-        return dot.prototype.OnRemove(_holder, in dot) && _states.Remove(typeof(T));
+        return dot.prototype.OnRemove(_holder, in dot) && _states.Remove(name);
     }
 
-    public bool ContainsDot<T>() where T : DotBuff { return _dots.ContainsKey(typeof(T)); }
+    public bool ContainsDot(string name) { return _dots.ContainsKey(name); }
 
-    public bool ContainsState<T>() where T : StateBuff { return _states.ContainsKey(typeof(T)); }
+    public bool ContainsState(string name) { return _states.ContainsKey(name); }
 
-    public bool TryGetDot<T>(out BuffFlyweightDot dot) { return _dots.TryGetValue(typeof(T), out dot); }
+    public bool TryGetDot(string name, out BuffFlyweightDot dot) { return _dots.TryGetValue(name, out dot); }
 
-    public bool TryGetState<T>(out BuffFlyweightState state) { return _states.TryGetValue(typeof(T), out state); }
+    public bool TryGetState(string name, out BuffFlyweightState state) { return _states.TryGetValue(name, out state); }
+
+    public BuffFlyweightDot GetDot(string name) { return _dots[name]; }
+
+    public BuffFlyweightState GetState(string name) { return _states[name]; }
 }
