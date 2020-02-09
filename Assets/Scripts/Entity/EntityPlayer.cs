@@ -19,7 +19,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
     public override EntityType EntityType { get; } = EntityType.Player;
 
-    protected override async void OnStart()
+    protected override void OnStart()
     {
         base.OnStart();
         controller = GetComponent<CharacterController2D>();
@@ -31,21 +31,21 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
         buffs = new BuffHandler(this);
         SkillFsmSystem = new FSMSystem(new NormalState(this));
         AddSkill(new StiffnessState(this));
-        foreach (var skill in SkillObjects)
-        {
-            var obj = await skill.InstantiateAsync(transform, true).Task;
-            var skillObj = obj.GetComponent<SkillObject>();
-            if (skillObj)
-            {
-                var fsmState = skillObj as IFSMState;
-                AddSkill(fsmState);
-                fsmState.Init();
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
-        }
+        // foreach (var skill in SkillObjects)
+        // {
+        //     var obj = await skill.InstantiateAsync(transform, true).Task;
+        //     var skillObj = obj.GetComponent<SkillObject>();
+        //     if (skillObj)
+        //     {
+        //         var fsmState = skillObj as IFSMState;
+        //         AddSkill(fsmState);
+        //         fsmState.Init();
+        //     }
+        //     else
+        //     {
+        //         throw new ArgumentException();
+        //     }
+        // }
     }
 
     protected override void OnUpdate()
@@ -158,11 +158,7 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
     #region ISkillable
 
-    [SerializeField] private List<AssetReference> _skillObjects = new List<AssetReference>();
-
     public FSMSystem SkillFsmSystem { get; private set; }
-
-    public List<AssetReference> SkillObjects => _skillObjects;
 
     public void AddSkill(IFSMState skill) { SkillFsmSystem.AddState(skill); }
 

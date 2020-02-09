@@ -6,8 +6,6 @@ public interface ISkillable
 {
     FSMSystem SkillFsmSystem { get; }
 
-    List<AssetReference> SkillObjects { get; }
-
     void AddSkill(IFSMState skill);
 
     bool RemoveSkill<T>() where T : class, IFSMState;

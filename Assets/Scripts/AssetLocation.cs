@@ -12,7 +12,7 @@ public struct AssetLocation : IEquatable<AssetLocation>
         this.name = name;
     }
 
-    public List<object> ToObjectList() { return new List<object> {label, name}; }
+    public IList<object> ToObjectList() { return new object[] {label, name}; }
 
     public bool Equals(AssetLocation other) { return other.label == label && other.name == name; }
 

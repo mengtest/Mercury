@@ -12,15 +12,18 @@ public class SceneData : MonoBehaviour
 
     private void Awake() { UIManager.Instance.ShowLoadPanel(0); }
 
-    private async void Start()
+    private void Start()
     {
         GameManager.Instance.nowScene = this;
         UIManager.Instance.textDamageManager = textDamage;
         foreach (var ass in assets)
         {
-            await ass.InstantiateAsync(null, true).Task;
+            ass.InstantiateAsync(null, true);
         }
 
         UIManager.Instance.HideLoadPanel();
+#if UNITY_EDITOR
+        
+#endif
     }
 }
