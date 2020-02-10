@@ -20,6 +20,11 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void OnAwake()
     {
         base.OnAwake();
+        RegisterManager.Register(new EntityEntry(Consts.EntityWoodMan));
+        RegisterManager.Register(new EntityEntry(Consts.EntityFlightProp));
+        RegisterManager.Register(new EntityEntry(Consts.EntityRaceter));
+        RegisterManager.Register(new NormalState());
+        RegisterManager.Register(new StiffnessState());
         BuffFactory.Instance.Register(new BuffHeal());
         BuffFactory.Instance.Register(new BuffWindMark());
     }

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Prime31;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// 玩家
 /// </summary>
-public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveable
+public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveable
 {
     [SerializeField] private BasicCapability _basicCapability = new BasicCapability();
     [SerializeField] private ElementAffinity _elementAffinity = new ElementAffinity();
@@ -29,23 +28,10 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
 
         DamageCalculator = new DamageChainCalculator(this);
         buffs = new BuffHandler(this);
-        SkillFsmSystem = new FSMSystem(new NormalState(this));
-        AddSkill(new StiffnessState(this));
-        // foreach (var skill in SkillObjects)
-        // {
-        //     var obj = await skill.InstantiateAsync(transform, true).Task;
-        //     var skillObj = obj.GetComponent<SkillObject>();
-        //     if (skillObj)
-        //     {
-        //         var fsmState = skillObj as IFSMState;
-        //         AddSkill(fsmState);
-        //         fsmState.Init();
-        //     }
-        //     else
-        //     {
-        //         throw new ArgumentException();
-        //     }
-        // }
+        SkillFsmSystem = new FSMSystem();
+        AddSkill(SkillFactory.Get(Consts.SkillNormal, this));
+        AddSkill(SkillFactory.Get(Consts.SkillStiffness, this, new float[] {0}));
+        UseSkill(Consts.SkillNormal.ToString());
     }
 
     protected override void OnUpdate()
@@ -161,13 +147,9 @@ public class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveabl
     public FSMSystem SkillFsmSystem { get; private set; }
 
     public void AddSkill(IFSMState skill) { SkillFsmSystem.AddState(skill); }
-
-    public bool RemoveSkill<T>() where T : class, IFSMState { return SkillFsmSystem.RemoveState(typeof(T)); }
-
-    public void UseSkill<T>() where T : class, IFSMState { SkillFsmSystem.SwitchState(typeof(T)); }
-
-    public void UseSkill<T>(out T skill) where T : class, IFSMState { SkillFsmSystem.SwitchState(out skill); }
-
+    public bool RemoveSkill(string skillName) { return SkillFsmSystem.RemoveState(skillName); }
+    public void UseSkill(string skillName) { SkillFsmSystem.SwitchState(skillName); }
+    public void UseSkill(string skillName, out IFSMState skill) { SkillFsmSystem.SwitchState(skillName, out skill); }
     public void OnUpdateSkills() { SkillFsmSystem.OnUpdate(); }
 
     #endregion

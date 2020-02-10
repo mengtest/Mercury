@@ -35,7 +35,7 @@ public class SkillRaceterShadowStrike : SkillObject
 
     public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
 
-    public override void OnAct()
+    public override void OnUpdate()
     {
         _duration -= Time.deltaTime;
         if (_duration <= 0)
@@ -83,7 +83,7 @@ public class SkillRaceterShadowStrike : SkillObject
 
     protected override void OnTriggerEnterEvent(Collider2D coll)
     {
-        if (!coll.CompareTag(Consts.TAG_Entity))
+        if (!coll.CompareTag(Consts.Entity))
         {
             return;
         }

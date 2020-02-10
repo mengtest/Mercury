@@ -9,6 +9,7 @@ public class EntityRaceter : EntityPlayer
     [SerializeField] private SwordResolve _swordResolve;
     public GameObject SkillObjCollection { get; private set; }
     public HashSet<Entity> HasWindMarkBuff { get; } = new HashSet<Entity>();
+    public override AssetLocation RegisterName { get; } = Consts.EntityRaceter;
 
     protected override void OnAwake()
     {
@@ -27,21 +28,6 @@ public class EntityRaceter : EntityPlayer
     {
         base.OnUpdate();
         _swordResolve.OnUpdate();
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            UseSkill<SkillRaceterBladeWave>();
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            UseSkill<SkillRaceterShadowStrike>();
-        }
-
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            UseSkill<SkillRaceterIaiAndSwallowFlip>();
-        }
-
         if (Input.GetKeyDown(KeyCode.W))
         {
             AddBuff(BuffFactory.GetDot(Consts.BUFF_Heal, this, 1f, 10, 1));
@@ -52,9 +38,10 @@ public class EntityRaceter : EntityPlayer
             AddBuff(BuffFactory.GetState(Consts.BUFF_WindMark, this, 30, 1));
         }
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            UseSkill<SkillRaceterFlashCut>();
+            UseSkill(Consts.SkillStiffness.ToString(), out var t);
+            ((t as SkillStack).property as float[])[0] = Time.time + 2;
         }
     }
 

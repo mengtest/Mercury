@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 /// <summary>
 /// 有限状态机
 /// </summary>
 public class FSMSystem
 {
-    private readonly Dictionary<Type, IFSMState> _states = new Dictionary<Type, IFSMState>();
+    private readonly Dictionary<string, IFSMState> _states = new Dictionary<string, IFSMState>();
 
     /// <summary>
     /// 所有状态
     /// </summary>
-    public IReadOnlyDictionary<Type, IFSMState> States => _states;
+    public IReadOnlyDictionary<string, IFSMState> States => _states;
 
     /// <summary>
     /// 当前状态
@@ -28,61 +27,62 @@ public class FSMSystem
         CurrentState = defaultState;
     }
 
+    public FSMSystem() { CurrentState = null; }
+
     /// <summary>
     /// 添加状态
     /// </summary>
     /// <param name="state">状态实例</param>
-    public void AddState(IFSMState state) { _states.Add(state.GetType(), state); }
+    public void AddState(IFSMState state) { _states.Add(state.RegisterName.ToString(), state); }
 
     /// <summary>
     /// 移除状态
     /// </summary>
-    /// <param name="type">状态类型</param>
+    /// <param name="stateName">状态名字</param>
     /// <returns>是否删除成功</returns>
-    public bool RemoveState(Type type) { return _states.Remove(type); }
+    public bool RemoveState(string stateName) { return _states.Remove(stateName); }
 
     /// <summary>
     /// 切换状态
     /// </summary>
-    /// <param name="type">需要切换的状态类型</param>
+    /// <param name="stateName">需要切换的状态类型</param>
     /// <returns>是否切换成功</returns>
-    public bool SwitchState(Type type) { return SwitchState(type, out _); }
-
-    /// <summary>
-    /// 切换状态
-    /// </summary>
-    /// <param name="type">需要切换的状态类型</param>
-    /// <param name="state">状态实例</param>
-    /// <returns>是否切换成功</returns>
-    public bool SwitchState(Type type, out IFSMState state)
+    public bool SwitchState(string stateName)
     {
-        if (CurrentState == null)
-        {
-            state = default;
-            return false;
-        }
-
-        state = _states[type];
+        var state = _states[stateName];
         if (!state.CanEnter())
         {
             return false;
         }
 
-        CurrentState.OnLeave();
+        CurrentState?.OnLeave();
         state.OnEnter();
         CurrentState = state;
         return true;
     }
 
-    public bool SwitchState<T>(out T state) where T : class, IFSMState
+    /// <summary>
+    /// 切换状态
+    /// </summary>
+    /// <param name="stateName">需要切换的状态类型</param>
+    /// <param name="state">状态实例</param>
+    /// <returns>是否切换成功</returns>
+    public bool SwitchState(string stateName, out IFSMState state)
     {
-        var res = SwitchState(typeof(T), out var fsmState);
-        state = fsmState as T;
-        return res;
+        state = _states[stateName];
+        if (!state.CanEnter())
+        {
+            return false;
+        }
+
+        CurrentState?.OnLeave();
+        state.OnEnter();
+        CurrentState = state;
+        return true;
     }
 
     /// <summary>
     /// 每帧调用当前状态
     /// </summary>
-    public void OnUpdate() { CurrentState.OnAct(); }
+    public void OnUpdate() { CurrentState.OnUpdate(); }
 }

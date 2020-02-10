@@ -51,11 +51,13 @@ public abstract class Entity : MonoBehaviour
     public float HpRecoverPerSec => hpRecoverPerSec;
     public float DeadBodySurviveTime => deadBodySurviveTime;
     public abstract EntityType EntityType { get; }
+    public abstract AssetLocation RegisterName { get; }
 
     private void Awake() { OnAwake(); }
 
     protected virtual void OnAwake()
     {
+        RegisterManager.OnEntityInstantiate(RegisterName);
         properties = new Dictionary<Type, IEntityProperty>();
         physicalSystems = new List<IEntitySystem>();
         normalSystems = new List<IEntitySystem>();

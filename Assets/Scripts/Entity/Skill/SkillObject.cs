@@ -5,8 +5,9 @@ public abstract class SkillObject : MonoBehaviour, IFSMState
     public float cd;
     public float lastUse = float.MinValue;
 
+    public AssetLocation RegisterName { get; } = new AssetLocation();
     public abstract FSMSystem System { get; }
-    
+
     private void OnTriggerEnter2D(Collider2D collision) { OnTriggerEnterEvent(collision); }
 
     protected virtual void OnTriggerEnterEvent(Collider2D coll) { }
@@ -31,17 +32,17 @@ public abstract class SkillObject : MonoBehaviour, IFSMState
 
     protected void EnterStiffness(float time)
     {
-        System.SwitchState<StiffnessState>(out var state);
-        state.Duration = time;
+        //System.SwitchState(,out var state);
+        //state.Duration = time;
     }
-    
+
     public abstract void Init();
 
     public abstract bool CanEnter();
 
     public abstract void OnEnter();
 
-    public abstract void OnAct();
+    public abstract void OnUpdate();
 
     public abstract void OnLeave();
 }

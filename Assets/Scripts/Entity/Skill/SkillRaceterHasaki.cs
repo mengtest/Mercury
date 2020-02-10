@@ -13,7 +13,7 @@ public class SkillRaceterHasaki : SkillObject
 
     public override void OnEnter() { throw new System.NotImplementedException(); }
 
-    public override void OnAct() { throw new System.NotImplementedException(); }
+    public override void OnUpdate() { throw new System.NotImplementedException(); }
 
     public override void OnLeave() { throw new System.NotImplementedException(); }
 }

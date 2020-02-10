@@ -7,6 +7,7 @@ public class AssetBundleConfig : ScriptableObject
 {
     public string abExportPath = "Assets/StreamingAssets";
     public List<BundleCollection> bundles;
+    
 }
 
 [Serializable]

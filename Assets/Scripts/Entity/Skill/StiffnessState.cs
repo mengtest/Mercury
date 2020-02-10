@@ -5,30 +5,30 @@
 /// </summary>
 public class StiffnessState : AbstractSkill
 {
-    private readonly MoveCapability _move;
+    public override AssetLocation RegisterName { get; } = Consts.SkillStiffness;
+    public override void Init(SkillStack stack) { }
 
-    public float Duration { get; set; }
+    public override bool CanEnter(SkillStack stack) { return true; }
 
-    public StiffnessState(ISkillable holder) : base(holder, 0)
+    public override void OnEnter(SkillStack stack)
     {
-        if (holder is Entity e)
+        var move = stack.user.GetProperty<MoveCapability>();
+        move.canMove = false;
+    }
+
+    public override void OnUpdate(SkillStack stack)
+    {
+        var property = stack.property as float[];
+        var expireTime = property[0];
+        if (Time.time > expireTime)
         {
-            _move = e.GetProperty<MoveCapability>();
+            stack.user.UseSkill(new AssetLocation(Consts.Mercury, Consts.Skill, "Normal").ToString());
         }
     }
 
-    public override bool CanEnter() { return true; }
-
-    public override void OnAct()
+    public override void OnLeave(SkillStack stack)
     {
-        Duration -= Time.deltaTime * 1000;
-        if (Duration <= 0)
-        {
-            skillHolder.UseSkill<NormalState>();
-        }
+        var move = stack.user.GetProperty<MoveCapability>();
+        move.canMove = true;
     }
-
-    public override void OnEnter() { _move.canMove = false; }
-
-    public override void OnLeave() { _move.canMove = true; }
 }

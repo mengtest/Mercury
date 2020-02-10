@@ -89,7 +89,7 @@ public class SkillRaceterFlashCut : SkillObject
         _move.canMove = false;
     }
 
-    public override void OnAct()
+    public override void OnUpdate()
     {
         if (Time.time >= _expireTime)
         {

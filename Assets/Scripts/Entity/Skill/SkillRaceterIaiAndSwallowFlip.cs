@@ -56,7 +56,7 @@ public class SkillRaceterIaiAndSwallowFlip : SkillObject //TODO:居合等特效�
         }
     }
 
-    public override void OnAct()
+    public override void OnUpdate()
     {
         _animDuration -= Time.deltaTime;
         if (_animDuration <= 0)
@@ -75,7 +75,7 @@ public class SkillRaceterIaiAndSwallowFlip : SkillObject //TODO:居合等特效�
 
     private void OnSwallowTriggerEvent(Collider2D coll)
     {
-        if (!coll.CompareTag(Consts.TAG_Entity))
+        if (!coll.CompareTag(Consts.Entity))
         {
             return;
         }

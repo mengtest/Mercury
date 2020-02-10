@@ -3,6 +3,7 @@
 public class EntityWoodMan : Entity, IAttackable
 {
     public override EntityType EntityType { get; } = EntityType.Enemy;
+    public override AssetLocation RegisterName { get; } = Consts.EntityWoodMan;
 
     protected override void OnStart()
     {

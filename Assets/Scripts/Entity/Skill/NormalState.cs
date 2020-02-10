@@ -1,30 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿/// <summary>
+/// 普通状态
+/// </summary>
 public class NormalState : AbstractSkill
 {
-	public NormalState(ISkillable holder) : base(holder, 0)
-	{
-	}
+    public override AssetLocation RegisterName { get; } = Consts.SkillNormal;
+    public override void Init(SkillStack stack) { }
 
-	public override bool CanEnter()
-	{
-		return true;
-	}
+    public override bool CanEnter(SkillStack stack) { return true; }
 
-	public override void OnAct()
-	{
+    public override void OnEnter(SkillStack stack) { }
 
-	}
+    public override void OnUpdate(SkillStack stack) { }
 
-	public override void OnEnter()
-	{
-
-	}
-
-	public override void OnLeave()
-	{
-
-	}
+    public override void OnLeave(SkillStack stack) { }
 }

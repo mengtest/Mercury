@@ -6,13 +6,15 @@ public interface ISkillable
 {
     FSMSystem SkillFsmSystem { get; }
 
+    T GetProperty<T>() where T : class, IEntityProperty;
+
     void AddSkill(IFSMState skill);
 
-    bool RemoveSkill<T>() where T : class, IFSMState;
+    bool RemoveSkill(string skillName);
 
-    void UseSkill<T>() where T : class, IFSMState;
+    void UseSkill(string skillName);
 
-    void UseSkill<T>(out T skill) where T : class, IFSMState;
+    void UseSkill(string skillName, out IFSMState skill);
 
     void OnUpdateSkills();
 }

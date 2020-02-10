@@ -49,7 +49,7 @@ public class SkillRaceterBladeWave : SkillObject
 
     public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
 
-    public override void OnAct()
+    public override void OnUpdate()
     {
         if (_launchCount > 0)
         {
@@ -100,7 +100,7 @@ public class SkillRaceterBladeWave : SkillObject
                 return false;
             }
 
-            if (!t.CompareTag(Consts.TAG_Entity))
+            if (!t.CompareTag(Consts.Entity))
             {
                 return false;
             }

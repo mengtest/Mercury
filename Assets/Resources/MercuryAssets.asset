@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abExportPath: Assets/StreamingAssets
   bundles:
-  - bundleName: raceter
+  - bundleName: foundation
     prefabs:
     - {fileID: 5643275295716021013, guid: 0df942b526a128841b2c4d541bbbfd1a, type: 3}
