@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 硬直状态
@@ -6,6 +7,7 @@
 public class StiffnessState : AbstractSkill
 {
     public override AssetLocation RegisterName { get; } = Consts.SkillStiffness;
+    public override IReadOnlyList<AssetLocation> DependAssets { get; } = null;
     public override void Init(SkillStack stack) { }
 
     public override bool CanEnter(SkillStack stack) { return true; }
@@ -22,7 +24,7 @@ public class StiffnessState : AbstractSkill
         var expireTime = property[0];
         if (Time.time > expireTime)
         {
-            stack.user.UseSkill(new AssetLocation(Consts.Mercury, Consts.Skill, "Normal").ToString());
+            stack.user.UseSkill(Consts.SkillNormal.ToString());
         }
     }
 

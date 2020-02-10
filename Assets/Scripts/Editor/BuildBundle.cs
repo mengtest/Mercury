@@ -24,20 +24,6 @@ public class BuildBundle : EditorWindow
         EditorUtility.DisplayProgressBar("删除AB包名字", "", 0);
         Array.ForEach(AssetDatabase.GetAllAssetBundleNames(),
             abName => AssetDatabase.RemoveAssetBundleName(abName, true));
-        // var dir = new DirectoryInfo(Application.streamingAssetsPath).GetFileSystemInfos();
-        // foreach (var i in dir)
-        // {
-        //     if (i is DirectoryInfo)
-        //     {
-        //         var subDir = new DirectoryInfo(i.FullName);
-        //         subDir.Delete(true);
-        //     }
-        //     else
-        //     {
-        //         File.Delete(i.FullName);
-        //     }
-        // }
-
         EditorUtility.ClearProgressBar();
     }
 
@@ -60,7 +46,7 @@ public class BuildBundle : EditorWindow
         {
             return;
         }
-        
+
         ClearAssetBundleSet();
         var config = AssetDatabase.LoadAssetAtPath<AssetBundleConfig>(_path);
         if (!config)
@@ -131,7 +117,16 @@ public class BuildBundle : EditorWindow
 
                 if (abName.Contains("."))
                 {
-                    assetImporter.assetBundleName = abName;
+                    var t = abName.Split('.');
+                    var res = string.Empty;
+                    for (var i = 0; i < t.Length - 1; i++)
+                    {
+                        res += t[i];
+                    }
+
+                    res += ".bundle";
+
+                    assetImporter.assetBundleName = res;
                 }
                 else
                 {

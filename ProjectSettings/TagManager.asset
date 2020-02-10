@@ -6,9 +6,9 @@ TagManager:
   tags:
   - Step
   - SpecialEffect
-  - Entity
   - StepCross
   - EntityFlight
+  - entity
   layers:
   - Default
   - TransparentFX
@@ -20,7 +20,7 @@ TagManager:
   - 
   - PostProcessing
   - Skill
-  - Entity
+  - entity
   - CrossableStep
   - 
   - 

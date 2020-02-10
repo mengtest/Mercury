@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine.AddressableAssets;
-
-public interface ISkillable
+﻿public interface ISkillable
 {
     FSMSystem SkillFsmSystem { get; }
 

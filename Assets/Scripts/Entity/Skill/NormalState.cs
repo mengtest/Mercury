@@ -1,9 +1,12 @@
-﻿/// <summary>
+﻿using System.Collections.Generic;
+
+/// <summary>
 /// 普通状态
 /// </summary>
 public class NormalState : AbstractSkill
 {
     public override AssetLocation RegisterName { get; } = Consts.SkillNormal;
+    public override IReadOnlyList<AssetLocation> DependAssets { get; } = null;
     public override void Init(SkillStack stack) { }
 
     public override bool CanEnter(SkillStack stack) { return true; }

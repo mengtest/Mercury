@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abExportPath: Assets/StreamingAssets
   bundles:
-  - bundleName: foundation
+  - bundleName: Mercury
     prefabs:
     - {fileID: 5643275295716021013, guid: 0df942b526a128841b2c4d541bbbfd1a, type: 3}
+    - {fileID: 4750474201122718943, guid: f3c5d65566b7c05409af1827fcd6313b, type: 3}

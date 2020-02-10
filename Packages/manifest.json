@@ -9,7 +9,6 @@
     }
   ],
   "dependencies": {
-    "com.unity.addressables": "1.6.0",
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.2.3",
     "com.unity.assetbundlebrowser": "1.7.0",

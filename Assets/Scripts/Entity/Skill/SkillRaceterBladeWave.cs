@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// 狂风剑刃
@@ -9,7 +8,7 @@ using UnityEngine.AddressableAssets;
 public class SkillRaceterBladeWave : SkillObject
 {
     public EntityRaceter raceter;
-    public AssetReference bladeWave;
+    // public AssetReference bladeWave;
     private GameObject _wavePrefab;
     private Stack<EntityFlightProp> _wavePool;
     private MoveCapability _move;
@@ -30,13 +29,13 @@ public class SkillRaceterBladeWave : SkillObject
         _wavePool = null;
     }
 
-    public override async void Init()
+    public override void Init()
     {
         raceter = transform.parent.GetComponent<EntityRaceter>();
         _move = raceter.GetProperty<MoveCapability>();
         _swordResolve = raceter.GetProperty<SwordResolve>();
         _wavePool = new Stack<EntityFlightProp>(5);
-        _wavePrefab = await bladeWave.LoadAssetAsync<GameObject>().Task;
+        // _wavePrefab = await bladeWave.LoadAssetAsync<GameObject>().Task;
         transform.parent = raceter.SkillObjCollection.transform;
     }
 

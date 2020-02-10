@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// 烈
@@ -9,7 +8,7 @@ using UnityEngine.AddressableAssets;
 public class SkillRaceterFlashCut : SkillObject
 {
     public EntityRaceter raceter;
-    public AssetReference flashCut;
+    // public AssetReference flashCut;
     private GameObject _flashCutPrefab;
     private MoveCapability _move;
     private Stack<Animator> _flashPool;
@@ -39,7 +38,7 @@ public class SkillRaceterFlashCut : SkillObject
         _swordResolve = raceter.GetProperty<SwordResolve>();
         _flashPool = new Stack<Animator>(1);
         _activeFlash = new Queue<Animator>();
-        _flashCutPrefab = await flashCut.LoadAssetAsync<GameObject>().Task;
+        // _flashCutPrefab = await flashCut.LoadAssetAsync<GameObject>().Task;
         var anim = GetFlashCut();
         anim.gameObject.Hide();
         _animLength = SkillUtility.GetClipLength(anim, Consts.PREFAB_SE_SkillRaceterFlashCut);

@@ -5,12 +5,14 @@ public struct AssetLocation : IEquatable<AssetLocation>
     public readonly string label;
     public readonly string type;
     public readonly string name;
+    private string _fullName;
 
     public AssetLocation(string label, string type, string name)
     {
         this.label = label;
         this.type = type;
         this.name = name;
+        _fullName = null;
     }
 
     //public IList<object> ToObjectList() { return new object[] {label, name}; }
@@ -21,5 +23,16 @@ public struct AssetLocation : IEquatable<AssetLocation>
 
     public override int GetHashCode() { return label.GetHashCode() ^ name.GetHashCode() ^ type.GetHashCode(); }
 
-    public override string ToString() { return $"{label}:{type}:{name}"; }
+    public string GetAssetName() { return $"{type}.{name}"; }
+
+    public override string ToString()
+    {
+        if (_fullName != null)
+        {
+            return _fullName;
+        }
+
+        _fullName = $"{label}.{type}.{name}";
+        return _fullName;
+    }
 }

@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+
 public abstract class AbstractSkill : IRegistryEntry
 {
     public abstract AssetLocation RegisterName { get; }
+    public abstract IReadOnlyList<AssetLocation> DependAssets { get; }
     public abstract void Init(SkillStack stack);
     public abstract bool CanEnter(SkillStack stack);
     public abstract void OnEnter(SkillStack stack);

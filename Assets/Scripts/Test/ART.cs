@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
+﻿using UnityEngine;
 
 public class ART : MonoBehaviour
 {
-    public AssetReference reference;
-    private AsyncOperationHandle<GameObject> _handle;
+    // public AssetReference reference;
+    // private AsyncOperationHandle<GameObject> _handle;
 
     // private void Awake()
     // {
@@ -19,7 +14,7 @@ public class ART : MonoBehaviour
     private void Start()
     {
         //Debug.Log($"Start,{Time.frameCount}");
-        _handle = reference.InstantiateAsync();
+        // _handle = reference.InstantiateAsync();
         //_handle.Completed += (res) => Debug.LogWarning("Doooooooone!");
         //LoadManager.Instance.AddRequest(_handle);
         //LoadManager.Instance.StartLoad();

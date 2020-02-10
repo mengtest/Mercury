@@ -15,7 +15,7 @@ public class EntityRaceter : EntityPlayer
     {
         base.OnAwake();
         _swordResolve = new SwordResolve(this);
-        SkillObjCollection = new GameObject("EntityRaceterSkills");
+        //SkillObjCollection = new GameObject("EntityRaceterSkills");
     }
 
     protected override void OnStart()

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Buff处理者
 /// </summary>
-public class BuffHandler
+public class BuffHandler //TODO：将状态和Dot合并
 {
     private readonly Dictionary<string, BuffFlyweightDot> _dots;
     private readonly Dictionary<string, BuffFlyweightState> _states;

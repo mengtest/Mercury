@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class TestLoad : MonoBehaviour
 {
@@ -13,6 +9,6 @@ public class TestLoad : MonoBehaviour
         //Debug.LogWarning("Stop test load sleep");
         //LoadManager.Instance.AddInstantiateRequest("Assets/Prefabs/OtherObject.prefab");
         //Debug.LogWarning("Start OTHER load sleep");
-        Addressables.InstantiateAsync("Assets/Prefabs/OtherObject.prefab");
+        // Addressables.InstantiateAsync("Assets/Prefabs/OtherObject.prefab");
     }
 }
