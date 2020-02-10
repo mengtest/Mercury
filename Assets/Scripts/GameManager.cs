@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 [Serializable]
 public struct LevelAsset
@@ -21,7 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         UIManager.Instance.Init();
         UIManager.Instance.ShowLoadPanel(0);
-        AssetManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());
+        BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());
 
         RegisterManager.Register(new EntityEntry(Consts.EntityWoodMan, new[] {Consts.EntityWoodMan}));
         RegisterManager.Register(new EntityEntry(Consts.EntityFlightProp));

@@ -22,11 +22,11 @@ public class LevelPanel : MonoBehaviour
 
             b.onClick.AddListener(() =>
             {
-                AssetManager.Instance.ReadyToLoad(UIManager.Instance.HideLoadPanel);
+                BundleManager.Instance.ReadyToLoad(UIManager.Instance.HideLoadPanel);
                 var req = SceneManager.LoadSceneAsync(levelRef.name, LoadSceneMode.Single);
                 UIManager.Instance.ShowLoadPanel(() => req.progress);
-                AssetManager.Instance.AddRequest(req);
-                AssetManager.Instance.StartLoad();
+                BundleManager.Instance.AddRequest(req);
+                BundleManager.Instance.StartLoad();
                 gameObject.Hide();
             });
         }

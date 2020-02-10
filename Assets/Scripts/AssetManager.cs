@@ -1,141 +1,143 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
-public enum LoadState
+public class Asset
 {
-    Init,
-    Loading,
-    Sleep,
-    Ready
-}
+    public readonly string name;
 
-public class AssetManager : MonoSingleton<AssetManager>
-{
-    public LoadState state = LoadState.Init;
-    private Dictionary<string, AssetBundle> _abs;
-    private List<AsyncOperation> _loadReq;
+    /// <summary>
+    /// 你不应该直接使用这个
+    /// </summary>
+    public UnityEngine.Object res;
 
-    private Action _onLoadComplete;
+    public AssetBundleRequest request;
+    internal HashSet<GameObject> goRef;
+    internal int refCount;
 
-    protected override void OnUpdate()
+    public Asset(string resName) { name = resName; }
+
+    public int RefCount
     {
-        switch (state)
+        get => refCount;
+        set
         {
-            case LoadState.Loading:
+            if (value < 0)
             {
-                Loading();
-                break;
+                throw new InvalidOperationException($"引用计数不能小于0");
             }
-            case LoadState.Init:
-            {
-                Loading();
-                break;
-            }
-            case LoadState.Sleep:
-                return;
-            case LoadState.Ready:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+
+            refCount = value;
         }
     }
 
-    public void Init(Action onComplete)
+    public T Get<T>() where T : UnityEngine.Object
     {
-        CheckState(LoadState.Init);
-        var asRoot = new DirectoryInfo(Application.streamingAssetsPath);
-        if (!asRoot.Exists)
+        RefCount += 1;
+        return res as T;
+    }
+
+    public GameObject Instantiate()
+    {
+        if (!(res is GameObject go))
         {
             throw new InvalidOperationException();
         }
 
-        var files = asRoot.GetFiles("*.bundle");
-        _abs = new Dictionary<string, AssetBundle>(files.Length);
-        _loadReq = new List<AsyncOperation>(files.Length);
-        foreach (var file in files)
+        RefCount += 1;
+        if (goRef == null)
         {
-            var req = AssetBundle.LoadFromFileAsync(file.FullName);
-            req.completed += ab =>
-            {
-                var prefix = file.Name.Split('.');
-                _abs.Add(prefix[0], req.assetBundle);
-                Debug.Log($"loaded {prefix[0]}");
-            };
-            _loadReq.Add(req);
+            goRef = new HashSet<GameObject>();
         }
 
-        _onLoadComplete += () => Debug.Log("Complete!");
-        _onLoadComplete += onComplete;
+        var g = UnityEngine.Object.Instantiate(go);
+        goRef.Add(g);
+        return g;
     }
 
-    public void ReadyToLoad(Action onComplete = null)
+    public void Recycle(ref GameObject asset)
     {
-        CheckState(LoadState.Sleep, "只有Sleep可以准备加载");
-        state = LoadState.Ready;
-        _onLoadComplete = onComplete;
-        _loadReq = new List<AsyncOperation>();
-    }
-
-    public void AddRequest(AsyncOperation request)
-    {
-        CheckState(LoadState.Ready);
-        _loadReq.Add(request);
-    }
-
-    public void AddRequest<T>(AssetLocation assetLocation, Action<AsyncOperation> callback = null)
-        where T : UnityEngine.Object
-    {
-        CheckState(LoadState.Ready);
-        if (_abs.TryGetValue(assetLocation.label, out var ab))
+        if (asset == res)
         {
-            var req = ab.LoadAssetAsync<T>(assetLocation.GetAssetName());
-            if (callback != null)
-            {
-                req.completed += callback;
-            }
-
-            _loadReq.Add(req);
+            RefCount -= 1;
+            asset = null;
         }
         else
         {
-            throw new ArgumentException(assetLocation.ToString());
+            throw new InvalidOperationException();
         }
     }
 
-    public void StartLoad()
+    public void Destroy(GameObject instance)
     {
-        CheckState(LoadState.Ready);
-        state = LoadState.Loading;
-    }
-
-    private void Loading()
-    {
-        var done = true;
-        foreach (var op in _loadReq)
+        if (goRef.Contains(instance))
         {
-            if (!op.isDone)
+            RefCount -= 1;
+            UnityEngine.Object.Destroy(instance);
+        }
+        else
+        {
+            throw new InvalidOperationException();
+        }
+    }
+}
+
+public class AssetManager : Singleton<AssetManager>
+{
+    private readonly Dictionary<string, Asset> _actRes;
+
+    public IReadOnlyDictionary<string, Asset> LoadedAssets => _actRes;
+
+    private AssetManager() { _actRes = new Dictionary<string, Asset>(); }
+
+    public static void ReadyToLoad(Action onComplete = null) { BundleManager.Instance.ReadyToLoad(onComplete); }
+
+    public static void AddRequest<T>(AssetLocation location, Action<Asset> callback = null) where T : UnityEngine.Object
+    {
+        var name = location.ToString();
+        var q = BundleManager.Instance.AddRequest<T>(location,
+            req =>
             {
-                done = false;
-                break;
-            }
-        }
+                if (!(req is AssetBundleRequest bundle))
+                {
+                    throw new InvalidOperationException();
+                }
 
-        if (done)
-        {
-            _onLoadComplete?.Invoke();
-            _onLoadComplete = null;
-            _loadReq = null;
-            state = LoadState.Sleep;
-        }
+                if (bundle.asset is T obj)
+                {
+                    var asset = Instance._actRes[name];
+                    asset.request = null;
+                    asset.res = obj;
+                    callback?.Invoke(asset);
+                }
+                else
+                {
+                    throw new ArgumentException($"请求参数是{typeof(T)},但资源类型是{bundle.asset.GetType()}");
+                }
+            });
+        Instance._actRes.Add(name, new Asset(name) {request = q});
     }
 
-    private void CheckState(LoadState targetState, string msg = "")
+    public static void StartLoad() { BundleManager.Instance.StartLoad(); }
+
+    public static void DestroyActiveResources()
     {
-        if (state != targetState)
+        foreach (var asset in Instance._actRes.Values)
         {
-            throw new InvalidOperationException($"当前状态:{targetState},{msg}");
+            if (asset.res is GameObject && asset.goRef != null)
+            {
+                foreach (var o in asset.goRef)
+                {
+                    UnityEngine.Object.Destroy(o);
+                }
+
+                asset.refCount = 0;
+            }
+
+            if (asset.RefCount != 0)
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }

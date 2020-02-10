@@ -26,10 +26,10 @@ public class SceneData : MonoBehaviour
     {
         while (true)
         {
-            if (!loaded && AssetManager.Instance.state == LoadState.Sleep)
+            if (!loaded && BundleManager.Instance.state == LoadState.Sleep)
             {
                 UIManager.Instance.ShowLoadPanel(0);
-                AssetManager.Instance.ReadyToLoad(() =>
+                AssetManager.ReadyToLoad(() =>
                 {
                     UIManager.Instance.HideLoadPanel();
                     loaded = true;
@@ -37,21 +37,10 @@ public class SceneData : MonoBehaviour
                 });
                 foreach (var element in GameManager.Instance.nextSceneElements)
                 {
-                    AssetManager.Instance.AddRequest<GameObject>(element,
-                        req =>
-                        {
-                            if (req is AssetBundleRequest abq)
-                            {
-                                Instantiate(abq.asset);
-                            }
-                            else
-                            {
-                                throw new InvalidOperationException();
-                            }
-                        });
+                    AssetManager.AddRequest<GameObject>(element, asset => asset.Instantiate());
                 }
 
-                AssetManager.Instance.StartLoad();
+                AssetManager.StartLoad();
                 yield break;
             }
 
