@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Prime31;
 using Unity.Mathematics;
 using UnityEngine;
@@ -9,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveable
 {
+    public GameObject skillCollection;
     [SerializeField] private BasicCapability _basicCapability = new BasicCapability();
     [SerializeField] private ElementAffinity _elementAffinity = new ElementAffinity();
     [SerializeField] private MoveCapability _moveCapability = new MoveCapability();
@@ -29,8 +29,8 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
         DamageCalculator = new DamageChainCalculator(this);
         buffs = new BuffHandler(this);
         SkillFsmSystem = new FSMSystem();
-        AddSkill(SkillFactory.Get(Consts.SkillNormal, this));
-        AddSkill(SkillFactory.Get(Consts.SkillStiffness, this, new float[] {0}));
+        AddSkill(SkillFactory.Get<NormalState>(Consts.SkillNormal, this));
+        AddSkill(SkillFactory.Get<StiffnessState>(Consts.SkillStiffness, this));
         UseSkill(Consts.SkillNormal.ToString());
     }
 
@@ -145,6 +145,7 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     #region ISkillable
 
     public FSMSystem SkillFsmSystem { get; private set; }
+    public GameObject SkillCollection => skillCollection;
 
     public void AddSkill(IFSMState skill) { SkillFsmSystem.AddState(skill); }
     public bool RemoveSkill(string skillName) { return SkillFsmSystem.RemoveState(skillName); }

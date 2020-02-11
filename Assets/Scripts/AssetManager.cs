@@ -138,6 +138,10 @@ public class AssetManager : Singleton<AssetManager>
             {
                 throw new InvalidOperationException();
             }
+
+            UnityEngine.Object.DestroyImmediate(asset.res, true);
         }
+
+        Instance._actRes.Clear();
     }
 }

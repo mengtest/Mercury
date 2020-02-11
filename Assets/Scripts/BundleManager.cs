@@ -42,6 +42,16 @@ public class BundleManager : MonoSingleton<BundleManager>
         }
     }
 
+    private void OnDestroy()
+    {
+        foreach (var ab in _abs.Values)
+        {
+            ab.Unload(true);
+        }
+
+        _abs = null;
+    }
+
     public void Init(Action onComplete)
     {
         CheckState(LoadState.Init);
@@ -61,12 +71,12 @@ public class BundleManager : MonoSingleton<BundleManager>
             {
                 var prefix = file.Name.Split('.');
                 _abs.Add(prefix[0], req.assetBundle);
-                Debug.Log($"loaded {prefix[0]}");
+                //Debug.Log($"loaded {prefix[0]}");
             };
             _loadReq.Add(req);
         }
 
-        _onLoadComplete += () => Debug.Log("Complete!");
+        //_onLoadComplete += () => Debug.Log("Complete!");
         _onLoadComplete += onComplete;
     }
 
@@ -88,21 +98,19 @@ public class BundleManager : MonoSingleton<BundleManager>
         where T : UnityEngine.Object
     {
         CheckState(LoadState.Ready);
-        if (_abs.TryGetValue(assetLocation.label, out var ab))
-        {
-            var req = ab.LoadAssetAsync<T>(assetLocation.GetAssetName());
-            if (callback != null)
-            {
-                req.completed += callback;
-            }
-
-            _loadReq.Add(req);
-            return req;
-        }
-        else
+        if (!_abs.TryGetValue(assetLocation.label, out var ab))
         {
             throw new ArgumentException(assetLocation.ToString());
         }
+
+        var req = ab.LoadAssetAsync<T>(assetLocation.GetAssetName());
+        if (callback != null)
+        {
+            req.completed += callback;
+        }
+
+        _loadReq.Add(req);
+        return req;
     }
 
     public void StartLoad()

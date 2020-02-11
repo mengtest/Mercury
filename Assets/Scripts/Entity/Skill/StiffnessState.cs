@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 硬直状态
@@ -7,30 +6,37 @@ using UnityEngine;
 public class StiffnessState : AbstractSkill
 {
     public override AssetLocation RegisterName { get; } = Consts.SkillStiffness;
-    public override IReadOnlyList<AssetLocation> DependAssets { get; } = null;
-    public override void Init(SkillStack stack) { }
 
-    public override bool CanEnter(SkillStack stack) { return true; }
+    private float _expireTime;
 
-    public override void OnEnter(SkillStack stack)
+    /// <summary>
+    /// 直接set n秒后恢复默认状态
+    /// </summary>
+    public float ExpireTime { get => _expireTime; set => _expireTime = value + Time.time; }
+
+    public StiffnessState(ISkillable user) : base(user) { }
+
+    public override void Init() { }
+
+    public override bool CanEnter() { return true; }
+
+    public override void OnEnter()
     {
-        var move = stack.user.GetProperty<MoveCapability>();
+        var move = User.GetProperty<MoveCapability>();
         move.canMove = false;
     }
 
-    public override void OnUpdate(SkillStack stack)
+    public override void OnUpdate()
     {
-        var property = stack.property as float[];
-        var expireTime = property[0];
-        if (Time.time > expireTime)
+        if (Time.time > _expireTime)
         {
-            stack.user.UseSkill(Consts.SkillNormal.ToString());
+            User.UseSkill(Consts.SkillNormal.ToString());
         }
     }
 
-    public override void OnLeave(SkillStack stack)
+    public override void OnLeave()
     {
-        var move = stack.user.GetProperty<MoveCapability>();
+        var move = User.GetProperty<MoveCapability>();
         move.canMove = true;
     }
 }

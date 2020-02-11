@@ -6,14 +6,16 @@
 public class NormalState : AbstractSkill
 {
     public override AssetLocation RegisterName { get; } = Consts.SkillNormal;
-    public override IReadOnlyList<AssetLocation> DependAssets { get; } = null;
-    public override void Init(SkillStack stack) { }
 
-    public override bool CanEnter(SkillStack stack) { return true; }
+    public NormalState(ISkillable user) : base(user) { }
 
-    public override void OnEnter(SkillStack stack) { }
+    public override void Init() { }
 
-    public override void OnUpdate(SkillStack stack) { }
+    public override bool CanEnter() { return true; }
 
-    public override void OnLeave(SkillStack stack) { }
+    public override void OnEnter() { }
+
+    public override void OnUpdate() { }
+
+    public override void OnLeave() { }
 }

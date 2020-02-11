@@ -1,12 +1,22 @@
-using System.Collections.Generic;
-
-public abstract class AbstractSkill : IRegistryEntry
+public abstract class AbstractSkill : IFSMState
 {
     public abstract AssetLocation RegisterName { get; }
-    public abstract IReadOnlyList<AssetLocation> DependAssets { get; }
-    public abstract void Init(SkillStack stack);
-    public abstract bool CanEnter(SkillStack stack);
-    public abstract void OnEnter(SkillStack stack);
-    public abstract void OnUpdate(SkillStack stack);
-    public abstract void OnLeave(SkillStack stack);
+    public ISkillable User { get; }
+    public FSMSystem System { get; }
+
+    public AbstractSkill(ISkillable user)
+    {
+        User = user;
+        System = user.SkillFsmSystem;
+    }
+
+    public abstract void Init();
+
+    public abstract bool CanEnter();
+
+    public abstract void OnEnter();
+
+    public abstract void OnUpdate();
+
+    public abstract void OnLeave();
 }

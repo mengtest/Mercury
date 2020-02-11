@@ -1,6 +1,10 @@
-﻿public interface ISkillable
+﻿using UnityEngine;
+
+public interface ISkillable
 {
     FSMSystem SkillFsmSystem { get; }
+
+    GameObject SkillCollection { get; }
 
     T GetProperty<T>() where T : class, IEntityProperty;
 

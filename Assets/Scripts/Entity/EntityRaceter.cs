@@ -15,7 +15,6 @@ public class EntityRaceter : EntityPlayer
     {
         base.OnAwake();
         _swordResolve = new SwordResolve(this);
-        //SkillObjCollection = new GameObject("EntityRaceterSkills");
     }
 
     protected override void OnStart()
@@ -41,7 +40,7 @@ public class EntityRaceter : EntityPlayer
         if (Input.GetKeyDown(KeyCode.A))
         {
             UseSkill(Consts.SkillStiffness.ToString(), out var t);
-            ((t as SkillStack).property as float[])[0] = Time.time + 2;
+            ((StiffnessState) t).ExpireTime = 2;
         }
     }
 

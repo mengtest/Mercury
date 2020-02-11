@@ -25,8 +25,14 @@ public class GameManager : MonoSingleton<GameManager>
         RegisterManager.Register(new EntityEntry(Consts.EntityWoodMan, new[] {Consts.EntityWoodMan}));
         RegisterManager.Register(new EntityEntry(Consts.EntityFlightProp));
         RegisterManager.Register(new EntityEntry(Consts.EntityRaceter, new[] {Consts.EntityRaceter}));
-        RegisterManager.Register(new NormalState());
-        RegisterManager.Register(new StiffnessState());
+        RegisterManager.Register(new SkillEntry(Consts.SkillNormal,
+            null,
+            typeof(NormalState),
+            SkillFactory.NormalFactory));
+        RegisterManager.Register(new SkillEntry(Consts.SkillStiffness,
+            null,
+            typeof(StiffnessState),
+            SkillFactory.NormalFactory));
         BuffFactory.Instance.Register(new BuffHeal());
         BuffFactory.Instance.Register(new BuffWindMark());
 
