@@ -33,6 +33,11 @@ public class SceneData : MonoBehaviour
                 UIManager.Instance.ShowLoadPanel(0);
                 AssetManager.ReadyToLoad(() =>
                 {
+                    foreach (var e in GameManager.Instance.nextSceneEntities)
+                    {
+                        AssetManager.Instance.LoadedAssets[e.ToString()].Instantiate();
+                    }
+
                     UIManager.Instance.HideLoadPanel();
                     loaded = true;
                     GameManager.Instance.nextSceneEntities = null;
@@ -55,7 +60,7 @@ public class SceneData : MonoBehaviour
 
                 foreach (var e in entities)
                 {
-                    AssetManager.AddRequest<GameObject>(e, asset => asset.Instantiate());
+                    AssetManager.AddRequest<GameObject>(e);
                 }
 
                 AssetManager.StartLoad();

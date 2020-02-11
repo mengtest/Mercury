@@ -87,7 +87,7 @@ public class AssetManager : Singleton<AssetManager>
 {
     private readonly Dictionary<string, Asset> _actRes;
 
-    public IDictionary<string, Asset> LoadedAssets => _actRes;
+    public IReadOnlyDictionary<string, Asset> LoadedAssets => _actRes;
 
     private AssetManager() { _actRes = new Dictionary<string, Asset>(); }
 
