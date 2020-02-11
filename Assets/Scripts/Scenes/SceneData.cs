@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Guirao.UltimateTextDamage;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,11 +35,27 @@ public class SceneData : MonoBehaviour
                 {
                     UIManager.Instance.HideLoadPanel();
                     loaded = true;
-                    GameManager.Instance.nextSceneElements = null;
+                    GameManager.Instance.nextSceneEntities = null;
                 });
-                foreach (var element in GameManager.Instance.nextSceneElements)
+                var entities = GameManager.Instance.nextSceneEntities;
+                var regEntry = entities.Select(e => RegisterManager.Instance.Entries[e]);
+                var depRes = new List<AssetLocation>();
+                foreach (var e in regEntry)
                 {
-                    AssetManager.AddRequest<GameObject>(element, asset => asset.Instantiate());
+                    if (e.DependAssets != null)
+                    {
+                        depRes.AddRange(e.DependAssets);
+                    }
+                }
+
+                foreach (var res in depRes)
+                {
+                    AssetManager.AddRequest<UnityEngine.Object>(res);
+                }
+
+                foreach (var e in entities)
+                {
+                    AssetManager.AddRequest<GameObject>(e, asset => asset.Instantiate());
                 }
 
                 AssetManager.StartLoad();

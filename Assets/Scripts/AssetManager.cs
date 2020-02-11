@@ -12,6 +12,7 @@ public class Asset
     public UnityEngine.Object res;
 
     public AssetBundleRequest request;
+    public Action<Asset> complete;
     internal HashSet<GameObject> goRef;
     internal int refCount;
 
@@ -86,7 +87,7 @@ public class AssetManager : Singleton<AssetManager>
 {
     private readonly Dictionary<string, Asset> _actRes;
 
-    public IReadOnlyDictionary<string, Asset> LoadedAssets => _actRes;
+    public IDictionary<string, Asset> LoadedAssets => _actRes;
 
     private AssetManager() { _actRes = new Dictionary<string, Asset>(); }
 
@@ -95,6 +96,25 @@ public class AssetManager : Singleton<AssetManager>
     public static void AddRequest<T>(AssetLocation location, Action<Asset> callback = null) where T : UnityEngine.Object
     {
         var name = location.ToString();
+        if (Instance._actRes.TryGetValue(name, out var res))
+        {
+            if (res.request != null && !res.request.isDone && !res.res)
+            {
+                res.complete += callback;
+                return;
+            }
+
+            if (res.request == null && res.res)
+            {
+                callback?.Invoke(res);
+                return;
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        var newAsset = new Asset(name);
+        newAsset.complete += callback;
         var q = BundleManager.Instance.AddRequest<T>(location,
             req =>
             {
@@ -108,14 +128,16 @@ public class AssetManager : Singleton<AssetManager>
                     var asset = Instance._actRes[name];
                     asset.request = null;
                     asset.res = obj;
-                    callback?.Invoke(asset);
+                    asset.complete?.Invoke(asset);
+                    asset.complete = null;
                 }
                 else
                 {
                     throw new ArgumentException($"请求参数是{typeof(T)},但资源类型是{bundle.asset.GetType()}");
                 }
             });
-        Instance._actRes.Add(name, new Asset(name) {request = q});
+        newAsset.request = q;
+        Instance._actRes.Add(name, newAsset);
     }
 
     public static void StartLoad() { BundleManager.Instance.StartLoad(); }

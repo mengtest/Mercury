@@ -36,7 +36,7 @@ public class SkillRaceterBladeWave : SkillObject
         _swordResolve = raceter.GetProperty<SwordResolve>();
         _wavePool = new Stack<EntityFlightProp>(5);
         // _wavePrefab = await bladeWave.LoadAssetAsync<GameObject>().Task;
-        transform.parent = raceter.SkillObjCollection.transform;
+        // transform.parent = raceter.SkillObjCollection.transform;
     }
 
     private EntityFlightProp GetBladeWave() //不知道为什么，异步加载的Task，手动Wait会炸掉...

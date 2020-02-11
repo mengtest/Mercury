@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 731392071
+CRC: 2005041028
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2c4d6bb6f46d0005abf70f1b040e54bb
+    Hash: c8193d9f84f63c077adef389cad25c23
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9ee1f8ba98156d702999f154b43d1374
+    Hash: 746eb50049a25dc3ea53bd781bbf196b
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -23,6 +23,12 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 61
   Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 11500000, guid: 1a3026b0817102649876f852a85c4eb6, type: 3}
 - Class: 114
@@ -36,8 +42,17 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
+- Assets/Textures/SpecialEffects/SkillRaceterShadowStrike.png
+- Assets/Animations/SpecialEffects/SkillRaceterShadowStrike_0.controller
+- Assets/Shaders/LinearReduction.shader
 - Assets/Textures/whatthefuck.jpg
 - Assets/Prefabs/Entities/entity.wood_man.prefab
 - Assets/Prefabs/Entities/entity.raceter.prefab
+- Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-normal.png
+- Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword-normal.png
+- Assets/Prefabs/Entities/Skills/skill.raceter_shadow_strike.prefab
+- Assets/Materials/LinearReduction.mat
+- Assets/Textures/SpecialEffects/SkillRaceterShadowStrike-sword.png
 - Assets/Textures/awesome.png
+- Assets/Animations/SpecialEffects/SkillRaceterShadowStrike.anim
 Dependencies: []

@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveable
 {
-    public GameObject skillCollection;
     [SerializeField] private BasicCapability _basicCapability = new BasicCapability();
     [SerializeField] private ElementAffinity _elementAffinity = new ElementAffinity();
     [SerializeField] private MoveCapability _moveCapability = new MoveCapability();
@@ -145,7 +144,7 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     #region ISkillable
 
     public FSMSystem SkillFsmSystem { get; private set; }
-    public GameObject SkillCollection => skillCollection;
+    public abstract GameObject SkillCollection { get; protected set; }
 
     public void AddSkill(IFSMState skill) { SkillFsmSystem.AddState(skill); }
     public bool RemoveSkill(string skillName) { return SkillFsmSystem.RemoveState(skillName); }

@@ -19,11 +19,33 @@ public sealed class RegisterManager : Singleton<RegisterManager>
         Instance._entries.Add(entry.RegisterName, entry);
     }
 
-    public static void OnEntityInstantiate(AssetLocation assetLocation)
+    public static void OnEntityAwake(AssetLocation assetLocation, Entity entity)
     {
-        if (!Instance._entries.ContainsKey(assetLocation))
+        if (!Instance._entries.TryGetValue(assetLocation, out var registryEntry))
         {
             throw new ArgumentException($"未注册:{assetLocation.ToString()}");
         }
+
+        if (!(registryEntry is EntityEntry entityEntry))
+        {
+            throw new ArgumentException();
+        }
+
+        entityEntry.OnEntityAwake?.Invoke(entity);
+    }
+
+    public static void OnEntityStart(AssetLocation assetLocation, Entity entity)
+    {
+        if (!Instance._entries.TryGetValue(assetLocation, out var registryEntry))
+        {
+            throw new ArgumentException($"未注册:{assetLocation.ToString()}");
+        }
+
+        if (!(registryEntry is EntityEntry entityEntry))
+        {
+            throw new ArgumentException();
+        }
+
+        entityEntry.OnEntityStart?.Invoke(entity);
     }
 }

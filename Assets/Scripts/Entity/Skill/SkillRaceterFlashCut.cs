@@ -41,10 +41,10 @@ public class SkillRaceterFlashCut : SkillObject
         // _flashCutPrefab = await flashCut.LoadAssetAsync<GameObject>().Task;
         var anim = GetFlashCut();
         anim.gameObject.Hide();
-        _animLength = SkillUtility.GetClipLength(anim, Consts.PREFAB_SE_SkillRaceterFlashCut);
+        //_animLength = SkillUtility.GetClipLength(anim, Consts.PREFAB_SE_SkillRaceterFlashCut);
         _flashPool.Push(anim);
         _rmE = new Queue<IBuffable>();
-        transform.parent = raceter.SkillObjCollection.transform;
+        // transform.parent = raceter.SkillObjCollection.transform;
     }
 
     private Animator GetFlashCut()

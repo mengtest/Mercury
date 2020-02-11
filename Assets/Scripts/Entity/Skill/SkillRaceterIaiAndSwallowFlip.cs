@@ -30,8 +30,8 @@ public class SkillRaceterIaiAndSwallowFlip : SkillObject //TODO:居合等特效�
         raceter = transform.parent.GetComponent<EntityRaceter>();
         _playerMove = raceter.GetProperty<MoveCapability>();
         _swordResolve = raceter.GetProperty<SwordResolve>();
-        _swallowFlipLength = SkillUtility.GetClipLength(swallowFlipAnim, Consts.PREFAB_SE_SkillRaceterSwallowFlip);
-        transform.parent = raceter.SkillObjCollection.transform;
+        //_swallowFlipLength = SkillUtility.GetClipLength(swallowFlipAnim, Consts.PREFAB_SE_SkillRaceterSwallowFlip);
+        // transform.parent = raceter.SkillObjCollection.transform;
     }
 
     public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }

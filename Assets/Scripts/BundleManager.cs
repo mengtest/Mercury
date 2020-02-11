@@ -108,7 +108,7 @@ public class BundleManager : MonoSingleton<BundleManager>
         {
             req.completed += callback;
         }
-
+      
         _loadReq.Add(req);
         return req;
     }

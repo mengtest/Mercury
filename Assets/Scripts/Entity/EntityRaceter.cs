@@ -7,20 +7,23 @@ using UnityEngine;
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
-    public GameObject SkillObjCollection { get; private set; }
     public HashSet<Entity> HasWindMarkBuff { get; } = new HashSet<Entity>();
     public override AssetLocation RegisterName { get; } = Consts.EntityRaceter;
+    public override GameObject SkillCollection { get; protected set; }
 
     protected override void OnAwake()
     {
         base.OnAwake();
         _swordResolve = new SwordResolve(this);
+        SkillCollection = new GameObject("entity.raceter_skills");
+        SkillCollection.transform.position = new Vector3(0, 0, -1);
     }
 
     protected override void OnStart()
     {
         base.OnStart();
         SetProperty(_swordResolve);
+        AddSkill(SkillFactory.Get<SkillRaceterShadowStrike>(Consts.SkillRaceterShadowStrike, this));
     }
 
     protected override void OnUpdate()
@@ -39,8 +42,7 @@ public class EntityRaceter : EntityPlayer
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            UseSkill(Consts.SkillStiffness.ToString(), out var t);
-            ((StiffnessState) t).ExpireTime = 2;
+            UseSkill(Consts.SkillRaceterShadowStrike.ToString());
         }
     }
 

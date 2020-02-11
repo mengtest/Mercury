@@ -12,7 +12,7 @@ public class GameManager : MonoSingleton<GameManager>
 {
     public List<LevelAsset> levels;
     public SceneData nowScene;
-    public List<AssetLocation> nextSceneElements;
+    public List<AssetLocation> nextSceneEntities;
 
     protected override void OnAwake()
     {
@@ -24,19 +24,24 @@ public class GameManager : MonoSingleton<GameManager>
 
         RegisterManager.Register(new EntityEntry(Consts.EntityWoodMan, new[] {Consts.EntityWoodMan}));
         RegisterManager.Register(new EntityEntry(Consts.EntityFlightProp));
-        RegisterManager.Register(new EntityEntry(Consts.EntityRaceter, new[] {Consts.EntityRaceter}));
+        RegisterManager.Register(new EntityEntry(Consts.EntityRaceter,
+            new[] {Consts.EntityRaceter, Consts.SkillRaceterShadowStrike}));
         RegisterManager.Register(new SkillEntry(Consts.SkillNormal,
             null,
             typeof(NormalState),
-            SkillFactory.NormalFactory));
+            SkillFactory.Normal));
         RegisterManager.Register(new SkillEntry(Consts.SkillStiffness,
             null,
             typeof(StiffnessState),
-            SkillFactory.NormalFactory));
+            SkillFactory.Normal));
+        RegisterManager.Register(new SkillEntry(Consts.SkillRaceterShadowStrike,
+            new[] {Consts.SkillRaceterShadowStrike},
+            typeof(SkillRaceterShadowStrike),
+            SkillFactory.Normal));
         BuffFactory.Instance.Register(new BuffHeal());
         BuffFactory.Instance.Register(new BuffWindMark());
 
-        nextSceneElements = new List<AssetLocation>
+        nextSceneEntities = new List<AssetLocation>
         {
             Consts.EntityWoodMan,
             Consts.EntityRaceter

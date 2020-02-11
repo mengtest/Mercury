@@ -57,16 +57,19 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void OnAwake()
     {
-        RegisterManager.OnEntityInstantiate(RegisterName);
         properties = new Dictionary<Type, IEntityProperty>();
         physicalSystems = new List<IEntitySystem>();
         normalSystems = new List<IEntitySystem>();
         _collider = GetComponent<Collider2D>();
+        RegisterManager.OnEntityAwake(RegisterName, this);
     }
 
     private void Start() { OnStart(); }
 
-    protected virtual void OnStart() { }
+    protected virtual void OnStart()
+    {
+        RegisterManager.OnEntityStart(RegisterName, this);
+    }
 
     private void Update() { OnUpdate(); }
 
@@ -157,11 +160,11 @@ public abstract class Entity : MonoBehaviour
         var left = Physics2D.Raycast(transform.position + new Vector3(bound.x, -bound.y - 0.01f, 0),
             Vector3.down,
             distance,
-            LayerMask.GetMask("Step"));
+            LayerMask.GetMask("CrossableStep", "Default"));
         var right = Physics2D.Raycast(transform.position + new Vector3(-bound.x, -bound.y - 0.01f, 0),
             Vector3.down,
             distance,
-            LayerMask.GetMask("Step"));
+            LayerMask.GetMask("CrossableStep", "Default"));
         return left.collider || right.collider;
     }
 
@@ -184,42 +187,35 @@ public abstract class Entity : MonoBehaviour
 
     public Face GetFace()
     {
-        var rotation = transform.eulerAngles;
-        if (math.abs(rotation.y) < 0.01f)
+        var scale = transform.localScale;
+        if (scale.x < 0)
         {
             return Face.Left;
         }
 
-        if (math.abs(rotation.y - 180) < 0.01f)
+        if (scale.x > 0)
         {
             return Face.Right;
         }
 
-        /*
-        if (math.abs(rotation.y - 90) < 0.01f)
-        {
-            return Face.Up;
-        }
-        if (math.abs(rotation.y - 270) < 0.01f)
-        {
-            return Face.Down;
-        }
-        */
-        throw new ArgumentException($"旋转角度有问题:{rotation}");
+        throw new ArgumentException();
     }
 
     public void Rotate(Face face)
     {
+        var scale = transform.localScale;
         switch (face)
         {
             case Face.Left:
-                transform.eulerAngles = Vector3.zero;
+                scale.x = -math.abs(scale.x);
                 break;
             case Face.Right:
-                transform.eulerAngles = new Vector3(0, 180, 0);
+                scale.x = math.abs(scale.x);
                 break;
             default:
-                break;
+                return;
         }
+
+        transform.localScale = scale;
     }
 }
