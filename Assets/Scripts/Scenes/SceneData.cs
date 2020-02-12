@@ -44,12 +44,12 @@ public class SceneData : MonoBehaviour
                 });
                 var entities = GameManager.Instance.nextSceneEntities;
                 var regEntry = entities.Select(e => RegisterManager.Instance.Entries[e]);
-                var depRes = new List<AssetLocation>();
-                foreach (var e in regEntry)
+                var depRes = new HashSet<AssetLocation>();
+                foreach (var e in regEntry) //寻找实体依赖的其他注册项
                 {
-                    if (e.DependAssets != null)
+                    if (e.DependAssets != null) //添加实体依赖项依赖的资源
                     {
-                        depRes.AddRange(e.DependAssets);
+                        depRes.UnionWith(e.DependAssets);
                     }
                 }
 
@@ -58,7 +58,7 @@ public class SceneData : MonoBehaviour
                     AssetManager.AddRequest<UnityEngine.Object>(res);
                 }
 
-                foreach (var e in entities)
+                foreach (var e in entities) //发出加载实体预制体的请求
                 {
                     AssetManager.AddRequest<GameObject>(e);
                 }

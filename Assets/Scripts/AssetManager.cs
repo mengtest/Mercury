@@ -40,6 +40,11 @@ public class Asset
 
     public GameObject Instantiate()
     {
+        if (!res)
+        {
+            throw new InvalidOperationException();
+        }
+
         if (!(res is GameObject go))
         {
             throw new InvalidOperationException();

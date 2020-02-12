@@ -22,22 +22,25 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.ShowLoadPanel(0);
         BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());
 
-        RegisterManager.Register(new EntityEntry(Consts.EntityWoodMan, new[] {Consts.EntityWoodMan}));
-        RegisterManager.Register(new EntityEntry(Consts.EntityFlightProp));
-        RegisterManager.Register(new EntityEntry(Consts.EntityRaceter,
-            new[] {Consts.EntityRaceter, Consts.SkillRaceterShadowStrike}));
-        RegisterManager.Register(new SkillEntry(Consts.SkillNormal,
-            null,
-            typeof(NormalState),
-            SkillFactory.Normal));
-        RegisterManager.Register(new SkillEntry(Consts.SkillStiffness,
-            null,
-            typeof(StiffnessState),
-            SkillFactory.Normal));
-        RegisterManager.Register(new SkillEntry(Consts.SkillRaceterShadowStrike,
-            new[] {Consts.SkillRaceterShadowStrike},
-            typeof(SkillRaceterShadowStrike),
-            SkillFactory.Normal));
+        RegisterManager.Register(EntityEntry.Create().SetRegisterName(Consts.EntityWoodMan).Build());
+        RegisterManager.Register(EntityEntry.Create().SetRegisterName(Consts.EntityFlightProp).Build());
+        RegisterManager.Register(EntityEntry.Create()
+            .SetRegisterName(Consts.EntityRaceter)
+            .AddDependEntry(Consts.SkillRaceterShadowStrike)
+            .Build());
+        RegisterManager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillNormal)
+            .SetSkillType<NormalState>()
+            .Build());
+        RegisterManager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillStiffness)
+            .SetSkillType<StiffnessState>()
+            .Build());
+        RegisterManager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterShadowStrike)
+            .SetSkillType<SkillRaceterShadowStrike>()
+            .AddDependAsset(Consts.SkillRaceterShadowStrike)
+            .Build());
         BuffFactory.Instance.Register(new BuffHeal());
         BuffFactory.Instance.Register(new BuffWindMark());
 
