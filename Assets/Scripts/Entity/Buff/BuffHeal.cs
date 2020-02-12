@@ -1,34 +1,41 @@
-﻿/// <summary>
+﻿using System.Collections.Generic;
+
+/// <summary>
 /// 回血
 /// </summary>
-public class BuffHeal : DotBuff
+public class BuffHeal : AbstractBuff
 {
-    public override string Name { get; } = Consts.BUFF_Heal;
+    public override AssetLocation RegisterName { get; } = Consts.BuffHeal;
+    public override IReadOnlyList<AssetLocation> DependAssets { get; } = null;
 
-    public override ref BuffFlyweightDot Merge(ref BuffFlyweightDot willAdded, ref BuffFlyweightDot exist)
+    public override BuffStack Merge(BuffStack willAdded, BuffStack exist)
     {
         if (willAdded.intensity > exist.intensity)
         {
-            return ref willAdded;
+            return willAdded;
         }
 
         if (willAdded.intensity < exist.intensity)
         {
-            return ref exist;
+            return exist;
         }
 
-        willAdded.TriggerCount += exist.TriggerCount;
-        return ref willAdded;
+
+        return new BuffStack(willAdded.prototype,
+            willAdded.source,
+            willAdded.interval,
+            willAdded.triggerCount + exist.triggerCount,
+            willAdded.intensity);
     }
 
-    public override void OnTrigger(IBuffable holder, in BuffFlyweightDot buff)
+    public override void OnTrigger(IBuffable holder, BuffStack buff)
     {
         (holder as Entity)?.Heal(buff.intensity * 0.5f);
     }
 
-    public override void OnFirstAdd(IBuffable holder, in BuffFlyweightDot buff) { }
+    public override void OnFirstAdd(IBuffable holder, BuffStack buff) { }
 
-    public override void OnRepeatAdd(IBuffable holder, in BuffFlyweightDot buff) { }
+    public override void OnRepeatAdd(IBuffable holder, BuffStack buff) { }
 
-    public override bool OnRemove(IBuffable holder, in BuffFlyweightDot buff) { return true; }
+    public override bool OnRemove(IBuffable holder, BuffStack buff) { return true; }
 }

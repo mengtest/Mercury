@@ -41,8 +41,8 @@ public class GameManager : MonoSingleton<GameManager>
             .SetSkillType<SkillRaceterShadowStrike>()
             .AddDependAsset(Consts.SkillRaceterShadowStrike)
             .Build());
-        BuffFactory.Instance.Register(new BuffHeal());
-        BuffFactory.Instance.Register(new BuffWindMark());
+        RegisterManager.Register(new BuffHeal());
+        RegisterManager.Register(new BuffWindMark());
 
         nextSceneEntities = new List<AssetLocation>
         {

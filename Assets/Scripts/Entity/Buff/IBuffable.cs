@@ -1,36 +1,14 @@
-﻿/// <summary>
-/// 可使用Buff
-/// </summary>
-public interface IBuffable
+﻿public interface IBuffable
 {
-    /// <summary>
-    /// buff更新
-    /// </summary>
     void OnUpdateBuffs();
 
-    /// <summary>
-    /// 添加Dot buff
-    /// </summary>
-    void AddBuff(BuffFlyweightDot dot);
+    void AddBuff(BuffStack buff);
 
-    /// <summary>
-    /// 添加状态Buff
-    /// </summary>
-    void AddBuff(BuffFlyweightState state);
+    bool RemoveBuff(AssetLocation location);
 
-    bool RemoveDotBuff(string buffName);
+    bool HasBuff(AssetLocation location);
 
-    bool RemoveStateBuff(string buffName);
+    BuffStack GetBuff(AssetLocation location);
 
-    BuffFlyweightDot GetDotBuff(string buffName);
-
-    BuffFlyweightState GetStateBuff(string buffName);
-
-    bool ContainsDotBuff(string buffName);
-
-    bool ContainsStateBuff(string buffName);
-
-    bool TryGetDotBuff(string buffName, out BuffFlyweightDot dot);
-
-    bool TryGetStateBuff(string buffName, out BuffFlyweightState state);
+    bool TryGetBuff(AssetLocation location, out BuffStack buff);
 }

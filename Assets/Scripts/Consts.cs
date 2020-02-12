@@ -13,6 +13,7 @@
     public static readonly string Mercury = "mercury";
     public static readonly string Entity = "entity";
     public static readonly string Skill = "skill";
+    public static readonly string Buff = "buff";
 
     public static readonly AssetLocation SkillNormal = new AssetLocation(Mercury, Skill, "normal");
     public static readonly AssetLocation SkillStiffness = new AssetLocation(Mercury, Skill, "stiffness");
@@ -24,6 +25,6 @@
     public static readonly AssetLocation EntityFlightProp = new AssetLocation(Mercury, Entity, "flight_prop");
     public static readonly AssetLocation EntityRaceter = new AssetLocation(Mercury, Entity, "raceter");
 
-    public static readonly string BUFF_WindMark = "Mercury:WindMark";
-    public static readonly string BUFF_Heal = "Mercury:Heal";
+    public static readonly AssetLocation BuffWindMark = new AssetLocation(Mercury, Buff, "wind_mark");
+    public static readonly AssetLocation BuffHeal = new AssetLocation(Mercury, Buff, "heal");
 }

@@ -28,8 +28,8 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
         DamageCalculator = new DamageChainCalculator(this);
         buffs = new BuffHandler(this);
         SkillFsmSystem = new FSMSystem();
-        AddSkill(SkillFactory.Get<NormalState>(Consts.SkillNormal, this));
-        AddSkill(SkillFactory.Get<StiffnessState>(Consts.SkillStiffness, this));
+        AddSkill(EntityUtility.GetSkill<NormalState>(Consts.SkillNormal, this));
+        AddSkill(EntityUtility.GetSkill<StiffnessState>(Consts.SkillStiffness, this));
         UseSkill(Consts.SkillNormal.ToString());
     }
 
@@ -96,19 +96,14 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     #region IBuffable
 
     public void OnUpdateBuffs() { buffs.OnUpdate(); }
-    public void AddBuff(BuffFlyweightDot dot) { buffs.Add(dot); }
-    public void AddBuff(BuffFlyweightState state) { buffs.Add(state); }
-    public bool RemoveDotBuff(string buffName) { return buffs.RemoveDot(buffName); }
-    public bool RemoveStateBuff(string buffName) { return buffs.RemoveState(buffName); }
-    public BuffFlyweightDot GetDotBuff(string buffName) { return buffs.GetDot(buffName); }
-    public BuffFlyweightState GetStateBuff(string buffName) { return buffs.GetState(buffName); }
-    public bool ContainsDotBuff(string buffName) { return buffs.ContainsDot(buffName); }
-    public bool ContainsStateBuff(string buffName) { return buffs.ContainsState(buffName); }
-    public bool TryGetDotBuff(string buffName, out BuffFlyweightDot dot) { return buffs.TryGetDot(buffName, out dot); }
+    public void AddBuff(BuffStack buff) { buffs.Add(buff); }
+    public bool RemoveBuff(AssetLocation location) { return buffs.Remove(location.ToString()); }
+    public bool HasBuff(AssetLocation location) { return buffs.Contains(location.ToString()); }
+    public BuffStack GetBuff(AssetLocation location) { return buffs[location.ToString()]; }
 
-    public bool TryGetStateBuff(string buffName, out BuffFlyweightState state)
+    public bool TryGetBuff(AssetLocation location, out BuffStack buff)
     {
-        return buffs.TryGetState(buffName, out state);
+        return buffs.TryGet(location.ToString(), out buff);
     }
 
     #endregion

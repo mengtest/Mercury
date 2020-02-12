@@ -1,125 +1,98 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Buff处理者
 /// </summary>
-public class BuffHandler //TODO：将状态和Dot合并
+public class BuffHandler
 {
-    private readonly Dictionary<string, BuffFlyweightDot> _dots;
-    private readonly Dictionary<string, BuffFlyweightState> _states;
+    private readonly Dictionary<string, BuffStack> _activeBuffs;
+    private readonly List<BuffStack> _modify;
     private readonly IBuffable _holder;
 
-    private readonly List<BuffFlyweightDot> _modifyDots;
-    private readonly List<BuffFlyweightState> _modifyStates;
+    public BuffStack this[string name] => _activeBuffs[name];
 
     public BuffHandler(IBuffable holder, int capacity = 2)
     {
         _holder = holder;
-        _dots = new Dictionary<string, BuffFlyweightDot>(capacity);
-        _modifyDots = new List<BuffFlyweightDot>(capacity);
-        _states = new Dictionary<string, BuffFlyweightState>(capacity);
-        _modifyStates = new List<BuffFlyweightState>(capacity);
+        _activeBuffs = new Dictionary<string, BuffStack>(capacity);
+        _modify = new List<BuffStack>(capacity);
     }
 
     public void OnUpdate()
     {
-        var nowTime = Time.time;
-        foreach (var dot in _dots.Values)
+        //Debug.Log($"Buff数量:{_activeBuffs.Count}");
+        var now = Time.time;
+        foreach (var buff in _activeBuffs.Values)
         {
-            if (!(nowTime >= dot.nextTime)) //没到下次触发时间
+            //Debug.Log($"Buff:{buff}");
+            if (now < buff.nextTime)
             {
                 continue;
             }
 
-            dot.prototype.OnTrigger(_holder, dot);
-            if (dot.TriggerCount - 1 >= 0) //小于0是无限
+            buff.prototype.OnTrigger(_holder, buff);
+            if (buff.triggerCount - 1 >= 0)
             {
-                _modifyDots.Add(dot);
+                _modify.Add(buff);
             }
         }
 
-        foreach (var modify in _modifyDots)
+        foreach (var buff in _modify)
         {
-            var temp = modify.AfterTrigger();
-            var name = modify.GetPrototype<BuffFlyweightDot>().Name;
-            if (temp.TriggerCount == 0) //触发次数归0直接删除
+            var temp = buff.AfterTrigger();
+            var name = temp.prototype.RegisterName.ToString();
+            if (temp.triggerCount == 0)
             {
-                _dots.Remove(name);
+                _activeBuffs.Remove(name);
                 continue;
             }
 
-            _dots[name] = temp;
+            _activeBuffs[name] = temp;
         }
 
-        _modifyDots.Clear();
-
-        foreach (var state in _states.Values)
-        {
-            if (state.ExpireTime <= nowTime) //到期时间小于现在，过期了
-            {
-                _modifyStates.Add(state);
-            }
-        }
-
-        foreach (var state in _modifyStates)
-        {
-            _states.Remove(state.GetPrototype<BuffFlyweightState>().Name);
-        }
-
-        _modifyStates.Clear();
+        _modify.Clear();
     }
 
-    public void Add(BuffFlyweightDot dot) { Add(dot, _dots); }
-
-    public void Add(BuffFlyweightState state) { Add(state, _states); }
-
-    private void Add<T>(T buff, IDictionary<string, T> dict) where T : struct, IBuffFlyweight
+    public void Add(BuffStack buff)
     {
-        var prototype = buff.GetPrototype<T>();
-        var type = prototype.Name;
-        if (dict.TryGetValue(type, out var exist))
+        var prototype = buff.prototype;
+        var name = prototype.RegisterName.ToString();
+        if (_activeBuffs.TryGetValue(name, out var exist))
         {
-            var tmp = prototype.Merge(ref buff, ref exist);
-            dict[type] = tmp;
-            prototype.OnRepeatAdd(_holder, in tmp);
+            var temp = prototype.Merge(buff, exist);
+            _activeBuffs[name] = temp;
+            prototype.OnRepeatAdd(_holder, temp);
         }
         else
         {
-            prototype.OnFirstAdd(_holder, in buff);
-            dict.Add(type, buff);
+            prototype.OnFirstAdd(_holder, buff);
+            _activeBuffs.Add(name, buff);
         }
     }
 
-    public bool RemoveDot(string name)
+    public bool Remove(string name)
     {
-        if (!_dots.TryGetValue(name, out var dot))
+        if (!_activeBuffs.TryGetValue(name, out var buff))
         {
             return false;
         }
 
-        return dot.prototype.OnRemove(_holder, in dot) && _dots.Remove(name);
-    }
-
-    public bool RemoveState(string name)
-    {
-        if (!_states.TryGetValue(name, out var dot))
+        if (!buff.prototype.OnRemove(_holder, buff))
         {
             return false;
         }
 
-        return dot.prototype.OnRemove(_holder, in dot) && _states.Remove(name);
+        if (!_activeBuffs.Remove(name))
+        {
+            throw new InvalidOperationException();
+        }
+
+        return true;
     }
 
-    public bool ContainsDot(string name) { return _dots.ContainsKey(name); }
+    public bool Contains(string name) { return _activeBuffs.ContainsKey(name); }
 
-    public bool ContainsState(string name) { return _states.ContainsKey(name); }
-
-    public bool TryGetDot(string name, out BuffFlyweightDot dot) { return _dots.TryGetValue(name, out dot); }
-
-    public bool TryGetState(string name, out BuffFlyweightState state) { return _states.TryGetValue(name, out state); }
-
-    public BuffFlyweightDot GetDot(string name) { return _dots[name]; }
-
-    public BuffFlyweightState GetState(string name) { return _states[name]; }
+    public bool TryGet(string name, out BuffStack buff) { return _activeBuffs.TryGetValue(name, out buff); }
 }

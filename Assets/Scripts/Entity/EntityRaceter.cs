@@ -23,21 +23,21 @@ public class EntityRaceter : EntityPlayer
     {
         base.OnStart();
         SetProperty(_swordResolve);
-        AddSkill(SkillFactory.Get<SkillRaceterShadowStrike>(Consts.SkillRaceterShadowStrike, this));
+        AddSkill(EntityUtility.GetSkill<SkillRaceterShadowStrike>(Consts.SkillRaceterShadowStrike, this));
     }
 
     protected override void OnUpdate()
     {
         base.OnUpdate();
         _swordResolve.OnUpdate();
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            AddBuff(BuffFactory.GetDot(Consts.BUFF_Heal, this, 1f, 10, 1));
+            AddBuff(EntityUtility.GetBuffDot(Consts.BuffHeal, this, 1f, -1, 1));
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            AddBuff(BuffFactory.GetState(Consts.BUFF_WindMark, this, 30, 1));
+            AddBuff(EntityUtility.GetBuffState(Consts.BuffWindMark, this, 5, 1));
         }
 
         if (Input.GetKeyDown(KeyCode.A))

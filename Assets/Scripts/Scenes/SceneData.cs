@@ -47,13 +47,22 @@ public class SceneData : MonoBehaviour
                 var depRes = new HashSet<AssetLocation>();
                 foreach (var e in regEntry) //寻找实体依赖的其他注册项
                 {
-                    if (e.DependAssets != null) //添加实体依赖项依赖的资源
+                    if (e.DependAssets == null) //实体依赖的注册项
                     {
-                        depRes.UnionWith(e.DependAssets);
+                        continue;
+                    }
+
+                    foreach (var registryEntry in e.DependAssets)
+                    {
+                        var entry = RegisterManager.Instance.Entries[registryEntry];
+                        if (entry.DependAssets != null) //注册项需要的资源
+                        {
+                            depRes.UnionWith(entry.DependAssets);
+                        }
                     }
                 }
 
-                foreach (var res in depRes)
+                foreach (var res in depRes) //发出加载所有实体依赖的资源的请求
                 {
                     AssetManager.AddRequest<UnityEngine.Object>(res);
                 }

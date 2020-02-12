@@ -66,8 +66,8 @@ public class SkillRaceterFlashCut : SkillObject
         {
             var buf = entity as IBuffable;
             var atk = entity as IAttackable;
-            var wm = buf.GetStateBuff(Consts.BUFF_WindMark);
-            srCount = math.max(srCount, wm.intensity);
+            // var wm = buf.GetStateBuff(Consts.BUFF_WindMark);
+            // srCount = math.max(srCount, wm.intensity);
             atk.UnderAttack(raceter.DealDamage(dmg, atk));
             var anim = GetFlashCut();
             anim.gameObject.Show();
@@ -79,7 +79,7 @@ public class SkillRaceterFlashCut : SkillObject
 
         while (_rmE.Count != 0)
         {
-            _rmE.Dequeue().RemoveStateBuff(Consts.BUFF_WindMark);
+            // _rmE.Dequeue().RemoveStateBuff(Consts.BUFF_WindMark);
         }
 
         _rmE.Clear();

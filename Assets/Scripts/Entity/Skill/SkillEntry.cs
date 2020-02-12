@@ -84,7 +84,7 @@ public class SkillEntry : IRegistryEntry
 
             if (_constructor == null)
             {
-                _constructor = SkillFactory.Normal;
+                _constructor = EntityUtility.NormalSkillFactory;
             }
 
             return _dependAssets.Count == 0
