@@ -65,7 +65,7 @@ public class EntityEntry : IRegistryEntry
 
         public EntityEntry Build()
         {
-            if (_registerName.Equals(default))
+            if (_registerName == null)
             {
                 throw new ArgumentException();
             }

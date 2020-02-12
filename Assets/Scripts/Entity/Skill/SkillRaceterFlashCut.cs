@@ -72,7 +72,7 @@ public class SkillRaceterFlashCut : SkillObject
             var anim = GetFlashCut();
             anim.gameObject.Show();
             anim.transform.position = entity.transform.position;
-            anim.Play(Consts.PREFAB_SE_SkillRaceterFlashCut, 0, 0);
+            // anim.Play(Consts.PREFAB_SE_SkillRaceterFlashCut, 0, 0);
             _activeFlash.Enqueue(anim);
             _rmE.Enqueue(buf);
         }

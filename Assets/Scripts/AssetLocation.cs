@@ -1,6 +1,7 @@
 ﻿using System;
 
-public struct AssetLocation : IEquatable<AssetLocation>
+[Serializable]
+public class AssetLocation
 {
     public readonly string label;
     public readonly string type;
@@ -9,9 +10,9 @@ public struct AssetLocation : IEquatable<AssetLocation>
 
     public AssetLocation(string label, string type, string name)
     {
-        this.label = label;
-        this.type = type;
-        this.name = name;
+        this.label = label ?? throw new ArgumentNullException();
+        this.type = type ?? throw new ArgumentNullException();
+        this.name = name ?? throw new ArgumentNullException();
         _fullName = null;
     }
 

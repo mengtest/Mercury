@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// 风痕
+/// </summary>
 public class BuffWindMark : AbstractBuff
 {
     public override AssetLocation RegisterName { get; } = Consts.BuffWindMark;

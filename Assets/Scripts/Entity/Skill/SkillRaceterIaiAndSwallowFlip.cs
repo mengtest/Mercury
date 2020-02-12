@@ -1,76 +1,102 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
 /// 居合·燕返
 /// </summary>
-public class SkillRaceterIaiAndSwallowFlip : SkillObject //TODO:居合等特效好了再做
+public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特效好了再做
 {
-    public Animator swallowFlipAnim;
-    public EntityRaceter raceter;
-    private TriggerEventCallback _swallowTrigger;
-    private MoveCapability _playerMove;
-    private SwordResolve _swordResolve;
-    private float _swallowFlipLength;
-    private Damage _damage;
-    private float _animDuration;
-    private readonly Dictionary<Collider2D, (int, float)> _attacked = new Dictionary<Collider2D, (int, float)>();
+    private readonly EntityRaceter _raceter;
+    private readonly SwordResolve _swordResolve;
+    private readonly MoveCapability _move;
+    private readonly Dictionary<Collider2D, (int, float)> _swallowAtk = new Dictionary<Collider2D, (int, float)>();
+    private GameObject _swallowGo;
+    private Animator _swallowAnim;
+    private float _swallowAnimLength;
+    private float _cdExpireTime;
+    private Damage _activeDmg;
     private float _swallowAtkInterval;
+    private float _animEndTime;
 
-    public override FSMSystem System => raceter.SkillFsmSystem;
+    public override AssetLocation RegisterName { get; } = Consts.SkillRaceterIaiAndSwallowFlip;
+    public float Cd { get; set; } = 0;
+    public float Damage { get; set; } = 60;
+    public float AnimSpeed { get; set; } = 1;
+    public float StiffnessTime { get; set; } = 0.2f;
+    public int SwallowAtkCount { get; set; } = 6;
 
-    private void Awake() { swallowFlipAnim.gameObject.Hide(); }
+    public SkillRaceterIaiAndSwallowFlip(ISkillable user) : base(user)
+    {
+        if (!(user is EntityRaceter raceter))
+        {
+            throw new InvalidOperationException();
+        }
+
+        _raceter = raceter;
+        _swordResolve = raceter.GetProperty<SwordResolve>();
+        _move = raceter.GetProperty<MoveCapability>();
+    }
 
     public override void Init()
     {
-        _swallowTrigger = swallowFlipAnim.GetComponent<TriggerEventCallback>();
-        _swallowTrigger.OnTriggerEnterEvent += OnSwallowTriggerEvent;
-        _swallowTrigger.OnTriggerStayEvent += OnSwallowTriggerEvent;
-        raceter = transform.parent.GetComponent<EntityRaceter>();
-        _playerMove = raceter.GetProperty<MoveCapability>();
-        _swordResolve = raceter.GetProperty<SwordResolve>();
-        //_swallowFlipLength = SkillUtility.GetClipLength(swallowFlipAnim, Consts.PREFAB_SE_SkillRaceterSwallowFlip);
-        // transform.parent = raceter.SkillObjCollection.transform;
+        _swallowGo = AssetManager.Instance.LoadedAssets[Consts.PrefabSkillRaceterSwallowFlip.ToString()].Instantiate();
+        _swallowAnim = _swallowGo.GetComponent<Animator>();
+        _swallowAnimLength = _swallowAnim.AnimClipLength(Consts.GetAnimClip("raceter_swallow_flip"));
+        _swallowGo.transform.parent = _raceter.SkillCollection.transform;
+        var callback = _swallowGo.AddComponent<TriggerEventCallback>();
+        callback.OnTriggerEnterEvent += OnSwallowTriggerEvent;
+        callback.OnTriggerStayEvent += OnSwallowTriggerEvent;
+        _swallowGo.Hide();
     }
 
-    public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
+    public override bool CanEnter()
+    {
+        return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal);
+    }
 
     public override void OnEnter()
     {
+        _move.canMove = false;
+        _raceter.Velocity = Vector2.zero;
         if (_swordResolve.swordState)
         {
-            _damage = raceter.CalculateDamage(60, DamageType.Physics);
+            _activeDmg = _raceter.CalculateDamage(Damage, DamageType.Physics);
             _swordResolve.PullSword();
-            swallowFlipAnim.gameObject.Show();
-            _playerMove.canMove = false;
-            var face = (int) raceter.GetFace();
-            var raceterTrans = raceter.transform;
-            var swallowTrans = swallowFlipAnim.transform;
+            _swallowGo.Show();
+            var swallowTrans = _swallowGo.transform;
+            var raceterTrans = _raceter.transform;
+            var dir = _raceter.GetFace() == Face.Left ? -1 : 1;
+            var pos = raceterTrans.position;
             var swallowScale = swallowTrans.localScale;
-            swallowTrans.localScale = new Vector3(math.abs(swallowScale.x) * face, swallowScale.y, swallowScale.z);
-            swallowTrans.position = raceterTrans.position;
-            _animDuration = _swallowFlipLength;
-            _swallowAtkInterval = _swallowFlipLength / 7f;
-            swallowFlipAnim.Play(Consts.PREFAB_SE_SkillRaceterSwallowFlip, 0, 0);
+            var z = _raceter.SkillCollection.transform.position.z;
+            swallowTrans.position = new Vector3(pos.x, pos.y, z);
+            swallowTrans.localScale = new Vector3(math.abs(swallowScale.x) * dir, swallowScale.y, swallowScale.z);
+            var animTime = _swallowAnimLength / AnimSpeed;
+            _animEndTime = animTime + Time.time;
+            _swallowAtkInterval = animTime / 2.5f / SwallowAtkCount;
         }
     }
 
     public override void OnUpdate()
     {
-        _animDuration -= Time.deltaTime;
-        if (_animDuration <= 0)
+        if (!(Time.time >= _animEndTime))
         {
-            EnterStiffness(200);
+            return;
         }
+
+        _raceter.UseSkill(Consts.SkillStiffness.ToString(), out var skill);
+        ((StiffnessState) skill).ExpireTime = StiffnessTime;
     }
 
     public override void OnLeave()
     {
-        _playerMove.canMove = true;
-        RefreshCoolDown();
-        swallowFlipAnim.gameObject.Hide();
-        _attacked.Clear();
+        _cdExpireTime = Time.time + Cd;
+        _swallowAtk.Clear();
+        _swallowGo.Hide();
+        _move.canMove = true;
+        _raceter.Velocity = Vector2.zero;
     }
 
     private void OnSwallowTriggerEvent(Collider2D coll)
@@ -91,29 +117,29 @@ public class SkillRaceterIaiAndSwallowFlip : SkillObject //TODO:居合等特效�
             return;
         }
 
-        if (_attacked.TryGetValue(coll, out var pair))
+        if (_swallowAtk.TryGetValue(coll, out var pair))
         {
             var count = pair.Item1;
             var time = pair.Item2;
-            if (count >= 5)
+            if (count >= SwallowAtkCount)
             {
                 return;
             }
 
             if (time >= _swallowAtkInterval)
             {
-                attackable.UnderAttack(raceter.DealDamage(_damage, attackable));
-                _attacked[coll] = (count + 1, 0);
+                attackable.UnderAttack(_raceter.DealDamage(_activeDmg, attackable));
+                _swallowAtk[coll] = (count + 1, 0);
             }
             else
             {
-                _attacked[coll] = (count, time + Time.deltaTime);
+                _swallowAtk[coll] = (count, time + Time.deltaTime);
             }
         }
         else
         {
-            attackable.UnderAttack(raceter.DealDamage(_damage, attackable));
-            _attacked.Add(coll, (0, 0));
+            attackable.UnderAttack(_raceter.DealDamage(_activeDmg, attackable));
+            _swallowAtk.Add(coll, (1, 0));
         }
     }
 }

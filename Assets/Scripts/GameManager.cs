@@ -12,12 +12,16 @@ public class GameManager : MonoSingleton<GameManager>
 {
     public List<LevelAsset> levels;
     public SceneData nowScene;
-    public List<AssetLocation> nextSceneEntities;
+
+    [NonSerialized] public List<AssetLocation> nextSceneEntities = new List<AssetLocation>
+    {
+        Consts.EntityWoodMan,
+        Consts.EntityRaceter
+    };
 
     protected override void OnAwake()
     {
         base.OnAwake();
-
         UIManager.Instance.Init();
         UIManager.Instance.ShowLoadPanel(0);
         BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());
@@ -27,7 +31,9 @@ public class GameManager : MonoSingleton<GameManager>
         RegisterManager.Register(EntityEntry.Create()
             .SetRegisterName(Consts.EntityRaceter)
             .AddDependEntry(Consts.SkillRaceterShadowStrike)
+            .AddDependEntry(Consts.SkillRaceterIaiAndSwallowFlip)
             .Build());
+
         RegisterManager.Register(SkillEntry.Create()
             .SetRegisterName(Consts.SkillNormal)
             .SetSkillType<NormalState>()
@@ -41,13 +47,13 @@ public class GameManager : MonoSingleton<GameManager>
             .SetSkillType<SkillRaceterShadowStrike>()
             .AddDependAsset(Consts.SkillRaceterShadowStrike)
             .Build());
+        RegisterManager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterIaiAndSwallowFlip)
+            .SetSkillType<SkillRaceterIaiAndSwallowFlip>()
+            .AddDependAsset(Consts.PrefabSkillRaceterSwallowFlip)
+            .Build());
+
         RegisterManager.Register(new BuffHeal());
         RegisterManager.Register(new BuffWindMark());
-
-        nextSceneEntities = new List<AssetLocation>
-        {
-            Consts.EntityWoodMan,
-            Consts.EntityRaceter
-        };
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public static class GameObjectExtension
@@ -17,6 +18,15 @@ public static class GameObjectExtension
 
     public static float AnimClipLength(this Animator animator, string clipName)
     {
-        return animator.runtimeAnimatorController.animationClips.First(clip => clip.name == clipName).length;
+        foreach (var clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == clipName)
+            {
+                return clip.length;
+            }
+        }
+
+        throw new ArgumentException();
+        //return animator.runtimeAnimatorController.animationClips.First(clip => clip.name == clipName).length;
     }
 }

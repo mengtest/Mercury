@@ -1,17 +1,16 @@
 fileFormatVersion: 2
-guid: 1c6dc622252e43b43ac4a84d7f52dfc9
+guid: 2872dd8c5e20504488bf57aefe6e155a
 TextureImporter:
   fileIDToRecycleName:
-    21300000: SkillRaceterSwallowFlip-normal_0
-    21300002: SkillRaceterSwallowFlip-normal_1
-    21300004: SkillRaceterSwallowFlip-normal_2
-    21300006: SkillRaceterSwallowFlip-normal_3
-    21300008: SkillRaceterSwallowFlip-normal_4
-    21300010: SkillRaceterSwallowFlip-normal_5
-    21300012: SkillRaceterSwallowFlip-normal_6
-    21300014: SkillRaceterSwallowFlip-normal_7
-    21300016: SkillRaceterSwallowFlip-normal_8
-    21300018: SkillRaceterSwallowFlip-normal_9
+    21300000: SkillRaceterShadowStrike-sword_0
+    21300002: SkillRaceterShadowStrike-sword_1
+    21300004: SkillRaceterShadowStrike-sword_2
+    21300006: SkillRaceterShadowStrike-sword_3
+    21300008: SkillRaceterShadowStrike-sword_4
+    21300010: SkillRaceterShadowStrike-sword_5
+    21300012: SkillRaceterShadowStrike-sword_6
+    21300014: SkillRaceterShadowStrike-sword_7
+    21300016: SkillRaceterShadowStrike-sword_8
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -94,13 +93,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_0
+      name: SkillRaceterShadowStrike-sword_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1188
-        width: 900
-        height: 594
+        y: 494
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -108,19 +107,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e1d5839bc6b94e4a9ee88b7d7c878ec
+      spriteID: 35dfb2857919d7a4a889802a9b22932e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_1
+      name: SkillRaceterShadowStrike-sword_1
       rect:
         serializedVersion: 2
-        x: 900
-        y: 1188
-        width: 900
-        height: 594
+        x: 534
+        y: 494
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,19 +127,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aeff9b65b440782428624ece25d6d4cd
+      spriteID: 8e3ae803ec34acd4da9f5e48350c5c0d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_2
+      name: SkillRaceterShadowStrike-sword_2
       rect:
         serializedVersion: 2
-        x: 1800
-        y: 1188
-        width: 900
-        height: 594
+        x: 1068
+        y: 494
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,39 +147,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43d2dd78514394042b1d4ae7b4a56609
+      spriteID: c0c86638ede0b8647b811a24638018a0
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_3
-      rect:
-        serializedVersion: 2
-        x: 2700
-        y: 1188
-        width: 900
-        height: 594
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b5dcc738550b302429454de73b7233f5
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_4
+      name: SkillRaceterShadowStrike-sword_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 594
-        width: 900
-        height: 594
+        y: 247
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,19 +167,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec0e834c2dc1e404fa21c73a2419a51f
+      spriteID: 6a8bdf95285c58c4e9412a9916272982
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_5
+      name: SkillRaceterShadowStrike-sword_4
       rect:
         serializedVersion: 2
-        x: 904
-        y: 594
-        width: 900
-        height: 594
+        x: 534
+        y: 247
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,19 +187,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d0cf9efbd8da10c44bd29f1f12693bf9
+      spriteID: 03c6ffde91f84f5459bf83764530a5ab
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_6
+      name: SkillRaceterShadowStrike-sword_5
       rect:
         serializedVersion: 2
-        x: 1800
-        y: 594
-        width: 900
-        height: 594
+        x: 1068
+        y: 247
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,39 +207,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 64d4be93a0d148e4c9e8ead3de3a7427
+      spriteID: 0d38b5273d16c01469d99f388a07d6c4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_7
-      rect:
-        serializedVersion: 2
-        x: 2700
-        y: 594
-        width: 900
-        height: 594
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bcfd92c282c72984680c2204a2859c11
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_8
+      name: SkillRaceterShadowStrike-sword_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 900
-        height: 594
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -268,19 +227,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cbfcd246339023444b8e880cf002180b
+      spriteID: e4be4e65003f40e43a3ea96c08397ac8
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip-normal_9
+      name: SkillRaceterShadowStrike-sword_7
       rect:
         serializedVersion: 2
-        x: 900
+        x: 534
         y: 0
-        width: 900
-        height: 594
+        width: 534
+        height: 247
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -288,7 +247,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb35467e7e872044994ca823d4d69e14
+      spriteID: 0e6ca21714155e64f94a96c971620be8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillRaceterShadowStrike-sword_8
+      rect:
+        serializedVersion: 2
+        x: 1068
+        y: 0
+        width: 534
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b423d53e60630245badb1437d9a1b5a
       vertices: []
       indices: 
       edges: []
@@ -296,7 +275,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: f5ffe4e65aa5c0d48a263ef0a70c79ee
+    spriteID: db2c67a5244300f43bc9df843ad4cd7f
     vertices: []
     indices: 
     edges: []
@@ -305,5 +284,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: mercury.bundle
   assetBundleVariant: 

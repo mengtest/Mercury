@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Buff享元模式
+/// </summary>
 public class BuffStack
 {
     public readonly AbstractBuff prototype;

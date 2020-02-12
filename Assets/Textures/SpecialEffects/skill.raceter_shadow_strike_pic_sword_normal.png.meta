@@ -1,16 +1,14 @@
 fileFormatVersion: 2
-guid: 2872dd8c5e20504488bf57aefe6e155a
+guid: fd6d8a680f0a5264487ad23b85677f52
 TextureImporter:
   fileIDToRecycleName:
-    21300000: SkillRaceterShadowStrike-sword_0
-    21300002: SkillRaceterShadowStrike-sword_1
-    21300004: SkillRaceterShadowStrike-sword_2
-    21300006: SkillRaceterShadowStrike-sword_3
-    21300008: SkillRaceterShadowStrike-sword_4
-    21300010: SkillRaceterShadowStrike-sword_5
-    21300012: SkillRaceterShadowStrike-sword_6
-    21300014: SkillRaceterShadowStrike-sword_7
-    21300016: SkillRaceterShadowStrike-sword_8
+    21300000: SkillRaceterShadowStrike-sword-normal_0
+    21300002: SkillRaceterShadowStrike-sword-normal_1
+    21300004: SkillRaceterShadowStrike-sword-normal_2
+    21300006: SkillRaceterShadowStrike-sword-normal_3
+    21300008: SkillRaceterShadowStrike-sword-normal_4
+    21300010: SkillRaceterShadowStrike-sword-normal_5
+    21300012: SkillRaceterShadowStrike-sword-normal_6
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -93,7 +91,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_0
+      name: SkillRaceterShadowStrike-sword-normal_0
       rect:
         serializedVersion: 2
         x: 0
@@ -107,13 +105,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35dfb2857919d7a4a889802a9b22932e
+      spriteID: 9fe8369a8ee8b8841bf1d91fc8d57ce6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_1
+      name: SkillRaceterShadowStrike-sword-normal_1
       rect:
         serializedVersion: 2
         x: 534
@@ -127,13 +125,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e3ae803ec34acd4da9f5e48350c5c0d
+      spriteID: 9fe5b4ea489b4704aac2e63f0f11fd62
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_2
+      name: SkillRaceterShadowStrike-sword-normal_2
       rect:
         serializedVersion: 2
         x: 1068
@@ -147,13 +145,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0c86638ede0b8647b811a24638018a0
+      spriteID: 66d84ed89391880418eb2855fe249d01
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_3
+      name: SkillRaceterShadowStrike-sword-normal_3
       rect:
         serializedVersion: 2
         x: 0
@@ -167,13 +165,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a8bdf95285c58c4e9412a9916272982
+      spriteID: 07d8f7cec83c6e045bbdcf3aa7256311
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_4
+      name: SkillRaceterShadowStrike-sword-normal_4
       rect:
         serializedVersion: 2
         x: 534
@@ -187,13 +185,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03c6ffde91f84f5459bf83764530a5ab
+      spriteID: 80aafa4f6561d2d438ff5f25038ea43d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_5
+      name: SkillRaceterShadowStrike-sword-normal_5
       rect:
         serializedVersion: 2
         x: 1068
@@ -207,13 +205,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d38b5273d16c01469d99f388a07d6c4
+      spriteID: 11cc6b80d1cab994b92e5141b008e4e5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_6
+      name: SkillRaceterShadowStrike-sword-normal_6
       rect:
         serializedVersion: 2
         x: 0
@@ -227,47 +225,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4be4e65003f40e43a3ea96c08397ac8
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_7
-      rect:
-        serializedVersion: 2
-        x: 534
-        y: 0
-        width: 534
-        height: 247
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0e6ca21714155e64f94a96c971620be8
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SkillRaceterShadowStrike-sword_8
-      rect:
-        serializedVersion: 2
-        x: 1068
-        y: 0
-        width: 534
-        height: 247
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7b423d53e60630245badb1437d9a1b5a
+      spriteID: 4d737d0b8ee005448b37ff6d57a7ed5a
       vertices: []
       indices: 
       edges: []
@@ -275,7 +233,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: db2c67a5244300f43bc9df843ad4cd7f
+    spriteID: cf77e8460d465b247b01e33bc978608e
     vertices: []
     indices: 
     edges: []
@@ -284,5 +242,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: mercury.bundle
   assetBundleVariant: 

@@ -5,7 +5,7 @@ public abstract class SkillObject : MonoBehaviour, IFSMState
     public float cd;
     public float lastUse = float.MinValue;
 
-    public AssetLocation RegisterName { get; } = new AssetLocation();
+    public AssetLocation RegisterName { get; } = new AssetLocation(null, null, null);
     public abstract FSMSystem System { get; }
 
     private void OnTriggerEnter2D(Collider2D collision) { OnTriggerEnterEvent(collision); }

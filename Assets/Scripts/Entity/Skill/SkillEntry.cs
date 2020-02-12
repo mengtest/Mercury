@@ -77,7 +77,7 @@ public class SkillEntry : IRegistryEntry
                 throw new ArgumentException();
             }
 
-            if (_registerName.Equals(default))
+            if (_registerName == null)
             {
                 throw new ArgumentException();
             }

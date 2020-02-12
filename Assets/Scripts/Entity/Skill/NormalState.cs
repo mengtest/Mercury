@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
+﻿/// <summary>
 /// 普通状态
 /// </summary>
 public class NormalState : AbstractSkill

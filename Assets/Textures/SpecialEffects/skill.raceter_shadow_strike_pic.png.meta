@@ -1,17 +1,23 @@
 fileFormatVersion: 2
-guid: 0bb02df897a329042add9d4747dea202
+guid: e11f78c087cb338459752b301f862606
 TextureImporter:
   fileIDToRecycleName:
-    21300000: SkillRaceterSwallowFlip_0
-    21300002: SkillRaceterSwallowFlip_1
-    21300004: SkillRaceterSwallowFlip_2
-    21300006: SkillRaceterSwallowFlip_3
-    21300008: SkillRaceterSwallowFlip_4
-    21300010: SkillRaceterSwallowFlip_5
-    21300012: SkillRaceterSwallowFlip_6
-    21300014: SkillRaceterSwallowFlip_7
-    21300016: SkillRaceterSwallowFlip_8
-    21300018: SkillRaceterSwallowFlip_9
+    21300000: SkillRaceterShadowStrike_0
+    21300002: SkillRaceterShadowStrike_1
+    21300004: SkillRaceterShadowStrike_2
+    21300006: SkillRaceterShadowStrike_3
+    21300008: SkillRaceterShadowStrike_4
+    21300010: SkillRaceterShadowStrike_5
+    21300012: SkillRaceterShadowStrike_6
+    21300014: SkillRaceterShadowStrike_7
+    21300016: SkillRaceterShadowStrike_8
+    21300018: SkillRaceterShadowStrike_9
+    21300020: SkillRaceterShadowStrike_10
+    21300022: SkillRaceterShadowStrike_11
+    21300024: SkillRaceterShadowStrike_12
+    21300026: SkillRaceterShadowStrike_13
+    21300028: SkillRaceterShadowStrike_14
+    21300030: SkillRaceterShadowStrike_15
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -94,201 +100,281 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_0
+      name: SkillRaceterShadowStrike_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1188
-        width: 900
-        height: 594
+        y: 615
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 900cfa1699f789a4e89ab96e78529e10
+      spriteID: 9905ec8276f3dbd438ce12bde9b8e967
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_1
+      name: SkillRaceterShadowStrike_1
       rect:
         serializedVersion: 2
-        x: 900
-        y: 1188
-        width: 900
-        height: 594
+        x: 830
+        y: 615
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28205eee8fc7d1e41888993d972bc561
+      spriteID: 40a29469f46679046a48ba1b1d034471
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_2
+      name: SkillRaceterShadowStrike_2
       rect:
         serializedVersion: 2
-        x: 1800
-        y: 1188
-        width: 900
-        height: 594
+        x: 1660
+        y: 615
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90fb2aceb0ad3124d9f9dd7ed397f194
+      spriteID: 50b55189a798f5c49874e5942c1aa9ab
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_3
+      name: SkillRaceterShadowStrike_3
       rect:
         serializedVersion: 2
-        x: 2700
-        y: 1188
-        width: 900
-        height: 594
+        x: 2490
+        y: 615
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51daed0ea00ca5b43b32b5ffaf4818cd
+      spriteID: 9c223c7a5b474984e8e340c65e44ef80
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_4
+      name: SkillRaceterShadowStrike_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 594
-        width: 900
-        height: 594
+        y: 410
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e51d22acfee2e9144981dfc2c760f87b
+      spriteID: f2911baa48ceb104095e8d910c0518d9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_5
+      name: SkillRaceterShadowStrike_5
       rect:
         serializedVersion: 2
-        x: 900
-        y: 594
-        width: 900
-        height: 594
+        x: 830
+        y: 410
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1df6e314838d874884f8c22672522a6
+      spriteID: bcaae7d8d1a821d43a7cb5c0cdec3736
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_6
+      name: SkillRaceterShadowStrike_6
       rect:
         serializedVersion: 2
-        x: 1800
-        y: 594
-        width: 900
-        height: 594
+        x: 1660
+        y: 410
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8cd2c0920f78c874687486db4d076ab5
+      spriteID: 957bdbabaf738234a875be83c1ace4f6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_7
+      name: SkillRaceterShadowStrike_7
       rect:
         serializedVersion: 2
-        x: 2700
-        y: 594
-        width: 900
-        height: 594
+        x: 2490
+        y: 410
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d746cb55537caff4d9409ee4a438fb5f
+      spriteID: 93dccc21efa8ffc42a6db9468ad51b91
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_8
+      name: SkillRaceterShadowStrike_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 205
+        width: 830
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 040ee7eedb5611d46b9e68955039350f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillRaceterShadowStrike_9
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 205
+        width: 830
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e63ae39b54e2fa440ba2f1005f630412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillRaceterShadowStrike_10
+      rect:
+        serializedVersion: 2
+        x: 1660
+        y: 205
+        width: 830
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d5b4c826d975324f8e11eb25db33631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillRaceterShadowStrike_11
+      rect:
+        serializedVersion: 2
+        x: 2490
+        y: 205
+        width: 830
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4d7f5a266910f34a98cdbe1c657ef5d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillRaceterShadowStrike_12
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 900
-        height: 594
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32fd1ce232445a6469f535eb14fe4ec1
+      spriteID: 558823aac3594834f89cf679e622fc5a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SkillRaceterSwallowFlip_9
+      name: SkillRaceterShadowStrike_13
       rect:
         serializedVersion: 2
-        x: 900
+        x: 830
         y: 0
-        width: 900
-        height: 594
+        width: 830
+        height: 205
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 362578b15161d23419f0c8dafca0e1ef
+      spriteID: fc26b0e1ce804c54e93180eeabd00cfb
       vertices: []
       indices: 
       edges: []
@@ -296,7 +382,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: d5ab4f3c86820e34b912451040ac4acf
+    spriteID: a0af1e646466af94ab11c230def8c04d
     vertices: []
     indices: 
     edges: []
@@ -305,5 +391,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: mercury.bundle
   assetBundleVariant: 

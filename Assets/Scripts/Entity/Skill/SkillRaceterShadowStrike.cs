@@ -42,10 +42,9 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
     public override void Init()
     {
-        var asset = AssetManager.Instance.LoadedAssets[RegisterName.ToString()];
-        _skillObj = asset.Instantiate();
+        _skillObj = AssetManager.Instance.LoadedAssets[RegisterName.ToString()].Instantiate();
         _skillAnim = _skillObj.GetComponent<Animator>();
-        _animLength = _skillAnim.AnimClipLength(Consts.PREFAB_SE_SkillRaceterShadowStrike);
+        _animLength = _skillAnim.AnimClipLength(Consts.GetAnimClip("raceter_shadow_strike"));
         _skillObj.transform.parent = _raceter.SkillCollection.transform;
         var callback = _skillObj.AddComponent<TriggerEventCallback>();
         callback.OnTriggerEnterEvent += OnTriggerEvent;
@@ -75,7 +74,6 @@ public class SkillRaceterShadowStrike : AbstractSkill
         _raceterMove = 0;
         _raceterLastMove = 0;
         DOTween.To(() => _raceterMove, v => _raceterMove = v, 4f * -dir, _animLength / AnimSpeed).SetEase(Ease.OutExpo);
-        _skillAnim.Play(Consts.PREFAB_SE_SkillRaceterShadowStrike, 0, 0);
         _skillAnim.speed = AnimSpeed;
         _animEndTime = _animLength / AnimSpeed + Time.time;
     }
@@ -85,7 +83,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
         if (Time.time >= _animEndTime)
         {
             _raceter.UseSkill(Consts.SkillStiffness.ToString(), out var skill);
-            (skill as StiffnessState).ExpireTime = StiffnessTime;
+            ((StiffnessState) skill).ExpireTime = StiffnessTime;
             return;
         }
 

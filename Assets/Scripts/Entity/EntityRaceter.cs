@@ -24,6 +24,7 @@ public class EntityRaceter : EntityPlayer
         base.OnStart();
         SetProperty(_swordResolve);
         AddSkill(EntityUtility.GetSkill<SkillRaceterShadowStrike>(Consts.SkillRaceterShadowStrike, this));
+        AddSkill(EntityUtility.GetSkill<SkillRaceterIaiAndSwallowFlip>(Consts.SkillRaceterIaiAndSwallowFlip, this));
     }
 
     protected override void OnUpdate()
@@ -37,12 +38,17 @@ public class EntityRaceter : EntityPlayer
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            AddBuff(EntityUtility.GetBuffState(Consts.BuffWindMark, this, 5, 1));
+            AddBuff(EntityUtility.GetBuffState(Consts.BuffWindMark, this, 30, 1));
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
             UseSkill(Consts.SkillRaceterShadowStrike.ToString());
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            UseSkill(Consts.SkillRaceterIaiAndSwallowFlip.ToString());
         }
     }
 

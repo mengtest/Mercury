@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// 公共抽象Buff类
+/// 抽象Buff类
 /// </summary>
 public abstract class AbstractBuff : IRegistryEntry
 {
