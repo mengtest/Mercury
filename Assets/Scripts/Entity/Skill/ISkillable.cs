@@ -25,20 +25,20 @@ public interface ISkillable
     /// <summary>
     /// 移除技能
     /// </summary>
-    bool RemoveSkill(string skillName);
+    bool RemoveSkill(AssetLocation location);
 
     /// <summary>
     /// 使用技能
     /// </summary>
-    /// <param name="skillName">技能ID</param>
-    void UseSkill(string skillName);
+    /// <param name="location">技能ID</param>
+    void UseSkill(AssetLocation location);
 
     /// <summary>
     /// 使用技能
     /// </summary>
-    /// <param name="skillName">技能ID</param>
+    /// <param name="location">技能ID</param>
     /// <param name="skill">技能实例</param>
-    void UseSkill(string skillName, out IFSMState skill);
+    void UseSkill(AssetLocation location, out IFSMState skill);
 
     /// <summary>
     /// 每帧调用

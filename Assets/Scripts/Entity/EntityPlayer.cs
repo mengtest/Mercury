@@ -19,7 +19,6 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
 
     protected override void OnStart()
     {
-        base.OnStart();
         controller = GetComponent<CharacterController2D>();
         SetProperty(_basicCapability);
         SetProperty(_elementAffinity);
@@ -30,7 +29,8 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
         SkillFsmSystem = new FSMSystem();
         AddSkill(EntityUtility.GetSkill<NormalState>(Consts.SkillNormal, this));
         AddSkill(EntityUtility.GetSkill<StiffnessState>(Consts.SkillStiffness, this));
-        UseSkill(Consts.SkillNormal.ToString());
+        UseSkill(Consts.SkillNormal);
+        base.OnStart();
     }
 
     protected override void OnUpdate()
@@ -142,9 +142,14 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     public abstract GameObject SkillCollection { get; protected set; }
 
     public void AddSkill(IFSMState skill) { SkillFsmSystem.AddState(skill); }
-    public bool RemoveSkill(string skillName) { return SkillFsmSystem.RemoveState(skillName); }
-    public void UseSkill(string skillName) { SkillFsmSystem.SwitchState(skillName); }
-    public void UseSkill(string skillName, out IFSMState skill) { SkillFsmSystem.SwitchState(skillName, out skill); }
+    public bool RemoveSkill(AssetLocation location) { return SkillFsmSystem.RemoveState(location.ToString()); }
+    public void UseSkill(AssetLocation location) { SkillFsmSystem.SwitchState(location.ToString()); }
+
+    public void UseSkill(AssetLocation location, out IFSMState skill)
+    {
+        SkillFsmSystem.SwitchState(location.ToString(), out skill);
+    }
+
     public void OnUpdateSkills() { SkillFsmSystem.OnUpdate(); }
 
     #endregion

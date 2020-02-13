@@ -86,7 +86,7 @@ public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特�
             return;
         }
 
-        _raceter.UseSkill(Consts.SkillStiffness.ToString(), out var skill);
+        _raceter.UseSkill(Consts.SkillStiffness, out var skill);
         ((StiffnessState) skill).ExpireTime = StiffnessTime;
     }
 

@@ -76,7 +76,7 @@ public class SkillRaceterBladeWave : AbstractSkill
 
         if (_lunchCount <= 0)
         {
-            _raceter.UseSkill(Consts.SkillStiffness.ToString(), out var skill);
+            _raceter.UseSkill(Consts.SkillStiffness, out var skill);
             ((StiffnessState) skill).ExpireTime = StiffnessTime;
         }
     }

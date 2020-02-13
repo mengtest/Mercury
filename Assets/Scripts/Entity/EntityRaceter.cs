@@ -45,22 +45,22 @@ public class EntityRaceter : EntityPlayer
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            UseSkill(Consts.SkillRaceterShadowStrike.ToString());
+            UseSkill(Consts.SkillRaceterShadowStrike);
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            UseSkill(Consts.SkillRaceterIaiAndSwallowFlip.ToString());
+            UseSkill(Consts.SkillRaceterIaiAndSwallowFlip);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            UseSkill(Consts.SkillRaceterBladeWave.ToString());
+            UseSkill(Consts.SkillRaceterBladeWave);
         }
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            UseSkill(Consts.SkillRaceterFlashCut.ToString());
+            UseSkill(Consts.SkillRaceterFlashCut);
         }
     }
 

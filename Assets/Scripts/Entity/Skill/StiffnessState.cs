@@ -30,7 +30,7 @@ public class StiffnessState : AbstractSkill
     {
         if (Time.time > _expireTime)
         {
-            User.UseSkill(Consts.SkillNormal.ToString());
+            User.UseSkill(Consts.SkillNormal);
         }
     }
 

@@ -75,7 +75,7 @@ public class SkillRaceterFlashCut : AbstractSkill
     {
         if (Time.time >= _animEndTime)
         {
-            _raceter.UseSkill(Consts.SkillStiffness.ToString(), out var skill);
+            _raceter.UseSkill(Consts.SkillStiffness, out var skill);
             ((StiffnessState) skill).ExpireTime = StiffnessTime;
         }
     }
