@@ -32,6 +32,7 @@ public class GameManager : MonoSingleton<GameManager>
             .SetRegisterName(Consts.EntityRaceter)
             .AddDependEntry(Consts.SkillRaceterShadowStrike)
             .AddDependEntry(Consts.SkillRaceterIaiAndSwallowFlip)
+            .AddDependEntry(Consts.SkillRaceterBladeWave)
             .Build());
 
         RegisterManager.Register(SkillEntry.Create()
@@ -51,6 +52,11 @@ public class GameManager : MonoSingleton<GameManager>
             .SetRegisterName(Consts.SkillRaceterIaiAndSwallowFlip)
             .SetSkillType<SkillRaceterIaiAndSwallowFlip>()
             .AddDependAsset(Consts.PrefabSkillRaceterSwallowFlip)
+            .Build());
+        RegisterManager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterBladeWave)
+            .SetSkillType<SkillRaceterBladeWave>()
+            .AddDependAsset(Consts.SkillRaceterBladeWave)
             .Build());
 
         RegisterManager.Register(new BuffHeal());

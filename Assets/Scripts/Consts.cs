@@ -24,6 +24,9 @@
     public static readonly AssetLocation SkillRaceterIaiAndSwallowFlip =
         new AssetLocation(Mercury, Skill, "raceter_iai_swallow_flip");
 
+    public static readonly AssetLocation SkillRaceterBladeWave =
+        new AssetLocation(Mercury, Skill, "raceter_blade_wave");
+
     #endregion
 
     #region Entities
@@ -40,6 +43,6 @@
     public static readonly AssetLocation BuffHeal = new AssetLocation(Mercury, Buff, "heal");
 
     #endregion
-    
+
     public static string GetAnimClip(string clipName) { return AnimClip + "." + clipName; }
 }

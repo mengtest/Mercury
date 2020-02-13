@@ -60,8 +60,8 @@ public class SkillRaceterShadowStrike : AbstractSkill
     public override void OnEnter()
     {
         _move.canMove = false;
-        _swordResolve.PullSword();
         _activeDmg = _raceter.CalculateDamage(Damage, DamageType.Physics);
+        _swordResolve.PullSword();
         _raceter.Velocity = Vector2.zero;
         _skillObj.Show();
         var eTrans = _raceter.transform;
