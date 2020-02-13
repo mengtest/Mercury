@@ -113,5 +113,5 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
         }
     }
 
-    public T this[int index] { get => _list[index]; set => throw new NotImplementedException(); }
+    public T this[int index] { get => _list[index]; set => throw new InvalidOperationException(); }
 }

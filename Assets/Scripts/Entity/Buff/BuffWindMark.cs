@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 风痕
@@ -27,14 +28,16 @@ public class BuffWindMark : AbstractBuff
 
     public override void OnFirstAdd(IBuffable holder, BuffStack buff)
     {
-        (buff.source as EntityRaceter).HasWindMarkBuff.Add(holder as Entity);
+        Debug.Log($"添加:{((Entity) holder).RegisterName}");
+        (buff.source as EntityRaceter).HasWindMarkBuff.Add((Entity) holder);
     }
 
     public override void OnRepeatAdd(IBuffable holder, BuffStack buff) { }
 
     public override bool OnRemove(IBuffable holder, BuffStack buff)
     {
-        return (buff.source as EntityRaceter).HasWindMarkBuff.Remove(holder as Entity);
+        Debug.Log($"移除:{((Entity) holder).RegisterName}");
+        return (buff.source as EntityRaceter).HasWindMarkBuff.Remove((Entity) holder);
     }
 
     public override void OnTrigger(IBuffable holder, BuffStack buff) { }

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1846109780
+CRC: 2279535011
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0bf1dfb7a971e4fab72cb858061ad261
+    Hash: 3a66954b34dce92bf05ffefd7bbfa3f7
   TypeTreeHash:
     serializedVersion: 2
     Hash: 746eb50049a25dc3ea53bd781bbf196b
@@ -47,12 +47,16 @@ Assets:
 - Assets/Animations/SpecialEffects/anim_ctrl.raceter_shadow_strike.controller
 - Assets/Textures/SpecialEffects/skill.raceter_swallow_flip_pic_normal.png
 - Assets/Shaders/linear_reduction.shader
+- Assets/Animations/SpecialEffects/anim_ctrl.raceter_flash_cut.controller
 - Assets/Prefabs/Entities/Skills/skill.raceter_blade_wave.prefab
+- Assets/Textures/SpecialEffects/skill.raceter_flash_cut_pic.png
 - Assets/Animations/SpecialEffects/anim_ctrl.raceter_swallow_flip.controller
 - Assets/Textures/whatthefuck.jpg
 - Assets/Prefabs/Entities/entity.wood_man.prefab
 - Assets/Prefabs/Entities/entity.raceter.prefab
 - Assets/Textures/SpecialEffects/skill.raceter_blade_wave_pic_normal.png
+- Assets/Prefabs/Entities/Skills/skill.raceter_flash_cut.prefab
+- Assets/Animations/SpecialEffects/anim_clip.raceter_flash_cut.anim
 - Assets/Textures/SpecialEffects/skill.raceter_shadow_strike_pic_normal.png
 - Assets/Textures/SpecialEffects/skill.raceter_shadow_strike_pic_sword_normal.png
 - Assets/Textures/SpecialEffects/skill.raceter_swallow_flip_pic.png

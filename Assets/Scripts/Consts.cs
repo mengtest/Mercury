@@ -27,6 +27,8 @@
     public static readonly AssetLocation SkillRaceterBladeWave =
         new AssetLocation(Mercury, Skill, "raceter_blade_wave");
 
+    public static readonly AssetLocation SkillRaceterFlashCut = new AssetLocation(Mercury, Skill, "raceter_flash_cut");
+
     #endregion
 
     #region Entities
