@@ -4,14 +4,17 @@
     /// 伤害量
     /// </summary>
     public readonly float value;
+
     /// <summary>
     /// 暴击伤害量，0则本次攻击未暴击
     /// </summary>
     public readonly float extraCritValue;
+
     /// <summary>
     /// 伤害类型
     /// </summary>
     public readonly DamageType type;
+
     /// <summary>
     /// 伤害来源
     /// </summary>

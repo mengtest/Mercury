@@ -36,7 +36,7 @@ public class SwordResolve : IEntityProperty
             if (swordState) //拔刀状态
             {
                 OverlayResolve(2); //增加2剑意
-                RefuseCritPro(); //刷新暴击率
+                RefuseCritPr(); //刷新暴击率
                 _lastAtkTime = Time.time; //重置攻击敌人计时器
             }
         };
@@ -66,7 +66,7 @@ public class SwordResolve : IEntityProperty
                 if (_timeOverlay >= 0.5f) //距上次剑意减少超过0.5s
                 {
                     OverlayResolve(-5);
-                    RefuseCritPro();
+                    RefuseCritPr();
                     _timeOverlay = 0f;
                 }
             }
@@ -81,7 +81,7 @@ public class SwordResolve : IEntityProperty
             if (_timeOverlay >= 1f) //距上次剑意增加超过1s
             {
                 OverlayResolve(20);
-                RefuseDamageUpgrade();
+                RefuseDamageIncome();
                 _timeOverlay = 0f;
             }
         }
@@ -105,14 +105,14 @@ public class SwordResolve : IEntityProperty
     {
         if (!swordState) //收刀状态
         {
-            RemoveDamageUpgrade(); //移除伤害增益
+            RemoveDamageIncome(); //移除伤害增益
             resolve /= 2; //剑意减半
             swordState = true; //切换为拔刀状态
             _timeOverlay = 0f; //重置计时器
             _lastDamageUpgrade = 0f; //重置增伤累加
         }
     }
-    
+
     /// <summary>
     /// 收刀
     /// </summary>
@@ -120,7 +120,7 @@ public class SwordResolve : IEntityProperty
     {
         if (swordState)
         {
-            RemoveCritPro();
+            RemoveCritPr();
             resolve = 0;
             swordState = false;
             _timeOverlay = 0f;
@@ -130,7 +130,7 @@ public class SwordResolve : IEntityProperty
         }
     }
 
-    private void RefuseDamageUpgrade()
+    private void RefuseDamageIncome()
     {
         var coe = resolve * 0.005f + 1;
         if (math.abs(coe - _lastDamageUpgrade) < 0.001f)
@@ -138,39 +138,25 @@ public class SwordResolve : IEntityProperty
             return;
         }
 
-        RemoveDamageUpgrade();
-        _raceter.DamageCalculator.AddDamageChain(new DamageChain(DamageIncome.Upgrade,
-            _raceter,
-            coe,
-            DamageType.True));
+        RemoveDamageIncome();
+        _raceter.DamageCalculator.AddDamage(coe, DamageType.True);
         _lastDamageUpgrade = coe;
     }
 
-    private void RemoveDamageUpgrade()
-    {
-        _raceter.DamageCalculator.RemoveDamageChain(new DamageChain(DamageIncome.Upgrade,
-            _raceter,
-            _lastDamageUpgrade,
-            DamageType.True));
-    }
+    private void RemoveDamageIncome() { _raceter.DamageCalculator.RemoveDamage(_lastDamageUpgrade, DamageType.True); }
 
-    private void RemoveCritPro()
-    {
-        _raceter.DamageCalculator.RemoveCritProbabilityChain(
-            new DamageCritProbabilityChain(_lastCritProAdd, CritProbabilityIncomeType.Percentage, _raceter));
-    }
+    private void RemoveCritPr() { _raceter.DamageCalculator.RemoveCritPr(_lastCritProAdd, CritPrType.Percentage); }
 
-    private void RefuseCritPro()
+    private void RefuseCritPr()
     {
         var pro = resolve * 0.001f;
-        if (math.abs(pro - _lastCritProAdd) < 0.001f)
+        if (math.abs(pro - _lastCritProAdd) < 0.000001f)
         {
             return;
         }
 
-        RemoveCritPro();
-        _raceter.DamageCalculator.AddCritProbabilityChain(
-            new DamageCritProbabilityChain(pro, CritProbabilityIncomeType.Percentage, _raceter));
+        RemoveCritPr();
+        _raceter.DamageCalculator.AddCritPr(pro, CritPrType.Percentage);
         _lastCritProAdd = pro;
     }
 }

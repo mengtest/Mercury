@@ -16,14 +16,19 @@ public interface IAttackable
     float MagicAttack { get; }
 
     /// <summary>
-    /// 暴击系数
+    /// 暴击伤害系数
     /// </summary>
-    int Crit { get; }
+    float CritCoefficient { get; }
+
+    /// <summary>
+    /// 暴击率系数
+    /// </summary>
+    int CritProbability { get; }
 
     /// <summary>
     /// 伤害计算链
     /// </summary>
-    DamageChainCalculator DamageCalculator { get; }
+    DamageCalculator DamageCalculator { get; }
 
     /// <summary>
     /// 攻击目标时触发，arg1表示攻击伤害，arg2表示目标
@@ -34,8 +39,8 @@ public interface IAttackable
     /// 计算伤害
     /// </summary>
     /// <param name="coe">系数</param>
-    /// <param name="damage">类型</param>
-    Damage CalculateDamage(float coe, DamageType damage);
+    /// <param name="type">类型</param>
+    Damage CalculateDamage(float coe, DamageType type);
 
     /// <summary>
     /// 攻击

@@ -15,12 +15,13 @@ public class EntityWoodMan : Entity, IAttackable
 
     public float PhysicsAttack { get; } = 0;
     public float MagicAttack { get; } = 0;
-    public int Crit { get; } = 0;
-    public DamageChainCalculator DamageCalculator { get; }
+    public float CritCoefficient { get; } = 0;
+    public int CritProbability { get; } = 0;
+    public DamageCalculator DamageCalculator { get; }
 
     public event Action<Damage, IAttackable> OnAttackTarget;
 
-    public Damage CalculateDamage(float coe, DamageType damage) { return new Damage(this, 0, 0, DamageType.Physics); }
+    public Damage CalculateDamage(float coe, DamageType type) { return new Damage(this, 0, 0, DamageType.Physics); }
 
     public Damage DealDamage(in Damage damage, IAttackable target)
     {

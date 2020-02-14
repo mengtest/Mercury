@@ -6,27 +6,10 @@ using Unity.Mathematics;
 
 public static class DamageUtility
 {
-    /// <summary>
-    /// 造成伤害公式
-    /// </summary>
-    /// <param name="data">攻击者数据</param>
-    /// <param name="coe">倍数</param>
-    /// <param name="damageType">伤害类型</param>
-    /// <returns>造成伤害</returns>
-    public static float DealDmgFormula(BasicCapability data, float coe, DamageType damageType)
-    {
-        switch (damageType)
-        {
-            case DamageType.Physics:
-                return data.phyAttack * coe;
-            case DamageType.Magic:
-                return data.magAttack * coe;
-            case DamageType.True:
-                return coe;
-            default:
-                throw new ArgumentException("?");
-        }
-    }
+    public static readonly Func<DisorderList<float>, float> FormulaSum = chain => chain.Sum();
+
+    public static readonly Func<DisorderList<float>, float> FormulaMultiply =
+        chain => chain.Aggregate(1f, (current, variation) => current * variation);
 
     /// <summary>
     /// 减伤公式
@@ -61,33 +44,31 @@ public static class DamageUtility
     /// </summary>
     /// <param name="rawAttack">初始攻击力</param>
     /// <param name="incomeChain">攻击力收益链</param>
-    public static float CalculateAttackIncome(float rawAttack, IList<DamageChain> incomeChain)
-    {
-        var income = 0f;
-        foreach (var c in incomeChain)
-        {
-            income += rawAttack * c.coefficient;
-        }
-
-        return income; //基础攻击力+攻击力收益
-    }
+    // public static float CalculateAttackIncome(float rawAttack, IList<DamageChain> incomeChain)
+    // {
+    //     var income = 0f;
+    //     foreach (var c in incomeChain)
+    //     {
+    //         income += rawAttack * c.coefficient;
+    //     }
+    //
+    //     return income; //基础攻击力+攻击力收益
+    // }
 
     /// <summary>
     /// 计算伤害收益
     /// </summary>
     /// <param name="coeChain">收益链</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float CalculateAttackCoe(IList<DamageChain> coeChain) =>
-        coeChain.Aggregate(1f, (current, c) => current * c.coefficient);
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // public static float CalculateAttackCoe(IList<DamageChain> coeChain) => coeChain.Aggregate(1f, (current, c) => current * c.coefficient);
 
     /// <summary>
     /// 计算全伤害收益
     /// </summary>
     /// <param name="coeChain">普通伤害收益链</param>
     /// <param name="allChain">全伤害收益链</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float CalculateAttackCoeAll(IList<DamageChain> coeChain, IList<DamageChain> allChain) =>
-        allChain.Aggregate(CalculateAttackCoe(coeChain), (current, c) => current * c.coefficient);
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // public static float CalculateAttackCoeAll(IList<DamageChain> coeChain, IList<DamageChain> allChain) => allChain.Aggregate(CalculateAttackCoe(coeChain), (current, c) => current * c.coefficient);
 
     /// <summary>
     /// 计算最终伤害
@@ -96,17 +77,17 @@ public static class DamageUtility
     /// <param name="coe">技能/伤害系数</param>
     /// <param name="incomeChain">攻击力收益链</param>
     /// <param name="coeChain">伤害收益链</param>
-    public static float CalculateDamage(
-        float rawAttack,
-        float coe,
-        IList<DamageChain> incomeChain,
-        IList<DamageChain> coeChain)
-    {
-        var atk = rawAttack + CalculateAttackIncome(rawAttack, incomeChain);
-        var dmg = coe * atk / 100;
-        var atkCoe = CalculateAttackCoe(coeChain);
-        return dmg * atkCoe;
-    }
+    // public static float CalculateDamage(
+    //     float rawAttack,
+    //     float coe,
+    //     IList<DamageChain> incomeChain,
+    //     IList<DamageChain> coeChain)
+    // {
+    //     var atk = rawAttack + CalculateAttackIncome(rawAttack, incomeChain);
+    //     var dmg = coe * atk / 100;
+    //     var atkCoe = CalculateAttackCoe(coeChain);
+    //     return dmg * atkCoe;
+    // }
 
     /// <summary>
     /// 计算最终伤害
@@ -115,14 +96,13 @@ public static class DamageUtility
     /// <param name="coe">技能/伤害系数</param>
     /// <param name="income">攻击力收益</param>
     /// <param name="dmgCoe">伤害收益</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float CalculateDamage(float rawAttack, float coe, float income, float dmgCoe) =>
-        coe * (rawAttack + income) / 100 * dmgCoe;
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // public static float CalculateDamage(float rawAttack, float coe, float income, float dmgCoe) => coe * (rawAttack + income) / 100 * dmgCoe;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float CalculateCritProbability(int value)
+    public static float CalculateCritProbability(float value)
     {
-        if (value == 0)
+        if (math.abs(value) < 0.000001f)
         {
             return 0;
         }
@@ -131,31 +111,30 @@ public static class DamageUtility
         return a / (a + 1);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float CalculateCritCoeIncome(IList<DamageCritCoeChain> critChains) =>
-        critChains.Aggregate(1.5f, (current, c) => current * c.coefficient);
+    // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    // public static float CalculateCritCoeIncome(IList<DamageCritCoeChain> critChains) => critChains.Aggregate(1.5f, (current, c) => current * c.coefficient);
 
-    public static float CalculateCritProbabilityChain(int rawCrit, IList<DamageCritProbabilityChain> chains)
-    {
-        var val = 0;
-        var per = 0f;
-        foreach (var c in chains)
-        {
-            switch (c.incomeType)
-            {
-                case CritProbabilityIncomeType.Value:
-                    val += (int) c.probability;
-                    break;
-                case CritProbabilityIncomeType.Percentage:
-                    per += c.probability;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        var resCrit = rawCrit + val;
-        per += CalculateCritProbability(resCrit);
-        return per;
-    }
+    // public static float CalculateCritProbabilityChain(int rawCrit, IList<DamageCritProbabilityChain> chains)
+    // {
+    //     var val = 0;
+    //     var per = 0f;
+    //     foreach (var c in chains)
+    //     {
+    //         switch (c.incomeType)
+    //         {
+    //             case CritProbabilityIncomeType.Value:
+    //                 val += (int) c.probability;
+    //                 break;
+    //             case CritProbabilityIncomeType.Percentage:
+    //                 per += c.probability;
+    //                 break;
+    //             default:
+    //                 throw new ArgumentOutOfRangeException();
+    //         }
+    //     }
+    //
+    //     var resCrit = rawCrit + val;
+    //     per += CalculateCritProbability(resCrit);
+    //     return per;
+    // }
 }

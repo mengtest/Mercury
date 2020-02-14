@@ -64,41 +64,17 @@ public class EntityRaceter : EntityPlayer
         }
     }
 
-    public override Damage CalculateDamage(float coe, DamageType damage)
+    public override Damage CalculateDamage(float coe, DamageType type)
     {
-        Damage dmg;
         if (!_swordResolve.swordState && _swordResolve.IsResolveFull)
         {
-            var normalDmg = DamageCalculator.GetDamage(coe, damage);
-            float critDmg;
-            if (damage == DamageType.True)
-            {
-                critDmg = 0;
-            }
-            else
-            {
-                critDmg = DamageCalculator.GetCritDamage(normalDmg, 1, damage);
-            }
-
-            dmg = new Damage(this,
-                normalDmg,
-                critDmg,
-                damage);
-        }
-        else
-        {
-            var v = DamageCalculator.GetFinalDamage(coe, damage, out var extraCritDamage);
-            if (damage == DamageType.True)
-            {
-                extraCritDamage = 0;
-            }
-
-            dmg = new Damage(this,
-                v,
-                extraCritDamage,
-                damage);
+            var dmg = DamageCalculator.GetDamage(coe, type);
+            var crit = type == DamageType.True
+                ? 0
+                : DamageCalculator.GetCritDamage(dmg, DamageCalculator.CritCoe.Multiply, 1);
+            return new Damage(this, dmg, crit, type);
         }
 
-        return dmg;
+        return DamageCalculator.SimpleDamage(coe, type);
     }
 }

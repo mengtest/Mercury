@@ -24,7 +24,7 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
         SetProperty(_elementAffinity);
         SetProperty(_moveCapability);
 
-        DamageCalculator = new DamageChainCalculator(this);
+        DamageCalculator = new DamageCalculator(this);
         buffs = new BuffHandler(this);
         SkillFsmSystem = new FSMSystem();
         AddSkill(EntityUtility.GetSkill<NormalState>(Consts.SkillNormal, this));
@@ -101,10 +101,7 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     public bool HasBuff(AssetLocation location) { return buffs.Contains(location.ToString()); }
     public BuffStack GetBuff(AssetLocation location) { return buffs[location.ToString()]; }
 
-    public bool TryGetBuff(AssetLocation location, out BuffStack buff)
-    {
-        return buffs.TryGet(location.ToString(), out buff);
-    }
+    public bool TryGetBuff(AssetLocation location, out BuffStack buff) { return buffs.TryGet(location.ToString(), out buff); }
 
     #endregion
 
@@ -112,15 +109,13 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
 
     public float PhysicsAttack => _basicCapability.phyAttack;
     public float MagicAttack => _basicCapability.magAttack;
-    public int Crit => _basicCapability.criticalPoint;
-    public DamageChainCalculator DamageCalculator { get; private set; }
+    public float CritCoefficient => _basicCapability.criticalCoePoint;
+    public int CritProbability => _basicCapability.criticalPoint;
+    public DamageCalculator DamageCalculator { get; private set; }
 
     public event Action<Damage, IAttackable> OnAttackTarget;
 
-    public virtual Damage CalculateDamage(float coe, DamageType damage)
-    {
-        return new Damage(this, DamageCalculator.GetFinalDamage(coe, damage, out var c), c, damage);
-    }
+    public virtual Damage CalculateDamage(float coe, DamageType type) { return DamageCalculator.SimpleDamage(coe, type); }
 
     public Damage DealDamage(in Damage damage, IAttackable target)
     {
@@ -145,10 +140,7 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     public bool RemoveSkill(AssetLocation location) { return SkillFsmSystem.RemoveState(location.ToString()); }
     public void UseSkill(AssetLocation location) { SkillFsmSystem.SwitchState(location.ToString()); }
 
-    public void UseSkill(AssetLocation location, out IFSMState skill)
-    {
-        SkillFsmSystem.SwitchState(location.ToString(), out skill);
-    }
+    public void UseSkill(AssetLocation location, out IFSMState skill) { SkillFsmSystem.SwitchState(location.ToString(), out skill); }
 
     public void OnUpdateSkills() { SkillFsmSystem.OnUpdate(); }
 
