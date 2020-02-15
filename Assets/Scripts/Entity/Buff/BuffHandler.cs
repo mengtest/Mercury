@@ -33,23 +33,22 @@ public class BuffHandler
             }
 
             buff.prototype.OnTrigger(_holder, buff);
-            if (buff.triggerCount - 1 >= 0)
-            {
-                _modify.Add(buff);
-            }
+            _modify.Add(buff);
         }
 
         foreach (var buff in _modify)
         {
-            var temp = buff.AfterTrigger();
-            var name = temp.prototype.RegisterName.ToString();
-            if (temp.triggerCount == 0)
+            if (buff.triggerCount - 1 == 0)
             {
+                var name = buff.prototype.RegisterName.ToString();
                 _activeBuffs.Remove(name);
-                continue;
             }
-
-            _activeBuffs[name] = temp;
+            else
+            {
+                var temp = buff.AfterTrigger();
+                var name = temp.prototype.RegisterName.ToString();
+                _activeBuffs[name] = temp;
+            }
         }
 
         _modify.Clear();

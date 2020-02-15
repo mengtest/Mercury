@@ -34,6 +34,16 @@ public class GameManager : MonoSingleton<GameManager>
             .AddDependEntry(Consts.SkillRaceterIaiAndSwallowFlip)
             .AddDependEntry(Consts.SkillRaceterBladeWave)
             .AddDependEntry(Consts.SkillRaceterFlashCut)
+            .AddDependEntry(Consts.SkillRaceterWindPace)
+            .SetStartEvent(e =>
+            {
+                var raceter = (EntityRaceter) e;
+                raceter.AddSkill(EntityUtility.GetSkill<SkillRaceterShadowStrike>(Consts.SkillRaceterShadowStrike, raceter));
+                raceter.AddSkill(EntityUtility.GetSkill<SkillRaceterIaiAndSwallowFlip>(Consts.SkillRaceterIaiAndSwallowFlip, raceter));
+                raceter.AddSkill(EntityUtility.GetSkill<SkillRaceterBladeWave>(Consts.SkillRaceterBladeWave, raceter));
+                raceter.AddSkill(EntityUtility.GetSkill<SkillRaceterFlashCut>(Consts.SkillRaceterFlashCut, raceter));
+                raceter.AddSkill(EntityUtility.GetSkill<SkillRaceterWindPace>(Consts.SkillRaceterWindPace, raceter));
+            })
             .Build());
 
         RegisterManager.Register(SkillEntry.Create()
@@ -64,8 +74,13 @@ public class GameManager : MonoSingleton<GameManager>
             .SetSkillType<SkillRaceterFlashCut>()
             .AddDependAsset(Consts.SkillRaceterFlashCut)
             .Build());
+        RegisterManager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterWindPace)
+            .SetSkillType<SkillRaceterWindPace>()
+            .Build());
 
         RegisterManager.Register(new BuffHeal());
         RegisterManager.Register(new BuffWindMark());
+        RegisterManager.Register(new BuffWindPace());
     }
 }

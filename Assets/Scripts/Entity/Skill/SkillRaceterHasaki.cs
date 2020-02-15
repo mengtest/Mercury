@@ -4,9 +4,12 @@ using UnityEngine;
 /// <summary>
 /// 气旋斩
 /// </summary>
-public class SkillRaceterHasaki : SkillObject
+public class SkillRaceterHasaki : AbstractSkill
 {
-    public override FSMSystem System { get; }
+    public override AssetLocation RegisterName { get; }
+
+    public SkillRaceterHasaki(ISkillable user) : base(user) { }
+
     public override void Init() { throw new System.NotImplementedException(); }
 
     public override bool CanEnter() { throw new System.NotImplementedException(); }

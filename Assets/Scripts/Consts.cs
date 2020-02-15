@@ -29,6 +29,8 @@
 
     public static readonly AssetLocation SkillRaceterFlashCut = new AssetLocation(Mercury, Skill, "raceter_flash_cut");
 
+    public static readonly AssetLocation SkillRaceterWindPace = new AssetLocation(Mercury, Skill, "raceter_Wind_pace");
+
     #endregion
 
     #region Entities
@@ -43,6 +45,7 @@
 
     public static readonly AssetLocation BuffWindMark = new AssetLocation(Mercury, Buff, "wind_mark");
     public static readonly AssetLocation BuffHeal = new AssetLocation(Mercury, Buff, "heal");
+    public static readonly AssetLocation BuffWindPace = new AssetLocation(Mercury, Buff, "wind_pace");
 
     #endregion
 

@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 玩家
 /// </summary>
-public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMoveable
+public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable, IMovable
 {
     [SerializeField] private BasicCapability _basicCapability = new BasicCapability();
     [SerializeField] private ElementAffinity _elementAffinity = new ElementAffinity();
@@ -30,6 +30,7 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
         AddSkill(EntityUtility.GetSkill<NormalState>(Consts.SkillNormal, this));
         AddSkill(EntityUtility.GetSkill<StiffnessState>(Consts.SkillStiffness, this));
         UseSkill(Consts.SkillNormal);
+        MotionCalculator = new MotionCalculator(this);
         base.OnStart();
     }
 
@@ -71,16 +72,17 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
             {
                 if (_moveCapability.TryJump())
                 {
-                    _moveCapability.velocity.y = math.sqrt(2f * _moveCapability.jumpHeight * -_moveCapability.gravity);
+                    _moveCapability.velocity.y = math.sqrt(2f * MotionCalculator.JumpSpeed.Add * -MotionCalculator.Gravity.Add);
                 }
             }
 
-            var smoothedMovementFactor =
-                controller.isGrounded ? _moveCapability.groundDamping : _moveCapability.inAirDamping;
+            var smoothedMovementFactor = controller.isGrounded
+                ? MotionCalculator.GroundDamping.Add
+                : MotionCalculator.AirDamping.Add;
             _moveCapability.velocity.x = math.lerp(_moveCapability.velocity.x,
-                normalizedHorizontalSpeed * _moveCapability.runSpeed,
+                normalizedHorizontalSpeed * MotionCalculator.MoveSpeed.Add,
                 Time.deltaTime * smoothedMovementFactor);
-            _moveCapability.velocity.y += _moveCapability.gravity * Time.deltaTime;
+            _moveCapability.velocity.y += MotionCalculator.Gravity.Add * Time.deltaTime;
             if (controller.isGrounded && Input.GetKey(KeyCode.DownArrow))
             {
                 _moveCapability.velocity.y *= 11f;
@@ -126,7 +128,7 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     public virtual void UnderAttack(in Damage damage)
     {
         UIManager.Instance.ShowDamage(transform, damage.FinalDamage, damage.type);
-        healthPoint -= DamageUtility.ReduceDmgFormula(damage.value, _basicCapability, damage.type);
+        healthPoint -= CalculateUtility.ReduceDmgFormula(damage.value, _basicCapability, damage.type);
     }
 
     #endregion
@@ -154,6 +156,8 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
     public float AirDamping { get => _moveCapability.inAirDamping; set => _moveCapability.inAirDamping = value; }
     public float Gravity { get => _moveCapability.gravity; set => _moveCapability.gravity = value; }
     public Vector2 Velocity { get => _moveCapability.velocity; set => _moveCapability.velocity = value; }
+
+    public MotionCalculator MotionCalculator { get; private set; }
 
     public void Move(Vector2 velocity)
     {

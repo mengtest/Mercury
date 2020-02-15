@@ -5,18 +5,23 @@ using System.Collections.Generic;
 public class DisorderList<T> : IList<T> where T : IEquatable<T>
 {
     private readonly List<T> _list;
+    private readonly Func<T, T, bool> _isEqual;
     private int _pivot;
 
     public int Count { get; private set; }
     public bool IsReadOnly { get; } = false;
 
-    public DisorderList(int capacity = 0) { _list = new List<T>(capacity); }
+    public DisorderList(int capacity = 0, Func<T, T, bool> isEqual = null)
+    {
+        _list = new List<T>(capacity);
+        _isEqual = isEqual;
+    }
 
     public IEnumerator<T> GetEnumerator()
     {
         foreach (var e in _list)
         {
-            if (!e.Equals(default))
+            if (!IsValEqual(e, default))
             {
                 yield return e;
             }
@@ -34,7 +39,7 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
 
         _list[_pivot] = item;
         Count += 1;
-        while (!_list[_pivot].Equals(default))
+        while (!IsValEqual(_list[_pivot], default))
         {
             if (_pivot + 1 >= _list.Count)
             {
@@ -77,7 +82,7 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
     {
         for (var i = 0; i < _list.Count; i++)
         {
-            if (_list[i].Equals(item))
+            if (IsValEqual(_list[i], item))
             {
                 return i;
             }
@@ -88,23 +93,26 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
 
     public void Insert(int index, T item)
     {
-        if (item.Equals(default))
-        {
-            return;
-        }
-
         _list[index] = item;
         Count += 1;
     }
 
     public void RemoveAt(int index)
     {
-        if (!_list[index].Equals(default))
+        if (!IsValEqual(_list[index], default))
         {
-            _list[index] = default;
-            Count -= 1;
+            return;
         }
+
+        _list[index] = default;
+        Count -= 1;
     }
 
     public T this[int index] { get => _list[index]; set => throw new InvalidOperationException(); }
+
+    private bool IsValEqual(T l, T r)
+    {
+        var del = _isEqual?.Invoke(l, r);
+        return del ?? l.Equals(r);
+    }
 }

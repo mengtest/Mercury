@@ -21,7 +21,7 @@ public class DamageCalculator
     /// <summary>
     /// 暴击系数
     /// </summary>
-    private readonly CalculationChain _critCoe = new CalculationChain(DamageUtility.FormulaMultiply);
+    private readonly CalculationChain _critCoe = new CalculationChain(CalculateUtility.FormulaMultiply);
 
     /// <summary>
     /// 0:暴击值
@@ -76,18 +76,19 @@ public class DamageCalculator
     /// <summary>
     /// 暴击率
     /// </summary>
-    public DataChange CritPr => new DataChange(DamageUtility.CalculateCritProbability(_attackable.CritProbability), DamageUtility.CalculateCritProbability(_critPr[0].Result) + _critPr[1].Result);
+    public DataChange CritPr =>
+        new DataChange(CalculateUtility.CalculateCritProbability(_attackable.CritProbability), CalculateUtility.CalculateCritProbability(_critPr[0].Result) + _critPr[1].Result);
 
     public DamageCalculator(IAttackable attackable)
     {
         _attackable = attackable;
-        _atk[0] = new CalculationChain(DamageUtility.FormulaSum);
-        _atk[1] = new CalculationChain(DamageUtility.FormulaSum);
-        _dmg[0] = new CalculationChain(DamageUtility.FormulaMultiply);
-        _dmg[1] = new CalculationChain(DamageUtility.FormulaMultiply);
-        _dmg[2] = new CalculationChain(DamageUtility.FormulaMultiply);
-        _critPr[0] = new CalculationChain(DamageUtility.FormulaSum);
-        _critPr[1] = new CalculationChain(DamageUtility.FormulaSum);
+        _atk[0] = new CalculationChain(CalculateUtility.FormulaSum);
+        _atk[1] = new CalculationChain(CalculateUtility.FormulaSum);
+        _dmg[0] = new CalculationChain(CalculateUtility.FormulaMultiply);
+        _dmg[1] = new CalculationChain(CalculateUtility.FormulaMultiply);
+        _dmg[2] = new CalculationChain(CalculateUtility.FormulaMultiply);
+        _critPr[0] = new CalculationChain(CalculateUtility.FormulaSum);
+        _critPr[1] = new CalculationChain(CalculateUtility.FormulaSum);
     }
 
     public void AddAttack(float income, DamageType type)
@@ -97,7 +98,7 @@ public class DamageCalculator
             throw new InvalidOperationException();
         }
 
-        AddChain(_atk[(int) type], income);
+        CalculateUtility.AddChain(_atk[(int) type], income);
     }
 
     public void RemoveAttack(float income, DamageType type)
@@ -107,32 +108,20 @@ public class DamageCalculator
             throw new InvalidOperationException();
         }
 
-        RemoveChain(_atk[(int) type], income);
+        CalculateUtility.RemoveChain(_atk[(int) type], income);
     }
 
-    public void AddDamage(float income, DamageType type) { AddChain(_dmg[(int) type], income); }
+    public void AddDamage(float income, DamageType type) { CalculateUtility.AddChain(_dmg[(int) type], income); }
 
-    public void RemoveDamage(float income, DamageType type) { RemoveChain(_dmg[(int) type], income); }
+    public void RemoveDamage(float income, DamageType type) { CalculateUtility.RemoveChain(_dmg[(int) type], income); }
 
-    public void AddCritCoe(float coe) { AddChain(_critCoe, coe); }
+    public void AddCritCoe(float coe) { CalculateUtility.AddChain(_critCoe, coe); }
 
-    public void RemoveCoe(float coe) { RemoveChain(_critCoe, coe); }
+    public void RemoveCoe(float coe) { CalculateUtility.RemoveChain(_critCoe, coe); }
 
-    public void AddCritPr(float pr, CritPrType type) { AddChain(_critPr[(int) type], pr); }
+    public void AddCritPr(float pr, CritPrType type) { CalculateUtility.AddChain(_critPr[(int) type], pr); }
 
-    public void RemoveCritPr(float pr, CritPrType type) { RemoveChain(_critPr[(int) type], pr); }
-
-    private static void AddChain(CalculationChain chain, float income)
-    {
-        chain.Add(income);
-        chain.RefreshResult();
-    }
-
-    private static void RemoveChain(CalculationChain chain, float income)
-    {
-        chain.Remove(income);
-        chain.RefreshResult();
-    }
+    public void RemoveCritPr(float pr, CritPrType type) { CalculateUtility.RemoveChain(_critPr[(int) type], pr); }
 
     /// <summary>
     /// 基础伤害计算

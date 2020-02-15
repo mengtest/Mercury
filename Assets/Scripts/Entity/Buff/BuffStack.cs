@@ -38,7 +38,12 @@ public class BuffStack
     {
     }
 
-    public BuffStack AfterTrigger() { return new BuffStack(prototype, source, interval, triggerCount - 1, intensity); }
+    public BuffStack AfterTrigger()
+    {
+        return triggerCount < 0 
+            ? new BuffStack(prototype, source, interval, triggerCount, intensity) 
+            : new BuffStack(prototype, source, interval, triggerCount - 1, intensity);
+    }
 
     public override string ToString()
     {

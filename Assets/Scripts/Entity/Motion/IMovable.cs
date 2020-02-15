@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IMoveable
+public interface IMovable
 {
     /// <summary>
     /// 移动速度，单位（格/秒）
@@ -28,6 +28,8 @@ public interface IMoveable
     float Gravity { get; set; }
 
     Vector2 Velocity { get; set; }
+
+    MotionCalculator MotionCalculator { get; }
 
     void Move(Vector2 velocity);
 }
