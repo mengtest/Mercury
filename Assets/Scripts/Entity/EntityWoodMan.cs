@@ -1,5 +1,6 @@
 ﻿using System;
 
+[AutoRegister("wood_man")]
 public class EntityWoodMan : Entity, IAttackable
 {
     public override EntityType EntityType { get; } = EntityType.Enemy;

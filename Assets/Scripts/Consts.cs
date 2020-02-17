@@ -8,8 +8,8 @@
 
     #region Prefabs
 
-    public static readonly AssetLocation PrefabSkillRaceterSwallowFlip =
-        new AssetLocation(Mercury, Skill, "raceter_swallow_flip");
+    public static readonly AssetLocation PrefabSkillRaceterSwallowFlip = new AssetLocation(Mercury, Skill, "raceter_swallow_flip");
+    public static readonly AssetLocation PrefabSkillRaceterMoonAtk2 = new AssetLocation(Mercury, Skill, "raceter_moon_atk_2");
 
     #endregion
 
@@ -17,19 +17,12 @@
 
     public static readonly AssetLocation SkillNormal = new AssetLocation(Mercury, Skill, "normal");
     public static readonly AssetLocation SkillStiffness = new AssetLocation(Mercury, Skill, "stiffness");
-
-    public static readonly AssetLocation SkillRaceterShadowStrike =
-        new AssetLocation(Mercury, Skill, "raceter_shadow_strike");
-
-    public static readonly AssetLocation SkillRaceterIaiAndSwallowFlip =
-        new AssetLocation(Mercury, Skill, "raceter_iai_swallow_flip");
-
-    public static readonly AssetLocation SkillRaceterBladeWave =
-        new AssetLocation(Mercury, Skill, "raceter_blade_wave");
-
+    public static readonly AssetLocation SkillRaceterShadowStrike = new AssetLocation(Mercury, Skill, "raceter_shadow_strike");
+    public static readonly AssetLocation SkillRaceterIaiAndSwallowFlip = new AssetLocation(Mercury, Skill, "raceter_iai_swallow_flip");
+    public static readonly AssetLocation SkillRaceterBladeWave = new AssetLocation(Mercury, Skill, "raceter_blade_wave");
     public static readonly AssetLocation SkillRaceterFlashCut = new AssetLocation(Mercury, Skill, "raceter_flash_cut");
-
     public static readonly AssetLocation SkillRaceterWindPace = new AssetLocation(Mercury, Skill, "raceter_Wind_pace");
+    public static readonly AssetLocation SkillRaceterMoonAttack = new AssetLocation(Mercury, Skill, "raceter_moon_atk");
 
     #endregion
 

@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 烈
 /// </summary>
+[AutoRegister("raceter_flash_cut", new[] {"skill.raceter_flash_cut"})]
 public class SkillRaceterFlashCut : AbstractSkill
 {
     private readonly EntityRaceter _raceter;
@@ -45,10 +46,7 @@ public class SkillRaceterFlashCut : AbstractSkill
         RecycleObj(tempGo);
     }
 
-    public override bool CanEnter()
-    {
-        return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal);
-    }
+    public override bool CanEnter() { return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal); }
 
     public override void OnEnter() //TODO:随机特效位置和数量
     {

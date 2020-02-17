@@ -7,6 +7,7 @@ using UnityEngine;
 /// <summary>
 /// 斩影
 /// </summary>
+[AutoRegister("raceter_shadow_strike", new[] {"skill.raceter_shadow_strike"})]
 public class SkillRaceterShadowStrike : AbstractSkill
 {
     private readonly EntityRaceter _raceter;
@@ -52,10 +53,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
         callback.gameObject.Hide();
     }
 
-    public override bool CanEnter()
-    {
-        return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal);
-    }
+    public override bool CanEnter() { return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal); }
 
     public override void OnEnter()
     {

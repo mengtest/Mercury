@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+[AutoRegister]
 public class BuffWindPace : AbstractBuff
 {
     public override AssetLocation RegisterName { get; } = Consts.BuffWindPace;

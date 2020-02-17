@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 居合·燕返
 /// </summary>
+[AutoRegister("raceter_iai_swallow_flip", new[] {"skill.raceter_swallow_flip"})]
 public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特效好了再做
 {
     private readonly EntityRaceter _raceter;
@@ -51,10 +52,7 @@ public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特�
         _swallowGo.Hide();
     }
 
-    public override bool CanEnter()
-    {
-        return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal);
-    }
+    public override bool CanEnter() { return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal); }
 
     public override void OnEnter()
     {

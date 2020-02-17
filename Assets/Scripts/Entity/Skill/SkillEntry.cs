@@ -64,6 +64,12 @@ public class SkillEntry : IRegistryEntry
             return this;
         }
 
+        public Builder SetSkillType(Type type)
+        {
+            _skillType = type;
+            return this;
+        }
+
         public Builder SetConstructor(in Func<Type, ISkillable, AbstractSkill> constructor)
         {
             _constructor = constructor;

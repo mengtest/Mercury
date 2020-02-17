@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[AutoRegister("raceter_Wind_pace")]
 public class SkillRaceterWindPace : AbstractSkill
 {
     private readonly EntityRaceter _raceter;

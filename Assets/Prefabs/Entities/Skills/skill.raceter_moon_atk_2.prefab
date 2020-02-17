@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3245811213104501758}
   - component: {fileID: 808540811876482479}
   m_Layer: 0
-  m_Name: skill.raceter_moon_atk
+  m_Name: skill.raceter_moon_atk_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

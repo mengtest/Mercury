@@ -5,6 +5,7 @@ using UnityEngine;
 /// 飞行道具
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
+[AutoRegister("flight_prop")]
 public class EntityFlightProp : Entity
 {
     public float maxLivingTime = 10;

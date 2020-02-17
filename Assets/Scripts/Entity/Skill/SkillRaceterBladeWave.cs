@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 狂风剑刃
 /// </summary>
+[AutoRegister("raceter_blade_wave", new[] {"skill.raceter_blade_wave"})]
 public class SkillRaceterBladeWave : AbstractSkill
 {
     private readonly EntityRaceter _raceter;
@@ -41,10 +42,7 @@ public class SkillRaceterBladeWave : AbstractSkill
 
     public override void Init() { }
 
-    public override bool CanEnter()
-    {
-        return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal);
-    }
+    public override bool CanEnter() { return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal); }
 
     public override void OnEnter()
     {

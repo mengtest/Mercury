@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 风痕
 /// </summary>
+[AutoRegister]
 public class BuffWindMark : AbstractBuff
 {
     public override AssetLocation RegisterName { get; } = Consts.BuffWindMark;
@@ -28,7 +29,7 @@ public class BuffWindMark : AbstractBuff
 
     public override void OnFirstAdd(IBuffable holder, BuffStack buff)
     {
-        Debug.Log($"添加:{((Entity) holder).RegisterName}");
+        //Debug.Log($"添加:{((Entity) holder).RegisterName}");
         (buff.source as EntityRaceter).HasWindMarkBuff.Add((Entity) holder);
     }
 
@@ -36,7 +37,7 @@ public class BuffWindMark : AbstractBuff
 
     public override bool OnRemove(IBuffable holder, BuffStack buff)
     {
-        Debug.Log($"移除:{((Entity) holder).RegisterName}");
+        //Debug.Log($"移除:{((Entity) holder).RegisterName}");
         return (buff.source as EntityRaceter).HasWindMarkBuff.Remove((Entity) holder);
     }
 

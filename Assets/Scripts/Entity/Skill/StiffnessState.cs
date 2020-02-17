@@ -3,6 +3,7 @@
 /// <summary>
 /// 硬直状态
 /// </summary>
+[AutoRegister("stiffness")]
 public class StiffnessState : AbstractSkill
 {
     public override AssetLocation RegisterName { get; } = Consts.SkillStiffness;

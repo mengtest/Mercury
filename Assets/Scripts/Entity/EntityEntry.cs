@@ -13,7 +13,7 @@ public class EntityEntry : IRegistryEntry
     /// </summary>
     public IReadOnlyList<AssetLocation> DependAssets { get; }
 
-    public Action<Entity> OnEntityAwake { get; }
+    public Action<Entity> OnEntityAwake { get; } //TODO:使用事件总线
     public Action<Entity> OnEntityStart { get; }
 
     public EntityEntry(

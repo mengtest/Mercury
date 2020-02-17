@@ -3,6 +3,7 @@
 /// <summary>
 /// 回血
 /// </summary>
+[AutoRegister]
 public class BuffHeal : AbstractBuff
 {
     public override AssetLocation RegisterName { get; } = Consts.BuffHeal;
@@ -28,10 +29,7 @@ public class BuffHeal : AbstractBuff
             willAdded.intensity);
     }
 
-    public override void OnTrigger(IBuffable holder, BuffStack buff)
-    {
-        (holder as Entity)?.Heal(buff.intensity * 0.5f);
-    }
+    public override void OnTrigger(IBuffable holder, BuffStack buff) { (holder as Entity)?.Heal(buff.intensity * 0.5f); }
 
     public override void OnFirstAdd(IBuffable holder, BuffStack buff) { }
 

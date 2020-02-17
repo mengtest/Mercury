@@ -4,6 +4,15 @@ using UnityEngine;
 /// <summary>
 /// 南歌子
 /// </summary>
+[AutoRegister("raceter",
+    new[]
+    {
+        "skill.raceter_shadow_strike",
+        "skill.raceter_iai_swallow_flip",
+        "skill.raceter_blade_wave",
+        "skill.raceter_flash_cut",
+        "skill.raceter_Wind_pace"
+    })]
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
@@ -21,8 +30,13 @@ public class EntityRaceter : EntityPlayer
 
     protected override void OnStart()
     {
-        SetProperty(_swordResolve);
         base.OnStart();
+        SetProperty(_swordResolve);
+        AddSkill(EntityUtility.GetSkill<SkillRaceterShadowStrike>(Consts.SkillRaceterShadowStrike, this));
+        AddSkill(EntityUtility.GetSkill<SkillRaceterIaiAndSwallowFlip>(Consts.SkillRaceterIaiAndSwallowFlip, this));
+        AddSkill(EntityUtility.GetSkill<SkillRaceterBladeWave>(Consts.SkillRaceterBladeWave, this));
+        AddSkill(EntityUtility.GetSkill<SkillRaceterFlashCut>(Consts.SkillRaceterFlashCut, this));
+        AddSkill(EntityUtility.GetSkill<SkillRaceterWindPace>(Consts.SkillRaceterWindPace, this));
     }
 
     protected override void OnUpdate()
