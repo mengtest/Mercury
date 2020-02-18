@@ -24,8 +24,8 @@ public class EntityFlightProp : Entity
 
     protected override void OnAwake()
     {
-        RegisterManager.OnEntityAwake(RegisterName, this);
         _collider = GetComponent<Collider2D>();
+        EventManager.Instance.Publish<EntityEvent.Awake>(this, new EntityEvent.Awake(this));
     }
 
     protected override void OnUpdate()

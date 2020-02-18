@@ -61,15 +61,12 @@ public abstract class Entity : MonoBehaviour
         physicalSystems = new List<IEntitySystem>();
         normalSystems = new List<IEntitySystem>();
         _collider = GetComponent<Collider2D>();
-        RegisterManager.OnEntityAwake(RegisterName, this);
+        EventManager.Instance.Publish<EntityEvent.Awake>(this, new EntityEvent.Awake(this));
     }
 
     private void Start() { OnStart(); }
 
-    protected virtual void OnStart()
-    {
-        RegisterManager.OnEntityStart(RegisterName, this);
-    }
+    protected virtual void OnStart() { EventManager.Instance.Publish<EntityEvent.Start>(this, new EntityEvent.Start(this)); }
 
     private void Update() { OnUpdate(); }
 

@@ -32,6 +32,7 @@ public interface IAttackable
 
     /// <summary>
     /// 攻击目标时触发，arg1表示攻击伤害，arg2表示目标
+    /// TODO:移动至事件管理者
     /// </summary>
     event Action<Damage, IAttackable> OnAttackTarget;
 

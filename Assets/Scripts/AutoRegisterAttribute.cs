@@ -6,6 +6,8 @@ using System;
 /// 实体至少需要指定registerName
 /// 技能至少需要指定registerName
 /// Buff不需要指定任何参数
+///
+/// dependents中的技能支持自动添加
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class AutoRegisterAttribute : Attribute

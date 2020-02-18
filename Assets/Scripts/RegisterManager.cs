@@ -19,8 +19,9 @@ public sealed class RegisterManager : Singleton<RegisterManager>
         _regFunc = new Dictionary<Type, Func<Type, Attribute, IRegistryEntry>>(4);
     }
 
-    public static void Init()
+    public void Init()
     {
+        EventManager.Instance.Publish<RegisterEvent.Pre>(this, new RegisterEvent.Pre(Instance));
         var asm = typeof(RegisterManager).Assembly;
         foreach (var type in asm.ExportedTypes)
         {
@@ -64,49 +65,20 @@ public sealed class RegisterManager : Singleton<RegisterManager>
 
         Instance._matchChain = null;
         Instance._regFunc = null;
+        EventManager.Instance.Publish<RegisterEvent.AfterAuto>(this, new RegisterEvent.AfterAuto(Instance));
     }
 
-    public static void Register(IRegistryEntry entry)
+    public void Register(IRegistryEntry entry)
     {
-        if (Instance._entries.ContainsKey(entry.RegisterName))
+        if (_entries.ContainsKey(entry.RegisterName))
         {
             throw new ArgumentException();
         }
 
-        Instance._entries.Add(entry.RegisterName, entry);
+        _entries.Add(entry.RegisterName, entry);
     }
 
-    public static void OnEntityAwake(AssetLocation assetLocation, Entity entity)
-    {
-        if (!Instance._entries.TryGetValue(assetLocation, out var registryEntry))
-        {
-            throw new ArgumentException($"未注册:{assetLocation.ToString()}");
-        }
-
-        if (!(registryEntry is EntityEntry entityEntry))
-        {
-            throw new ArgumentException();
-        }
-
-        entityEntry.OnEntityAwake?.Invoke(entity);
-    }
-
-    public static void OnEntityStart(AssetLocation assetLocation, Entity entity)
-    {
-        if (!Instance._entries.TryGetValue(assetLocation, out var registryEntry))
-        {
-            throw new ArgumentException($"未注册:{assetLocation.ToString()}");
-        }
-
-        if (!(registryEntry is EntityEntry entityEntry))
-        {
-            throw new ArgumentException();
-        }
-
-        entityEntry.OnEntityStart?.Invoke(entity);
-    }
-
-    public static void AddRegistryType(Type baseType, Func<Type, Attribute, IRegistryEntry> regFunc)
+    public void AddRegistryType(Type baseType, Func<Type, Attribute, IRegistryEntry> regFunc)
     {
         Instance._matchChain.Add(t => t.IsSubclassOf(baseType) ? baseType : null);
         Instance._regFunc.Add(baseType, regFunc);

@@ -30,13 +30,8 @@ public class EntityRaceter : EntityPlayer
 
     protected override void OnStart()
     {
-        base.OnStart();
         SetProperty(_swordResolve);
-        AddSkill(EntityUtility.GetSkill<SkillRaceterShadowStrike>(Consts.SkillRaceterShadowStrike, this));
-        AddSkill(EntityUtility.GetSkill<SkillRaceterIaiAndSwallowFlip>(Consts.SkillRaceterIaiAndSwallowFlip, this));
-        AddSkill(EntityUtility.GetSkill<SkillRaceterBladeWave>(Consts.SkillRaceterBladeWave, this));
-        AddSkill(EntityUtility.GetSkill<SkillRaceterFlashCut>(Consts.SkillRaceterFlashCut, this));
-        AddSkill(EntityUtility.GetSkill<SkillRaceterWindPace>(Consts.SkillRaceterWindPace, this));
+        base.OnStart();
     }
 
     protected override void OnUpdate()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EntityEntry : IRegistryEntry
@@ -14,19 +15,12 @@ public class EntityEntry : IRegistryEntry
     /// </summary>
     public IReadOnlyList<AssetLocation> DependAssets { get; }
 
-    public Action<Entity> OnEntityAwake { get; } //TODO:使用事件总线
-    public Action<Entity> OnEntityStart { get; }
-
     public EntityEntry(
         AssetLocation registerName,
-        IReadOnlyList<AssetLocation> dependAssets = null,
-        Action<Entity> onAwake = null,
-        Action<Entity> onStart = null)
+        IReadOnlyList<AssetLocation> dependAssets = null)
     {
         RegisterName = registerName;
         DependAssets = dependAssets;
-        OnEntityAwake = onAwake;
-        OnEntityStart = onStart;
     }
 
     public static Builder Create() { return new Builder(); }
@@ -58,9 +52,7 @@ public class EntityEntry : IRegistryEntry
     public class Builder
     {
         private AssetLocation _registerName;
-        private List<AssetLocation> _dependRegistryEntries;
-        private Action<Entity> _awake;
-        private Action<Entity> _start;
+        private readonly List<AssetLocation> _dependRegistryEntries;
 
         internal Builder() { _dependRegistryEntries = new List<AssetLocation>(); }
 
@@ -76,18 +68,6 @@ public class EntityEntry : IRegistryEntry
             return this;
         }
 
-        public Builder SetAwakeEvent(in Action<Entity> onAwake)
-        {
-            _awake = onAwake;
-            return this;
-        }
-
-        public Builder SetStartEvent(in Action<Entity> onStart)
-        {
-            _start = onStart;
-            return this;
-        }
-
         public EntityEntry Build()
         {
             if (_registerName == null)
@@ -95,9 +75,32 @@ public class EntityEntry : IRegistryEntry
                 throw new ArgumentException();
             }
 
-            return _dependRegistryEntries.Count == 0
-                ? new EntityEntry(_registerName, null, _awake, _start)
-                : new EntityEntry(_registerName, _dependRegistryEntries.ToArray(), _awake, _start);
+            if (_dependRegistryEntries.Count == 0)
+            {
+                return new EntityEntry(_registerName);
+            }
+
+            var skillList = _dependRegistryEntries
+                .Where(entry => entry.type == Consts.Skill)
+                .ToArray();
+            EventManager.Instance.AddListener((object sender, EntityEvent.Start e) =>
+            {
+                if (!e.entity.RegisterName.Equals(_registerName))
+                {
+                    return;
+                }
+
+                if (!(e.entity is ISkillable s))
+                {
+                    return;
+                }
+
+                foreach (var skill in skillList)
+                {
+                    s.AddSkill(EntityUtility.GetSkill(skill, s));
+                }
+            });
+            return new EntityEntry(_registerName, _dependRegistryEntries.ToArray());
         }
     }
 }

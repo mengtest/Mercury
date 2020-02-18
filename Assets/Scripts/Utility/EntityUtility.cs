@@ -17,6 +17,8 @@ public static class EntityUtility
         return res;
     }
 
+    public static AbstractSkill GetSkill(AssetLocation id, ISkillable user) { return GetSkill<AbstractSkill>(id, user); }
+
     public static BuffStack GetBuffDot(
         AssetLocation id,
         Entity entity,
