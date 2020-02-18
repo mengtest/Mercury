@@ -15,67 +15,8 @@ public sealed class RegisterManager : Singleton<RegisterManager>
     private RegisterManager()
     {
         _entries = new Dictionary<AssetLocation, IRegistryEntry>();
-        _matchChain = new List<Func<Type, Type>>
-        {
-            type => type.IsSubclassOf(typeof(AbstractBuff)) ? typeof(AbstractBuff) : null,
-            type => type.IsSubclassOf(typeof(Entity)) ? typeof(Entity) : null,
-            type => type.IsSubclassOf(typeof(AbstractSkill)) ? typeof(AbstractSkill) : null,
-        };
-        _regFunc = new Dictionary<Type, Func<Type, Attribute, IRegistryEntry>>
-        {
-            {typeof(AbstractBuff), (type, _) => (IRegistryEntry) Activator.CreateInstance(type, true)},
-            {
-                typeof(Entity), (type, attr) =>
-                {
-                    var autoReg = (AutoRegisterAttribute) attr;
-                    var builder = EntityEntry.Create()
-                        .SetRegisterName(new AssetLocation(Consts.Mercury, Consts.Entity, autoReg.registerName));
-                    if (autoReg.dependents == null)
-                    {
-                        return builder.Build();
-                    }
-
-                    foreach (var dependent in autoReg.dependents)
-                    {
-                        var group = dependent.Split('.');
-                        if (group.Length != 2)
-                        {
-                            Debug.LogError($"字符串{dependent}解析失败,略过");
-                        }
-
-                        builder.AddDependEntry(new AssetLocation(Consts.Mercury, group[0], group[1]));
-                    }
-
-                    return builder.Build();
-                }
-            },
-            {
-                typeof(AbstractSkill), (type, attr) =>
-                {
-                    var autoReg = (AutoRegisterAttribute) attr;
-                    var builder = SkillEntry.Create()
-                        .SetRegisterName(new AssetLocation(Consts.Mercury, Consts.Skill, autoReg.registerName))
-                        .SetSkillType(type);
-                    if (autoReg.dependents == null)
-                    {
-                        return builder.Build();
-                    }
-
-                    foreach (var dependent in autoReg.dependents)
-                    {
-                        var group = dependent.Split('.');
-                        if (@group.Length != 2)
-                        {
-                            Debug.LogError($"字符串{dependent}解析失败,略过");
-                        }
-
-                        builder.AddDependAsset(new AssetLocation(Consts.Mercury, @group[0], @group[1]));
-                    }
-
-                    return builder.Build();
-                }
-            }
-        };
+        _matchChain = new List<Func<Type, Type>>(4);
+        _regFunc = new Dictionary<Type, Func<Type, Attribute, IRegistryEntry>>(4);
     }
 
     public static void Init()
@@ -163,5 +104,11 @@ public sealed class RegisterManager : Singleton<RegisterManager>
         }
 
         entityEntry.OnEntityStart?.Invoke(entity);
+    }
+
+    public static void AddRegistryType(Type baseType, Func<Type, Attribute, IRegistryEntry> regFunc)
+    {
+        Instance._matchChain.Add(t => t.IsSubclassOf(baseType) ? baseType : null);
+        Instance._regFunc.Add(baseType, regFunc);
     }
 }

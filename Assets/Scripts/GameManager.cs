@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public struct LevelAsset
@@ -25,6 +26,9 @@ public class GameManager : MonoSingleton<GameManager>
         UIManager.Instance.Init();
         UIManager.Instance.ShowLoadPanel(0);
         BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());
+        RegisterManager.AddRegistryType(typeof(AbstractBuff), (type, _) => (IRegistryEntry) Activator.CreateInstance(type, true));
+        RegisterManager.AddRegistryType(typeof(Entity), EntityEntry.AutoRegisterFunc);
+        RegisterManager.AddRegistryType(typeof(AbstractSkill), SkillEntry.AutoRegisterFunc);
         RegisterManager.Init();
     }
 }

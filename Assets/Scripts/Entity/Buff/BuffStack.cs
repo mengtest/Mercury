@@ -3,13 +3,36 @@ using UnityEngine;
 /// <summary>
 /// Buff享元模式
 /// </summary>
-public class BuffStack
+public sealed class BuffStack
 {
+    /// <summary>
+    /// 原型
+    /// </summary>
     public readonly AbstractBuff prototype;
+
+    /// <summary>
+    /// 来源
+    /// </summary>
     public readonly Entity source;
+
+    /// <summary>
+    /// 下次触发时间
+    /// </summary>
     public readonly float nextTime;
+
+    /// <summary>
+    /// 触发间隔
+    /// </summary>
     public readonly float interval;
+
+    /// <summary>
+    /// 强度
+    /// </summary>
     public readonly int intensity;
+
+    /// <summary>
+    /// 触发次数
+    /// </summary>
     public readonly int triggerCount;
 
     public BuffStack(
@@ -40,9 +63,9 @@ public class BuffStack
 
     public BuffStack AfterTrigger()
     {
-        return triggerCount < 0 
-            ? new BuffStack(prototype, source, interval, triggerCount, intensity) 
-            : new BuffStack(prototype, source, interval, triggerCount - 1, intensity);
+        return triggerCount < 0
+            ? new BuffStack(prototype, source, interval, triggerCount, intensity, nextTime + interval)
+            : new BuffStack(prototype, source, interval, triggerCount - 1, intensity, nextTime + interval);
     }
 
     public override string ToString()

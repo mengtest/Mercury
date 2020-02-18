@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SkillEntry : IRegistryEntry
 {
@@ -36,6 +37,31 @@ public class SkillEntry : IRegistryEntry
     }
 
     public static Builder Create() { return new Builder(); }
+
+    public static SkillEntry AutoRegisterFunc(Type type, Attribute attr)
+    {
+        var autoReg = (AutoRegisterAttribute) attr;
+        var builder = SkillEntry.Create()
+            .SetRegisterName(new AssetLocation(Consts.Mercury, Consts.Skill, autoReg.registerName))
+            .SetSkillType(type);
+        if (autoReg.dependents == null)
+        {
+            return builder.Build();
+        }
+
+        foreach (var dependent in autoReg.dependents)
+        {
+            var group = dependent.Split('.');
+            if (@group.Length != 2)
+            {
+                Debug.LogError($"字符串{dependent}解析失败,略过");
+            }
+
+            builder.AddDependAsset(new AssetLocation(Consts.Mercury, @group[0], @group[1]));
+        }
+
+        return builder.Build();
+    }
 
     public class Builder
     {
