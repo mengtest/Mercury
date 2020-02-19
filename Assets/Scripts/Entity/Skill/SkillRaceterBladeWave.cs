@@ -13,6 +13,7 @@ public class SkillRaceterBladeWave : AbstractSkill
     private readonly SwordResolve _swordResolve;
     private readonly MoveCapability _move;
     private readonly Stack<EntityFlightProp> _pool;
+    [Inject] private Asset _prefab = null;
     private Damage _activeDmg;
     private float _cdExpireTime;
     private int _lunchCount;
@@ -93,7 +94,7 @@ public class SkillRaceterBladeWave : AbstractSkill
             return _pool.Pop();
         }
 
-        var obj = AssetManager.Instance.LoadedAssets[RegisterName.ToString()].Instantiate();
+        var obj = _prefab.Instantiate();
         var flight = obj.AddComponent<EntityFlightProp>();
         obj.transform.parent = _raceter.SkillCollection.transform;
         return flight;

@@ -15,7 +15,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
     private readonly MoveCapability _move;
     private readonly HashSet<Collider2D> _attacked = new HashSet<Collider2D>();
     private float _cdExpireTime;
-    private GameObject _skillObj;
+    [Inject] private GameObject _skillObj = null;
     private Animator _skillAnim;
     private float _animLength;
     private Damage _activeDmg;
@@ -43,7 +43,6 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
     public override void Init()
     {
-        _skillObj = AssetManager.Instance.LoadedAssets[RegisterName.ToString()].Instantiate();
         _skillAnim = _skillObj.GetComponent<Animator>();
         _animLength = _skillAnim.AnimClipLength(Consts.GetAnimClip("raceter_shadow_strike"));
         _skillObj.transform.parent = _raceter.SkillCollection.transform;

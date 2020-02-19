@@ -13,7 +13,7 @@ public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特�
     private readonly SwordResolve _swordResolve;
     private readonly MoveCapability _move;
     private readonly Dictionary<Collider2D, (int, float)> _swallowAtk = new Dictionary<Collider2D, (int, float)>();
-    private GameObject _swallowGo;
+    [Inject] private GameObject _swallowGo = null;
     private Animator _swallowAnim;
     private float _swallowAnimLength;
     private float _cdExpireTime;
@@ -42,7 +42,6 @@ public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特�
 
     public override void Init()
     {
-        _swallowGo = AssetManager.Instance.LoadedAssets[Consts.PrefabSkillRaceterSwallowFlip.ToString()].Instantiate();
         _swallowAnim = _swallowGo.GetComponent<Animator>();
         _swallowAnimLength = _swallowAnim.AnimClipLength(Consts.GetAnimClip("raceter_swallow_flip"));
         _swallowGo.transform.parent = _raceter.SkillCollection.transform;

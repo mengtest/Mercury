@@ -14,6 +14,7 @@ public class SkillRaceterFlashCut : AbstractSkill
     private readonly MoveCapability _move;
     private readonly Stack<GameObject> _goPool;
     private readonly List<GameObject> _activeGo;
+    [Inject] private Asset _prefab = null;
     private float _animLength;
     private float _animEndTime;
     private float _cdExpireTime;
@@ -95,7 +96,7 @@ public class SkillRaceterFlashCut : AbstractSkill
             return _goPool.Pop();
         }
 
-        var t = AssetManager.Instance.LoadedAssets[RegisterName.ToString()].Instantiate();
+        var t = _prefab.Instantiate();
         t.transform.parent = _raceter.SkillCollection.transform;
         return t;
     }
