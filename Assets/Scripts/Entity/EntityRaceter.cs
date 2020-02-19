@@ -5,14 +5,11 @@ using UnityEngine;
 /// 南歌子
 /// </summary>
 [AutoRegister("raceter",
-    new[]
-    {
-        "skill.raceter_shadow_strike",
-        "skill.raceter_iai_swallow_flip",
-        "skill.raceter_blade_wave",
-        "skill.raceter_flash_cut",
-        "skill.raceter_Wind_pace"
-    })]
+    "skill.raceter_shadow_strike",
+    "skill.raceter_iai_swallow_flip",
+    "skill.raceter_blade_wave",
+    "skill.raceter_flash_cut",
+    "skill.raceter_Wind_pace")]
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;

@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 烈
 /// </summary>
-[AutoRegister("raceter_flash_cut", new[] {"skill.raceter_flash_cut"})]
+[AutoRegister("raceter_flash_cut", "skill.raceter_flash_cut")]
 public class SkillRaceterFlashCut : AbstractSkill
 {
     private readonly EntityRaceter _raceter;

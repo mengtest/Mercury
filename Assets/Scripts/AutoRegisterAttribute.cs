@@ -15,9 +15,9 @@ public class AutoRegisterAttribute : Attribute
     public readonly string registerName;
     public readonly string[] dependents;
 
-    public AutoRegisterAttribute(string registerName = null, string[] dependents = null)
+    public AutoRegisterAttribute(string registerName = null, params string[] dependents)
     {
         this.registerName = registerName;
-        this.dependents = dependents;
+        this.dependents = dependents.Length != 0 ? dependents : null;
     }
 }

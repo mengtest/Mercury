@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 狂风剑刃
 /// </summary>
-[AutoRegister("raceter_blade_wave", new[] {"skill.raceter_blade_wave"})]
+[AutoRegister("raceter_blade_wave", "skill.raceter_blade_wave")]
 public class SkillRaceterBladeWave : AbstractSkill
 {
     private readonly EntityRaceter _raceter;

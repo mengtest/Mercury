@@ -7,7 +7,7 @@ using UnityEngine;
 /// <summary>
 /// 斩影
 /// </summary>
-[AutoRegister("raceter_shadow_strike", new[] {"skill.raceter_shadow_strike"})]
+[AutoRegister("raceter_shadow_strike", "skill.raceter_shadow_strike")]
 public class SkillRaceterShadowStrike : AbstractSkill
 {
     private readonly EntityRaceter _raceter;
