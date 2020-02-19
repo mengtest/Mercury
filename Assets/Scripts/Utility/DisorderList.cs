@@ -5,25 +5,23 @@ using System.Collections.Generic;
 public class DisorderList<T> : IList<T> where T : IEquatable<T>
 {
     private readonly List<T> _list;
-    private readonly T _default;
+    private readonly Func<T, T, bool> _isEqual;
     private int _pivot;
 
     public int Count { get; private set; }
     public bool IsReadOnly { get; } = false;
 
-    public DisorderList() : this(default) { }
-
-    public DisorderList(T defaultData, int capacity = 0)
+    public DisorderList(int capacity = 0, Func<T, T, bool> isEqual = null)
     {
         _list = new List<T>(capacity);
-        _default = defaultData;
+        _isEqual = isEqual;
     }
 
     public IEnumerator<T> GetEnumerator()
     {
         foreach (var e in _list)
         {
-            if (!e.Equals(_default))
+            if (!IsValEqual(e, default))
             {
                 yield return e;
             }
@@ -36,16 +34,16 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
     {
         if (_pivot + 1 >= _list.Count)
         {
-            _list.Add(_default);
+            _list.Add(default);
         }
 
         _list[_pivot] = item;
         Count += 1;
-        while (!_list[_pivot].Equals(_default))
+        while (!IsValEqual(_list[_pivot], default))
         {
             if (_pivot + 1 >= _list.Count)
             {
-                _list.Add(_default);
+                _list.Add(default);
             }
 
             _pivot++;
@@ -70,7 +68,7 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
             return false;
         }
 
-        _list[i] = _default;
+        _list[i] = default;
         Count -= 1;
         if (i < _pivot)
         {
@@ -84,7 +82,7 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
     {
         for (var i = 0; i < _list.Count; i++)
         {
-            if (_list[i].Equals(item))
+            if (IsValEqual(_list[i], item))
             {
                 return i;
             }
@@ -95,23 +93,26 @@ public class DisorderList<T> : IList<T> where T : IEquatable<T>
 
     public void Insert(int index, T item)
     {
-        if (_default.Equals(item))
-        {
-            return;
-        }
-
         _list[index] = item;
         Count += 1;
     }
 
     public void RemoveAt(int index)
     {
-        if (!_list[index].Equals(_default))
+        if (!IsValEqual(_list[index], default))
         {
-            _list[index] = _default;
-            Count -= 1;
+            return;
         }
+
+        _list[index] = default;
+        Count -= 1;
     }
 
-    public T this[int index] { get => _list[index]; set => throw new NotImplementedException(); }
+    public T this[int index] { get => _list[index]; set => throw new InvalidOperationException(); }
+
+    private bool IsValEqual(T l, T r)
+    {
+        var del = _isEqual?.Invoke(l, r);
+        return del ?? l.Equals(r);
+    }
 }

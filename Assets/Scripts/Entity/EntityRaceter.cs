@@ -4,95 +4,87 @@ using UnityEngine;
 /// <summary>
 /// 南歌子
 /// </summary>
+[AutoRegister("raceter",
+    new[]
+    {
+        "skill.raceter_shadow_strike",
+        "skill.raceter_iai_swallow_flip",
+        "skill.raceter_blade_wave",
+        "skill.raceter_flash_cut",
+        "skill.raceter_Wind_pace"
+    })]
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
-    public GameObject SkillObjCollection { get; private set; }
     public HashSet<Entity> HasWindMarkBuff { get; } = new HashSet<Entity>();
+    public override AssetLocation RegisterName { get; } = Consts.EntityRaceter;
+    public override GameObject SkillCollection { get; protected set; }
 
     protected override void OnAwake()
     {
         base.OnAwake();
         _swordResolve = new SwordResolve(this);
-        SkillObjCollection = new GameObject("EntityRaceterSkills");
+        SkillCollection = new GameObject("entity.raceter_skills");
+        SkillCollection.transform.position = new Vector3(0, 0, -1);
     }
 
     protected override void OnStart()
     {
-        base.OnStart();
         SetProperty(_swordResolve);
+        base.OnStart();
     }
 
     protected override void OnUpdate()
     {
         base.OnUpdate();
         _swordResolve.OnUpdate();
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            UseSkill<SkillRaceterBladeWave>();
-        }
-
         if (Input.GetKeyDown(KeyCode.L))
         {
-            UseSkill<SkillRaceterShadowStrike>();
+            AddBuff(EntityUtility.GetBuffDot(Consts.BuffHeal, this, 1f, -1, 1));
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            UseSkill<SkillRaceterIaiAndSwallowFlip>();
+            AddBuff(EntityUtility.GetBuffState(Consts.BuffWindMark, this, 30, 1));
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            AddBuff(BuffFactory.GetDot(Consts.BUFF_Heal, this, 1f, 10, 1));
+            UseSkill(Consts.SkillRaceterShadowStrike);
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.S))
         {
-            AddBuff(BuffFactory.GetState(Consts.BUFF_WindMark, this, 30, 1));
+            UseSkill(Consts.SkillRaceterIaiAndSwallowFlip);
         }
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            UseSkill<SkillRaceterFlashCut>();
+            UseSkill(Consts.SkillRaceterBladeWave);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            UseSkill(Consts.SkillRaceterFlashCut);
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            UseSkill(Consts.SkillRaceterWindPace);
         }
     }
 
-    public override Damage CalculateDamage(float coe, DamageType damage)
+    public override Damage CalculateDamage(float coe, DamageType type)
     {
-        Damage dmg;
         if (!_swordResolve.swordState && _swordResolve.IsResolveFull)
         {
-            var normalDmg = DamageCalculator.GetDamage(coe, damage);
-            float critDmg;
-            if (damage == DamageType.True)
-            {
-                critDmg = 0;
-            }
-            else
-            {
-                critDmg = DamageCalculator.GetCritDamage(normalDmg, 1, damage);
-            }
-
-            dmg = new Damage(this,
-                normalDmg,
-                critDmg,
-                damage);
-        }
-        else
-        {
-            var v = DamageCalculator.GetFinalDamage(coe, damage, out var extraCritDamage);
-            if (damage == DamageType.True)
-            {
-                extraCritDamage = 0;
-            }
-
-            dmg = new Damage(this,
-                v,
-                extraCritDamage,
-                damage);
+            var dmg = DamageCalculator.GetDamage(coe, type);
+            var crit = type == DamageType.True
+                ? 0
+                : DamageCalculator.GetCritDamage(dmg, DamageCalculator.CritCoe.Multiply, 1);
+            return new Damage(this, dmg, crit, type);
         }
 
-        return dmg;
+        return DamageCalculator.SimpleDamage(coe, type);
     }
 }

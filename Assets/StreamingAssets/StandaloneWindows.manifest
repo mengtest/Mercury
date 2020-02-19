@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2210294175
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: mercury.bundle
+      Dependencies: {}

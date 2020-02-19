@@ -3,32 +3,41 @@
 /// <summary>
 /// 硬直状态
 /// </summary>
+[AutoRegister("stiffness")]
 public class StiffnessState : AbstractSkill
 {
-    private readonly MoveCapability _move;
+    public override AssetLocation RegisterName { get; } = Consts.SkillStiffness;
 
-    public float Duration { get; set; }
+    private float _expireTime;
 
-    public StiffnessState(ISkillable holder) : base(holder, 0)
-    {
-        if (holder is Entity e)
-        {
-            _move = e.GetProperty<MoveCapability>();
-        }
-    }
+    /// <summary>
+    /// 直接set n秒后恢复默认状态
+    /// </summary>
+    public float ExpireTime { get => _expireTime; set => _expireTime = value + Time.time; }
+
+    public StiffnessState(ISkillable user) : base(user) { }
+
+    public override void Init() { }
 
     public override bool CanEnter() { return true; }
 
-    public override void OnAct()
+    public override void OnEnter()
     {
-        Duration -= Time.deltaTime * 1000;
-        if (Duration <= 0)
+        var move = User.GetProperty<MoveCapability>();
+        move.canMove = false;
+    }
+
+    public override void OnUpdate()
+    {
+        if (Time.time > _expireTime)
         {
-            skillHolder.UseSkill<NormalState>();
+            User.UseSkill(Consts.SkillNormal);
         }
     }
 
-    public override void OnEnter() { _move.canMove = false; }
-
-    public override void OnLeave() { _move.canMove = true; }
+    public override void OnLeave()
+    {
+        var move = User.GetProperty<MoveCapability>();
+        move.canMove = true;
+    }
 }

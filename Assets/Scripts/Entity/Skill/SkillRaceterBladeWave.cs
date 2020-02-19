@@ -1,131 +1,147 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// 狂风剑刃
 /// </summary>
-public class SkillRaceterBladeWave : SkillObject
+[AutoRegister("raceter_blade_wave", new[] {"skill.raceter_blade_wave"})]
+public class SkillRaceterBladeWave : AbstractSkill
 {
-    public EntityRaceter raceter;
-    public AssetReference bladeWave;
-    private GameObject _wavePrefab;
-    private Stack<EntityFlightProp> _wavePool;
-    private MoveCapability _move;
-    private SwordResolve _swordResolve;
-    private Damage _damage;
-    private float _timeRecord;
-    private int _launchCount;
+    private readonly EntityRaceter _raceter;
+    private readonly SwordResolve _swordResolve;
+    private readonly MoveCapability _move;
+    private readonly Stack<EntityFlightProp> _pool;
+    private Damage _activeDmg;
+    private float _cdExpireTime;
+    private int _lunchCount;
+    private float _nextLunchTime;
+    private int _lunchDir;
 
-    public override FSMSystem System => raceter.SkillFsmSystem;
+    public float Cd { get; set; } = 0;
+    public float Damage { get; set; } = 150;
+    public float LunchInterval { get; set; } = 0.3f;
+    public float StiffnessTime { get; set; } = 0.2f;
+    public float FlightSpeed { get; set; } = 3;
 
-    private void OnDestroy()
+    public override AssetLocation RegisterName { get; } = Consts.SkillRaceterBladeWave;
+
+    public SkillRaceterBladeWave(ISkillable user) : base(user)
     {
-        foreach (var wave in _wavePool)
+        if (!(user is EntityRaceter raceter))
         {
-            Destroy(wave.gameObject);
+            throw new InvalidOperationException();
         }
 
-        _wavePool = null;
-    }
-
-    public override async void Init()
-    {
-        raceter = transform.parent.GetComponent<EntityRaceter>();
-        _move = raceter.GetProperty<MoveCapability>();
+        _raceter = raceter;
         _swordResolve = raceter.GetProperty<SwordResolve>();
-        _wavePool = new Stack<EntityFlightProp>(5);
-        _wavePrefab = await bladeWave.LoadAssetAsync<GameObject>().Task;
-        transform.parent = raceter.SkillObjCollection.transform;
+        _move = raceter.GetProperty<MoveCapability>();
+        _pool = new Stack<EntityFlightProp>(5);
     }
 
-    private EntityFlightProp GetBladeWave() //不知道为什么，异步加载的Task，手动Wait会炸掉...
-    {
-        return _wavePool.Count != 0
-            ? _wavePool.Pop()
-            : Instantiate(_wavePrefab, transform, true).GetComponent<EntityFlightProp>();
-    }
+    public override void Init() { }
 
-    public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
-
-    public override void OnAct()
-    {
-        if (_launchCount > 0)
-        {
-            _timeRecord += Time.deltaTime;
-            if (_timeRecord >= 0.3f)
-            {
-                LaunchWave();
-            }
-        }
-        else
-        {
-            EnterStiffness(0);
-        }
-
-        _move.canMove = false;
-    }
+    public override bool CanEnter() { return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal); }
 
     public override void OnEnter()
     {
-        var loopCount = 1;
+        _move.canMove = false;
+        _raceter.Velocity = Vector2.zero;
         if (!_swordResolve.swordState)
         {
-            loopCount += _swordResolve.resolve / 20;
+            _lunchCount = _swordResolve.resolve / 20 + 1;
+        }
+        else
+        {
+            _lunchCount = 1;
         }
 
-        _launchCount = loopCount;
-        _damage = raceter.CalculateDamage(150, DamageType.Physics);
+        _activeDmg = _raceter.CalculateDamage(Damage, DamageType.Physics);
         _swordResolve.PullSword();
-        LaunchWave();
+        _lunchDir = _raceter.GetFace() == Face.Left ? -1 : 1;
+        _nextLunchTime = Time.time;
     }
 
-    public override void OnLeave() { RefreshCoolDown(); }
-
-    private void LaunchWave()
+    public override void OnUpdate()
     {
-        var flight = GetBladeWave();
+        if (Time.time >= _nextLunchTime)
+        {
+            Lunch();
+            _nextLunchTime += LunchInterval;
+            _lunchCount -= 1;
+        }
+
+        if (_lunchCount <= 0)
+        {
+            _raceter.UseSkill(Consts.SkillStiffness, out var skill);
+            ((StiffnessState) skill).ExpireTime = StiffnessTime;
+        }
+    }
+
+    public override void OnLeave()
+    {
+        _cdExpireTime = Time.time + Cd;
+        _move.canMove = true;
+        _raceter.Velocity = Vector2.zero;
+    }
+
+    public EntityFlightProp GetObjFromPool()
+    {
+        if (_pool.Count != 0)
+        {
+            return _pool.Pop();
+        }
+
+        var obj = AssetManager.Instance.LoadedAssets[RegisterName.ToString()].Instantiate();
+        var flight = obj.AddComponent<EntityFlightProp>();
+        obj.transform.parent = _raceter.SkillCollection.transform;
+        return flight;
+    }
+
+    private void Lunch()
+    {
+        var flight = GetObjFromPool();
+        flight.OnDead += OnObjDead;
+        var dir = _lunchDir;
+        flight.OnUpdateAction += o => o.transform.Translate(new Vector3(dir * FlightSpeed * Time.deltaTime, 0, 0));
+        flight.OnTriggerEnter += OnTriggerEvent;
+        flight.OnTriggerStay += OnTriggerEvent;
+        var flightTrans = flight.transform;
+        var scale = flightTrans.localScale;
+        var z = _raceter.SkillCollection.transform.position.z;
+        var pos = _raceter.transform.position;
+        flightTrans.localScale = new Vector3(math.abs(scale.x) * _lunchDir, scale.y, scale.z);
+        flightTrans.position = new Vector3(pos.x, pos.y, z);
         flight.gameObject.Show();
-        flight.Reset();
-        var playerTrans = raceter.transform;
-        var dir = raceter.GetFace() == Face.Left ? -1 : 1;
-        flight.transform.position = playerTrans.position;
-        flight.Rotate(raceter.GetFace());
-        flight.IsDead += e =>
+    }
+
+    private void OnTriggerEvent(Collider2D coll, EntityFlightProp o)
+    {
+        if (!coll.CompareTag(Consts.Entity))
         {
-            var t = e.Trigger;
-            if (!t)
-            {
-                return false;
-            }
+            return;
+        }
 
-            if (!t.CompareTag(Consts.TAG_Entity))
-            {
-                return false;
-            }
-
-            var entity = t.GetComponent<Entity>();
-            if (entity.EntityType != EntityType.Enemy)
-            {
-                return false;
-            }
-
-            if (!(entity is IAttackable attackable))
-            {
-                throw new ArgumentException("未实现IAttackable却是Enemy");
-            }
-
-            attackable.UnderAttack(raceter.DealDamage(_damage, attackable));
-            return true;
-        };
-        flight.OnDead += e =>
+        var entity = coll.GetComponent<Entity>();
+        if (entity.EntityType != EntityType.Enemy)
         {
-            e.gameObject.Hide();
-            _wavePool.Push(e);
-        };
-        flight.OnUpdateAction += e => e.transform.position += new Vector3(3f * Time.deltaTime, 0) * dir;
-        _launchCount -= 1;
-        _timeRecord = 0f;
+            return;
+        }
+
+        if (!(entity is IAttackable attackable))
+        {
+            throw new ArgumentException("未实现IAttackable却是Enemy");
+        }
+
+        attackable.UnderAttack(_raceter.DealDamage(_activeDmg, attackable));
+        OnObjDead(o);
+    }
+
+    private void OnObjDead(EntityFlightProp o)
+    {
+        _pool.Push(o);
+        o.Clear();
+        o.gameObject.Hide();
     }
 }

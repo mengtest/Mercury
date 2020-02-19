@@ -14,9 +14,8 @@ public class UIManager : MonoSingleton<UIManager>
     public GameObject canvas;
     public UltimateTextDamageManager textDamageManager;
 
-    protected override void OnAwake()
+    public void Init()
     {
-        base.OnAwake();
 #if UNITY_EDITOR
         if (!canvas)
         {
@@ -40,7 +39,7 @@ public class UIManager : MonoSingleton<UIManager>
 #endif
         DontDestroyOnLoad(canvas);
     }
-
+    
     public void OnBootstrapStartBtnEnter()
     {
         levelPanel.gameObject.Show();

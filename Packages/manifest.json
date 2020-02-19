@@ -9,10 +9,10 @@
     }
   ],
   "dependencies": {
-    "com.unity.addressables": "1.6.0",
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.2.3",
-    "com.unity.burst": "1.2.1",
+    "com.unity.assetbundlebrowser": "1.7.0",
+    "com.unity.burst": "1.2.2",
     "com.unity.cinemachine": "2.5.0",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.mathematics": "1.1.0",

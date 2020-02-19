@@ -1,31 +1,45 @@
-public class BuffWindMark : StateBuff
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// 风痕
+/// </summary>
+[AutoRegister]
+public class BuffWindMark : AbstractBuff
 {
-    public override string Name { get; } = Consts.BUFF_WindMark;
+    public override AssetLocation RegisterName { get; } = Consts.BuffWindMark;
+    public override IReadOnlyList<AssetLocation> DependAssets { get; } = null;
 
-    public override ref BuffFlyweightState Merge(ref BuffFlyweightState willAdded, ref BuffFlyweightState exist)
+    public override BuffStack Merge(BuffStack willAdded, BuffStack exist)
     {
-        if (exist.intensity < 10)
+        var intensity = exist.intensity;
+        var nextTime = exist.nextTime;
+        if (intensity < 10)
         {
-            exist.intensity += 1;
+            intensity += 1;
         }
 
-        if (exist.ExpireTime < willAdded.ExpireTime)
+        if (nextTime < willAdded.nextTime)
         {
-            exist.ExpireTime = willAdded.ExpireTime;
+            nextTime = willAdded.nextTime;
         }
 
-        return ref exist;
+        return new BuffStack(exist.prototype, exist.source, exist.interval, 1, intensity, nextTime);
     }
 
-    public override void OnFirstAdd(IBuffable holder, in BuffFlyweightState buff)
+    public override void OnFirstAdd(IBuffable holder, BuffStack buff)
     {
-        (buff.source as EntityRaceter).HasWindMarkBuff.Add(holder as Entity);
+        //Debug.Log($"添加:{((Entity) holder).RegisterName}");
+        (buff.source as EntityRaceter).HasWindMarkBuff.Add((Entity) holder);
     }
 
-    public override void OnRepeatAdd(IBuffable holder, in BuffFlyweightState buff) { }
+    public override void OnRepeatAdd(IBuffable holder, BuffStack buff) { }
 
-    public override bool OnRemove(IBuffable holder, in BuffFlyweightState buff)
+    public override bool OnRemove(IBuffable holder, BuffStack buff)
     {
-        return (buff.source as EntityRaceter).HasWindMarkBuff.Remove(holder as Entity);
+        //Debug.Log($"移除:{((Entity) holder).RegisterName}");
+        return (buff.source as EntityRaceter).HasWindMarkBuff.Remove((Entity) holder);
     }
+
+    public override void OnTrigger(IBuffable holder, BuffStack buff) { }
 }

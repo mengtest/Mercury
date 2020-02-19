@@ -1,36 +1,40 @@
-﻿/// <summary>
-/// 可使用Buff
-/// </summary>
-public interface IBuffable
+﻿public interface IBuffable
 {
     /// <summary>
-    /// buff更新
+    /// 每帧调用
     /// </summary>
     void OnUpdateBuffs();
 
     /// <summary>
-    /// 添加Dot buff
+    /// 添加Buff
     /// </summary>
-    void AddBuff(BuffFlyweightDot dot);
+    /// <param name="buff">Buff享元实例</param>
+    void AddBuff(BuffStack buff);
 
     /// <summary>
-    /// 添加状态Buff
+    /// 移除Buff
     /// </summary>
-    void AddBuff(BuffFlyweightState state);
+    /// <param name="location">Buff ID</param>
+    /// <returns>是否成功移除</returns>
+    bool RemoveBuff(AssetLocation location);
 
-    bool RemoveDotBuff(string buffName);
+    /// <summary>
+    /// 是否拥有Buff
+    /// </summary>
+    /// <param name="location">Buff ID</param>
+    bool HasBuff(AssetLocation location);
 
-    bool RemoveStateBuff(string buffName);
+    /// <summary>
+    /// 直接获取拥有的Buff
+    /// </summary>
+    /// <param name="location">Buff ID</param>
+    BuffStack GetBuff(AssetLocation location);
 
-    BuffFlyweightDot GetDotBuff(string buffName);
-
-    BuffFlyweightState GetStateBuff(string buffName);
-
-    bool ContainsDotBuff(string buffName);
-
-    bool ContainsStateBuff(string buffName);
-
-    bool TryGetDotBuff(string buffName, out BuffFlyweightDot dot);
-
-    bool TryGetStateBuff(string buffName, out BuffFlyweightState state);
+    /// <summary>
+    /// 尝试获取Buff
+    /// </summary>
+    /// <param name="location">Buff ID</param>
+    /// <param name="buff">Buff享元实例</param>
+    /// <returns>是否获取成功</returns>
+    bool TryGetBuff(AssetLocation location, out BuffStack buff);
 }

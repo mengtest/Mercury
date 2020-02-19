@@ -751,6 +751,7 @@ GameObject:
   - component: {fileID: 1470371480}
   - component: {fileID: 1470371479}
   - component: {fileID: 1470371481}
+  - component: {fileID: 1470371482}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -771,20 +772,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - name: Level-0
-    assRef:
-      m_AssetGUID: 92c46fc592c239940b5939b181669d0f
-      m_SubObjectName: 
+  - name: Level0
     avalible: 1
-  - name: Level-1
-    assRef:
-      m_AssetGUID: 
-      m_SubObjectName: 
+  - name: Level1
     avalible: 0
-  - name: Level-2
-    assRef:
-      m_AssetGUID: 
-      m_SubObjectName: 
+  - name: Level2
     avalible: 0
   nowScene: {fileID: 0}
 --- !u!4 &1470371480
@@ -818,6 +810,19 @@ MonoBehaviour:
   levelPanel: {fileID: 494661690}
   canvas: {fileID: 1938141824}
   textDamageManager: {fileID: 0}
+--- !u!114 &1470371482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470371478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c54fb8fd23c094ca82a4a80d3fb2d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
 --- !u!1 &1938141824
 GameObject:
   m_ObjectHideFlags: 0

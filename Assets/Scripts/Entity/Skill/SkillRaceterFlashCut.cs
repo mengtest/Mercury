@@ -1,112 +1,108 @@
-﻿using System.Collections.Generic;
-using Unity.Mathematics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 /// <summary>
 /// 烈
 /// </summary>
-public class SkillRaceterFlashCut : SkillObject
+[AutoRegister("raceter_flash_cut", new[] {"skill.raceter_flash_cut"})]
+public class SkillRaceterFlashCut : AbstractSkill
 {
-    public EntityRaceter raceter;
-    public AssetReference flashCut;
-    private GameObject _flashCutPrefab;
-    private MoveCapability _move;
-    private Stack<Animator> _flashPool;
-    private Queue<Animator> _activeFlash;
-    private Queue<IBuffable> _rmE;
-    private SwordResolve _swordResolve;
+    private readonly EntityRaceter _raceter;
+    private readonly SwordResolve _swordResolve;
+    private readonly MoveCapability _move;
+    private readonly Stack<GameObject> _goPool;
+    private readonly List<GameObject> _activeGo;
     private float _animLength;
-    private float _expireTime;
-    private int _srAdd;
+    private float _animEndTime;
+    private float _cdExpireTime;
 
-    public override FSMSystem System => raceter.SkillFsmSystem;
+    public float Cd { get; set; } = 0;
+    public float Damage { get; set; } = 100;
+    public float StiffnessTime { get; set; } = 0.2f;
 
-    private void OnDestroy()
+    public override AssetLocation RegisterName { get; } = Consts.SkillRaceterFlashCut;
+
+    public SkillRaceterFlashCut(ISkillable user) : base(user)
     {
-        foreach (var wave in _flashPool)
+        if (!(user is EntityRaceter raceter))
         {
-            Destroy(wave.gameObject);
+            throw new InvalidOperationException();
         }
 
-        _flashPool = null;
-    }
-
-    public override async void Init()
-    {
-        raceter = transform.parent.GetComponent<EntityRaceter>();
-        _move = raceter.GetProperty<MoveCapability>();
+        _raceter = raceter;
         _swordResolve = raceter.GetProperty<SwordResolve>();
-        _flashPool = new Stack<Animator>(1);
-        _activeFlash = new Queue<Animator>();
-        _flashCutPrefab = await flashCut.LoadAssetAsync<GameObject>().Task;
-        var anim = GetFlashCut();
-        anim.gameObject.Hide();
-        _animLength = SkillUtility.GetClipLength(anim, Consts.PREFAB_SE_SkillRaceterFlashCut);
-        _flashPool.Push(anim);
-        _rmE = new Queue<IBuffable>();
-        transform.parent = raceter.SkillObjCollection.transform;
+        _move = raceter.GetProperty<MoveCapability>();
+        _goPool = new Stack<GameObject>(8);
+        _activeGo = new List<GameObject>(8);
     }
 
-    private Animator GetFlashCut()
+    public override void Init()
     {
-        var r = _flashPool.Count != 0
-            ? _flashPool.Pop()
-            : Instantiate(_flashCutPrefab, transform, true).GetComponent<Animator>();
-        return r;
+        var tempGo = GetObjFromPool();
+        var skillAnim = tempGo.GetComponent<Animator>();
+        _animLength = skillAnim.AnimClipLength(Consts.GetAnimClip("raceter_flash_cut"));
+        RecycleObj(tempGo);
     }
 
-    public override bool CanEnter() { return System.CurrentState.GetType() == typeof(NormalState) && IsCoolDown(); }
+    public override bool CanEnter() { return _cdExpireTime <= Time.time && System.CurrentState.RegisterName.Equals(Consts.SkillNormal); }
 
-    public override void OnEnter()
+    public override void OnEnter() //TODO:随机特效位置和数量
     {
-        _expireTime = Time.time + _animLength;
-        var dmg = raceter.CalculateDamage(400, DamageType.True);
-        var srCount = 0;
-        foreach (var entity in raceter.HasWindMarkBuff)
+        _move.canMove = false;
+        _raceter.Velocity = Vector2.zero;
+        foreach (var entity in _raceter.HasWindMarkBuff.ToArray())
         {
             var buf = entity as IBuffable;
             var atk = entity as IAttackable;
-            var wm = buf.GetStateBuff(Consts.BUFF_WindMark);
-            srCount = math.max(srCount, wm.intensity);
-            atk.UnderAttack(raceter.DealDamage(dmg, atk));
-            var anim = GetFlashCut();
+            var wm = buf.GetBuff(Consts.BuffWindMark);
+            atk.UnderAttack(_raceter.DealDamage(_raceter.CalculateDamage(Damage * wm.intensity, DamageType.True), atk));
+            var anim = GetObjFromPool();
             anim.gameObject.Show();
             anim.transform.position = entity.transform.position;
-            anim.Play(Consts.PREFAB_SE_SkillRaceterFlashCut, 0, 0);
-            _activeFlash.Enqueue(anim);
-            _rmE.Enqueue(buf);
+            _activeGo.Add(anim);
+            buf.RemoveBuff(Consts.BuffWindMark);
         }
 
-        while (_rmE.Count != 0)
-        {
-            _rmE.Dequeue().RemoveStateBuff(Consts.BUFF_WindMark);
-        }
-
-        _rmE.Clear();
-        raceter.HasWindMarkBuff.Clear();
-        _srAdd = srCount * 5;
-        _move.canMove = false;
+        _raceter.HasWindMarkBuff.Clear();
+        _animEndTime = Time.time + _animLength;
     }
 
-    public override void OnAct()
+    public override void OnUpdate()
     {
-        if (Time.time >= _expireTime)
+        if (Time.time >= _animEndTime)
         {
-            EnterStiffness(0);
+            _raceter.UseSkill(Consts.SkillStiffness, out var skill);
+            ((StiffnessState) skill).ExpireTime = StiffnessTime;
         }
     }
 
     public override void OnLeave()
     {
-        _swordResolve.swordState = false;
-        _swordResolve.OverlayResolve(_srAdd);
+        _cdExpireTime = Time.time + Cd;
+        _move.canMove = true;
+        _raceter.Velocity = Vector2.zero;
+        _activeGo.ForEach(RecycleObj);
+        _activeGo.Clear();
         _swordResolve.Retract();
-        while (_activeFlash.Count != 0)
+    }
+
+    private GameObject GetObjFromPool()
+    {
+        if (_goPool.Count != 0)
         {
-            var t = _activeFlash.Dequeue();
-            t.gameObject.Hide();
-            _flashPool.Push(t);
+            return _goPool.Pop();
         }
+
+        var t = AssetManager.Instance.LoadedAssets[RegisterName.ToString()].Instantiate();
+        t.transform.parent = _raceter.SkillCollection.transform;
+        return t;
+    }
+
+    private void RecycleObj(GameObject go)
+    {
+        go.Hide();
+        _goPool.Push(go);
     }
 }

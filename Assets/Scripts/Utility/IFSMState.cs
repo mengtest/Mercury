@@ -1,5 +1,7 @@
 ﻿public interface IFSMState
 {
+    AssetLocation RegisterName { get; }
+
     FSMSystem System { get; }
 
     /// <summary>
@@ -20,7 +22,7 @@
     /// <summary>
     /// 每帧调用
     /// </summary>
-    void OnAct();
+    void OnUpdate();
 
     /// <summary>
     /// 离开本状态时调用
