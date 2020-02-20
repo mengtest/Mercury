@@ -11,7 +11,7 @@ public class BuffHeal : AbstractBuff
 
     public override BuffStack Merge(BuffStack willAdded, BuffStack exist)
     {
-        if (willAdded.intensity > exist.intensity)
+        if (willAdded.intensity > exist.intensity) //返回强度大的
         {
             return willAdded;
         }
@@ -26,7 +26,7 @@ public class BuffHeal : AbstractBuff
             willAdded.source,
             willAdded.interval,
             willAdded.triggerCount + exist.triggerCount,
-            willAdded.intensity);
+            willAdded.intensity); //强度相同的话返回它们触发次数相加
     }
 
     public override void OnTrigger(IBuffable holder, BuffStack buff) { (holder as Entity)?.Heal(buff.intensity * 0.5f); }

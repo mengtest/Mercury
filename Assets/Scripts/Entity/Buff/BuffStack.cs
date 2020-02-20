@@ -61,6 +61,9 @@ public sealed class BuffStack
     {
     }
 
+    /// <summary>
+    /// 获取触发完后的buff实例
+    /// </summary>
     public BuffStack AfterTrigger()
     {
         return triggerCount < 0

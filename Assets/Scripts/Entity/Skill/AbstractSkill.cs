@@ -13,6 +13,9 @@ public abstract class AbstractSkill : IFSMState
     /// </summary>
     public ISkillable User { get; }
 
+    /// <summary>
+    /// 技能的有限状态机
+    /// </summary>
     public FSMSystem System { get; }
 
     public AbstractSkill(ISkillable user)

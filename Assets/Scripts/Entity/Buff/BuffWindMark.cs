@@ -14,12 +14,12 @@ public class BuffWindMark : AbstractBuff
     {
         var intensity = exist.intensity;
         var nextTime = exist.nextTime;
-        if (intensity < 10)
+        if (intensity < 10) //强度最大值是10
         {
             intensity += 1;
         }
 
-        if (nextTime < willAdded.nextTime)
+        if (nextTime < willAdded.nextTime)//下次触发时间比较大的那个buff
         {
             nextTime = willAdded.nextTime;
         }

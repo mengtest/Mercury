@@ -11,6 +11,8 @@ public abstract class AbstractBuff : IRegistryEntry
     /// <summary>
     /// 合并已有Buff和新添加Buff，在添加Buff时，如果已有Buff则会触发
     /// </summary>
+    /// <param name="willAdded">将要添加的buff实例</param>
+    /// <param name="exist">已存在的buff实例</param>
     /// <returns>合并完成后的buff</returns>
     public abstract BuffStack Merge(BuffStack willAdded, BuffStack exist);
 

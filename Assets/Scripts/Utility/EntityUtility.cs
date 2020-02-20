@@ -69,6 +69,16 @@ public static class EntityUtility
 
     public static AbstractSkill GetSkill(AssetLocation id, ISkillable user) { return GetSkill<AbstractSkill>(id, user); }
 
+    /// <summary>
+    /// 获取一个Dot buff
+    /// </summary>
+    /// <param name="id">Buff的ID</param>
+    /// <param name="entity">Buff来源</param>
+    /// <param name="interval">触发间隔</param>
+    /// <param name="triggerCount">触发次数</param>
+    /// <param name="intensity">强度</param>
+    /// <returns>Buff实例</returns>
+    /// <exception cref="ArgumentException">不是Buff时触发</exception>
     public static BuffStack GetBuffDot(
         AssetLocation id,
         Entity entity,
@@ -84,6 +94,15 @@ public static class EntityUtility
         return new BuffStack(buff, entity, interval, triggerCount, intensity);
     }
 
+    /// <summary>
+    /// 获取一个状态Buff
+    /// </summary>
+    /// <param name="id">Buff ID</param>
+    /// <param name="entity">Buff来源</param>
+    /// <param name="duration">持续时间</param>
+    /// <param name="intensity">强度</param>
+    /// <returns>Buff实例</returns>
+    /// <exception cref="ArgumentException">不是Buff时触发</exception>
     public static BuffStack GetBuffState(
         AssetLocation id,
         Entity entity,

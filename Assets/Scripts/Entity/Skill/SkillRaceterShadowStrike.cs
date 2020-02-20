@@ -14,13 +14,42 @@ public class SkillRaceterShadowStrike : AbstractSkill
     private readonly SwordResolve _swordResolve;
     private readonly MoveCapability _move;
     private readonly HashSet<Collider2D> _attacked = new HashSet<Collider2D>();
+
+    /// <summary>
+    /// cd结束时间
+    /// </summary>
     private float _cdExpireTime;
+
+    /// <summary>
+    /// 特效
+    /// </summary>
     [Inject] private GameObject _skillObj = null;
+
+    /// <summary>
+    /// 特效动画
+    /// </summary>
     private Animator _skillAnim;
+
+    /// <summary>
+    /// 动画长度
+    /// </summary>
     private float _animLength;
+
+    /// <summary>
+    /// 伤害
+    /// </summary>
     private Damage _activeDmg;
+
+    /// <summary>
+    /// raceter本次应该运动到的位置
+    /// </summary>
     private float _raceterMove;
+
+    /// <summary>
+    /// raceter上次运动到的位置
+    /// </summary>
     private float _raceterLastMove;
+
     private float _animEndTime;
 
     public override AssetLocation RegisterName { get; } = Consts.SkillRaceterShadowStrike;

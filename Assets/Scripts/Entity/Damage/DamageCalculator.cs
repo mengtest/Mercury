@@ -1,8 +1,14 @@
 using System;
 using System.Runtime.CompilerServices;
 
+/// <summary>
+/// 伤害计算器
+/// </summary>
 public class DamageCalculator
 {
+    /// <summary>
+    /// 持有计算器的实体
+    /// </summary>
     private readonly IAttackable _attackable;
 
     /// <summary>
@@ -91,6 +97,12 @@ public class DamageCalculator
         _critPr[1] = new CalculationChain(CalculateUtility.FormulaSum);
     }
 
+    /// <summary>
+    /// 增加攻击力变化
+    /// </summary>
+    /// <param name="income">收益数值</param>
+    /// <param name="type">收益类型</param>
+    /// <exception cref="InvalidOperationException">不可以添加真伤类型的攻击力，因为不存在</exception>
     public void AddAttack(float income, DamageType type)
     {
         if (type == DamageType.True)
@@ -101,6 +113,12 @@ public class DamageCalculator
         CalculateUtility.AddChain(_atk[(int) type], income);
     }
 
+    /// <summary>
+    /// 移除攻击力变化
+    /// </summary>
+    /// <param name="income">收益数值</param>
+    /// <param name="type">收益类型</param>
+    /// <exception cref="InvalidOperationException">不可以添加真伤类型的攻击力，因为不存在</exception>
     public void RemoveAttack(float income, DamageType type)
     {
         if (type == DamageType.True)
@@ -111,20 +129,48 @@ public class DamageCalculator
         CalculateUtility.RemoveChain(_atk[(int) type], income);
     }
 
+    /// <summary>
+    /// 增加伤害收益变化
+    /// </summary>
+    /// <param name="income">收益数值</param>
+    /// <param name="type">收益类型</param>
     public void AddDamage(float income, DamageType type) { CalculateUtility.AddChain(_dmg[(int) type], income); }
 
+    /// <summary>
+    /// 移除伤害收益变化
+    /// </summary>
+    /// <param name="income">收益数值</param>
+    /// <param name="type">收益类型</param>
     public void RemoveDamage(float income, DamageType type) { CalculateUtility.RemoveChain(_dmg[(int) type], income); }
 
+    /// <summary>
+    /// 增加暴击系数变化
+    /// </summary>
+    /// <param name="coe">系数</param>
     public void AddCritCoe(float coe) { CalculateUtility.AddChain(_critCoe, coe); }
 
+    /// <summary>
+    /// 移除暴击系数变化
+    /// </summary>
+    /// <param name="coe">系数</param>
     public void RemoveCoe(float coe) { CalculateUtility.RemoveChain(_critCoe, coe); }
 
+    /// <summary>
+    /// 增加暴击率变化
+    /// </summary>
+    /// <param name="pr">数据</param>
+    /// <param name="type">暴击率数据类型</param>
     public void AddCritPr(float pr, CritPrType type) { CalculateUtility.AddChain(_critPr[(int) type], pr); }
 
+    /// <summary>
+    /// 移除暴击率变化
+    /// </summary>
+    /// <param name="pr">数据</param>
+    /// <param name="type">暴击率数据类型</param>
     public void RemoveCritPr(float pr, CritPrType type) { CalculateUtility.RemoveChain(_critPr[(int) type], pr); }
 
     /// <summary>
-    /// 基础伤害计算
+    /// 基础的伤害计算器
     /// </summary>
     /// <param name="skillCoe">技能系数</param>
     /// <param name="type">伤害类型</param>
@@ -152,8 +198,10 @@ public class DamageCalculator
     }
 
     /// <summary>
-    /// 技能系数*攻击力（除真伤外）*伤害增益
+    /// 从攻击力获取伤害，公式：技能系数*攻击力（除真伤外）*伤害增益
     /// </summary>
+    /// <param name="skillCoe">技能系数</param>
+    /// <param name="type">伤害类型</param>
     public float GetDamage(float skillCoe, DamageType type)
     {
         //Debug.Log($"coe{skillCoe} atk{PhysicsAttack.Add} phy:{PhysicsDamageIncome} all:{AllDamageIncome}");

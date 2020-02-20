@@ -1,4 +1,7 @@
-﻿public struct Damage
+﻿/// <summary>
+/// 伤害数据
+/// </summary>
+public struct Damage
 {
     /// <summary>
     /// 伤害量

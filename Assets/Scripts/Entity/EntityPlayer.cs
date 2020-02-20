@@ -47,10 +47,6 @@ public abstract class EntityPlayer : Entity, IAttackable, IBuffable, ISkillable,
                 _moveCapability.velocity.y = 0;
                 _moveCapability.RecoverJumpCount();
             }
-            else
-            {
-                _moveCapability.UpdateJumpCD();
-            }
 
             float normalizedHorizontalSpeed;
             if (Input.GetKey(KeyCode.RightArrow))
