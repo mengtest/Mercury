@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3889387142
+CRC: 899700221
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cab9f89ec402c1c02f1c35866c45b214
+    Hash: 3f4108044a99685e855ea36b0d1d3082
   TypeTreeHash:
     serializedVersion: 2
     Hash: 32d90b48d6c6e3bdd7b02f1ac811d599
@@ -47,6 +47,7 @@ Assets:
 - Assets/Animations/SpecialEffects/anim_ctrl.raceter_shadow_strike.controller
 - Assets/Textures/SpecialEffects/skill.raceter_swallow_flip_pic_normal.png
 - Assets/Shaders/linear_reduction.shader
+- Assets/Animations/SpecialEffects/anim_clip.raceter_moon_atk_2.anim
 - Assets/Animations/SpecialEffects/anim_ctrl.raceter_flash_cut.controller
 - Assets/Prefabs/Entities/Skills/skill.raceter_blade_wave.prefab
 - Assets/Textures/SpecialEffects/skill.raceter_flash_cut_pic.png
@@ -55,16 +56,20 @@ Assets:
 - Assets/Prefabs/Entities/entity.wood_man.prefab
 - Assets/Prefabs/Entities/entity.raceter.prefab
 - Assets/Textures/SpecialEffects/skill.raceter_blade_wave_pic_normal.png
+- Assets/Prefabs/Entities/Skills/skill.raceter_moon_atk_2.prefab
 - Assets/Prefabs/Entities/Skills/skill.raceter_flash_cut.prefab
 - Assets/Animations/SpecialEffects/anim_clip.raceter_flash_cut.anim
 - Assets/Textures/SpecialEffects/skill.raceter_shadow_strike_pic_normal.png
 - Assets/Textures/SpecialEffects/skill.raceter_shadow_strike_pic_sword_normal.png
 - Assets/Textures/SpecialEffects/skill.raceter_swallow_flip_pic.png
+- Assets/Animations/SpecialEffects/skill.raceter_moon_atk_2_pic_0.controller
 - Assets/Prefabs/Entities/Skills/skill.raceter_shadow_strike.prefab
 - Assets/Animations/SpecialEffects/anim_clip.raceter_swallow_flip.anim
+- Assets/Textures/SpecialEffects/skill.raceter_moon_atk_2_pic.png
 - Assets/Materials/linear_reduction.mat
 - Assets/Textures/SpecialEffects/skill.raceter_shadow_strike_pic_sword.png
 - Assets/Prefabs/Entities/Skills/skill.raceter_swallow_flip.prefab
 - Assets/Textures/awesome.png
+- Assets/Prefabs/Entities/Skills/skill.raceter_moon_atk.prefab
 - Assets/Animations/SpecialEffects/anim_clip.raceter_shadow_strike.anim
 Dependencies: []

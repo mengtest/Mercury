@@ -2,18 +2,18 @@ fileFormatVersion: 2
 guid: ca7ce25aa2e3be9488d1ae597bec3ae3
 TextureImporter:
   fileIDToRecycleName:
-    21300000: skill.raceter_moon_atk_pic_0
-    21300002: skill.raceter_moon_atk_pic_1
-    21300004: skill.raceter_moon_atk_pic_2
-    21300006: skill.raceter_moon_atk_pic_3
-    21300008: skill.raceter_moon_atk_pic_4
-    21300010: skill.raceter_moon_atk_pic_5
-    21300012: skill.raceter_moon_atk_pic_6
-    21300014: skill.raceter_moon_atk_pic_7
-    21300016: skill.raceter_moon_atk_pic_8
-    21300018: skill.raceter_moon_atk_pic_9
-    21300020: skill.raceter_moon_atk_pic_10
-    21300022: skill.raceter_moon_atk_pic_11
+    21300000: skill.raceter_moon_atk_2_pic_0
+    21300002: skill.raceter_moon_atk_2_pic_1
+    21300004: skill.raceter_moon_atk_2_pic_2
+    21300006: skill.raceter_moon_atk_2_pic_3
+    21300008: skill.raceter_moon_atk_2_pic_4
+    21300010: skill.raceter_moon_atk_2_pic_5
+    21300012: skill.raceter_moon_atk_2_pic_6
+    21300014: skill.raceter_moon_atk_2_pic_7
+    21300016: skill.raceter_moon_atk_2_pic_8
+    21300018: skill.raceter_moon_atk_2_pic_9
+    21300020: skill.raceter_moon_atk_2_pic_10
+    21300022: skill.raceter_moon_atk_2_pic_11
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -86,7 +86,7 @@ TextureImporter:
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,7 +96,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_0
+      name: skill.raceter_moon_atk_2_pic_0
       rect:
         serializedVersion: 2
         x: 0
@@ -110,13 +110,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a8c42d48c90e9745bc8c042e6fbf9fe
+      spriteID: 523da2961e6aada4587b8db811235366
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_1
+      name: skill.raceter_moon_atk_2_pic_1
       rect:
         serializedVersion: 2
         x: 733
@@ -130,13 +130,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9782f3946f255a14d8c6785bb3fd6cdd
+      spriteID: b24780356acf54a4cafb88baa65f0986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_2
+      name: skill.raceter_moon_atk_2_pic_2
       rect:
         serializedVersion: 2
         x: 1466
@@ -150,13 +150,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 441c103fbc139dc4085074df6d50ca5f
+      spriteID: 2714ce565ae466a499d4f79300ca8476
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_3
+      name: skill.raceter_moon_atk_2_pic_3
       rect:
         serializedVersion: 2
         x: 0
@@ -170,13 +170,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 76dc01bbbe87ffb46bd6d1685453ef43
+      spriteID: 030b5c996925ae84caa50a5b4f47f686
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_4
+      name: skill.raceter_moon_atk_2_pic_4
       rect:
         serializedVersion: 2
         x: 733
@@ -190,13 +190,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22e6a2d7f41b729489617547b86e2419
+      spriteID: 0fdbe455c709c164a9e2dcdcad981425
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_5
+      name: skill.raceter_moon_atk_2_pic_5
       rect:
         serializedVersion: 2
         x: 1466
@@ -210,13 +210,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6a3d2257ea11a64792b5f86d310bbe2
+      spriteID: e247370218fb8a44f894b15a4b5cbdae
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_6
+      name: skill.raceter_moon_atk_2_pic_6
       rect:
         serializedVersion: 2
         x: 0
@@ -230,13 +230,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c5dea697644d7a840928ed331e7e4e03
+      spriteID: 07ba263d3f7688e418e72fcd3a132cdf
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_7
+      name: skill.raceter_moon_atk_2_pic_7
       rect:
         serializedVersion: 2
         x: 733
@@ -250,13 +250,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7057bd901b8b77747b38e44f0b5722f7
+      spriteID: c51ac2e4c06792f479b2ad57a87d3938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_8
+      name: skill.raceter_moon_atk_2_pic_8
       rect:
         serializedVersion: 2
         x: 1466
@@ -270,13 +270,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01dc6a1c4ebcd7e46b3a2d5eb12b451f
+      spriteID: 320d68fa8c0fec645aecdfaf61c12c32
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_9
+      name: skill.raceter_moon_atk_2_pic_9
       rect:
         serializedVersion: 2
         x: 0
@@ -290,13 +290,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cb7cce23d9576a4fb16c8d9d62a27e1
+      spriteID: e94484942a02cde419487b6d07c9dbd6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_10
+      name: skill.raceter_moon_atk_2_pic_10
       rect:
         serializedVersion: 2
         x: 733
@@ -310,13 +310,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cc8e33e3c5a4d14f93e6df731ccb41a
+      spriteID: dc0f153aac0f4ea4290c177f9d4e4dea
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_pic_11
+      name: skill.raceter_moon_atk_2_pic_11
       rect:
         serializedVersion: 2
         x: 1466
@@ -330,7 +330,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e628ace67a677145ba0e9772ca27cb0
+      spriteID: 5a17a1d3e669a574ebd71b6a7bff6e65
       vertices: []
       indices: 
       edges: []
@@ -338,7 +338,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5f0734406015b7347b531f215747ce0c
+    spriteID: 8136d9c8dc715044da60edced4d5ab9a
     vertices: []
     indices: 
     edges: []
@@ -347,5 +347,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: mercury.bundle
   assetBundleVariant: 

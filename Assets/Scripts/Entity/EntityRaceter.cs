@@ -9,7 +9,8 @@ using UnityEngine;
     "skill.raceter_iai_swallow_flip",
     "skill.raceter_blade_wave",
     "skill.raceter_flash_cut",
-    "skill.raceter_Wind_pace")]
+    "skill.raceter_Wind_pace",
+    "skill.raceter_moon_atk")]
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
@@ -68,6 +69,11 @@ public class EntityRaceter : EntityPlayer
         if (Input.GetKeyDown(KeyCode.G))
         {
             UseSkill(Consts.SkillRaceterWindPace);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            UseSkill(Consts.SkillRaceterMoonAttack);
         }
     }
 
