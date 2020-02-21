@@ -32,22 +32,27 @@ public class EventManager : Singleton<EventManager>
                 .GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(m =>
                 {
+                    if (m.GetCustomAttribute(typeof(SubscribeAttribute)) == null)
+                    {
+                        return false;
+                    }
+
                     if (m.ReturnType != typeof(void))
                     {
-                        Debug.LogError("订阅事件的静态方法形返回值不是void");
+                        Debug.LogError($"方法{type.FullName}:{m.Name}形返回值不是void");
                         return false;
                     }
 
                     var param = m.GetParameters();
                     if (param.Length != 2)
                     {
-                        Debug.LogError("订阅事件的静态方法形参数量不是2");
+                        Debug.LogError($"方法{type.FullName}:{m.Name}形参数量不是2");
                         return false;
                     }
 
                     if (param[0].ParameterType != typeof(object))
                     {
-                        Debug.LogError("订阅事件的静态方法第一个形参类型不是object");
+                        Debug.LogError($"方法{type.FullName}:{m.Name}第一个形参类型不是object");
                         return false;
                     }
 
@@ -56,7 +61,7 @@ public class EventManager : Singleton<EventManager>
                         return true;
                     }
 
-                    Debug.LogError($"订阅事件的静态方法第一个形参类型的不是{typeof(EventArgs).FullName}的子类");
+                    Debug.LogError($"方法{type.FullName}:{m.Name}第一个形参类型的不是{typeof(EventArgs).FullName}的子类");
                     return false;
                 });
             foreach (var m in methods)
@@ -70,7 +75,15 @@ public class EventManager : Singleton<EventManager>
                     continue;
                 }
 
-                _events.Add(typeName, Delegate.CreateDelegate(t, m));
+                var d = Delegate.CreateDelegate(t, m);
+                if (_events.TryGetValue(typeName, out var dlgt))
+                {
+                    _events[typeName] = Delegate.Combine(dlgt, d);
+                }
+                else
+                {
+                    _events.Add(typeName, d);
+                }
             }
         }
     }

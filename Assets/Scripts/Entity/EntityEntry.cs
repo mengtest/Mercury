@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[EventSubscriber]
 public class EntityEntry : IRegistryEntry
 {
     /// <summary>
@@ -25,7 +26,10 @@ public class EntityEntry : IRegistryEntry
 
     public static Builder Create() { return new Builder(); }
 
-    public static EntityEntry AutoRegisterFunc(Type type, Attribute attr)
+    [Subscribe]
+    private static void OnRegisterManagerPre(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(Entity), AutoRegisterFunc); }
+
+    private static EntityEntry AutoRegisterFunc(Type type, Attribute attr)
     {
         var autoReg = (AutoRegisterAttribute) attr;
         var builder = Create()

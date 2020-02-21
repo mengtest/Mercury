@@ -10,6 +10,7 @@ public sealed class RegisterManager : Singleton<RegisterManager>
     private List<Func<Type, Type>> _matchChain;
     private Dictionary<Type, Func<Type, Attribute, IRegistryEntry>> _regFunc;
 
+    public bool IsActive { get; private set; }
     public IReadOnlyDictionary<AssetLocation, IRegistryEntry> Entries => _entries;
 
     private RegisterManager()
@@ -17,6 +18,8 @@ public sealed class RegisterManager : Singleton<RegisterManager>
         _entries = new Dictionary<AssetLocation, IRegistryEntry>();
         _matchChain = new List<Func<Type, Type>>(4);
         _regFunc = new Dictionary<Type, Func<Type, Attribute, IRegistryEntry>>(4);
+        IsActive = true;
+        
     }
 
     public void Init()
@@ -49,11 +52,15 @@ public sealed class RegisterManager : Singleton<RegisterManager>
                 }
 
                 var regState = false;
-                foreach (var res in Instance._matchChain.Select(chain => chain(type)).Where(res => res != null))
+                foreach (var chain in Instance._matchChain)
                 {
-                    regState = true;
-                    Register(Instance._regFunc[res](type, autoReg));
-                    break;
+                    var res = chain(type);
+                    if (res != null)
+                    {
+                        regState = true;
+                        Register(Instance._regFunc[res](type, autoReg));
+                        break;
+                    }
                 }
 
                 if (!regState)
@@ -66,6 +73,7 @@ public sealed class RegisterManager : Singleton<RegisterManager>
         Instance._matchChain = null;
         Instance._regFunc = null;
         EventManager.Instance.Publish(this, new RegisterEvent.AfterAuto(Instance));
+        IsActive = false;
     }
 
     public void Register(IRegistryEntry entry)

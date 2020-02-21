@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[EventSubscriber]
 public class SkillEntry : IRegistryEntry
 {
     /// <summary>
@@ -38,7 +39,7 @@ public class SkillEntry : IRegistryEntry
 
     public static Builder Create() { return new Builder(); }
 
-    public static SkillEntry AutoRegisterFunc(Type type, Attribute attr)
+    private static SkillEntry AutoRegisterFunc(Type type, Attribute attr)
     {
         var autoReg = (AutoRegisterAttribute) attr;
         var builder = SkillEntry.Create()
@@ -62,6 +63,9 @@ public class SkillEntry : IRegistryEntry
 
         return builder.Build();
     }
+
+    [Subscribe]
+    private static void OnRegisterEvent(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(AbstractSkill), AutoRegisterFunc); }
 
     public class Builder
     {
