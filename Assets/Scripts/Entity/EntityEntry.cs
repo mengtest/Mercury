@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 [EventSubscriber]
@@ -29,25 +30,60 @@ public class EntityEntry : IRegistryEntry
     [Subscribe]
     private static void OnRegisterManagerPre(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(Entity), AutoRegisterFunc); }
 
+    private static bool SelectMethod(Type attr, MethodInfo m, Type type, Type target)
+    {
+        var a = m.GetCustomAttribute(attr);
+        if (a == null)
+        {
+            return false;
+        }
+
+        if (m.GetParameters().Length != 0)
+        {
+            Debug.LogError($"{type.FullName}:{m.Name},获取id的方法不能有参数");
+            return false;
+        }
+
+        if (m.ReturnType == target)
+        {
+            return true;
+        }
+
+        Debug.LogError($"{type.FullName}:{m.Name},获取id的方法返回值不是{typeof(AssetLocation)}");
+        return false;
+    }
+
     private static EntityEntry AutoRegisterFunc(Type type, Attribute attr)
     {
-        var autoReg = (AutoRegisterAttribute) attr;
-        var builder = Create()
-            .SetRegisterName(new AssetLocation(Consts.Mercury, Consts.Entity, autoReg.registerName));
-        if (autoReg.dependents == null)
+        var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+        var name = methods
+            .Where(m => SelectMethod(typeof(AutoRegisterAttribute.IdAttribute), m, type, typeof(AssetLocation)))
+            .ToArray();
+        var dep = methods
+            .Where(m => SelectMethod(typeof(AutoRegisterAttribute.DependAttribute), m, type, typeof(AssetLocation[])))
+            .ToArray();
+        if (name.Length != 1)
+        {
+            throw new ArgumentException($"{type.FullName}必须且只能有一个静态方法拥有特性{typeof(AutoRegisterAttribute.IdAttribute)}");
+        }
+
+        if (dep.Length > 1)
+        {
+            throw new ArgumentException($"{type.FullName}最多能有一个静态方法拥有特性{typeof(AutoRegisterAttribute.DependAttribute)}");
+        }
+
+        var id = (AssetLocation) name[0].Invoke(null, null);
+        var depend = dep.Length == 1 ? dep[0].Invoke(null, null) : null;
+        var builder = Create().SetRegisterName(id);
+        if (depend == null)
         {
             return builder.Build();
         }
 
-        foreach (var dependent in autoReg.dependents)
+        var resType = (AssetLocation[]) depend;
+        foreach (var res in resType)
         {
-            var group = dependent.Split('.');
-            if (group.Length != 2)
-            {
-                Debug.LogError($"字符串{dependent}解析失败,略过");
-            }
-
-            builder.AddDependEntry(new AssetLocation(Consts.Mercury, group[0], group[1]));
+            builder.AddDependEntry(res);
         }
 
         return builder.Build();
@@ -89,10 +125,10 @@ public class EntityEntry : IRegistryEntry
                 .ToArray();
             EventManager.Instance.Subscribe((object sender, EntityEvent.Start e) =>
             {
-                if (!e.entity.RegisterName.Equals(_registerName))
-                {
-                    return;
-                }
+                // if (!e.entity.RegisterName.Equals(_registerName))
+                // {
+                //     return;
+                // }
 
                 if (!(e.entity is ISkillable s))
                 {

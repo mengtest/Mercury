@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -19,7 +18,6 @@ public sealed class RegisterManager : Singleton<RegisterManager>
         _matchChain = new List<Func<Type, Type>>(4);
         _regFunc = new Dictionary<Type, Func<Type, Attribute, IRegistryEntry>>(4);
         IsActive = true;
-        
     }
 
     public void Init()
@@ -73,11 +71,14 @@ public sealed class RegisterManager : Singleton<RegisterManager>
         Instance._matchChain = null;
         Instance._regFunc = null;
         EventManager.Instance.Publish(this, new RegisterEvent.AfterAuto(Instance));
+        EventManager.Instance.Unsubscribe<RegisterEvent.Pre>();
+        EventManager.Instance.Unsubscribe<RegisterEvent.AfterAuto>();
         IsActive = false;
     }
 
     public void Register(IRegistryEntry entry)
     {
+        CheckState();
         if (_entries.ContainsKey(entry.RegisterName))
         {
             throw new ArgumentException();
@@ -88,7 +89,16 @@ public sealed class RegisterManager : Singleton<RegisterManager>
 
     public void AddRegistryType(Type baseType, Func<Type, Attribute, IRegistryEntry> regFunc)
     {
+        CheckState();
         Instance._matchChain.Add(t => t.IsSubclassOf(baseType) ? baseType : null);
         Instance._regFunc.Add(baseType, regFunc);
+    }
+
+    private void CheckState()
+    {
+        if (!IsActive)
+        {
+            throw new InvalidOperationException($"当前状态无法注册");
+        }
     }
 }

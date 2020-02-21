@@ -51,7 +51,7 @@ public abstract class Entity : MonoBehaviour
     public float HpRecoverPerSec => hpRecoverPerSec;
     public float DeadBodySurviveTime => deadBodySurviveTime;
     public abstract EntityType EntityType { get; }
-    public abstract AssetLocation RegisterName { get; }
+    // public abstract AssetLocation RegisterName { get; }
 
     private void Awake() { OnAwake(); }
 

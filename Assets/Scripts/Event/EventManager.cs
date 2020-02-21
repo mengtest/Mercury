@@ -124,31 +124,20 @@ public class EventManager : Singleton<EventManager>
     /// </summary>
     /// <param name="handler">委托</param>
     /// <typeparam name="T"></typeparam>
-    public void Unsubscribe<T>(EventHandler<T> handler) where T : EventArgs
+    public bool Unsubscribe<T>(EventHandler<T> handler) where T : EventArgs
     {
-        if (_events.TryGetValue(typeof(T), out var events))
+        if (!_events.TryGetValue(typeof(T), out var events))
         {
-            _events[typeof(T)] = Delegate.Remove(events, handler);
+            return false;
         }
-        else
-        {
-            throw new ArgumentException($"未订阅{typeof(T).FullName}类型的事件");
-        }
+
+        _events[typeof(T)] = Delegate.Remove(events, handler);
+        return true;
     }
 
     /// <summary>
     /// 取消订阅所有T类型的事件
     /// </summary>
     /// <exception cref="ArgumentException">未订阅事件</exception>
-    public void Unsubscribe<T>() where T : EventArgs
-    {
-        if (_events.TryGetValue(typeof(T), out var events))
-        {
-            _events.Remove(typeof(T));
-        }
-        else
-        {
-            throw new ArgumentException($"未订阅{typeof(T).FullName}类型的事件");
-        }
-    }
+    public bool Unsubscribe<T>() where T : EventArgs { return _events.Remove(typeof(T)); }
 }

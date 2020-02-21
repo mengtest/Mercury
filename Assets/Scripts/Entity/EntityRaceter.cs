@@ -14,8 +14,10 @@ using UnityEngine;
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
+
     public HashSet<Entity> HasWindMarkBuff { get; } = new HashSet<Entity>();
-    public override AssetLocation RegisterName { get; } = Consts.EntityRaceter;
+
+    // public override AssetLocation RegisterName { get; } = Consts.EntityRaceter;
     public override GameObject SkillCollection { get; protected set; }
 
     protected override void OnAwake()
@@ -89,5 +91,21 @@ public class EntityRaceter : EntityPlayer
         }
 
         return DamageCalculator.SimpleDamage(coe, type);
+    }
+
+    [AutoRegisterAttribute.Id]
+    private static AssetLocation GetId() { return Consts.EntityRaceter; }
+
+    [AutoRegisterAttribute.Depend]
+    private static AssetLocation[] GetDepends()
+    {
+        return new[]
+        {
+            Consts.SkillRaceterBladeWave,
+            Consts.SkillRaceterFlashCut,
+            Consts.SkillRaceterWindPace,
+            Consts.SkillRaceterShadowStrike,
+            Consts.SkillRaceterIaiAndSwallowFlip
+        };
     }
 }

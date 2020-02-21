@@ -4,7 +4,7 @@
 public class EntityWoodMan : Entity, IAttackable
 {
     public override EntityType EntityType { get; } = EntityType.Enemy;
-    public override AssetLocation RegisterName { get; } = Consts.EntityWoodMan;
+    // public override AssetLocation RegisterName { get; } = Consts.EntityWoodMan;
 
     protected override void OnStart()
     {
@@ -36,4 +36,7 @@ public class EntityWoodMan : Entity, IAttackable
         healthPoint -= dmg;
         UIManager.Instance.ShowDamage(transform, (int) dmg, damage.type);
     }
+
+    [AutoRegisterAttribute.Id]
+    private static AssetLocation GetId() { return Consts.EntityWoodMan; }
 }

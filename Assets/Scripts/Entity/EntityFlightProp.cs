@@ -20,7 +20,7 @@ public class EntityFlightProp : Entity
 
     public override EntityType EntityType { get; } = EntityType.Flight;
 
-    public override AssetLocation RegisterName { get; } = Consts.EntityFlightProp;
+    // public override AssetLocation RegisterName { get; } = Consts.EntityFlightProp;
 
     protected override void OnAwake()
     {
@@ -64,4 +64,7 @@ public class EntityFlightProp : Entity
         OnTriggerStay = null;
         OnTriggerExit = null;
     }
+
+    [AutoRegisterAttribute.Id]
+    private static AssetLocation GetId() { return Consts.EntityFlightProp; }
 }
