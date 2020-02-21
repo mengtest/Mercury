@@ -212,6 +212,7 @@ MonoBehaviour:
     intelligencePoint: 0
     strengthPoint: 0
     criticalPoint: 0
+    criticalCoePoint: 1.5
     attackSpeedPoint: 0
     chantSpeedPoint: 0
     furtunePoint: 0
@@ -224,15 +225,16 @@ MonoBehaviour:
     light: 0
     dark: 0
   _moveCapability:
-    isJumpReady: 1
     jumpCount: 0
-    moveSpeed: 15
-    jumpSpeed: 10
-    jumpCD: 0
     maxJumpCount: 2
     maxJumpCD: 0.2
     canMove: 1
-  velocity: {x: 0, y: 0}
+    gravity: -25
+    runSpeed: 3
+    groundDamping: 20
+    inAirDamping: 5
+    jumpHeight: 1.5
+    velocity: {x: 0, y: 0}
   _swordResolve:
     swordState: 0
     resolve: 0

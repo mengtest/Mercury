@@ -53,10 +53,10 @@ public class SkillRaceterShadowStrike : AbstractSkill
     private float _animEndTime;
 
     public override AssetLocation RegisterName { get; } = Consts.SkillRaceterShadowStrike;
-    public float Cd { get; set; } = 0;
+    public float Cd { get; set; } = 3;
     public float Damage { get; set; } = 95;
     public float AnimSpeed { get; set; } = 1;
-    public float StiffnessTime { get; set; } = 0.2f;
+    public float StiffnessTime { get; set; } = 0.0f;
 
     public SkillRaceterShadowStrike(ISkillable user) : base(user)
     {
@@ -106,7 +106,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
     public override void OnUpdate()
     {
-        if (Time.time >= _animEndTime)
+        if (Time.time >= _animEndTime-0.3f)
         {
             _raceter.UseSkill(Consts.SkillStiffness, out var skill);
             ((StiffnessState) skill).ExpireTime = StiffnessTime;
