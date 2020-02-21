@@ -21,11 +21,11 @@ public class Asset
     public int RefCount
     {
         get => refCount;
-        set
+        private set
         {
             if (value < 0)
             {
-                throw new InvalidOperationException($"引用计数不能小于0");
+                throw new InvalidOperationException("引用计数不能小于0");
             }
 
             refCount = value;

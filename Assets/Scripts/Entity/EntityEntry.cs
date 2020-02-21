@@ -83,7 +83,7 @@ public class EntityEntry : IRegistryEntry
             var skillList = _dependRegistryEntries
                 .Where(entry => entry.type == Consts.Skill)
                 .ToArray();
-            EventManager.Instance.AddListener((object sender, EntityEvent.Start e) =>
+            EventManager.Instance.Subscribe((object sender, EntityEvent.Start e) =>
             {
                 if (!e.entity.RegisterName.Equals(_registerName))
                 {

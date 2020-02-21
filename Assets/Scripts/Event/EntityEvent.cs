@@ -1,6 +1,6 @@
 using System;
 
-public class EntityEvent : EventArgs
+public abstract class EntityEvent : EventArgs
 {
     public readonly Entity entity;
 

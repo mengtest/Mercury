@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public struct LevelAsset
@@ -22,6 +23,7 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void OnAwake()
     {
         base.OnAwake();
+        EventManager.Instance.Init();
         UIManager.Instance.Init();
         UIManager.Instance.ShowLoadPanel(0);
         BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());

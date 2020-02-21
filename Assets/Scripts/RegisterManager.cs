@@ -21,7 +21,7 @@ public sealed class RegisterManager : Singleton<RegisterManager>
 
     public void Init()
     {
-        EventManager.Instance.Publish<RegisterEvent.Pre>(this, new RegisterEvent.Pre(Instance));
+        EventManager.Instance.Publish(this, new RegisterEvent.Pre(Instance));
         var asm = typeof(RegisterManager).Assembly;
         foreach (var type in asm.ExportedTypes)
         {
@@ -65,7 +65,7 @@ public sealed class RegisterManager : Singleton<RegisterManager>
 
         Instance._matchChain = null;
         Instance._regFunc = null;
-        EventManager.Instance.Publish<RegisterEvent.AfterAuto>(this, new RegisterEvent.AfterAuto(Instance));
+        EventManager.Instance.Publish(this, new RegisterEvent.AfterAuto(Instance));
     }
 
     public void Register(IRegistryEntry entry)
