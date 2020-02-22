@@ -65,7 +65,7 @@ public class EntityRaceter : EntityPlayer
             UseSkill(Consts.SkillRaceterWindPace);
         }
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             UseSkill(Consts.SkillRaceterMoonAttack);
         }
