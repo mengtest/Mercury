@@ -43,15 +43,14 @@ public abstract class Entity : MonoBehaviour
 
     protected List<IEntitySystem> physicalSystems;
     protected List<IEntitySystem> normalSystems;
-
     protected Collider2D _collider;
+    [Inject] public readonly AssetLocation registerName = null;
 
     public float HealthPoint => healthPoint;
     public float MaxHealthPoint => maxHealthPoint;
     public float HpRecoverPerSec => hpRecoverPerSec;
     public float DeadBodySurviveTime => deadBodySurviveTime;
     public abstract EntityType EntityType { get; }
-    // public abstract AssetLocation RegisterName { get; }
 
     private void Awake() { OnAwake(); }
 
@@ -61,12 +60,14 @@ public abstract class Entity : MonoBehaviour
         physicalSystems = new List<IEntitySystem>();
         normalSystems = new List<IEntitySystem>();
         _collider = GetComponent<Collider2D>();
-        EventManager.Instance.Publish<EntityEvent.Awake>(this, new EntityEvent.Awake(this));
+        EventManager.Instance.Publish(this, new EntityEvent.Awake(this));
     }
 
     private void Start() { OnStart(); }
 
-    protected virtual void OnStart() { EventManager.Instance.Publish<EntityEvent.Start>(this, new EntityEvent.Start(this)); }
+    protected virtual void OnStart() { EventManager.Instance.Publish(this, new EntityEvent.Start(this)); }
+
+    public virtual void Init() { EventManager.Instance.Publish(this, new EntityEvent.Init(this)); }
 
     private void Update() { OnUpdate(); }
 

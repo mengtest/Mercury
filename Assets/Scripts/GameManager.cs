@@ -24,6 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         base.OnAwake();
         EventManager.Instance.Init();
+        IoCContainer.Instance.Init();
         UIManager.Instance.Init();
         UIManager.Instance.ShowLoadPanel(0);
         BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());

@@ -15,4 +15,9 @@ public abstract class EntityEvent : EventArgs
     {
         public Start(Entity entity) : base(entity) { }
     }
+
+    public class Init : EntityEvent
+    {
+        public Init(Entity entity) : base(entity) { }
+    }
 }

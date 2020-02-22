@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Guirao.UltimateTextDamage;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,7 +36,7 @@ public class SceneData : MonoBehaviour
                 {
                     foreach (var e in GameManager.Instance.nextSceneEntities)
                     {
-                        AssetManager.Instance.LoadedAssets[e.ToString()].Instantiate();
+                        EntityUtility.SpawnEntity(e);
                     }
 
                     UIManager.Instance.HideLoadPanel();

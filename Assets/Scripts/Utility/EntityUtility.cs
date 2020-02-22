@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using UnityEngine;
@@ -79,12 +80,7 @@ public static class EntityUtility
     /// <param name="intensity">强度</param>
     /// <returns>Buff实例</returns>
     /// <exception cref="ArgumentException">不是Buff时触发</exception>
-    public static BuffStack GetBuffDot(
-        AssetLocation id,
-        Entity entity,
-        float interval,
-        int triggerCount,
-        int intensity)
+    public static BuffStack GetBuffDot(AssetLocation id, Entity entity, float interval, int triggerCount, int intensity)
     {
         if (!(RegisterManager.Instance.Entries[id] is AbstractBuff buff))
         {
@@ -103,11 +99,7 @@ public static class EntityUtility
     /// <param name="intensity">强度</param>
     /// <returns>Buff实例</returns>
     /// <exception cref="ArgumentException">不是Buff时触发</exception>
-    public static BuffStack GetBuffState(
-        AssetLocation id,
-        Entity entity,
-        float duration,
-        int intensity)
+    public static BuffStack GetBuffState(AssetLocation id, Entity entity, float duration, int intensity)
     {
         if (!(RegisterManager.Instance.Entries[id] is AbstractBuff buff))
         {
@@ -115,5 +107,24 @@ public static class EntityUtility
         }
 
         return new BuffStack(buff, entity, duration, 1, intensity);
+    }
+
+    public static Entity SpawnEntity(AssetLocation id)
+    {
+        var gameObject = AssetManager.Instance.LoadedAssets[id.ToString()].Instantiate();
+        var entity = gameObject.GetComponent<Entity>();
+        if (!entity)
+        {
+            entity = gameObject.GetComponentInChildren<Entity>();
+        }
+
+        if (!entity)
+        {
+            throw new ArgumentException("wtf");
+        }
+
+        IoCContainer.Instance.InjectFields<Entity, AssetLocation>(entity, id);
+        entity.Init();
+        return entity;
     }
 }

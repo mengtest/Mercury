@@ -108,7 +108,7 @@ public class BundleManager : MonoSingleton<BundleManager>
         {
             req.completed += callback;
         }
-      
+
         _loadReq.Add(req);
         return req;
     }
@@ -133,10 +133,21 @@ public class BundleManager : MonoSingleton<BundleManager>
 
         if (done)
         {
-            _onLoadComplete?.Invoke();
-            _onLoadComplete = null;
-            _loadReq = null;
-            state = LoadState.Sleep;
+            try
+            {
+                _onLoadComplete?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
+            finally
+            {
+                _onLoadComplete = null;
+                _loadReq = null;
+                state = LoadState.Sleep;
+            }
         }
     }
 

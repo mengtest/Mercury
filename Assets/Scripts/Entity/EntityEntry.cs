@@ -30,6 +30,34 @@ public class EntityEntry : IRegistryEntry
     [Subscribe]
     private static void OnRegisterManagerPre(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(Entity), AutoRegisterFunc); }
 
+    [Subscribe]
+    private static void OnRegisterInjectEntityRegisterName(object sender, InjectEvent.InitContainer e)
+    {
+        // e.container.Register<Entity, AssetLocation>(o =>
+        // {
+        //     if (!(o is List<object> list))
+        //     {
+        //         throw new ArgumentException();
+        //     }
+        //
+        //     if (list.Count != 2)
+        //     {
+        //         throw new ArgumentException("对象数量不是2");
+        //     }
+        //
+        //     var instance = (Entity) list[0];
+        //     var id = (AssetLocation) list[1];
+        //     var field = instance.GetType().GetField("registerName", BindingFlags.Instance | BindingFlags.Public);
+        //     if (field == null || field.GetCustomAttribute<InjectAttribute>() == null)
+        //     {
+        //         throw new ArgumentException("小老弟你的registerName呢");
+        //     }
+        //
+        //     field.SetValue(instance, id);
+        // });
+        e.container.Register<Entity, AssetLocation>(null);
+    }
+
     private static bool SelectMethod(Type attr, MethodInfo m, Type type, Type target)
     {
         var a = m.GetCustomAttribute(attr);
@@ -125,10 +153,10 @@ public class EntityEntry : IRegistryEntry
                 .ToArray();
             EventManager.Instance.Subscribe((object sender, EntityEvent.Start e) =>
             {
-                // if (!e.entity.RegisterName.Equals(_registerName))
-                // {
-                //     return;
-                // }
+                if (!e.entity.registerName.Equals(_registerName))
+                {
+                    return;
+                }
 
                 if (!(e.entity is ISkillable s))
                 {
