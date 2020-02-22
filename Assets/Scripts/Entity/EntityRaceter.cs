@@ -4,20 +4,12 @@ using UnityEngine;
 /// <summary>
 /// 南歌子
 /// </summary>
-[AutoRegister("raceter",
-    "skill.raceter_shadow_strike",
-    "skill.raceter_iai_swallow_flip",
-    "skill.raceter_blade_wave",
-    "skill.raceter_flash_cut",
-    "skill.raceter_Wind_pace",
-    "skill.raceter_moon_atk")]
+[EventSubscriber]
 public class EntityRaceter : EntityPlayer
 {
     [SerializeField] private SwordResolve _swordResolve;
 
     public HashSet<Entity> HasWindMarkBuff { get; } = new HashSet<Entity>();
-
-    // public override AssetLocation RegisterName { get; } = Consts.EntityRaceter;
     public override GameObject SkillCollection { get; protected set; }
 
     protected override void OnAwake()
@@ -93,19 +85,16 @@ public class EntityRaceter : EntityPlayer
         return DamageCalculator.SimpleDamage(coe, type);
     }
 
-    [AutoRegisterAttribute.Id]
-    private static AssetLocation GetId() { return Consts.EntityRaceter; }
-
-    [AutoRegisterAttribute.Depend]
-    private static AssetLocation[] GetDepends()
+    [Subscribe]
+    private static void OnRegisterEntity(object sender, RegisterEvent.AfterAuto e)
     {
-        return new[]
-        {
-            Consts.SkillRaceterBladeWave,
-            Consts.SkillRaceterFlashCut,
-            Consts.SkillRaceterWindPace,
-            Consts.SkillRaceterShadowStrike,
-            Consts.SkillRaceterIaiAndSwallowFlip
-        };
+        e.manager.Register(EntityEntry.Create()
+            .SetRegisterName(Consts.EntityRaceter)
+            .AddDependEntry(Consts.SkillRaceterBladeWave)
+            .AddDependEntry(Consts.SkillRaceterFlashCut)
+            .AddDependEntry(Consts.SkillRaceterWindPace)
+            .AddDependEntry(Consts.SkillRaceterShadowStrike)
+            .AddDependEntry(Consts.SkillRaceterIaiAndSwallowFlip)
+            .Build());
     }
 }

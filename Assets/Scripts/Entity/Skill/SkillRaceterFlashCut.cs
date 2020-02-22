@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 烈
 /// </summary>
-[AutoRegister("raceter_flash_cut", "skill.raceter_flash_cut")]
+[EventSubscriber]
 public class SkillRaceterFlashCut : AbstractSkill
 {
     private readonly EntityRaceter _raceter;
@@ -65,6 +65,7 @@ public class SkillRaceterFlashCut : AbstractSkill
 
     public override void Init()
     {
+        base.Init();
         var tempGo = GetObjFromPool(); //先获取一个特效
         var skillAnim = tempGo.GetComponent<Animator>();
         _animLength = skillAnim.AnimClipLength(Consts.GetAnimClip("raceter_flash_cut")); //获取动画长度
@@ -129,5 +130,15 @@ public class SkillRaceterFlashCut : AbstractSkill
     {
         go.Hide();
         _goPool.Push(go);
+    }
+
+    [Subscribe]
+    private static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterFlashCut)
+            .SetSkillType<SkillRaceterFlashCut>()
+            .AddDependAsset(Consts.SkillRaceterFlashCut)
+            .Build());
     }
 }

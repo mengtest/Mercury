@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public struct LevelAsset
@@ -23,11 +22,34 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void OnAwake()
     {
         base.OnAwake();
-        EventManager.Instance.Init();
+        var asmData = GetAsmData();
+        EventManager.Instance.Init(asmData);
         IoCContainer.Instance.Init();
         UIManager.Instance.Init();
         UIManager.Instance.ShowLoadPanel(0);
         BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());
-        RegisterManager.Instance.Init();
+        RegisterManager.Instance.Init(asmData);
+    }
+
+    private IReadOnlyDictionary<Type, List<Type>> GetAsmData()
+    {
+        var data = new Dictionary<Type, List<Type>>();
+        foreach (var type in typeof(GameManager).Assembly.GetTypes())
+        {
+            var attr = type.GetCustomAttributes(true);
+            foreach (var a in attr)
+            {
+                if (data.TryGetValue(a.GetType(), out var clz))
+                {
+                    clz.Add(type);
+                }
+                else
+                {
+                    data.Add(a.GetType(), new List<Type> {type});
+                }
+            }
+        }
+
+        return data;
     }
 }

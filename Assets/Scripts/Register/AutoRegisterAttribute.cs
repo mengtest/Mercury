@@ -2,10 +2,7 @@ using System;
 
 /// <summary>
 /// 自动注册特性
-/// 目前仅支持实体(Entity)，技能(AbstractSkill)，Buff(AbstractBuff)的注册
-/// 实体至少需要指定AutoRegisterAttribute.Id特性
-/// 技能至少需要指定AutoRegisterAttribute.Id特性
-/// Buff不需要指定任何参数
+/// 目前仅Buff(AbstractBuff)的注册
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class AutoRegisterAttribute : Attribute
@@ -29,6 +26,7 @@ public class AutoRegisterAttribute : Attribute
     /// 拥有该特性的方法只能是无参，静态，返回值为AssetLocation的方法
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    [Obsolete]
     public class IdAttribute : Attribute
     {
     }
@@ -38,6 +36,7 @@ public class AutoRegisterAttribute : Attribute
     /// 没有依赖的资源可以不使用该特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    [Obsolete]
     public class DependAttribute : Attribute
     {
     }

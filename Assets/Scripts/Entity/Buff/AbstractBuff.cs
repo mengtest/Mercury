@@ -4,7 +4,6 @@ using System.Collections.Generic;
 /// <summary>
 /// 抽象Buff类
 /// </summary>
-[EventSubscriber]
 public abstract class AbstractBuff : IRegistryEntry
 {
     public abstract AssetLocation RegisterName { get; }
@@ -46,7 +45,4 @@ public abstract class AbstractBuff : IRegistryEntry
     /// <param name="holder">buff持有者</param>
     /// <param name="buff">享元</param>
     public abstract void OnTrigger(IBuffable holder, BuffStack buff);
-
-    [Subscribe]
-    private static void OnRegEve(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(AbstractBuff), (type, _) => (IRegistryEntry) Activator.CreateInstance(type, true)); }
 }

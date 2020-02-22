@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 狂风剑刃
 /// </summary>
-[AutoRegister("raceter_blade_wave", "skill.raceter_blade_wave")]
+[EventSubscriber]
 public class SkillRaceterBladeWave : AbstractSkill
 {
     /// <summary>
@@ -92,8 +92,6 @@ public class SkillRaceterBladeWave : AbstractSkill
         _pool = new Stack<EntityFlightProp>(5);
     }
 
-    public override void Init() { }
-
     public override bool CanEnter()
     {
         //当cd读条完后，且目前没有使用任何技能，才能使用该技能
@@ -153,7 +151,7 @@ public class SkillRaceterBladeWave : AbstractSkill
         }
 
         var obj = _prefab.Instantiate(); //没有剑气的话，实例化一个
-        var flight = obj.AddComponent<EntityFlightProp>(); //给剑气加上飞行道具
+        var flight = EntityUtility.SpawnFlightProp(obj); //给剑气加上飞行道具
         obj.transform.parent = _raceter.SkillCollection.transform; //设置剑气的父物体是技能的集合
         return flight;
     }
@@ -216,5 +214,15 @@ public class SkillRaceterBladeWave : AbstractSkill
         _pool.Push(o); //入栈
         o.Clear(); //清理飞行道具组件的数据
         o.gameObject.Hide(); //隐藏剑气
+    }
+
+    [Subscribe]
+    private static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterBladeWave)
+            .SetSkillType<SkillRaceterBladeWave>()
+            .AddDependAsset(Consts.SkillRaceterBladeWave)
+            .Build());
     }
 }

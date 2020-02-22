@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[EventSubscriber]
+// [EventSubscriber]
 public class SkillEntry : IRegistryEntry
 {
     /// <summary>
@@ -25,11 +25,7 @@ public class SkillEntry : IRegistryEntry
     /// </summary>
     public IReadOnlyList<AssetLocation> DependAssets { get; }
 
-    public SkillEntry(
-        AssetLocation location,
-        IReadOnlyList<AssetLocation> dependAssets,
-        Type type,
-        Func<Type, ISkillable, AbstractSkill> factory)
+    private SkillEntry(AssetLocation location, IReadOnlyList<AssetLocation> dependAssets, Type type, Func<Type, ISkillable, AbstractSkill> factory)
     {
         RegisterName = location;
         DependAssets = dependAssets;
@@ -64,8 +60,8 @@ public class SkillEntry : IRegistryEntry
         return builder.Build();
     }
 
-    [Subscribe]
-    private static void OnRegisterEvent(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(AbstractSkill), AutoRegisterFunc); }
+    // [Subscribe]
+    // private static void OnRegisterEvent(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(AbstractSkill), AutoRegisterFunc); }
 
     public class Builder
     {

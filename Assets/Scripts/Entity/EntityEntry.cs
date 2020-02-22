@@ -17,7 +17,7 @@ public class EntityEntry : IRegistryEntry
     /// </summary>
     public IReadOnlyList<AssetLocation> DependAssets { get; }
 
-    public EntityEntry(
+    private EntityEntry(
         AssetLocation registerName,
         IReadOnlyList<AssetLocation> dependAssets = null)
     {
@@ -27,36 +27,36 @@ public class EntityEntry : IRegistryEntry
 
     public static Builder Create() { return new Builder(); }
 
-    [Subscribe]
-    private static void OnRegisterManagerPre(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(Entity), AutoRegisterFunc); }
+    // [Subscribe]
+    // private static void OnRegisterManagerPre(object sender, RegisterEvent.Pre e) { e.manager.AddRegistryType(typeof(Entity), AutoRegisterFunc); }
 
-    [Subscribe]
-    private static void OnRegisterInjectEntityRegisterName(object sender, InjectEvent.InitContainer e)
-    {
-        // e.container.Register<Entity, AssetLocation>(o =>
-        // {
-        //     if (!(o is List<object> list))
-        //     {
-        //         throw new ArgumentException();
-        //     }
-        //
-        //     if (list.Count != 2)
-        //     {
-        //         throw new ArgumentException("对象数量不是2");
-        //     }
-        //
-        //     var instance = (Entity) list[0];
-        //     var id = (AssetLocation) list[1];
-        //     var field = instance.GetType().GetField("registerName", BindingFlags.Instance | BindingFlags.Public);
-        //     if (field == null || field.GetCustomAttribute<InjectAttribute>() == null)
-        //     {
-        //         throw new ArgumentException("小老弟你的registerName呢");
-        //     }
-        //
-        //     field.SetValue(instance, id);
-        // });
-        e.container.Register<Entity, AssetLocation>(null);
-    }
+    // [Subscribe]
+    // private static void OnRegisterInjectEntityRegisterName(object sender, InjectEvent.InitContainer e)
+    // {
+    // e.container.Register<Entity, AssetLocation>(o =>
+    // {
+    //     if (!(o is List<object> list))
+    //     {
+    //         throw new ArgumentException();
+    //     }
+    //
+    //     if (list.Count != 2)
+    //     {
+    //         throw new ArgumentException("对象数量不是2");
+    //     }
+    //
+    //     var instance = (Entity) list[0];
+    //     var id = (AssetLocation) list[1];
+    //     var field = instance.GetType().GetField("registerName", BindingFlags.Instance | BindingFlags.Public);
+    //     if (field == null || field.GetCustomAttribute<InjectAttribute>() == null)
+    //     {
+    //         throw new ArgumentException("小老弟你的registerName呢");
+    //     }
+    //
+    //     field.SetValue(instance, id);
+    // });
+    //     e.container.Register<Entity, AssetLocation>(null);
+    // }
 
     private static bool SelectMethod(Type attr, MethodInfo m, Type type, Type target)
     {
@@ -81,41 +81,41 @@ public class EntityEntry : IRegistryEntry
         return false;
     }
 
-    private static EntityEntry AutoRegisterFunc(Type type, Attribute attr)
-    {
-        var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-        var name = methods
-            .Where(m => SelectMethod(typeof(AutoRegisterAttribute.IdAttribute), m, type, typeof(AssetLocation)))
-            .ToArray();
-        var dep = methods
-            .Where(m => SelectMethod(typeof(AutoRegisterAttribute.DependAttribute), m, type, typeof(AssetLocation[])))
-            .ToArray();
-        if (name.Length != 1)
-        {
-            throw new ArgumentException($"{type.FullName}必须且只能有一个静态方法拥有特性{typeof(AutoRegisterAttribute.IdAttribute)}");
-        }
-
-        if (dep.Length > 1)
-        {
-            throw new ArgumentException($"{type.FullName}最多能有一个静态方法拥有特性{typeof(AutoRegisterAttribute.DependAttribute)}");
-        }
-
-        var id = (AssetLocation) name[0].Invoke(null, null);
-        var depend = dep.Length == 1 ? dep[0].Invoke(null, null) : null;
-        var builder = Create().SetRegisterName(id);
-        if (depend == null)
-        {
-            return builder.Build();
-        }
-
-        var resType = (AssetLocation[]) depend;
-        foreach (var res in resType)
-        {
-            builder.AddDependEntry(res);
-        }
-
-        return builder.Build();
-    }
+    // private static EntityEntry AutoRegisterFunc(Type type, Attribute attr)
+    // {
+    //     var methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+    //     var name = methods
+    //         .Where(m => SelectMethod(typeof(AutoRegisterAttribute.IdAttribute), m, type, typeof(AssetLocation)))
+    //         .ToArray();
+    //     var dep = methods
+    //         .Where(m => SelectMethod(typeof(AutoRegisterAttribute.DependAttribute), m, type, typeof(AssetLocation[])))
+    //         .ToArray();
+    //     if (name.Length != 1)
+    //     {
+    //         throw new ArgumentException($"{type.FullName}必须且只能有一个静态方法拥有特性{typeof(AutoRegisterAttribute.IdAttribute)}");
+    //     }
+    //
+    //     if (dep.Length > 1)
+    //     {
+    //         throw new ArgumentException($"{type.FullName}最多能有一个静态方法拥有特性{typeof(AutoRegisterAttribute.DependAttribute)}");
+    //     }
+    //
+    //     var id = (AssetLocation) name[0].Invoke(null, null);
+    //     var depend = dep.Length == 1 ? dep[0].Invoke(null, null) : null;
+    //     var builder = Create().SetRegisterName(id);
+    //     if (depend == null)
+    //     {
+    //         return builder.Build();
+    //     }
+    //
+    //     var resType = (AssetLocation[]) depend;
+    //     foreach (var res in resType)
+    //     {
+    //         builder.AddDependEntry(res);
+    //     }
+    //
+    //     return builder.Build();
+    // }
 
     public class Builder
     {
@@ -153,7 +153,8 @@ public class EntityEntry : IRegistryEntry
                 .ToArray();
             EventManager.Instance.Subscribe((object sender, EntityEvent.Start e) =>
             {
-                if (!e.entity.registerName.Equals(_registerName))
+                // Debug.Log($"{e.entity.RegisterName}");
+                if (!e.entity.RegisterName.Equals(_registerName))
                 {
                     return;
                 }

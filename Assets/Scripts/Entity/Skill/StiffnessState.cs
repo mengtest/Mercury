@@ -3,7 +3,7 @@
 /// <summary>
 /// 硬直状态
 /// </summary>
-[AutoRegister("stiffness")]
+[EventSubscriber]
 public class StiffnessState : AbstractSkill
 {
     public override AssetLocation RegisterName { get; } = Consts.SkillStiffness;
@@ -16,8 +16,6 @@ public class StiffnessState : AbstractSkill
     public float ExpireTime { get => _expireTime; set => _expireTime = value + Time.time; }
 
     public StiffnessState(ISkillable user) : base(user) { }
-
-    public override void Init() { }
 
     public override bool CanEnter() { return true; }
 
@@ -39,5 +37,14 @@ public class StiffnessState : AbstractSkill
     {
         var move = User.GetProperty<MoveCapability>();
         move.canMove = true;
+    }
+
+    [Subscribe]
+    public static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillStiffness)
+            .SetSkillType<StiffnessState>()
+            .Build());
     }
 }

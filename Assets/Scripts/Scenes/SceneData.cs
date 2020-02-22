@@ -55,7 +55,11 @@ public class SceneData : MonoBehaviour
 
                     foreach (var registryEntry in e.DependAssets)
                     {
-                        var entry = RegisterManager.Instance.Entries[registryEntry];
+                        if (!RegisterManager.Instance.Entries.TryGetValue(registryEntry, out var entry))
+                        {
+                            throw new ArgumentException($"未注册的资源{registryEntry}");
+                        }
+
                         if (entry.DependAssets != null) //注册项需要的资源
                         {
                             depRes.UnionWith(entry.DependAssets);

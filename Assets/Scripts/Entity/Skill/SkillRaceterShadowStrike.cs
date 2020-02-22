@@ -7,7 +7,8 @@ using UnityEngine;
 /// <summary>
 /// 斩影
 /// </summary>
-[AutoRegister("raceter_shadow_strike", "skill.raceter_shadow_strike")]
+// [AutoRegister("raceter_shadow_strike", "skill.raceter_shadow_strike")]
+[EventSubscriber]
 public class SkillRaceterShadowStrike : AbstractSkill
 {
     private readonly EntityRaceter _raceter;
@@ -72,6 +73,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
     public override void Init()
     {
+        base.Init();
         _skillAnim = _skillObj.GetComponent<Animator>();
         _animLength = _skillAnim.AnimClipLength(Consts.GetAnimClip("raceter_shadow_strike"));
         _skillObj.transform.parent = _raceter.SkillCollection.transform;
@@ -106,7 +108,7 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
     public override void OnUpdate()
     {
-        if (Time.time >= _animEndTime-0.3f)
+        if (Time.time >= _animEndTime - 0.3f)
         {
             _raceter.UseSkill(Consts.SkillStiffness, out var skill);
             ((StiffnessState) skill).ExpireTime = StiffnessTime;
@@ -152,5 +154,15 @@ public class SkillRaceterShadowStrike : AbstractSkill
 
         attackable.UnderAttack(_raceter.DealDamage(_activeDmg, attackable));
         _attacked.Add(coll);
+    }
+
+    [Subscribe]
+    private static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterShadowStrike)
+            .SetSkillType<SkillRaceterShadowStrike>()
+            .AddDependAsset(Consts.SkillRaceterShadowStrike)
+            .Build());
     }
 }

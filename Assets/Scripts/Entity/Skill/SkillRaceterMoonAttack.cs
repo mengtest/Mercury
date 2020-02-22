@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[AutoRegister("raceter_moon_atk",
-    "skill.raceter_moon_atk",
-    "skill.raceter_moon_atk_2")]
+// [AutoRegister("raceter_moon_atk",
+//     "skill.raceter_moon_atk",
+//     "skill.raceter_moon_atk_2")]
 public class SkillRaceterMoonAttack : AbstractSkill
 {
     private readonly EntityRaceter _raceter;

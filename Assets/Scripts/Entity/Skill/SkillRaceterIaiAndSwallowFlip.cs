@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 居合·燕返
 /// </summary>
-[AutoRegister("raceter_iai_swallow_flip", "skill.raceter_swallow_flip")]
+[EventSubscriber]
 public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特效好了再做
 {
     private readonly EntityRaceter _raceter;
@@ -83,6 +83,7 @@ public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特�
 
     public override void Init()
     {
+        base.Init();
         _swallowAnim = _swallowGo.GetComponent<Animator>();
         _swallowAnimLength = _swallowAnim.AnimClipLength(Consts.GetAnimClip("raceter_swallow_flip"));
         _swallowGo.transform.parent = _raceter.SkillCollection.transform;
@@ -182,5 +183,15 @@ public class SkillRaceterIaiAndSwallowFlip : AbstractSkill //TODO:居合等特�
             attackable.UnderAttack(_raceter.DealDamage(_activeDmg, attackable));
             _swallowAtk.Add(coll, (1, 0));
         }
+    }
+
+    [Subscribe]
+    private static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterIaiAndSwallowFlip)
+            .SetSkillType<SkillRaceterIaiAndSwallowFlip>()
+            .AddDependAsset(Consts.PrefabSkillRaceterSwallowFlip)
+            .Build());
     }
 }

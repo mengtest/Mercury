@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[AutoRegister("raceter_Wind_pace")]
+[EventSubscriber]
 public class SkillRaceterWindPace : AbstractSkill
 {
     private readonly EntityRaceter _raceter;
@@ -22,8 +22,6 @@ public class SkillRaceterWindPace : AbstractSkill
 
         _raceter = raceter;
     }
-
-    public override void Init() { }
 
     public override bool CanEnter()
     {
@@ -51,4 +49,13 @@ public class SkillRaceterWindPace : AbstractSkill
     public override void OnUpdate() { _raceter.UseSkill(Consts.SkillNormal); }
 
     public override void OnLeave() { _cdExpireTime = Time.time + Cd; }
+
+    [Subscribe]
+    private static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(SkillEntry.Create()
+            .SetRegisterName(Consts.SkillRaceterWindPace)
+            .SetSkillType<SkillRaceterWindPace>()
+            .Build());
+    }
 }

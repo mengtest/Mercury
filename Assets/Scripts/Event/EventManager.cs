@@ -18,15 +18,15 @@ public class EventManager : Singleton<EventManager>
 
     private EventManager() { _events = new Dictionary<Type, Delegate>(); }
 
-    public void Init()
+    public void Init(IReadOnlyDictionary<Type, List<Type>> attrList)
     {
-        foreach (var type in typeof(EventManager).Assembly.GetTypes())
+        foreach (var type in attrList[typeof(EventSubscriberAttribute)])
         {
-            var attr = type.GetCustomAttribute(typeof(EventSubscriberAttribute));
-            if (attr == null)
-            {
-                continue;
-            }
+            // var attr = type.GetCustomAttribute(typeof(EventSubscriberAttribute));
+            // if (attr == null)
+            // {
+            //     continue;
+            // }
 
             var methods = type
                 .GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)

@@ -44,13 +44,17 @@ public abstract class Entity : MonoBehaviour
     protected List<IEntitySystem> physicalSystems;
     protected List<IEntitySystem> normalSystems;
     protected Collider2D _collider;
-    [Inject] public readonly AssetLocation registerName = null;
 
     public float HealthPoint => healthPoint;
     public float MaxHealthPoint => maxHealthPoint;
     public float HpRecoverPerSec => hpRecoverPerSec;
     public float DeadBodySurviveTime => deadBodySurviveTime;
     public abstract EntityType EntityType { get; }
+
+    /// <summary>
+    /// 警告：在Init阶段都才会被赋值
+    /// </summary>
+    public AssetLocation RegisterName { get; private set; }
 
     private void Awake() { OnAwake(); }
 
@@ -67,7 +71,11 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void OnStart() { EventManager.Instance.Publish(this, new EntityEvent.Start(this)); }
 
-    public virtual void Init() { EventManager.Instance.Publish(this, new EntityEvent.Init(this)); }
+    public virtual void Init(AssetLocation location)
+    {
+        RegisterName = location;
+        EventManager.Instance.Publish(this, new EntityEvent.Init(this));
+    }
 
     private void Update() { OnUpdate(); }
 

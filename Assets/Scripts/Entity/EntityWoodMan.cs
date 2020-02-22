@@ -1,6 +1,6 @@
 ﻿using System;
 
-[AutoRegister("wood_man")]
+[EventSubscriber]
 public class EntityWoodMan : Entity, IAttackable
 {
     public override EntityType EntityType { get; } = EntityType.Enemy;
@@ -37,6 +37,11 @@ public class EntityWoodMan : Entity, IAttackable
         UIManager.Instance.ShowDamage(transform, (int) dmg, damage.type);
     }
 
-    [AutoRegisterAttribute.Id]
-    private static AssetLocation GetId() { return Consts.EntityWoodMan; }
+    [Subscribe]
+    private static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(EntityEntry.Create()
+            .SetRegisterName(Consts.EntityWoodMan)
+            .Build());
+    }
 }

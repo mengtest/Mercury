@@ -5,7 +5,7 @@ using UnityEngine;
 /// 飞行道具
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
-[AutoRegister("flight_prop")]
+[EventSubscriber]
 public class EntityFlightProp : Entity
 {
     public float maxLivingTime = 10;
@@ -20,12 +20,10 @@ public class EntityFlightProp : Entity
 
     public override EntityType EntityType { get; } = EntityType.Flight;
 
-    // public override AssetLocation RegisterName { get; } = Consts.EntityFlightProp;
-
     protected override void OnAwake()
     {
         _collider = GetComponent<Collider2D>();
-        EventManager.Instance.Publish<EntityEvent.Awake>(this, new EntityEvent.Awake(this));
+        EventManager.Instance.Publish(this, new EntityEvent.Awake(this));
     }
 
     protected override void OnUpdate()
@@ -65,6 +63,11 @@ public class EntityFlightProp : Entity
         OnTriggerExit = null;
     }
 
-    [AutoRegisterAttribute.Id]
-    private static AssetLocation GetId() { return Consts.EntityFlightProp; }
+    [Subscribe]
+    private static void OnRegister(object sender, RegisterEvent.AfterAuto e)
+    {
+        e.manager.Register(EntityEntry.Create()
+            .SetRegisterName(Consts.EntityFlightProp)
+            .Build());
+    }
 }

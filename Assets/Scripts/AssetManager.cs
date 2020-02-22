@@ -128,6 +128,11 @@ public class AssetManager : Singleton<AssetManager>
                     throw new InvalidOperationException();
                 }
 
+                if (bundle.asset == null)
+                {
+                    throw new ArgumentException($"资源{name}不存在");
+                }
+
                 if (bundle.asset is T obj)
                 {
                     var asset = Instance._actRes[name];
