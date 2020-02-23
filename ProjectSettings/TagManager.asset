@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Step
-  - SpecialEffect
-  - StepCross
-  - EntityFlight
-  - entity
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -18,10 +13,10 @@ TagManager:
   - UI
   - 
   - 
-  - PostProcessing
-  - Skill
-  - entity
-  - CrossableStep
+  - platform_cross
+  - platform
+  - 
+  - 
   - 
   - 
   - 

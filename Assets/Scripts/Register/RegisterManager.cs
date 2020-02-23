@@ -1,118 +1,98 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
 
-public sealed class RegisterManager : Singleton<RegisterManager>
+namespace Mercury
 {
-    private readonly Dictionary<AssetLocation, IRegistryEntry> _entries;
-    // private List<Func<Type, Type>> _matchChain;
-    // private Dictionary<Type, Func<Type, Attribute, IRegistryEntry>> _regFunc;
-
-    public bool IsActive { get; private set; }
-    public IReadOnlyDictionary<AssetLocation, IRegistryEntry> Entries => _entries;
-
-    private RegisterManager()
+    /// <summary>
+    /// 注册管理
+    /// </summary>
+    public class RegisterManager
     {
-        _entries = new Dictionary<AssetLocation, IRegistryEntry>();
-        // _matchChain = new List<Func<Type, Type>>(4);
-        // _regFunc = new Dictionary<Type, Func<Type, Attribute, IRegistryEntry>>(4);
-        IsActive = true;
-    }
+        private readonly GameManager _gameManager;
 
-    public void Init(IReadOnlyDictionary<Type, List<Type>> attrList)
-    {
-        EventManager.Instance.Publish(this, new RegisterEvent.Pre(Instance));
-        var asm = typeof(RegisterManager).Assembly;
-        foreach (var type in attrList[typeof(AutoRegisterAttribute)])
+        /// <summary>
+        /// 注册表
+        /// </summary>
+        private readonly Dictionary<string, IRegistry> _registries;
+
+        public RegisterManager(GameManager gameManager)
         {
-            // if (type.GetCustomAttribute<AutoRegisterAttribute>() == null)
-            // {
-            //     continue;
-            // }
-
-            if (type.IsAbstract)
-            {
-                Debug.LogError($"不支持自动注册抽象类{type.FullName}");
-                continue;
-            }
-
-            if (type.IsInterface)
-            {
-                Debug.LogError($"不支持自动注册接口类{type.FullName}");
-                continue;
-            }
-
-            if (type.IsValueType)
-            {
-                Debug.LogError($"不支持自动注册值类型{type.FullName}");
-                continue;
-            }
-
-            if (type.IsSubclassOf(typeof(AbstractSkill))) //TODO:
-            {
-                continue;
-            }
-
-            Register((IRegistryEntry) Activator.CreateInstance(type, true));
-            // var attr = type.GetCustomAttributes();
-            // foreach (var attribute in attr)
-            // {
-            //     if (!(attribute is AutoRegisterAttribute autoReg))
-            //     {
-            //         continue;
-            //     }
-            //
-            //     var regState = false;
-            //     foreach (var chain in Instance._matchChain)
-            //     {
-            //         var res = chain(type);
-            //         if (res != null)
-            //         {
-            //             regState = true;
-            //             Register(Instance._regFunc[res](type, autoReg));
-            //             break;
-            //         }
-            //     }
-            //
-            //     if (!regState)
-            //     {
-            //         Debug.LogError($"不支持的类型{type.FullName},略过");
-            //     }
-            // }
+            _gameManager = gameManager;
+            _registries = new Dictionary<string, IRegistry>();
         }
 
-        // Instance._matchChain = null;
-        // Instance._regFunc = null;
-        EventManager.Instance.Publish(this, new RegisterEvent.AfterAuto(Instance));
-        EventManager.Instance.Unsubscribe<RegisterEvent.Pre>();
-        EventManager.Instance.Unsubscribe<RegisterEvent.AfterAuto>();
-        IsActive = false;
-    }
-
-    public void Register(IRegistryEntry entry)
-    {
-        CheckState();
-        if (_entries.ContainsKey(entry.RegisterName))
+        public void Init()
         {
-            throw new ArgumentException();
+            _gameManager.EventBus.Publish(this, new RegisterManagerInitEvent(this));
+            foreach (var registry in _registries.Values)
+            {
+                registry.PublishRegisterEvent(_gameManager.EventBus);
+            }
         }
 
-        _entries.Add(entry.RegisterName, entry);
-    }
-
-    // public void AddRegistryType(Type baseType, Func<Type, Attribute, IRegistryEntry> regFunc)
-    // {
-    // CheckState();
-    // Instance._matchChain.Add(t => t.IsSubclassOf(baseType) ? baseType : null);
-    // Instance._regFunc.Add(baseType, regFunc);
-    // }
-
-    private void CheckState()
-    {
-        if (!IsActive)
+        /// <summary>
+        /// 添加注册表
+        /// </summary>
+        /// <param name="registry">注册表实例</param>
+        /// <exception cref="InvalidOperationException">重复添加注册表</exception>
+        public void AddRegistry<T>(IRegistry<T> registry) where T : class, IRegistryEntry<T>
         {
-            throw new InvalidOperationException($"当前状态无法注册");
+            _gameManager.CheckState(GameState.Init, "只有Init状态可以添加注册表");
+            if (_registries.ContainsKey(registry.RegistryName))
+            {
+                throw new InvalidOperationException($"已经添加过的注册表{registry.RegistryName}");
+            }
+
+            _registries.Add(registry.RegistryName, registry);
+        }
+
+        /// <summary>
+        /// 查询注册项
+        /// </summary>
+        /// <param name="type">注册表名</param>
+        /// <param name="id">注册项id</param>
+        /// <returns>查询到则返回注册项实例，否则返回null</returns>
+        public T QueryRegistryEntry<T>(string type, AssetLocation id) where T : class, IRegistryEntry<T>
+        {
+            if (!QueryRegistry<T>(type, out var registry))
+            {
+                return null;
+            }
+
+            if (!registry.TryGetEntry(id, out var entry))
+            {
+                return null;
+            }
+
+            if (entry is T e)
+            {
+                return e;
+            }
+
+            throw new InvalidCastException($"类型错误:{entry.GetType()}尝试转换成{typeof(T)}");
+        }
+
+        /// <summary>
+        /// 查询注册表
+        /// </summary>
+        /// <param name="type">注册表名</param>
+        /// <param name="registry">注册表实例，未查询到返回null</param>
+        /// <returns>是否查询到注册表</returns>
+        public bool QueryRegistry<T>(string type, out IRegistry<T> registry) where T : class, IRegistryEntry<T>
+        {
+            if (_registries.TryGetValue(type, out var temp))
+            {
+                if (!(temp is IRegistry<T> e))
+                {
+                    throw new InvalidCastException($"类型错误:{temp.GetType()}尝试转换成{typeof(IRegistry<T>)}");
+                }
+
+                registry = e;
+                return true;
+            }
+
+            registry = null;
+            return false;
         }
     }
 }

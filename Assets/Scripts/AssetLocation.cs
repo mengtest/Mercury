@@ -1,39 +1,36 @@
-﻿using System;
+using System;
 
-[Serializable]
-public class AssetLocation
+namespace Mercury
 {
-    public readonly string label;
-    public readonly string type;
-    public readonly string name;
-    private string _fullName;
-
-    public AssetLocation(string label, string type, string name)
+    /// <summary>
+    /// 资产路径，可用于表示游戏内注册项，资源路径等
+    /// </summary>
+    [Serializable]
+    public class AssetLocation
     {
-        this.label = label ?? throw new ArgumentNullException();
-        this.type = type ?? throw new ArgumentNullException();
-        this.name = name ?? throw new ArgumentNullException();
-        _fullName = null;
-    }
+        private readonly string _toString;
 
-    //public IList<object> ToObjectList() { return new object[] {label, name}; }
+        /// <summary>
+        /// 资产标签
+        /// </summary>
+        public string Label { get; }
 
-    public bool Equals(AssetLocation other) { return other.label == label && other.name == name && other.type == type; }
+        /// <summary>
+        /// 资产名
+        /// </summary>
+        public string Name { get; }
 
-    public override bool Equals(object obj) { return obj is AssetLocation other && Equals(other); }
-
-    public override int GetHashCode() { return label.GetHashCode() ^ name.GetHashCode() ^ type.GetHashCode(); }
-
-    public string GetAssetName() { return $"{type}.{name}"; }
-
-    public override string ToString()
-    {
-        if (_fullName != null)
+        public AssetLocation(string label, string name)
         {
-            return _fullName;
+            Label = label;
+            Name = name;
+            _toString = $"{Label}:{Name}";
         }
 
-        _fullName = $"{label}.{type}.{name}";
-        return _fullName;
+        public override string ToString() { return _toString; }
+
+        public override int GetHashCode() { return ToString().GetHashCode(); }
+
+        public override bool Equals(object obj) { return obj is AssetLocation location && Label == location.Label && Name == location.Name; }
     }
 }

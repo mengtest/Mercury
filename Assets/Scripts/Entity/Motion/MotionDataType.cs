@@ -1,8 +1,11 @@
-public enum MotionDataType
+namespace Mercury
 {
-    Move = 0,
-    Jump = 1,
-    GroundDamping = 2,
-    AirDamping = 3,
-    Gravity = 4
+    public enum MotionDataType
+    {
+        Move = 0,
+        Jump = 1,
+        GroundDamping = 2,
+        AirDamping = 3,
+        Gravity = 4
+    }
 }

@@ -1,55 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
-[Serializable]
-public struct LevelAsset
+namespace Mercury
 {
-    public string name;
-    public bool avalible;
-}
-
-public class GameManager : MonoSingleton<GameManager>
-{
-    public List<LevelAsset> levels;
-    public SceneData nowScene;
-
-    [NonSerialized] public List<AssetLocation> nextSceneEntities = new List<AssetLocation>
+    /// <summary>
+    /// 游戏状态
+    /// </summary>
+    public enum GameState
     {
-        Consts.EntityWoodMan,
-        Consts.EntityRaceter
-    };
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        var asmData = GetAsmData();
-        EventManager.Instance.Init(asmData);
-        IoCContainer.Instance.Init();
-        UIManager.Instance.Init();
-        UIManager.Instance.ShowLoadPanel(0);
-        BundleManager.Instance.Init(() => UIManager.Instance.HideLoadPanel());
-        RegisterManager.Instance.Init(asmData);
+        Init,
+        Loading,
+        Running,
+        Pause
     }
 
-    private IReadOnlyDictionary<Type, List<Type>> GetAsmData()
+    /// <summary>
+    /// 管理整个游戏的所有行为和数据
+    /// </summary>
+    public class GameManager : MonoSingleton<GameManager>
     {
-        var data = new Dictionary<Type, List<Type>>();
-        foreach (var type in typeof(GameManager).Assembly.GetTypes())
+        /// <summary>
+        /// 当前游戏状态
+        /// </summary>
+        public GameState nowState = GameState.Init;
+
+        public WorldData activeWorld;
+
+        public PlayerInterface raceter; //TODO:临时存放，需要asset manager
+
+        public EventSystem EventBus { get; private set; }
+        public RegisterManager Registries { get; private set; }
+
+        protected override void Awake()
         {
-            var attr = type.GetCustomAttributes(true);
-            foreach (var a in attr)
+            base.Awake();
+            Addressables.LoadAssetAsync<GameObject>("entity.raceter").Completed += q => raceter = q.Result.AddComponent<PlayerInterface>();
+            EventBus = new EventSystem();
+            Registries = new RegisterManager(this);
+            EventBus.Init();
+        }
+
+        private void Start()
+        {
+            //初始化注册表
+            Registries.AddRegistry(new RegistryImpl<EntityEntry>("entity"));
+            Registries.Init();
+        }
+
+        private void Update()
+        {
+            if (raceter)
             {
-                if (data.TryGetValue(a.GetType(), out var clz))
+                try
                 {
-                    clz.Add(type);
+                    raceter = Instantiate(raceter);
+                    EntityEntry.Init();
+                    var e = activeWorld.SpawnEntity(new AssetLocation("mercury", "raceter"));
                 }
-                else
+                finally
                 {
-                    data.Add(a.GetType(), new List<Type> {type});
+                    raceter = null;
                 }
             }
         }
 
-        return data;
+        public void SetActiveWorld(WorldData world) { activeWorld = world; }
+
+        /// <summary>
+        /// 检查游戏状态
+        /// </summary>
+        /// <param name="state">需要的状态</param>
+        /// <param name="message">状态不匹配时抛出异常的信息</param>
+        /// <exception cref="InvalidOperationException">状态不匹配</exception>
+        public void CheckState(GameState state, string message)
+        {
+            if (nowState != state)
+            {
+                throw new InvalidOperationException($"当前状态:{nowState}，信息:" + message);
+            }
+        }
     }
 }

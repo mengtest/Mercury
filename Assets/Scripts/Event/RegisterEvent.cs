@@ -1,24 +1,11 @@
 using System;
 
-public abstract class RegisterEvent : EventArgs
+namespace Mercury
 {
-    public readonly RegisterManager manager;
-
-    public RegisterEvent(RegisterManager manager) { this.manager = manager; }
-
-    /// <summary>
-    /// 只能在RegisterManager初始化之前订阅
-    /// </summary>
-    public class Pre : RegisterEvent
+    public class RegisterEvent<T> : EventArgs where T : class, IRegistryEntry<T>
     {
-        public Pre(RegisterManager manager) : base(manager) { }
-    }
+        public IRegistry<T> Registry { get; }
 
-    /// <summary>
-    /// 只能在RegisterManager初始化之前订阅
-    /// </summary>
-    public class AfterAuto : RegisterEvent
-    {
-        public AfterAuto(RegisterManager manager) : base(manager) { }
+        public RegisterEvent(IRegistry<T> registry) { Registry = registry; }
     }
 }

@@ -1,35 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public interface IMovable
+namespace Mercury
 {
-    /// <summary>
-    /// 移动速度，单位（格/秒）
-    /// </summary>
-    float MoveSpeed { get; set; }
+    public interface IMovable
+    {
+        MotionData MotionRawData { get; }
 
-    /// <summary>
-    /// 跳跃高度，单位（格/秒）
-    /// </summary>
-    float JumpSpeed { get; set; }
+        IMotionCompute MoveSystem { get; }
 
-    /// <summary>
-    /// 地面阻力
-    /// </summary>
-    float GroundDamping { get; set; }
+        Vector2 Velocity { get; }
 
-    /// <summary>
-    /// 空气阻力
-    /// </summary>
-    float AirDamping { get; set; }
-
-    /// <summary>
-    /// 重力
-    /// </summary>
-    float Gravity { get; set; }
-
-    Vector2 Velocity { get; set; }
-
-    MotionCalculator MotionCalculator { get; }
-
-    void Move(Vector2 velocity);
+        void Move(Vector2 distance);
+    }
 }

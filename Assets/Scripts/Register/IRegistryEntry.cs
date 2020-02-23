@@ -1,14 +1,33 @@
-using System.Collections.Generic;
+using System;
 
-public interface IRegistryEntry
+namespace Mercury
 {
-    /// <summary>
-    /// 注册名，全局唯一
-    /// </summary>
-    AssetLocation RegisterName { get; }
+    public interface IRegistryEntry<out T> where T : class, IRegistryEntry<T>
+    {
+        AssetLocation RegisterName { get; }
 
-    /// <summary>
-    /// 依赖的资源/注册项
-    /// </summary>
-    IReadOnlyList<AssetLocation> DependAssets { get; }
+        T SetRegisterName(AssetLocation id);
+
+        Type GetRegisterType();
+    }
+
+    public class RegistryEntryImpl<T> : IRegistryEntry<T> where T : class, IRegistryEntry<T>
+    {
+        private AssetLocation _registerName;
+
+        public AssetLocation RegisterName => _registerName;
+
+        public T SetRegisterName(AssetLocation id)
+        {
+            if (_registerName != null)
+            {
+                throw new InvalidOperationException($"已经设置过注册名{_registerName}，不可重复设置");
+            }
+
+            _registerName = id;
+            return this as T;
+        }
+
+        Type IRegistryEntry<T>.GetRegisterType() { return typeof(T); }
+    }
 }
