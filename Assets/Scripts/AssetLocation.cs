@@ -8,7 +8,10 @@ namespace Mercury
     [Serializable]
     public class AssetLocation
     {
-        private readonly string _toString;
+        /// <summary>
+        /// 只用于unity序列化
+        /// </summary>
+        public string toString;
 
         /// <summary>
         /// 资产标签
@@ -24,10 +27,10 @@ namespace Mercury
         {
             Label = label;
             Name = name;
-            _toString = $"{Label}:{Name}";
+            toString = $"{Label}:{Name}";
         }
 
-        public override string ToString() { return _toString; }
+        public override string ToString() { return toString; }
 
         public override int GetHashCode() { return ToString().GetHashCode(); }
 

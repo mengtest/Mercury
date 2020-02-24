@@ -2,42 +2,28 @@
 
 namespace Mercury
 {
+    /// <summary>
+    /// 实体注册项
+    /// </summary>
     public class EntityEntry : RegistryEntryImpl<EntityEntry>
     {
-        private readonly Type _entityType;
+        /// <summary>
+        /// 生成实体的工厂
+        /// </summary>
         private readonly Func<AssetLocation, Entity> _factory;
 
-        public EntityEntry(AssetLocation registerName, Type type, Func<AssetLocation, Entity> factory)
+        /// <param name="registerName">实体ID</param>
+        /// <param name="factory">生成实体的工厂</param>
+        public EntityEntry(AssetLocation registerName, Func<AssetLocation, Entity> factory)
         {
             SetRegisterName(registerName);
-            _entityType = type;
             _factory = factory;
         }
 
+        /// <summary>
+        /// 生成实体
+        /// </summary>
+        /// <returns></returns>
         public Entity SpawnEntity() { return _factory(RegisterName); }
-
-        public static void Init()
-        {
-            GameManager.Instance.Registries.QueryRegistry<EntityEntry>("entity", out var registry);
-            registry.Register(new EntityEntry(new AssetLocation("mercury", "raceter"),
-                typeof(EntityRaceter),
-                id =>
-                {
-                    var r = GameManager.Instance.raceter;
-                    var result = new EntityRaceter(id,
-                        r,
-                        new DamageData(),
-                        new MotionData
-                        {
-                            moveSpeed = 2,
-                            jumpSpeed = 1.5f,
-                            groundDamping = 20f,
-                            airDamping = 5f,
-                            gravity = -25f
-                        });
-                    r.Player = result;
-                    return result;
-                }));
-        }
     }
 }

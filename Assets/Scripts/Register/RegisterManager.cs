@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Mercury
 {
@@ -23,10 +24,35 @@ namespace Mercury
 
         public void Init()
         {
+            Entities.Init(this);
+            Assets.Init(this);
             _gameManager.EventBus.Publish(this, new RegisterManagerInitEvent(this));
+            EntryDependInfos.Init(this);
+            CheckDependencies(EntryDependInfos.Registry);
             foreach (var registry in _registries.Values)
             {
                 registry.PublishRegisterEvent(_gameManager.EventBus);
+            }
+        }
+
+        private void CheckDependencies(IRegistry<EntryDependInfo> dependencies)
+        {
+            foreach (var dependency in dependencies.Entries)
+            {
+                var key = dependency.Key;
+                var depend = (EntryDependInfo) dependency.Value;
+                if (!ContainsRegistryEntry(depend.Key.entryType, depend.Key.id))
+                {
+                    Debug.LogError($"找不到依赖关系{key}的key{depend.Key.entryType}:{depend.Key.id}");
+                }
+
+                foreach (var dep in depend.Values)
+                {
+                    if (!ContainsRegistryEntry(dep.entryType, dep.id))
+                    {
+                        Debug.LogError($"找不到依赖关系{key}的value{dep.entryType}:{dep.id}");
+                    }
+                }
             }
         }
 
@@ -45,6 +71,8 @@ namespace Mercury
 
             _registries.Add(registry.RegistryName, registry);
         }
+
+        public T QueryRegistryEntry<T>(EntryLocation id) where T : class, IRegistryEntry<T> { return QueryRegistryEntry<T>(id.entryType, id.id); }
 
         /// <summary>
         /// 查询注册项
@@ -72,6 +100,8 @@ namespace Mercury
             throw new InvalidCastException($"类型错误:{entry.GetType()}尝试转换成{typeof(T)}");
         }
 
+        public bool ContainsRegistryEntry(string type, AssetLocation id) { return QueryRegistry(type, out var r) && r.NoTypeEntries.ContainsKey(id); }
+
         /// <summary>
         /// 查询注册表
         /// </summary>
@@ -94,5 +124,7 @@ namespace Mercury
             registry = null;
             return false;
         }
+
+        public bool QueryRegistry(string type, out IRegistry registry) { return _registries.TryGetValue(type, out registry); }
     }
 }

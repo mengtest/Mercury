@@ -43,6 +43,9 @@ namespace Mercury
         bool RemoveMotionData(float data, MotionDataType type);
     }
 
+    /// <summary>
+    /// 标准运动计算实现
+    /// </summary>
     public class MotionComputeImpl : IMotionCompute
     {
         private readonly IMovable _movable;
@@ -59,12 +62,12 @@ namespace Mercury
             _movable = movable;
         }
 
-        public DataChange<float> MoveSpeed => new DataChange<float>(_movable.MotionRawData.moveSpeed, _datas[0].Result);
-        public DataChange<float> JumpSpeed => new DataChange<float>(_movable.MotionRawData.jumpSpeed, _datas[1].Result);
-        public DataChange<float> GroundDamping => new DataChange<float>(_movable.MotionRawData.groundDamping, _datas[2].Result);
-        public DataChange<float> AirDamping => new DataChange<float>(_movable.MotionRawData.airDamping, _datas[3].Result);
-        public DataChange<float> Gravity => new DataChange<float>(_movable.MotionRawData.gravity, _datas[4].Result);
-
+        public DataChange<float> MoveSpeed => new DataChange<float>(_movable.MotionRawData.moveSpeed, _datas[0].Cache);
+        public DataChange<float> JumpSpeed => new DataChange<float>(_movable.MotionRawData.jumpSpeed, _datas[1].Cache);
+        public DataChange<float> GroundDamping => new DataChange<float>(_movable.MotionRawData.groundDamping, _datas[2].Cache);
+        public DataChange<float> AirDamping => new DataChange<float>(_movable.MotionRawData.airDamping, _datas[3].Cache);
+        public DataChange<float> Gravity => new DataChange<float>(_movable.MotionRawData.gravity, _datas[4].Cache);
+        
         public void SetMotionData(float data, MotionDataType type) { _datas[(int) type].AddData(data); }
 
         public bool RemoveMotionData(float data, MotionDataType type) { return _datas[(int) type].RemoveData(data); }

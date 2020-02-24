@@ -2,13 +2,16 @@ using System;
 
 namespace Mercury
 {
-    public interface IRegistryEntry<out T> where T : class, IRegistryEntry<T>
+    public interface IRegistryEntry
     {
         AssetLocation RegisterName { get; }
-
-        T SetRegisterName(AssetLocation id);
-
+        
         Type GetRegisterType();
+    }
+    
+    public interface IRegistryEntry<out T> : IRegistryEntry where T : class, IRegistryEntry<T>
+    {
+        T SetRegisterName(AssetLocation id);
     }
 
     public class RegistryEntryImpl<T> : IRegistryEntry<T> where T : class, IRegistryEntry<T>
@@ -28,6 +31,6 @@ namespace Mercury
             return this as T;
         }
 
-        Type IRegistryEntry<T>.GetRegisterType() { return typeof(T); }
+        Type IRegistryEntry.GetRegisterType() { return typeof(T); }
     }
 }

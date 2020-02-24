@@ -2,6 +2,9 @@ using System;
 
 namespace Mercury
 {
+    /// <summary>
+    /// 运动原始数据
+    /// </summary>
     [Serializable]
     public class MotionData : IEntityComponent
     {

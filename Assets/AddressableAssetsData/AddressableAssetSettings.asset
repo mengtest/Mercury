@@ -65,7 +65,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - Mercury
+    - mercury
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 725df91e24a635c449e7a278a678215f, type: 2}
