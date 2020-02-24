@@ -1,27 +1,49 @@
-using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 namespace Mercury
 {
     /// <summary>
-    /// 抽象玩家
-    /// TODO:所有需要的元素都在注册时装配，不再被继承
+    /// 玩家
     /// </summary>
-    public abstract class EntityPlayer : Entity, IUpdatable, IAttackable, IMovable
+    public class EntityPlayer : Entity, ISystemOwner, IAttackable, IMovable
     {
-        protected EntityPlayer(AssetLocation id, DamageData damageData, MotionData motionData) : base(id)
+        private readonly Dictionary<Type, IEntitySystem> _entitySystems;
+
+        public EntityPlayer(
+            AssetLocation id,
+            DamageData damageData,
+            IDamageCompute damageCompute,
+            MotionData motionData,
+            IMotionCompute moveCompute,
+            IMoveSystem moveSystem) : base(id)
         {
+            _entitySystems = new Dictionary<Type, IEntitySystem>();
             DamageRawData = damageData;
+            DamageCompute = damageCompute;
             MotionRawData = motionData;
+            MoveCompute = moveCompute;
+            MoveSystem = moveSystem;
             AddComponent(DamageRawData);
             AddComponent(MotionRawData);
         }
 
-        public virtual void OnUpdate() { }
+        public virtual void OnUpdate()
+        {
+            foreach (var system in _entitySystems.Values)
+            {
+                system.OnUpdate();
+            }
+        }
 
         public DamageData DamageRawData { get; }
-        public abstract IDamageCompute DamageSystem { get; }
+        public IDamageCompute DamageCompute { get; }
 
-        public abstract Damage CalculateDamage(float coe, DamageType type);
+        public Damage CalculateDamage(float coe, DamageType type)
+        {
+            //TODO:DamageSystem
+            return new Damage();
+        }
 
         public Damage DealDamage(in Damage damage, IAttackable target)
         {
@@ -29,12 +51,27 @@ namespace Mercury
             return damage;
         }
 
-        public abstract void UnderAttack(in Damage damage);
+        public void UnderAttack(in Damage damage) { }
 
         public MotionData MotionRawData { get; }
-        public abstract IMotionCompute MoveSystem { get; }
-        public abstract Vector2 Velocity { get; }
+        public IMotionCompute MoveCompute { get; }
+        public IMoveSystem MoveSystem { get; }
 
-        public abstract void Move(Vector2 distance);
+        public void AddSystem<T>(T system) where T : class, IEntitySystem { _entitySystems.Add(typeof(T), system); }
+
+        public T GetSystem<T>() where T : class, IEntitySystem
+        {
+            if (!_entitySystems.TryGetValue(typeof(T), out var system))
+            {
+                return null;
+            }
+
+            if (system is T ins)
+            {
+                return ins;
+            }
+
+            return null;
+        }
     }
 }

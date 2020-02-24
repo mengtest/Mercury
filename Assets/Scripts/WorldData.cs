@@ -43,7 +43,7 @@ namespace Mercury
                 {
                     foreach (var updateEntity in _updateEntities)
                     {
-                        updateEntity.OnUpdate();
+                        updateEntity.OnUpdate(); //TODO:Job并行的可行性？
                     }
 
                     break;
@@ -54,8 +54,15 @@ namespace Mercury
                     break;
                 }
                 case GameState.Waiting:
-                    SpawnEntity(new AssetLocation("mercury", "raceter"));
-                    _gameManager.SetGameState(GameState.Running);
+                    try
+                    {
+                        SpawnEntity(new AssetLocation("mercury", "raceter"));
+                    }
+                    finally
+                    {
+                        _gameManager.SetGameState(GameState.Running);
+                    }
+
                     break;
             }
         }

@@ -48,10 +48,10 @@ namespace Mercury
     /// </summary>
     public class MotionComputeImpl : IMotionCompute
     {
-        private readonly IMovable _movable;
+        private readonly MotionData _motionData;
         private readonly ChainAdd[] _datas;
 
-        public MotionComputeImpl(IMovable movable)
+        public MotionComputeImpl(MotionData motionData)
         {
             _datas = new ChainAdd[5];
             _datas[0] = new ChainAdd();
@@ -59,14 +59,14 @@ namespace Mercury
             _datas[2] = new ChainAdd();
             _datas[3] = new ChainAdd();
             _datas[4] = new ChainAdd();
-            _movable = movable;
+            _motionData = motionData;
         }
 
-        public DataChange<float> MoveSpeed => new DataChange<float>(_movable.MotionRawData.moveSpeed, _datas[0].Cache);
-        public DataChange<float> JumpSpeed => new DataChange<float>(_movable.MotionRawData.jumpSpeed, _datas[1].Cache);
-        public DataChange<float> GroundDamping => new DataChange<float>(_movable.MotionRawData.groundDamping, _datas[2].Cache);
-        public DataChange<float> AirDamping => new DataChange<float>(_movable.MotionRawData.airDamping, _datas[3].Cache);
-        public DataChange<float> Gravity => new DataChange<float>(_movable.MotionRawData.gravity, _datas[4].Cache);
+        public DataChange<float> MoveSpeed => new DataChange<float>(_motionData.moveSpeed, _datas[0].Cache);
+        public DataChange<float> JumpSpeed => new DataChange<float>(_motionData.jumpSpeed, _datas[1].Cache);
+        public DataChange<float> GroundDamping => new DataChange<float>(_motionData.groundDamping, _datas[2].Cache);
+        public DataChange<float> AirDamping => new DataChange<float>(_motionData.airDamping, _datas[3].Cache);
+        public DataChange<float> Gravity => new DataChange<float>(_motionData.gravity, _datas[4].Cache);
         
         public void SetMotionData(float data, MotionDataType type) { _datas[(int) type].AddData(data); }
 

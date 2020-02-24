@@ -17,17 +17,28 @@ namespace Mercury
             {
                 var prefab = GameManager.Instance.Assets.GetPrefab("entity", id);
                 var cc2d = UnityEngine.Object.Instantiate(prefab).GetComponent<CharacterController2D>();
-                var result = new EntityRaceter(id,
-                    cc2d,
+                var motionData = new MotionData
+                {
+                    moveSpeed = 2,
+                    jumpSpeed = 1.5f,
+                    groundDamping = 20f,
+                    airDamping = 5f,
+                    gravity = -25f
+                };
+                var moveComponent = new MotionComputeImpl(motionData);
+                var unityCc2d = new UnityObject<CharacterController2D>(cc2d);
+                var moveSys = new MoveImpl(moveComponent, unityCc2d);
+                var result = new EntityPlayer(
+                    id,
                     new DamageData(),
-                    new MotionData
-                    {
-                        moveSpeed = 2,
-                        jumpSpeed = 1.5f,
-                        groundDamping = 20f,
-                        airDamping = 5f,
-                        gravity = -25f
-                    });
+                    null,
+                    motionData,
+                    moveComponent,
+                    moveSys
+                );
+                result.AddComponent(unityCc2d);
+                result.AddSystem(moveSys);
+
                 return result;
             });
 

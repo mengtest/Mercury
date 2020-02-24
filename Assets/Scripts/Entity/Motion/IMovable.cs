@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Mercury
 {
     /// <summary>
@@ -15,17 +13,11 @@ namespace Mercury
         /// <summary>
         /// 运动计算
         /// </summary>
-        IMotionCompute MoveSystem { get; }
+        IMotionCompute MoveCompute { get; }
 
         /// <summary>
-        /// 当前速度
+        /// 运动系统
         /// </summary>
-        Vector2 Velocity { get; }
-
-        /// <summary>
-        /// 移动
-        /// </summary>
-        /// <param name="distance">位移矢量</param>
-        void Move(Vector2 distance);
+        IMoveSystem MoveSystem { get; }
     }
 }

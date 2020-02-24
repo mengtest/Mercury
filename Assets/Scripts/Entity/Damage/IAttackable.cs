@@ -7,7 +7,7 @@ namespace Mercury
         /// <summary>
         /// 伤害系统组件
         /// </summary>
-        IDamageCompute DamageSystem { get; }
+        IDamageCompute DamageCompute { get; }
 
         /// <summary>
         /// 计算伤害
