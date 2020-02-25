@@ -25,19 +25,27 @@ namespace Mercury
                     airDamping = 5f,
                     gravity = -25f
                 };
-                var moveComponent = new MotionComputeImpl(motionData);
+                var moveCompute = new MotionComputeImpl(motionData);
                 var unityCc2d = new UnityObject<CharacterController2D>(cc2d);
-                var moveSys = new MoveImpl(moveComponent, unityCc2d);
-                var result = new EntityPlayer(
-                    id,
-                    new DamageData(),
-                    null,
-                    motionData,
-                    moveComponent,
-                    moveSys
-                );
+                var moveSys = new MoveSystemImpl(moveCompute, unityCc2d);
+                var dmgData = new DamageData
+                {
+                    critCoe = 1.5f,
+                    healthRecover = 1.265f,
+                    maxHealth = 100,
+                    physicsAttack = 100
+                };
+                var dmgCompute = new DamageComputeImpl(dmgData);
+
+                var result = new EntityPlayer(id)
+                    .SetMotionData(motionData)
+                    .SetMotionCompute(moveCompute)
+                    .SetMotionSystem(moveSys)
+                    .SetDamageData(dmgData)
+                    .SetDamageCompute(dmgCompute);
                 result.AddComponent(unityCc2d);
-                result.AddSystem(moveSys);
+                var dmgSys = new DamageSystemImpl(result);
+                result.SetDamageSystem(dmgSys);
 
                 return result;
             });

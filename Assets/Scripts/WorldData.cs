@@ -56,7 +56,10 @@ namespace Mercury
                 case GameState.Waiting:
                     try
                     {
-                        SpawnEntity(new AssetLocation("mercury", "raceter"));
+                        foreach (var e in _gameManager.nextWorldEntities)
+                        {
+                            SpawnEntity(e);
+                        }
                     }
                     finally
                     {

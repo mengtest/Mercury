@@ -1,7 +1,7 @@
 namespace Mercury
 {
     /// <summary>
-    /// 实体可以每帧调用的接口
+    /// 每帧调用接口
     /// </summary>
     public interface IUpdatable
     {

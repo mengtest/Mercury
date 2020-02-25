@@ -1,6 +1,6 @@
 namespace Mercury
 {
-    public interface ISystemOwner : IUpdatable
+    public interface ISystemOwner
     {
         void AddSystem<T>(T system) where T : class, IEntitySystem;
 
