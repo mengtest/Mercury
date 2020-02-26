@@ -1,4 +1,5 @@
 using Prime31;
+using UnityEngine;
 
 namespace Mercury
 {
@@ -12,11 +13,11 @@ namespace Mercury
         /// </summary>
         public static readonly IRegistry<EntityEntry> Registry = new RegistryImpl<EntityEntry>("entity");
 
-        public static readonly EntityEntry Raceter = new EntityEntry(new AssetLocation("mercury", "raceter"),
+        public static readonly EntityEntry Raceter = new EntityEntry(Const.Raceter,
             id =>
             {
                 var prefab = GameManager.Instance.Assets.GetPrefab("entity", id);
-                var cc2d = UnityEngine.Object.Instantiate(prefab).GetComponent<CharacterController2D>();
+                var cc2d = Object.Instantiate(prefab).GetComponent<CharacterController2D>();
                 var motionData = new MotionData
                 {
                     moveSpeed = 2,
@@ -26,7 +27,7 @@ namespace Mercury
                     gravity = -25f
                 };
                 var moveCompute = new MotionComputeImpl(motionData);
-                var unityCc2d = new UnityObject<CharacterController2D>(cc2d);
+                var unityCc2d = new UnityObject<CharacterController2D>("cc2d", cc2d);
                 var moveSys = new MoveSystemImpl(moveCompute, unityCc2d);
                 var dmgData = new DamageData
                 {
@@ -36,17 +37,46 @@ namespace Mercury
                     physicsAttack = 100
                 };
                 var dmgCompute = new DamageComputeImpl(dmgData);
+                var skillSys = new SkillSystemImpl();
 
                 var result = new EntityPlayer(id)
                     .SetMotionData(motionData)
                     .SetMotionCompute(moveCompute)
                     .SetMotionSystem(moveSys)
                     .SetDamageData(dmgData)
-                    .SetDamageCompute(dmgCompute);
+                    .SetDamageCompute(dmgCompute)
+                    .SetSkillSystem(skillSys);
                 result.AddComponent(unityCc2d);
                 var dmgSys = new DamageSystemImpl(result);
                 result.SetDamageSystem(dmgSys);
+                var moonAtk = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2);
+                var moonAtkRng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2Rng);
+                skillSys.AddSkill(new SkillGeneralAttack(Const.RaceterMoonAtk2,
+                    result,
+                    moonAtkRng,
+                    moonAtk));
 
+                return result;
+            });
+
+        public static readonly EntityEntry Scarecrow = new EntityEntry(Const.Scarecrow,
+            id =>
+            {
+                var dmgData = new DamageData
+                {
+                    maxHealth = 10000,
+                    healthRecover = 10,
+                };
+                var dmgCompute = new DamageComputeImpl(dmgData);
+                var prefab = GameManager.Instance.Assets.GetPrefab("entity", id);
+                var go = Object.Instantiate(prefab);
+                var c = new UnityObject<GameObject>("gameObject", go);
+                var result = new EntityAttackable(id)
+                    .SetDamageData(dmgData)
+                    .SetDamageCompute(dmgCompute);
+                var dmgSys = new DamageSystemImpl(result);
+                result.SetDamageSystem(dmgSys);
+                result.AddComponent(c);
                 return result;
             });
 
@@ -58,6 +88,7 @@ namespace Mercury
         {
             manager.AddRegistry(Registry);
             Registry.Register(Raceter);
+            Registry.Register(Scarecrow);
         }
     }
 }

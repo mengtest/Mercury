@@ -43,7 +43,7 @@ namespace Mercury
                 {
                     foreach (var updateEntity in _updateEntities)
                     {
-                        updateEntity.OnUpdate(); //TODO:Job并行的可行性？
+                        updateEntity.OnUpdate();
                     }
 
                     break;

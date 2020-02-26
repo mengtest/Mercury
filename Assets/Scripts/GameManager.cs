@@ -47,7 +47,8 @@ namespace Mercury
             Registries.Init();
             nextWorldEntities = new List<AssetLocation>
             {
-                new AssetLocation("mercury", "raceter")
+                Const.Raceter,
+                Const.Scarecrow
             };
             SetGameState(GameState.Waiting);
         }

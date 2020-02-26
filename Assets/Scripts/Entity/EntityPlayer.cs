@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Mercury
 {
     /// <summary>
     /// 玩家
     /// </summary>
-    public class EntityPlayer : Entity, IUpdatable, ISystemOwner, IAttackable, IMovable
+    public class EntityPlayer : Entity, IUpdatable, ISystemOwner, IAttackable, IMovable, ISkillOwner
     {
         private readonly Dictionary<Type, IEntitySystem> _system;
         private readonly List<IUpdatable> _updatableSystem;
@@ -19,6 +20,11 @@ namespace Mercury
 
         public virtual void OnUpdate()
         {
+            if (Input.GetKeyDown(KeyCode.A)) //TODO:按键回调
+            {
+                SkillSystem.UseSkill(Const.RaceterMoonAtk2);
+            }
+
             foreach (var system in _updatableSystem)
             {
                 system.OnUpdate();
@@ -103,12 +109,14 @@ namespace Mercury
             return this;
         }
 
-        private static void NonNullCheck(object obj, string message)
+        public EntityPlayer SetSkillSystem(ISkillSystem skillSystem)
         {
-            if (obj != null)
-            {
-                throw new InvalidOperationException(message);
-            }
+            NonNullCheck(SkillSystem, "不可重复添加技能系统");
+            SkillSystem = skillSystem;
+            AddSystem(SkillSystem);
+            return this;
         }
+
+        public ISkillSystem SkillSystem { get; private set; }
     }
 }

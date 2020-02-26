@@ -50,7 +50,7 @@ namespace Mercury
                 {
                     if (!ContainsRegistryEntry(dep.entryType, dep.id))
                     {
-                        Debug.LogError($"找不到依赖关系{key}的value{dep.entryType}:{dep.id}");
+                        Debug.LogError($"找不到依赖关系{key}的value {dep.entryType}:{dep.id}");
                     }
                 }
             }

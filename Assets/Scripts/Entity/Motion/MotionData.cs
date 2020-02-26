@@ -32,5 +32,7 @@ namespace Mercury
         /// 重力
         /// </summary>
         public float gravity;
+
+        public string Id { get; } = "MotionData";
     }
 }

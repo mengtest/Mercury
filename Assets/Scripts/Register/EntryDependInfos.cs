@@ -14,14 +14,21 @@ namespace Mercury
         /// </summary>
         public static readonly EntryDependRegistry Registry = new EntryDependRegistry();
 
-        public static readonly EntryDependInfo Raceter = new EntryDependInfo(new AssetLocation("mercury", "raceter"),
-            new EntryLocation("entity", new AssetLocation("mercury", "raceter")),
-            new EntryLocation("asset", new AssetLocation("mercury", "raceter")));
+        public static readonly EntryDependInfo Raceter = new EntryDependInfo(Const.Raceter,
+            new EntryLocation("entity", Const.Raceter),
+            new EntryLocation("asset", Const.Raceter),
+            new EntryLocation("asset", Const.RaceterMoonAtk2),
+            new EntryLocation("asset", Const.RaceterMoonAtk2Rng));
+
+        public static readonly EntryDependInfo Scarecrow = new EntryDependInfo(Const.Scarecrow,
+            new EntryLocation("entity", Const.Scarecrow),
+            new EntryLocation("asset", Const.Scarecrow));
 
         public static void Init(RegisterManager manager)
         {
-            Registry.Register(Raceter);
             manager.AddRegistry(Registry);
+            Registry.Register(Raceter);
+            Registry.Register(Scarecrow);
         }
     }
 

@@ -34,5 +34,7 @@ namespace Mercury
         /// 暴击率系数
         /// </summary>
         public int critPrCoe;
+
+        public string Id { get; } = "DamageData";
     }
 }

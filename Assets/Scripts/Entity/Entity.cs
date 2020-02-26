@@ -8,7 +8,7 @@ namespace Mercury
         /// <summary>
         /// 组件
         /// </summary>
-        private readonly Dictionary<Type, IEntityComponent> _components;
+        private readonly Dictionary<string, IEntityComponent> _components;
 
         /// <summary>
         /// 注册名
@@ -18,18 +18,19 @@ namespace Mercury
         protected Entity(AssetLocation id)
         {
             RegisteredName = id;
-            _components = new Dictionary<Type, IEntityComponent>();
+            _components = new Dictionary<string, IEntityComponent>();
         }
 
         /// <summary>
         /// 获取一个实体组件
         /// </summary>
+        /// <param name="id">组件id</param>
         /// <param name="component">返回组件实例</param>
         /// <typeparam name="T">组件类型</typeparam>
         /// <returns>是否拥有组件</returns>
-        public bool GetComponent<T>(out T component)
+        public bool GetComponent<T>(string id, out T component) where T : IEntityComponent
         {
-            if (!_components.TryGetValue(typeof(T), out var temp))
+            if (!_components.TryGetValue(id, out var temp))
             {
                 component = default;
                 return false;
@@ -49,6 +50,22 @@ namespace Mercury
         /// 添加一个实体组件
         /// </summary>
         /// <param name="component">组件实例</param>
-        public void AddComponent(IEntityComponent component) { _components.Add(component.GetType(), component); }
+        public void AddComponent(IEntityComponent component)
+        {
+            if (_components.ContainsKey(component.Id))
+            {
+                throw new ArgumentException($"已有组件id：{component.Id}");
+            }
+
+            _components.Add(component.Id, component);
+        }
+
+        public static void NonNullCheck(object obj, string message)
+        {
+            if (obj != null)
+            {
+                throw new InvalidOperationException(message);
+            }
+        }
     }
 }
