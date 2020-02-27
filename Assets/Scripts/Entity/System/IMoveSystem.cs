@@ -1,3 +1,4 @@
+using System;
 using Prime31;
 using Unity.Mathematics;
 using UnityEngine;
@@ -49,12 +50,14 @@ namespace Mercury
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 normalizedHorizontalSpeed = 1;
-                // Rotate(Face.Right);
+                var scale = _cc2d.transform.localScale;
+                _cc2d.transform.localScale = new Vector3(math.abs(scale.x), scale.y, scale.z);
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
             {
                 normalizedHorizontalSpeed = -1;
-                // Rotate(Face.Left);
+                var scale = _cc2d.transform.localScale;
+                _cc2d.transform.localScale = new Vector3(-math.abs(scale.x), scale.y, scale.z);
             }
             else
             {

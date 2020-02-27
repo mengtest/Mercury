@@ -18,6 +18,7 @@ namespace Mercury
             {
                 var prefab = GameManager.Instance.Assets.GetPrefab("entity", id);
                 var cc2d = Object.Instantiate(prefab).GetComponent<CharacterController2D>();
+                var entityRef = cc2d.gameObject.AddComponent<EntityReference>();
                 var motionData = new MotionData
                 {
                     moveSpeed = 2,
@@ -47,14 +48,28 @@ namespace Mercury
                     .SetDamageCompute(dmgCompute)
                     .SetSkillSystem(skillSys);
                 result.AddComponent(unityCc2d);
+                entityRef.Entity = result;
+                result.AddComponent(entityRef);
                 var dmgSys = new DamageSystemImpl(result);
                 result.SetDamageSystem(dmgSys);
                 var moonAtk = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2);
                 var moonAtkRng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2Rng);
-                skillSys.AddSkill(new SkillGeneralAttack(Const.RaceterMoonAtk2,
+                var skillMAtk = new SkillGeneralAttack(Const.RaceterMoonAtk2,
                     result,
+                    cc2d.gameObject,
                     moonAtkRng,
-                    moonAtk));
+                    moonAtk)
+                {
+                    PerUseTime = 0,
+                    PostUseTime = 0.5f,
+                    PosOffset = 1f
+                };
+                skillSys.AddSkill(skillMAtk);
+                result.DamageSystem.OnDealDamage += (sender, e) =>
+                {
+                    Debug.Log($"攻击!{e.source},{e.target},{e.damage.value}");
+                    e.Result = new Damage(e.source, 233, 666, e.damage.type);
+                };
 
                 return result;
             });
@@ -70,13 +85,21 @@ namespace Mercury
                 var dmgCompute = new DamageComputeImpl(dmgData);
                 var prefab = GameManager.Instance.Assets.GetPrefab("entity", id);
                 var go = Object.Instantiate(prefab);
+                var entityRef = go.AddComponent<EntityReference>();
                 var c = new UnityObject<GameObject>("gameObject", go);
-                var result = new EntityAttackable(id)
+                var result = new EntityAttackable(id, EntityType.Enemy)
                     .SetDamageData(dmgData)
                     .SetDamageCompute(dmgCompute);
+                entityRef.Entity = result;
                 var dmgSys = new DamageSystemImpl(result);
                 result.SetDamageSystem(dmgSys);
                 result.AddComponent(c);
+                result.AddComponent(entityRef);
+                result.DamageSystem.OnUnderAttack += (sender, e) =>
+                {
+                    Debug.Log($"啊啊啊啊啊啊!{e.source},{e.target},{e.damage}");
+                };
+
                 return result;
             });
 

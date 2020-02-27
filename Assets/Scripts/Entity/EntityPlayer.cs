@@ -12,7 +12,7 @@ namespace Mercury
         private readonly Dictionary<Type, IEntitySystem> _system;
         private readonly List<IUpdatable> _updatableSystem;
 
-        public EntityPlayer(AssetLocation id) : base(id)
+        public EntityPlayer(AssetLocation id) : base(id, EntityType.Player)
         {
             _system = new Dictionary<Type, IEntitySystem>();
             _updatableSystem = new List<IUpdatable>();

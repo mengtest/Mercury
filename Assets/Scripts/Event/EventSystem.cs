@@ -9,6 +9,7 @@ namespace Mercury
     /// <summary>
     /// 简单事件系统
     /// 注册的事件类型必须继承自EventArgs
+    /// 似乎只能用于注册
     /// </summary>
     public class EventSystem
     {

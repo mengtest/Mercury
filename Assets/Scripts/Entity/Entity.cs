@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace Mercury
 {
+    [Flags]
+    public enum EntityType
+    {
+        Player = 00,
+        Enemy = 01,
+        Neutral = 10
+    }
+
     public abstract class Entity
     {
         /// <summary>
@@ -15,9 +23,12 @@ namespace Mercury
         /// </summary>
         public AssetLocation RegisteredName { get; }
 
-        protected Entity(AssetLocation id)
+        public EntityType Type { get; }
+
+        protected Entity(AssetLocation id, EntityType type)
         {
             RegisteredName = id;
+            Type = type;
             _components = new Dictionary<string, IEntityComponent>();
         }
 

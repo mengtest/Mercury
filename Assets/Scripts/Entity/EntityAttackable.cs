@@ -8,7 +8,7 @@ namespace Mercury
         private readonly List<IUpdatable> _updatableSystem;
         private readonly LinkedList<IEntitySystem> _systems;
 
-        public EntityAttackable(AssetLocation id) : base(id)
+        public EntityAttackable(AssetLocation id, EntityType type) : base(id, type)
         {
             _updatableSystem = new List<IUpdatable>();
             _systems = new LinkedList<IEntitySystem>();

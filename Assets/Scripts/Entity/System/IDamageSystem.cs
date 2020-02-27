@@ -4,6 +4,10 @@ namespace Mercury
 {
     public interface IDamageSystem : IEntitySystem, IUpdatable
     {
+        event EventHandler<EntityAttackEvent.Deal> OnDealDamage;
+
+        event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
+
         /// <summary>
         /// 计算伤害
         /// </summary>
@@ -18,19 +22,22 @@ namespace Mercury
         /// <param name="damage">将要造成的伤害</param>
         /// <param name="target">目标</param>
         /// <returns>最终打出的伤害</returns>
-        Damage DealDamage(in Damage damage, IAttackable target);
+        Damage DealDamage(Damage damage, IAttackable target);
 
         /// <summary>
         /// 当被攻击时调用
         /// </summary>
         /// <param name="damage">伤害数据</param>
-        void UnderAttack(in Damage damage);
+        void UnderAttack(Damage damage);
     }
 
     public class DamageSystemImpl : IDamageSystem
     {
         private readonly IDamageCompute _compute;
         private readonly IAttackable _owner;
+
+        public event EventHandler<EntityAttackEvent.Deal> OnDealDamage;
+        public event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
 
         public DamageSystemImpl(IAttackable owner)
         {
@@ -55,16 +62,18 @@ namespace Mercury
             return new Damage(_owner, realDmg, critDmg, type);
         }
 
-        public Damage DealDamage(in Damage damage, IAttackable target)
+        public Damage DealDamage(Damage damage, IAttackable target)
         {
-            GameManager.Instance.EventBus.Publish(_owner, new EntityAttackEvent(_owner, target, damage));
-            return damage;
+            var atkEvent = new EntityAttackEvent.Deal(_owner, target, damage);
+            OnDealDamage?.Invoke(this, atkEvent);
+            return atkEvent.Result;
         }
 
-        public void UnderAttack(in Damage damage)
+        public void UnderAttack(Damage damage)
         {
-            //TODO:发布被攻击事件
-            _owner.Health -= damage.FinalDamage;
+            var atkedEvent = new EntityAttackEvent.UnderAttack(damage.source, _owner, damage);
+            OnUnderAttack?.Invoke(this, atkedEvent);
+            _owner.Health -= atkedEvent.Result.FinalDamage;
             //TODO:死亡应该是个函数,且发布死亡事件
         }
 
