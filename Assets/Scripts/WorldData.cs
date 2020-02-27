@@ -50,7 +50,7 @@ namespace Mercury
                 }
                 case GameState.Waiting when !isAssetLoaded:
                 {
-                    LoadAssets();
+                    LoadEntityDependAssets();
                     break;
                 }
                 case GameState.Waiting:
@@ -79,7 +79,7 @@ namespace Mercury
         {
             var entry = _gameManager.Registries.QueryRegistryEntry<EntityEntry>("entity", id);
             var e = entry?.SpawnEntity();
-            if (e == null)
+            if (!e)
             {
                 return null;
             }
@@ -93,7 +93,10 @@ namespace Mercury
             return e;
         }
 
-        private void LoadAssets()
+        /// <summary>
+        /// 加载该世界实体需要的资源
+        /// </summary>
+        private void LoadEntityDependAssets()
         {
             var assetManager = _gameManager.Assets;
             assetManager.ReadyToLoad();

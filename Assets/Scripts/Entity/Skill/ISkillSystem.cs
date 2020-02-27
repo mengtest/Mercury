@@ -4,21 +4,55 @@ using UnityEngine;
 
 namespace Mercury
 {
+    /// <summary>
+    /// 技能系统
+    /// </summary>
     public interface ISkillSystem : IEntitySystem, IUpdatable
     {
+        /// <summary>
+        /// 正在使用的技能，可能为null。如果是null则没有使用中技能
+        /// </summary>
         ISkill UsingSkill { get; }
 
+        /// <summary>
+        /// 添加一个技能
+        /// </summary>
+        /// <param name="skill">技能实例</param>
         void AddSkill(ISkill skill);
 
+        /// <summary>
+        /// 使用技能
+        /// </summary>
+        /// <param name="id">技能临时id</param>
+        /// <returns>是否使用成功</returns>
         bool UseSkill(AssetLocation id);
     }
 
     public class SkillSystemImpl : ISkillSystem
     {
+        /// <summary>
+        /// 有限状态机
+        /// </summary>
         private readonly FsmSystem _system;
+
+        /// <summary>
+        /// 前摇状态
+        /// </summary>
         private readonly WaitState _preUse;
+
+        /// <summary>
+        /// 后摇状态
+        /// </summary>
         private readonly WaitState _postUse;
+
+        /// <summary>
+        /// 使用技能中状态
+        /// </summary>
         private readonly UseSkillState _using;
+
+        /// <summary>
+        /// 技能列表
+        /// </summary>
         private readonly Dictionary<AssetLocation, ISkill> _skills;
 
         public ISkill UsingSkill { get => _using.UsingSkill; private set => _using.UsingSkill = value; }
@@ -26,16 +60,20 @@ namespace Mercury
         public SkillSystemImpl()
         {
             _system = new FsmSystem();
-            var normal = new NormalState("normal", _system);
+            var normal = new NormalState("normal", _system); //普通状态
             _preUse = new WaitState("preUse", _system);
             _using = new UseSkillState("using", _system);
             _postUse = new WaitState("postUse", _system);
+            //添加一条过渡链，过渡原因是：有需要使用的技能了
             _system.AddTransition(normal, _preUse, _ => UsingSkill != null);
+            //过渡原因：前摇时间结束
             _system.AddTransition(_preUse, _using, info => ((WaitState) info.last).EndTime <= Time.time);
+            //过渡原因：技能使用完毕
             _system.AddTransition(_using, _postUse, _ => UsingSkill.IsDone);
+            //过渡原因：后摇时间结束
             _system.AddTransition(_postUse, normal, info => ((WaitState) info.last).EndTime <= Time.time);
-            _system.NormalState = normal;
-            _system.SetCurrentState(normal);
+            _system.NormalState = normal; //设置默认状态
+            _system.SetCurrentState(normal); //设置当前状态
             _skills = new Dictionary<AssetLocation, ISkill>();
         }
 
@@ -69,8 +107,7 @@ namespace Mercury
 
         public void OnUpdate()
         {
-            //Debug.Log(_system.CurrentState);
-            _system.PerformTransition();
+            _system.PerformTransition(); //检查并执行过渡
             _system.CurrentState.OnUpdate();
         }
     }

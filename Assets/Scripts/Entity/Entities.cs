@@ -16,10 +16,10 @@ namespace Mercury
         public static readonly EntityEntry Raceter = new EntityEntry(Const.Raceter,
             id =>
             {
-                var prefab = GameManager.Instance.Assets.GetPrefab("entity", id);
-                var cc2d = Object.Instantiate(prefab).GetComponent<CharacterController2D>();
-                var entityRef = cc2d.gameObject.AddComponent<EntityReference>();
-                var motionData = new MotionData
+                var prefab = GameManager.Instance.Assets.GetPrefab("entity", id); //获取实体的预制体
+                var go = Object.Instantiate(prefab); //实例化
+                var cc2d = go.GetComponent<CharacterController2D>(); //获取角色控制器
+                var motionData = new MotionData //运动数据
                 {
                     moveSpeed = 2,
                     jumpSpeed = 1.5f,
@@ -27,34 +27,31 @@ namespace Mercury
                     airDamping = 5f,
                     gravity = -25f
                 };
-                var moveCompute = new MotionComputeImpl(motionData);
-                var unityCc2d = new UnityObject<CharacterController2D>("cc2d", cc2d);
-                var moveSys = new MoveSystemImpl(moveCompute, unityCc2d);
-                var dmgData = new DamageData
+                var moveCompute = new MotionComputeImpl(motionData); //运动计算器
+                var moveSys = new MoveSystemImpl(moveCompute, cc2d); //运动系统
+                var dmgData = new DamageData //伤害数据
                 {
                     critCoe = 1.5f,
                     healthRecover = 1.265f,
                     maxHealth = 100,
                     physicsAttack = 100
                 };
-                var dmgCompute = new DamageComputeImpl(dmgData);
-                var skillSys = new SkillSystemImpl();
-
-                var result = new EntityPlayer(id)
+                var dmgCompute = new DamageComputeImpl(dmgData); //伤害计算器
+                var skillSys = new SkillSystemImpl(); //技能系统
+                var result = go.AddComponent<EntityPlayer>()
                     .SetMotionData(motionData)
                     .SetMotionCompute(moveCompute)
                     .SetMotionSystem(moveSys)
                     .SetDamageData(dmgData)
                     .SetDamageCompute(dmgCompute)
                     .SetSkillSystem(skillSys);
-                result.AddComponent(unityCc2d);
-                entityRef.Entity = result;
-                result.AddComponent(entityRef);
-                var dmgSys = new DamageSystemImpl(result);
+                result.SetId(id);
+                var dmgSys = new DamageSystemImpl(result); //伤害系统
                 result.SetDamageSystem(dmgSys);
                 var moonAtk = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2);
                 var moonAtkRng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2Rng);
-                var skillMAtk = new SkillGeneralAttack(Const.RaceterMoonAtk2,
+                var skillMAtk = new SkillGeneralAttack(Const.RaceterMoonAtk2, //实例化皎月1,TODO:替换特效
+                    result,
                     result,
                     cc2d.gameObject,
                     moonAtkRng,
@@ -62,14 +59,12 @@ namespace Mercury
                 {
                     PerUseTime = 0,
                     PostUseTime = 0.5f,
-                    PosOffset = 1f
+                    AttackRangeOffset = 1f,
+                    DamageCoe = 75,
+                    DamageType = DamageType.Physics,
+                    AttackSpeed = 2
                 };
-                skillSys.AddSkill(skillMAtk);
-                result.DamageSystem.OnDealDamage += (sender, e) =>
-                {
-                    Debug.Log($"攻击!{e.source},{e.target},{e.damage.value}");
-                    e.Result = new Damage(e.source, 233, 666, e.damage.type);
-                };
+                skillSys.AddSkill(skillMAtk); //添加皎月1
 
                 return result;
             });
@@ -85,20 +80,12 @@ namespace Mercury
                 var dmgCompute = new DamageComputeImpl(dmgData);
                 var prefab = GameManager.Instance.Assets.GetPrefab("entity", id);
                 var go = Object.Instantiate(prefab);
-                var entityRef = go.AddComponent<EntityReference>();
-                var c = new UnityObject<GameObject>("gameObject", go);
-                var result = new EntityAttackable(id, EntityType.Enemy)
+                var result = go.AddComponent<EntityAttackable>()
                     .SetDamageData(dmgData)
                     .SetDamageCompute(dmgCompute);
-                entityRef.Entity = result;
+                result.SetId(id);
                 var dmgSys = new DamageSystemImpl(result);
                 result.SetDamageSystem(dmgSys);
-                result.AddComponent(c);
-                result.AddComponent(entityRef);
-                result.DamageSystem.OnUnderAttack += (sender, e) =>
-                {
-                    Debug.Log($"啊啊啊啊啊啊!{e.source},{e.target},{e.damage}");
-                };
 
                 return result;
             });

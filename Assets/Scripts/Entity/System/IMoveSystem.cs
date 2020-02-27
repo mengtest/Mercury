@@ -1,4 +1,3 @@
-using System;
 using Prime31;
 using Unity.Mathematics;
 using UnityEngine;
@@ -22,15 +21,18 @@ namespace Mercury
         void Move(Vector2 distance);
     }
 
+    /// <summary>
+    /// TODO:多段跳
+    /// </summary>
     public class MoveSystemImpl : IMoveSystem
     {
         private readonly IMotionCompute _moveComp;
         private readonly CharacterController2D _cc2d;
 
-        public MoveSystemImpl(IMotionCompute moveComp, UnityObject<CharacterController2D> unityObject)
+        public MoveSystemImpl(IMotionCompute moveComp, CharacterController2D cc2d)
         {
             _moveComp = moveComp;
-            _cc2d = unityObject.Value;
+            _cc2d = cc2d;
         }
 
         public void OnUpdate()

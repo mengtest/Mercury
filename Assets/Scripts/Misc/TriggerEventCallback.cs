@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Mercury
 {
+    /// <summary>
+    /// 碰撞体事件回调
+    /// </summary>
     public class TriggerEventCallback : MonoBehaviour
     {
         public event Action<Collider2D> OnTriggerEnterEvent;

@@ -5,11 +5,12 @@ namespace Mercury
 {
     public class EntityAttackable : Entity, IUpdatable, ISystemOwner, IAttackable
     {
-        private readonly List<IUpdatable> _updatableSystem;
-        private readonly LinkedList<IEntitySystem> _systems;
+        private List<IUpdatable> _updatableSystem;
+        private LinkedList<IEntitySystem> _systems;
 
-        public EntityAttackable(AssetLocation id, EntityType type) : base(id, type)
+        protected override void Awake()
         {
+            base.Awake();
             _updatableSystem = new List<IUpdatable>();
             _systems = new LinkedList<IEntitySystem>();
         }

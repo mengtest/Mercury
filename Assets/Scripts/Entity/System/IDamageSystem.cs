@@ -4,8 +4,14 @@ namespace Mercury
 {
     public interface IDamageSystem : IEntitySystem, IUpdatable
     {
+        /// <summary>
+        /// 当攻击时触发
+        /// </summary>
         event EventHandler<EntityAttackEvent.Deal> OnDealDamage;
 
+        /// <summary>
+        /// 当被攻击时触发
+        /// </summary>
         event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
 
         /// <summary>

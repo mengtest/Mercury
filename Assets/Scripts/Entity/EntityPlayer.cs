@@ -7,18 +7,19 @@ namespace Mercury
     /// <summary>
     /// 玩家
     /// </summary>
-    public class EntityPlayer : Entity, IUpdatable, ISystemOwner, IAttackable, IMovable, ISkillOwner
+    public sealed class EntityPlayer : Entity, IUpdatable, ISystemOwner, IAttackable, IMovable, ISkillOwner
     {
-        private readonly Dictionary<Type, IEntitySystem> _system;
-        private readonly List<IUpdatable> _updatableSystem;
+        private Dictionary<Type, IEntitySystem> _system;
+        private List<IUpdatable> _updatableSystem;
 
-        public EntityPlayer(AssetLocation id) : base(id, EntityType.Player)
+        protected override void Awake()
         {
+            base.Awake();
             _system = new Dictionary<Type, IEntitySystem>();
             _updatableSystem = new List<IUpdatable>();
         }
 
-        public virtual void OnUpdate()
+        public void OnUpdate()
         {
             if (Input.GetKeyDown(KeyCode.A)) //TODO:按键回调
             {

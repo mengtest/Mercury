@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Mercury
 {
@@ -11,26 +12,21 @@ namespace Mercury
         Neutral = 10
     }
 
-    public abstract class Entity
+    public abstract class Entity : MonoBehaviour
     {
         /// <summary>
         /// 组件
         /// </summary>
-        private readonly Dictionary<string, IEntityComponent> _components;
+        private Dictionary<string, IEntityComponent> _components;
 
         /// <summary>
         /// 注册名
         /// </summary>
-        public AssetLocation RegisteredName { get; }
+        public AssetLocation Id { get; private set; }
 
-        public EntityType Type { get; }
+        public EntityType Type { get; set; }
 
-        protected Entity(AssetLocation id, EntityType type)
-        {
-            RegisteredName = id;
-            Type = type;
-            _components = new Dictionary<string, IEntityComponent>();
-        }
+        protected virtual void Awake() { _components = new Dictionary<string, IEntityComponent>(); }
 
         /// <summary>
         /// 获取一个实体组件
@@ -77,6 +73,13 @@ namespace Mercury
             {
                 throw new InvalidOperationException(message);
             }
+        }
+
+        public Entity SetId(AssetLocation id)
+        {
+            NonNullCheck(Id, $"不可重复设置id:{id}");
+            Id = id;
+            return this;
         }
     }
 }
