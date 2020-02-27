@@ -48,6 +48,8 @@ namespace Mercury
                 result.SetId(id);
                 var dmgSys = new DamageSystemImpl(result); //伤害系统
                 result.SetDamageSystem(dmgSys);
+                var keyCallback = new KeyboardCallbackSystem();
+                result.AddSystem(keyCallback);
                 var moonAtk = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2);
                 var moonAtkRng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2Rng);
                 var skillMAtk = new SkillGeneralAttack(Const.RaceterMoonAtk2, //实例化皎月1,TODO:替换特效
@@ -65,6 +67,7 @@ namespace Mercury
                     AttackSpeed = 2
                 };
                 skillSys.AddSkill(skillMAtk); //添加皎月1
+                keyCallback.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk2));
 
                 return result;
             });

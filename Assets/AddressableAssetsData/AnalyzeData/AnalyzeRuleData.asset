@@ -15,7 +15,55 @@ MonoBehaviour:
   m_RuleToResults:
   - RuleName: Build Bundle Layout
     Results:
-    - m_ResultName: No issues found
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/Prefabs/skill.raceter_moon_atk_2.prefab
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/Prefabs/skill.raceter_moon_atk_2_range.prefab
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/Prefabs/entity.raceter.prefab
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/Prefabs/entity.scarecrow.prefab
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Animations/anim_clip.skill_raceter_moon_atk_2.anim
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Shaders/linear_reduction.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Animations/skill.raceter_moon_atk_2.controller
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Materials/linear_reduction.mat
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/skill.raceter_moon_atk_2_pic.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/awesome.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/awesome.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/whatthefuck.png
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/whatthefuck.png
       m_Severity: 0
   - RuleName: Check Duplicate Bundle Dependencies
     Results:

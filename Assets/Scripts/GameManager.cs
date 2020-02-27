@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Mercury
 {
@@ -36,6 +37,7 @@ namespace Mercury
         protected override void Awake()
         {
             base.Awake();
+            gameObject.AddComponent<SaveLog>();
             EventBus = new EventSystem();
             Registries = new RegisterManager(this);
             EventBus.Init();

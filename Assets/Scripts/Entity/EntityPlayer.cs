@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Mercury
 {
@@ -21,11 +20,6 @@ namespace Mercury
 
         public void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.A)) //TODO:按键回调
-            {
-                SkillSystem.UseSkill(Const.RaceterMoonAtk2);
-            }
-
             foreach (var system in _updatableSystem)
             {
                 system.OnUpdate();
