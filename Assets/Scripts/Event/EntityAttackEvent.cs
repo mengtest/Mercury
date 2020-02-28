@@ -22,17 +22,11 @@ namespace Mercury
         /// </summary>
         public readonly Damage damage;
 
-        /// <summary>
-        /// 最终造成的伤害，可以被修改
-        /// </summary>
-        public Damage Result { get; set; }
-
         public EntityAttackEvent(IAttackable source, IAttackable target, Damage damage)
         {
             this.source = source;
             this.target = target;
             this.damage = damage;
-            Result = damage;
         }
 
         public class Attack : EntityAttackEvent

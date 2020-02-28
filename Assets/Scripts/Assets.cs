@@ -16,6 +16,10 @@ namespace Mercury
 
         public static readonly AssetEntry ScarecrowPrefab = new AssetEntry("entity", Const.Scarecrow);
 
+        public static readonly AssetEntry TextDamagePhysics = new AssetEntry("effect", Const.TextDamagePhy);
+        public static readonly AssetEntry TextDamageMagic = new AssetEntry("effect", Const.TextDamageMag);
+        public static readonly AssetEntry TextDamageTrue = new AssetEntry("effect", Const.TextDamageTru);
+
         public static void Init(RegisterManager manager)
         {
             manager.AddRegistry(Registry);
@@ -23,6 +27,9 @@ namespace Mercury
             Registry.Register(ScarecrowPrefab);
             Registry.Register(RaceterMoonAtk2);
             Registry.Register(RaceterMoonAtk2Rng);
+            Registry.Register(TextDamagePhysics);
+            Registry.Register(TextDamageMagic);
+            Registry.Register(TextDamageTrue);
         }
     }
 }

@@ -35,6 +35,24 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: a1b92fb39003c6346b240bd149828ef7
+    m_Address: mercury.effect.dmg_text_phy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: c447fa0f45fefc64da07fb093da49d8a
+    m_Address: mercury.effect.dmg_text_tru
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: dcdcd540aca353a4cb8943c88d7be01f
+    m_Address: mercury.effect.dmg_text_mag
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: ff523f040fe15644e8961b971338aa66
     m_Address: mercury.entity.scarecrow
     m_ReadOnly: 0

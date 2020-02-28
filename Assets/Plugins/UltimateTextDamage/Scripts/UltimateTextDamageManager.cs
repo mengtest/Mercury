@@ -44,11 +44,11 @@ namespace Guirao.UltimateTextDamage
             m_instancesInScreen = new Dictionary<Transform , List<UITextDamage>>( );
             m_dTextTypes = new Dictionary<string , List<UITextDamage>>( );
 
-            // Initialize all text types with a pool
-            foreach( TextDamageType text in textTypes )
-            {
-                Initialize( text );
-            }
+            // // Initialize all text types with a pool
+            // foreach( TextDamageType text in textTypes )
+            // {
+            //     Initialize( text );
+            // }
 
             for( int i = 0 ; i < kTempObjectsCount ; i++ )
             {
@@ -56,6 +56,18 @@ namespace Guirao.UltimateTextDamage
                 gTemp.hideFlags = HideFlags.HideInHierarchy;
                 gTemp.SetActive( false );
                 m_tempObjects.Add( gTemp );
+            }
+        }
+
+        /// <summary>
+        /// 手动初始化
+        /// </summary>
+        public void Init()
+        {
+            // 手动初始化
+            foreach(var text in textTypes)
+            {
+                Initialize( text );
             }
         }
 

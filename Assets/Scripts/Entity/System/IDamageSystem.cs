@@ -7,12 +7,12 @@ namespace Mercury
         /// <summary>
         /// 当攻击时触发
         /// </summary>
-        event EventHandler<EntityAttackEvent.Attack> OnDealDamage;
+        event ReturnableEvent<EntityAttackEvent.Attack, Damage> OnAttack;
 
         /// <summary>
         /// 当被攻击时触发
         /// </summary>
-        event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
+        event ReturnableEvent<EntityAttackEvent.UnderAttack, Damage> OnUnderAttack;
 
         /// <summary>
         /// 计算伤害
@@ -42,27 +42,27 @@ namespace Mercury
         private readonly IDamageCompute _compute;
         private readonly IAttackable _owner;
 
-        public event EventHandler<EntityAttackEvent.Attack> OnDealDamage;
-        public event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
+        public event ReturnableEvent<EntityAttackEvent.Attack, Damage> OnAttack;
+        public event ReturnableEvent<EntityAttackEvent.UnderAttack, Damage> OnUnderAttack;
 
         public DamageSystemImpl(IAttackable owner)
         {
             _owner = owner;
             _compute = _owner.DamageCompute;
-            _owner.Health = Misc.AddData(_compute.MaxHealth);
+            _owner.Health = Misc.AddDataChange(_compute.MaxHealth);
         }
 
         public Damage CalculateDamage(float coe, DamageType type)
         {
-            var pr = Misc.AddData(_compute.CritPr);
+            var pr = Misc.AddDataChange(_compute.CritPr);
             var dmg = _compute.GetDamage(coe, type);
-            var ex = _compute.GetExtraDamage(dmg, type);
+            var ex = _compute.GetExtraDamageIncome(dmg, type);
             var realDmg = dmg + ex;
             var rand = new Unity.Mathematics.Random((uint) DateTime.Now.Ticks);
             var critDmg = 0f;
             if (rand.NextFloat() < pr)
             {
-                critDmg = _compute.GetCritDamage(realDmg);
+                critDmg = _compute.GetExtraCritDamage(realDmg);
             }
 
             return new Damage(_owner, realDmg, critDmg, type);
@@ -70,24 +70,37 @@ namespace Mercury
 
         public Damage Attack(Damage damage, IAttackable target)
         {
+            if (OnAttack == null)
+            {
+                return damage;
+            }
+
             var atkEvent = new EntityAttackEvent.Attack(_owner, target, damage);
-            OnDealDamage?.Invoke(this, atkEvent);
-            return atkEvent.Result;
+            return OnAttack(this, atkEvent);
         }
 
         public void UnderAttack(Damage damage)
         {
-            var atkedEvent = new EntityAttackEvent.UnderAttack(damage.source, _owner, damage);
-            OnUnderAttack?.Invoke(this, atkedEvent);
-            _owner.Health -= atkedEvent.Result.FinalDamage;
+            float result;
+            if (OnUnderAttack == null)
+            {
+                result = damage.FinalDamage;
+            }
+            else
+            {
+                var atkedEvent = new EntityAttackEvent.UnderAttack(damage.source, _owner, damage);
+                result = OnUnderAttack(this, atkedEvent).FinalDamage;
+            }
+
+            _owner.Health -= result;
             //TODO:死亡应该是个函数,且发布死亡事件
         }
 
         public void OnUpdate()
         {
             var nowHealth = _owner.Health;
-            var maxHealth = Misc.AddData(_compute.MaxHealth);
-            var tryHeal = nowHealth + Misc.DataChangePreTick(nowHealth, Misc.AddData(_compute.HealthRecover));
+            var maxHealth = Misc.AddDataChange(_compute.MaxHealth);
+            var tryHeal = nowHealth + Misc.DataChangePreTick(nowHealth, Misc.AddDataChange(_compute.HealthRecover));
             _owner.Health = tryHeal > maxHealth ? maxHealth : tryHeal;
         }
     }

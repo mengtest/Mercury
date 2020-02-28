@@ -3,7 +3,7 @@ namespace Mercury
     /// <summary>
     /// 伤害数据
     /// </summary>
-    public struct Damage
+    public class Damage
     {
         /// <summary>
         /// 伤害类型
@@ -24,7 +24,7 @@ namespace Mercury
         /// 暴击伤害量，0则本次攻击未暴击
         /// </summary>
         public float ExtraCritValue { get; set; }
-        
+
         /// <summary>
         /// 最终伤害量，等于伤害量+暴击伤害量
         /// </summary>
@@ -32,10 +32,10 @@ namespace Mercury
 
         public Damage(IAttackable source, float value, float extraCritValue, DamageType type)
         {
-            this.Value = value;
+            Value = value;
             this.type = type;
             this.source = source;
-            this.ExtraCritValue = extraCritValue;
+            ExtraCritValue = extraCritValue;
         }
     }
 }

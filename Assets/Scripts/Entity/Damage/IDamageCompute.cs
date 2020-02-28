@@ -71,17 +71,19 @@ namespace Mercury
         float GetDamage(float coe, DamageType type);
 
         /// <summary>
-        /// 获取增益后额外伤害
+        /// 获取增益后额外伤害 额外伤害 额外伤害。
+        /// 强调三遍，是额外伤害
         /// </summary>
         /// <param name="rawDamage">伤害系数</param>
         /// <param name="type">伤害类型</param>
-        float GetExtraDamage(float rawDamage, DamageType type);
+        float GetExtraDamageIncome(float rawDamage, DamageType type);
 
         /// <summary>
-        /// 获取暴击的额外伤害
+        /// 获取暴击的额外伤害 额外伤害 额外伤害。
+        /// 强调三遍，是额外伤害
         /// </summary>
         /// <param name="damage">未暴击时伤害</param>
-        float GetCritDamage(float damage);
+        float GetExtraCritDamage(float damage);
     }
 
     public class DamageComputeImpl : IDamageCompute
@@ -111,7 +113,7 @@ namespace Mercury
         public DataChange<float> HealthRecover => new DataChange<float>(_damage.healthRecover, _data[9].Cache);
         public void AddHealthRecover(float value) => _data[9].AddData(value);
         public bool RemoveHealthRecover(float value) => _data[9].RemoveData(value);
-        public DataChange<float> CritCoe => new DataChange<float>(_damage.critPrCoe, _data[5].Cache);
+        public DataChange<float> CritCoe => new DataChange<float>(_damage.critCoe, _data[5].Cache + 1f);
         public void AddCritCoe(float value) => _data[5].AddData(value);
         public bool RemoveCritCoe(float value) => _data[5].RemoveData(value);
         public DataChange<float> CritPr => new DataChange<float>(Misc.RecoverCritPr(_damage.critPrCoe), Misc.RecoverCritPr(_data[6].Cache) + _data[7].Cache);
@@ -155,17 +157,17 @@ namespace Mercury
             return _data[(int) type].RemoveData(value);
         }
 
-        public float GetDamageIncome(DamageType type) => _data[(int) type + 2].Cache;
+        public float GetDamageIncome(DamageType type) => _data[(int) type + 2].Cache + 1;
         public void AddDamageIncome(float value, DamageType type) => _data[(int) type + 2].AddData(value);
         public bool RemoveDamageIncome(float value, DamageType type) => _data[(int) type + 2].RemoveData(value);
 
         public float GetDamage(float coe, DamageType type)
         {
-            var atk = Misc.AddData(GetAttack(type));
+            var atk = Misc.AddDataChange(GetAttack(type));
             return coe * 0.01f * atk;
         }
 
-        public float GetExtraDamage(float rawDamage, DamageType type)
+        public float GetExtraDamageIncome(float rawDamage, DamageType type)
         {
             var result = rawDamage * GetDamageIncome(type);
             if (type != DamageType.True)
@@ -173,9 +175,9 @@ namespace Mercury
                 result *= GetDamageIncome(DamageType.True);
             }
 
-            return result;
+            return result - rawDamage;
         }
 
-        public float GetCritDamage(float damage) => damage * Misc.AddData(CritCoe);
+        public float GetExtraCritDamage(float damage) => damage * Misc.MultiDataChange(CritCoe) - damage;
     }
 }

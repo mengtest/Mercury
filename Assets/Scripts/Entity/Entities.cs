@@ -92,6 +92,12 @@ namespace Mercury
                 result.SetId(id);
                 var dmgSys = new DamageSystemImpl(result);
                 result.SetDamageSystem(dmgSys);
+                dmgSys.OnUnderAttack += (o, attack) =>
+                {
+                    var dmg = attack.damage;
+                    WorldData.ShowDamageText(dmg.FinalDamage.ToString(), dmg.type.ToString(), result.transform);
+                    return dmg;
+                };
 
                 return result;
             });

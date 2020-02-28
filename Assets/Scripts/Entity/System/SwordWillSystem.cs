@@ -114,18 +114,18 @@ namespace Mercury
         public SwordWillSystem(IDamageSystem system, IDamageCompute compute)
         {
             _compute = compute;
-            system.OnDealDamage += OnAttack;
+            system.OnAttack += OnAttack;
             _shouldGetWillTime = Time.time + RecycleStateIncreaseWillInterval;
         }
 
         /// <summary>
         /// 攻击敌人时触发
         /// </summary>
-        private void OnAttack(object sender, EntityAttackEvent.Attack attack)
+        private Damage OnAttack(object sender, EntityAttackEvent.Attack attack)
         {
             if (_isRecycling) //处于回收状态时什么都不做
             {
-                return;
+                return attack.damage;
             }
 
             var now = Time.time;
@@ -135,18 +135,17 @@ namespace Mercury
                 Will = WillIncreasePerAttack; //增加剑意
                 RefreshCritPr(Will * CritPrPerWill); //刷新暴击率
                 _shouldReduceWillTime = now + AfterAttackLoseWillTime + DrawStateLoseWillInterval; //刷新剑意减少开始时间
+                return attack.damage;
             }
-            else
-            {
-                if (Will >= MaxWill) //到达最大剑意
-                {
-                    var dmg = attack.damage;
-                    dmg.ExtraCritValue = _compute.GetCritDamage(dmg.Value); //计算暴击，直接赋值
-                    attack.Result = dmg; //设置最终伤害
-                }
 
-                DrawSword(); //拔刀
+            var dmg = attack.damage;
+            if (Will >= MaxWill) //到达最大剑意
+            {
+                dmg.ExtraCritValue = _compute.GetExtraCritDamage(dmg.Value); //计算暴击，直接赋值
             }
+
+            DrawSword(); //拔刀
+            return dmg;
         }
 
         public void OnUpdate()
@@ -232,23 +231,41 @@ namespace Mercury
 
         private void RefreshCritPr(float newCritPr)
         {
+            if (math.abs(_lastAddCritPrInc - newCritPr) < 0.0000001f)
+            {
+                return;
+            }
+
             if (math.abs(_lastAddCritPrInc) > 0.0000001f)
             {
                 _compute.RemoveCritPr(_lastAddCritPrInc, CritPrType.Percentage);
             }
 
-            _compute.AddCritPr(newCritPr, CritPrType.Percentage);
+            if (math.abs(newCritPr) > 0.0000001f)
+            {
+                _compute.AddCritPr(newCritPr, CritPrType.Percentage);
+            }
+
             _lastAddCritPrInc = newCritPr;
         }
 
         private void RefreshDmg(float newDmg)
         {
-            if (math.abs(_lastAddCritPrInc) > 0.0000001f)
+            if (math.abs(_lastAddDmg - newDmg) < 0.0000001f)
+            {
+                return;
+            }
+
+            if (math.abs(_lastAddDmg) > 0.0000001f)
             {
                 _compute.RemoveDamageIncome(_lastAddDmg, DamageType.Physics);
             }
 
-            _compute.AddDamageIncome(newDmg, DamageType.Physics);
+            if (math.abs(newDmg) > 0.0000001f)
+            {
+                _compute.AddDamageIncome(newDmg, DamageType.Physics);
+            }
+
             _lastAddDmg = newDmg;
         }
     }

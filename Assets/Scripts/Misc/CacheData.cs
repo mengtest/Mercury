@@ -12,7 +12,11 @@ namespace Mercury
         /// </summary>
         protected readonly ICollection<T> dataContainer;
 
-        protected CacheData(ICollection<T> dataContainer) { this.dataContainer = dataContainer; }
+        protected CacheData(ICollection<T> dataContainer)
+        {
+            this.dataContainer = dataContainer;
+            DataChange();
+        }
 
         /// <summary>
         /// 缓存

@@ -64,7 +64,7 @@ namespace Guirao.UltimateTextDamage
         /// <param name="transform">transform in world space where the text will be positioned</param>
         public void Show( string text , Transform transform )
         {
-            if( UsedLabel != null )
+            if( UsedLabel )
             {
                 UsedLabel.text = text;
             }
@@ -124,10 +124,11 @@ namespace Guirao.UltimateTextDamage
 
                 transform.position = uiWorldPos + Vector3.up * Offset;
 
-                if( autoFaceCameraWorldSpace && Cam != null )
+                if( autoFaceCameraWorldSpace && Cam )
                 {
-                    Vector3 dir = Cam.transform.position - transform.position;
-                    transform.rotation = Quaternion.LookRotation( dir.normalized  , Cam.transform.up );
+                    var transCam = Cam.transform;
+                    Vector3 dir = transCam.position - transform.position;
+                    transform.rotation = Quaternion.LookRotation( dir.normalized  , transCam.up );
                 }
                 else
                 {
@@ -143,7 +144,7 @@ namespace Guirao.UltimateTextDamage
                     uiWorldPos = initialPosition;
                 }
 
-                if( Cam != null )
+                if( Cam )
                 {
                     Vector2 screenPoint;
                     screenPoint = Cam.WorldToScreenPoint( uiWorldPos );

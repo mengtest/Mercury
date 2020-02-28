@@ -66,11 +66,11 @@ namespace Mercury
                 normalizedHorizontalSpeed = 0;
             }
 
-            var moveAdd = Misc.AddData(moveCompute.MoveSpeed);
-            var jumpAdd = Misc.AddData(moveCompute.JumpSpeed);
-            var gravityAdd = Misc.AddData(moveCompute.Gravity);
-            var gdAdd = Misc.AddData(moveCompute.GroundDamping);
-            var adAdd = Misc.AddData(moveCompute.AirDamping);
+            var moveAdd = Misc.AddDataChange(moveCompute.MoveSpeed);
+            var jumpAdd = Misc.AddDataChange(moveCompute.JumpSpeed);
+            var gravityAdd = Misc.AddDataChange(moveCompute.Gravity);
+            var gdAdd = Misc.AddDataChange(moveCompute.GroundDamping);
+            var adAdd = Misc.AddDataChange(moveCompute.AirDamping);
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 // if (_moveCapability.TryJump())
