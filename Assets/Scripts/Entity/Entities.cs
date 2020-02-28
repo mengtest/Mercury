@@ -21,7 +21,7 @@ namespace Mercury
                 var cc2d = go.GetComponent<CharacterController2D>(); //获取角色控制器
                 var motionData = new MotionData //运动数据
                 {
-                    moveSpeed = 2,
+                    moveSpeed = 3.2f,
                     jumpSpeed = 1.5f,
                     groundDamping = 20f,
                     airDamping = 5f,
@@ -67,7 +67,10 @@ namespace Mercury
                     AttackSpeed = 2
                 };
                 skillSys.AddSkill(skillMAtk); //添加皎月1
+                var swordWillSys = new SwordWillSystem(dmgSys, dmgCompute); //剑意
+                result.AddSystem(swordWillSys);
                 keyCallback.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk2));
+                keyCallback.AddCallback(KeyCode.Tab, 0, () => swordWillSys.StartRecycleSword()); //设置收刀的按键
 
                 return result;
             });

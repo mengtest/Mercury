@@ -39,6 +39,10 @@ namespace Mercury
         /// </summary>
         DataChange<float> CritPr { get; }
 
+        void AddCritPr(float value, CritPrType type);
+
+        bool RemoveCritPr(float value, CritPrType type);
+
         /// <summary>
         /// 攻击力
         /// </summary>
@@ -111,6 +115,8 @@ namespace Mercury
         public void AddCritCoe(float value) => _data[5].AddData(value);
         public bool RemoveCritCoe(float value) => _data[5].RemoveData(value);
         public DataChange<float> CritPr => new DataChange<float>(Misc.RecoverCritPr(_damage.critPrCoe), Misc.RecoverCritPr(_data[6].Cache) + _data[7].Cache);
+        public void AddCritPr(float value, CritPrType type) => _data[(int) type + 6].AddData(value);
+        public bool RemoveCritPr(float value, CritPrType type) { return _data[(int) type + 6].RemoveData(value); }
 
         public DataChange<float> GetAttack(DamageType type)
         {

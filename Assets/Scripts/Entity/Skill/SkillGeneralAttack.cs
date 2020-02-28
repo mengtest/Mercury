@@ -180,7 +180,7 @@ namespace Mercury
             }
 
             var dmg = _userAtkSys.DamageSystem.CalculateDamage(DamageCoe, DamageType); //计算伤害
-            dmg = _userAtkSys.DamageSystem.DealDamage(dmg, atk); //攻击
+            dmg = _userAtkSys.DamageSystem.Attack(dmg, atk); //攻击
             atk.DamageSystem.UnderAttack(dmg); //被攻击
             var effect = GetEffect();
             effect.target = c.transform; //设置特效跟随目标

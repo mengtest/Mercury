@@ -35,9 +35,9 @@ namespace Mercury
             Result = damage;
         }
 
-        public class Deal : EntityAttackEvent
+        public class Attack : EntityAttackEvent
         {
-            public Deal(IAttackable source, IAttackable target, Damage damage) : base(source, target, damage) { }
+            public Attack(IAttackable source, IAttackable target, Damage damage) : base(source, target, damage) { }
         }
 
         public class UnderAttack : EntityAttackEvent

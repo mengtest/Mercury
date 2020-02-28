@@ -20,9 +20,9 @@ namespace Mercury
             _fileName = $"{Application.dataPath}/../Logs/Unitylog.txt";
 #else
             _fileName = Application.persistentDataPath + "/Unitylog.txt";
+            Application.logMessageReceivedThreaded += OnReceiveLogMsg;
 #endif
             LogToFile("\n-------Version of the runtime: " + Application.unityVersion + "-------");
-            Application.logMessageReceivedThreaded += OnReceiveLogMsg;
             _queue = new ConcurrentQueue<string>();
         }
 

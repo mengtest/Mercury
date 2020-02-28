@@ -7,7 +7,7 @@ namespace Mercury
         /// <summary>
         /// 当攻击时触发
         /// </summary>
-        event EventHandler<EntityAttackEvent.Deal> OnDealDamage;
+        event EventHandler<EntityAttackEvent.Attack> OnDealDamage;
 
         /// <summary>
         /// 当被攻击时触发
@@ -28,7 +28,7 @@ namespace Mercury
         /// <param name="damage">将要造成的伤害</param>
         /// <param name="target">目标</param>
         /// <returns>最终打出的伤害</returns>
-        Damage DealDamage(Damage damage, IAttackable target);
+        Damage Attack(Damage damage, IAttackable target);
 
         /// <summary>
         /// 当被攻击时调用
@@ -42,7 +42,7 @@ namespace Mercury
         private readonly IDamageCompute _compute;
         private readonly IAttackable _owner;
 
-        public event EventHandler<EntityAttackEvent.Deal> OnDealDamage;
+        public event EventHandler<EntityAttackEvent.Attack> OnDealDamage;
         public event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
 
         public DamageSystemImpl(IAttackable owner)
@@ -68,9 +68,9 @@ namespace Mercury
             return new Damage(_owner, realDmg, critDmg, type);
         }
 
-        public Damage DealDamage(Damage damage, IAttackable target)
+        public Damage Attack(Damage damage, IAttackable target)
         {
-            var atkEvent = new EntityAttackEvent.Deal(_owner, target, damage);
+            var atkEvent = new EntityAttackEvent.Attack(_owner, target, damage);
             OnDealDamage?.Invoke(this, atkEvent);
             return atkEvent.Result;
         }
