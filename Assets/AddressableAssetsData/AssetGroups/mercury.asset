@@ -53,6 +53,11 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: f54d1bd14bd3ca042bd867b519fee8cc
+    m_Address: Assets/TextMesh Pro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: 
   - m_GUID: ff523f040fe15644e8961b971338aa66
     m_Address: mercury.entity.scarecrow
     m_ReadOnly: 0

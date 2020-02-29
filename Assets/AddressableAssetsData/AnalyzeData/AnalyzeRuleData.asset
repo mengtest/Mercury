@@ -29,6 +29,79 @@ MonoBehaviour:
       m_Severity: 0
     - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/Prefabs/entity.scarecrow.prefab
       m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Documentation/TextMesh
+        Pro User Guide 2016.pdf
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Fonts/LiberationSans
+        - OFL.txt
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/LineBreaking
+        Following Characters.txt
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/LineBreaking
+        Leading Characters.txt
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/TMP
+        Settings.asset
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Drop Shadow.mat
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Fallback.asset
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF - Outline.mat
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Fonts
+        & Materials/LiberationSans SDF.asset
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMPro.cginc
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMPro_Properties.cginc
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMPro_Surface.cginc
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Custom-Atlas.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Mobile.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_Bitmap.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF
+        Overlay.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile
+        Masking.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile
+        Overlay.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface-Mobile.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_SDF.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Shaders/TMP_Sprite.shader
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Sprite
+        Assets/EmojiOne.asset
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Resources/Style
+        Sheets/Default Style Sheet.asset
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Sprites/EmojiOne
+        Attribution.txt
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Sprites/EmojiOne.json
+      m_Severity: 0
+    - m_ResultName: mercury_assets_all.bundle:Explicit:Assets/TextMesh Pro/Sprites/EmojiOne.png
+      m_Severity: 0
     - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Animations/anim_clip.skill_raceter_moon_atk_2.anim
       m_Severity: 0
     - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Shaders/linear_reduction.shader
@@ -67,35 +140,9 @@ MonoBehaviour:
       m_Severity: 0
     - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/awesome.png
       m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts/LiberationSans.ttf
-      m_Severity: 0
     - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Animations/dmg_biu.controller
       m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts &
-        Materials/LiberationSans SDF.asset
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts &
-        Materials/LiberationSans SDF.asset
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts &
-        Materials/LiberationSans SDF.asset
-      m_Severity: 0
     - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Animations/anim_clip.dmg_biu.anim
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts &
-        Materials/LiberationSans SDF - Fallback.asset
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts &
-        Materials/LiberationSans SDF - Fallback.asset
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Fonts &
-        Materials/LiberationSans SDF - Fallback.asset
-      m_Severity: 0
-    - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
       m_Severity: 0
     - m_ResultName: mercury_assets_all.bundle:Implicit:Assets/Textures/whatthefuck.png
       m_Severity: 0
