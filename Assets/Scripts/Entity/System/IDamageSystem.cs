@@ -7,12 +7,12 @@ namespace Mercury
         /// <summary>
         /// 当攻击时触发
         /// </summary>
-        event ReturnableEvent<EntityAttackEvent.Attack, Damage> OnAttack;
+        event EventHandler<EntityAttackEvent.Attack> OnAttack;
 
         /// <summary>
         /// 当被攻击时触发
         /// </summary>
-        event ReturnableEvent<EntityAttackEvent.UnderAttack, Damage> OnUnderAttack;
+        event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
 
         /// <summary>
         /// 计算伤害
@@ -42,8 +42,8 @@ namespace Mercury
         private readonly IDamageCompute _compute;
         private readonly IAttackable _owner;
 
-        public event ReturnableEvent<EntityAttackEvent.Attack, Damage> OnAttack;
-        public event ReturnableEvent<EntityAttackEvent.UnderAttack, Damage> OnUnderAttack;
+        public event EventHandler<EntityAttackEvent.Attack> OnAttack;
+        public event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
 
         public DamageSystemImpl(IAttackable owner)
         {
@@ -76,7 +76,8 @@ namespace Mercury
             }
 
             var atkEvent = new EntityAttackEvent.Attack(_owner, target, damage);
-            return OnAttack(this, atkEvent);
+            OnAttack(this, atkEvent);
+            return atkEvent.Result;
         }
 
         public void UnderAttack(Damage damage)
@@ -88,8 +89,9 @@ namespace Mercury
             }
             else
             {
-                var atkedEvent = new EntityAttackEvent.UnderAttack(damage.source, _owner, damage);
-                result = OnUnderAttack(this, atkedEvent).FinalDamage;
+                var e = new EntityAttackEvent.UnderAttack(damage.source, _owner, damage);
+                OnUnderAttack(this, e);
+                result = e.Result.FinalDamage;
             }
 
             _owner.Health -= result;

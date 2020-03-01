@@ -58,7 +58,7 @@ namespace Mercury
             return null;
         }
 
-        public EntityPlayer SetDamageData(DamageData damageData)
+        public EntityPlayer SetDamageData(DamageData damageData) //TODO:扩展方法
         {
             NonNullCheck(DamageRawData, "不可重复添加伤害数据组件");
             DamageRawData = damageData;

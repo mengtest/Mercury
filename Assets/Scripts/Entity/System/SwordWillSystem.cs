@@ -121,11 +121,11 @@ namespace Mercury
         /// <summary>
         /// 攻击敌人时触发
         /// </summary>
-        private Damage OnAttack(object sender, EntityAttackEvent.Attack attack)
+        private void OnAttack(object sender, EntityAttackEvent.Attack attack)
         {
             if (_isRecycling) //处于回收状态时什么都不做
             {
-                return attack.damage;
+                return;
             }
 
             var now = Time.time;
@@ -135,7 +135,7 @@ namespace Mercury
                 Will = WillIncreasePerAttack; //增加剑意
                 RefreshCritPr(Will * CritPrPerWill); //刷新暴击率
                 _shouldReduceWillTime = now + AfterAttackLoseWillTime + DrawStateLoseWillInterval; //刷新剑意减少开始时间
-                return attack.damage;
+                return;
             }
 
             var dmg = attack.damage;
@@ -145,7 +145,7 @@ namespace Mercury
             }
 
             DrawSword(); //拔刀
-            return dmg;
+            attack.Result = dmg; //修改伤害
         }
 
         public void OnUpdate()

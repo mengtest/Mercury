@@ -31,12 +31,22 @@ namespace Mercury
 
         public class Attack : EntityAttackEvent
         {
-            public Attack(IAttackable source, IAttackable target, Damage damage) : base(source, target, damage) { }
+            /// <summary>
+            /// 最终造成的伤害，可被委托修改
+            /// </summary>
+            public Damage Result { get; set; }
+
+            public Attack(IAttackable source, IAttackable target, Damage damage) : base(source, target, damage) { Result = damage; }
         }
 
         public class UnderAttack : EntityAttackEvent
         {
-            public UnderAttack(IAttackable source, IAttackable target, Damage damage) : base(source, target, damage) { }
+            /// <summary>
+            /// 最终造成的伤害，可被委托修改
+            /// </summary>
+            public Damage Result { get; set; }
+
+            public UnderAttack(IAttackable source, IAttackable target, Damage damage) : base(source, target, damage) { Result = damage; }
         }
     }
 }

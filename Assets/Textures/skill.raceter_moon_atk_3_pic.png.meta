@@ -1,12 +1,11 @@
 fileFormatVersion: 2
-guid: e3a65bb819e910e41b933f429c635d0c
+guid: 363db3a0829313443aca751390ff2b05
 TextureImporter:
   fileIDToRecycleName:
-    21300000: skill.raceter_moon_atk_2_pic_0
-    21300002: skill.raceter_moon_atk_2_pic_1
-    21300004: skill.raceter_moon_atk_2_pic_2
-    21300006: skill.raceter_moon_atk_2_pic_3
-    21300008: skill.raceter_moon_atk_2_pic_4
+    21300000: skill.raceter_moon_atk_3_pic_0
+    21300002: skill.raceter_moon_atk_3_pic_1
+    21300004: skill.raceter_moon_atk_3_pic_2
+    21300006: skill.raceter_moon_atk_3_pic_3
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -54,7 +53,7 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
@@ -89,13 +88,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_2_pic_0
+      name: skill.raceter_moon_atk_3_pic_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 706.6666
-        width: 690
-        height: 353.33334
+        y: 410
+        width: 724
+        height: 410
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -103,19 +102,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca611d3ab36a6f740b4535d97336a90d
+      spriteID: 8c5ec728b27c46846a7de8f52ec63f8e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_2_pic_1
+      name: skill.raceter_moon_atk_3_pic_1
       rect:
         serializedVersion: 2
-        x: 690
-        y: 706.6666
-        width: 690
-        height: 353.33334
+        x: 724
+        y: 410
+        width: 724
+        height: 410
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -123,59 +122,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31254ab867b289942ac1feb5ee51f98d
+      spriteID: f212ea7cf15d5b545a5cde362e29755f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: skill.raceter_moon_atk_2_pic_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 353.66666
-        width: 690
-        height: 353.33334
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6070f30034c5c56409066a6596fec7ad
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skill.raceter_moon_atk_2_pic_3
-      rect:
-        serializedVersion: 2
-        x: 690
-        y: 353.66666
-        width: 690
-        height: 353.33334
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1b19f56bd8d664a4686ec561b776b3c7
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skill.raceter_moon_atk_2_pic_4
+      name: skill.raceter_moon_atk_3_pic_2
       rect:
         serializedVersion: 2
         x: 0
-        y: 0.6666565
-        width: 690
-        height: 353.33334
+        y: 0
+        width: 724
+        height: 410
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,7 +142,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e360835f0dd921c47a6c931a0c783633
+      spriteID: b913fbae7e0a5d945bfb2c989617c043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill.raceter_moon_atk_3_pic_3
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 0
+        width: 724
+        height: 410
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 426485010fd345844b32ef2cddbf2be4
       vertices: []
       indices: 
       edges: []
@@ -191,7 +170,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: db93efeb6f9510d4bab97cd04f16291f
+    spriteID: a6a13866993eb6e429398237ccd65f6f
     vertices: []
     indices: 
     edges: []

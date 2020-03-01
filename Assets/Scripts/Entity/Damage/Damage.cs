@@ -3,7 +3,7 @@ namespace Mercury
     /// <summary>
     /// 伤害数据
     /// </summary>
-    public class Damage
+    public struct Damage
     {
         /// <summary>
         /// 伤害类型

@@ -9,6 +9,12 @@ namespace Mercury
     /// </summary>
     public interface ISkillSystem : IEntitySystem, IUpdatable
     {
+        event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill;
+
+        event EventHandler<EntitySkillEvent.Using> OnUsingSkill;
+
+        event EventHandler<EntitySkillEvent.PostUse> OnPostUseSkill;
+
         /// <summary>
         /// 正在使用的技能，可能为null。如果是null则没有使用中技能
         /// </summary>
@@ -28,7 +34,7 @@ namespace Mercury
         bool UseSkill(AssetLocation id);
     }
 
-    public class SkillSystemImpl : ISkillSystem
+    public class SkillSystemImpl : ISkillSystem //TODO:修复前摇时输入其他技能会出问题
     {
         /// <summary>
         /// 有限状态机
@@ -43,7 +49,7 @@ namespace Mercury
         /// <summary>
         /// 后摇状态
         /// </summary>
-        private readonly WaitState _postUse;
+        private readonly PostUseSkillState _postUse;
 
         /// <summary>
         /// 使用技能中状态
@@ -55,7 +61,11 @@ namespace Mercury
         /// </summary>
         private readonly Dictionary<AssetLocation, ISkill> _skills;
 
-        public ISkill UsingSkill { get => _using.UsingSkill; private set => _using.UsingSkill = value; }
+        public event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill { add => _using.OnPreUseSkill += value; remove => _using.OnPreUseSkill -= value; }
+        public event EventHandler<EntitySkillEvent.Using> OnUsingSkill { add => _using.OnUsingSkill += value; remove => _using.OnUsingSkill -= value; }
+        public event EventHandler<EntitySkillEvent.PostUse> OnPostUseSkill { add => _postUse.OnPostUseSkill += value; remove => _postUse.OnPostUseSkill -= value; }
+
+        public ISkill UsingSkill { get => _using.UsingSkill; internal set => _using.UsingSkill = value; }
 
         public SkillSystemImpl()
         {
@@ -63,7 +73,7 @@ namespace Mercury
             var normal = new NormalState("normal", _system); //普通状态
             _preUse = new WaitState("preUse", _system);
             _using = new UseSkillState("using", _system);
-            _postUse = new WaitState("postUse", _system);
+            _postUse = new PostUseSkillState("postUse", _system, this);
             //添加一条过渡链，过渡原因是：有需要使用的技能了
             _system.AddTransition(normal, _preUse, _ => UsingSkill != null);
             //过渡原因：前摇时间结束

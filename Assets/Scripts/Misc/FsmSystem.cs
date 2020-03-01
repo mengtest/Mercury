@@ -83,7 +83,7 @@ namespace Mercury
             var info = new TransitionInfo(last, next, reason);
             last.NextStates.Add(info);
         }
-        
+
         /// <summary>
         /// 检查，执行过渡
         /// </summary>
@@ -111,6 +111,37 @@ namespace Mercury
                 }
 
                 CurrentState.OnLeave();
+                CurrentState = info.next;
+                CurrentState.OnEnter();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool PerformTransition(Action<IFsmState> onStateLeave)
+        {
+            var list = CurrentState.NextStates;
+            foreach (var info in list)
+            {
+                if (info.last != CurrentState)
+                {
+                    throw new InvalidOperationException("过渡映射错误");
+                }
+
+                if (info.reason == null)
+                {
+                    Debug.LogError($"永远也不会进入的过渡{info}");
+                    continue;
+                }
+
+                if (!info.reason(info))
+                {
+                    continue;
+                }
+
+                CurrentState.OnLeave();
+                onStateLeave(CurrentState);
                 CurrentState = info.next;
                 CurrentState.OnEnter();
                 return true;

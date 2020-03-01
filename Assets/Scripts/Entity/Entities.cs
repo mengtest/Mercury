@@ -16,6 +16,7 @@ namespace Mercury
         public static readonly EntityEntry Raceter = new EntityEntry(Const.Raceter,
             id =>
             {
+                /*开始基础、系统、数据的组装*/
                 var prefab = GameManager.Instance.Assets.GetPrefab("entity", id); //获取实体的预制体
                 var go = Object.Instantiate(prefab); //实例化
                 var cc2d = go.GetComponent<CharacterController2D>(); //获取角色控制器
@@ -50,28 +51,73 @@ namespace Mercury
                 result.SetDamageSystem(dmgSys);
                 var keyCallback = new KeyboardCallbackSystem();
                 result.AddSystem(keyCallback);
-                var moonAtk = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2);
-                var moonAtkRng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2Rng);
-                var skillMAtk = new SkillGeneralAttack(Const.RaceterMoonAtk2, //实例化皎月1,TODO:替换特效
+                /*结束基础系统、数据的组装*/
+                /*开始额外系统的组装*/
+                var swordWillSys = new SwordWillSystem(dmgSys, dmgCompute); //剑意
+                result.AddSystem(swordWillSys);
+                /*结束额外系统的组装*/
+                /*开始技能的组装*/
+                //所有技能所需资源的获取
+                var moonAtkAtked = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtkAtked);
+                var moonAtk1Rng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk1);
+                var moonAtk2Rng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk2);
+                var moonAtk3Rng = GameManager.Instance.Assets.GetPrefab("skill", Const.RaceterMoonAtk3);
+
+                var skMoonAtk1 = new SkillGeneralAttack(Const.RaceterMoonAtk1, //皎月1
                     result,
                     result,
                     cc2d.gameObject,
-                    moonAtkRng,
-                    moonAtk)
+                    Object.Instantiate(moonAtk1Rng),
+                    moonAtkAtked)
                 {
                     PerUseTime = 0,
                     PostUseTime = 0.5f,
-                    AttackRangeOffset = 1f,
                     DamageCoe = 75,
                     DamageType = DamageType.Physics,
-                    AttackSpeed = 2
+                    AttackTime = 0.6f,
+                    AttackSpeed = 1
                 };
-                skillSys.AddSkill(skillMAtk); //添加皎月1
-                var swordWillSys = new SwordWillSystem(dmgSys, dmgCompute); //剑意
-                result.AddSystem(swordWillSys);
-                keyCallback.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk2));
-                keyCallback.AddCallback(KeyCode.Tab, 0, () => swordWillSys.StartRecycleSword()); //设置收刀的按键
+                skillSys.AddSkill(skMoonAtk1);
 
+                var moonAtk2 = new SkillMultiAttack(Const.RaceterMoonAtk2, //皎月2
+                    result,
+                    result,
+                    cc2d.gameObject,
+                    Object.Instantiate(moonAtk2Rng),
+                    moonAtkAtked)
+                {
+                    PerUseTime = 0,
+                    PostUseTime = 0f,
+                    AttackRangeOffset = 0f,
+                    DamageCoe = 65,
+                    DamageType = DamageType.Physics,
+                    AttackSpeed = 1,
+                    AttackCount = 2,
+                    AttackInterval = 0.15f
+                };
+                skillSys.AddSkill(moonAtk2);
+
+                var skMoonAtk3 = new SkillGeneralAttack(Const.RaceterMoonAtk3, //皎月1
+                    result,
+                    result,
+                    cc2d.gameObject,
+                    Object.Instantiate(moonAtk3Rng),
+                    moonAtkAtked)
+                {
+                    PerUseTime = 0,
+                    PostUseTime = 0.5f,
+                    AttackRangeOffset = new Vector2(-0.25f, 0.5f),
+                    DamageCoe = 155,
+                    DamageType = DamageType.Physics,
+                    AttackTime = 0.4f
+                };
+                skillSys.AddSkill(skMoonAtk3);
+
+                keyCallback.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk1));
+                keyCallback.AddCallback(KeyCode.S, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk2));
+                keyCallback.AddCallback(KeyCode.D, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk3));
+                keyCallback.AddCallback(KeyCode.Tab, 0, () => swordWillSys.StartRecycleSword()); //设置收刀的按键
+                /*结束技能的组装*/
                 return result;
             });
 
@@ -96,7 +142,6 @@ namespace Mercury
                 {
                     var dmg = attack.damage;
                     WorldData.ShowDamageText(dmg.FinalDamage.ToString(), dmg.type.ToString(), result.transform);
-                    return dmg;
                 };
 
                 return result;

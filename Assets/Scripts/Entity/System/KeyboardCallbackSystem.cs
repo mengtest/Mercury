@@ -9,7 +9,7 @@ namespace Mercury
     /// </summary>
     public class KeyboardCallbackSystem : IEntitySystem, IUpdatable
     {
-        private List<(KeyCode, Action)>[] _callbacks;
+        private List<(KeyCode, Action)>[] _callbacks;//TODO：过于zz的结构
 
         public KeyboardCallbackSystem()
         {

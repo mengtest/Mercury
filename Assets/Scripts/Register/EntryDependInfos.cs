@@ -17,8 +17,10 @@ namespace Mercury
         public static readonly EntryDependInfo Raceter = new EntryDependInfo(Const.Raceter,
             new EntryLocation("entity", Const.Raceter),
             new EntryLocation("asset", Const.Raceter),
+            new EntryLocation("asset", Const.RaceterMoonAtkAtked),
+            new EntryLocation("asset", Const.RaceterMoonAtk1),
             new EntryLocation("asset", Const.RaceterMoonAtk2),
-            new EntryLocation("asset", Const.RaceterMoonAtk2Rng));
+            new EntryLocation("asset", Const.RaceterMoonAtk3));
 
         public static readonly EntryDependInfo Scarecrow = new EntryDependInfo(Const.Scarecrow,
             new EntryLocation("entity", Const.Scarecrow),

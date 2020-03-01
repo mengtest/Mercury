@@ -122,8 +122,7 @@ namespace Guirao.UltimateTextDamage
             if( text == null )
                 return null;
 
-            GameObject g = Instantiate( text.prefab.gameObject ) as GameObject;
-            g.transform.SetParent( transform );
+            GameObject g = Instantiate( text.prefab.gameObject, transform, true);
             g.transform.localPosition = Vector3.zero;
             g.transform.localRotation = Quaternion.identity;
             g.transform.localScale = Vector3.one;

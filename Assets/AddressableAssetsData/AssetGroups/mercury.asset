@@ -17,20 +17,26 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: f3404f9bb73c42349905c884c93ec65d
   m_SerializeEntries:
-  - m_GUID: 8efaf49bc41cf0641901415a894dd0ac
+  - m_GUID: 139ab039a8748b4418b33b390a9d04de
     m_Address: mercury.skill.raceter_moon_atk_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  - m_GUID: 93579f3a3c76863429585004034304b1
-    m_Address: mercury.skill.raceter_moon_atk_2_rng
+  - m_GUID: 8efaf49bc41cf0641901415a894dd0ac
+    m_Address: mercury.skill.raceter_moon_atk_attacked
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 93809d92788975948b75bc7e5369123b
     m_Address: mercury.entity.raceter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 9961ee728c689104788b4a3770ecca63
+    m_Address: mercury.skill.raceter_moon_atk_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -43,6 +49,12 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   - m_GUID: c447fa0f45fefc64da07fb093da49d8a
     m_Address: mercury.effect.dmg_text_tru
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: d1b40338357d8bd4e9ba44b15f4f931d
+    m_Address: mercury.skill.raceter_moon_atk_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,

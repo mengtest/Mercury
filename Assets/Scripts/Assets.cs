@@ -11,8 +11,10 @@ namespace Mercury
         public static readonly IRegistry<AssetEntry> Registry = new RegistryImpl<AssetEntry>("asset");
 
         public static readonly AssetEntry RaceterPrefab = new AssetEntry("entity", Const.Raceter);
-        public static readonly AssetEntry RaceterMoonAtk2 = new AssetEntry("skill", Const.RaceterMoonAtk2); //TODO:封装成skill注册表
-        public static readonly AssetEntry RaceterMoonAtk2Rng = new AssetEntry("skill", Const.RaceterMoonAtk2Rng);
+        public static readonly AssetEntry RaceterMoonAtkAtked = new AssetEntry("skill", Const.RaceterMoonAtkAtked);
+        public static readonly AssetEntry RaceterMoonAtk1Eff = new AssetEntry("skill", Const.RaceterMoonAtk1);
+        public static readonly AssetEntry RaceterMoonAtk2Eff = new AssetEntry("skill", Const.RaceterMoonAtk2);
+        public static readonly AssetEntry RaceterMoonAtk3Eff = new AssetEntry("skill", Const.RaceterMoonAtk3);
 
         public static readonly AssetEntry ScarecrowPrefab = new AssetEntry("entity", Const.Scarecrow);
 
@@ -25,8 +27,12 @@ namespace Mercury
             manager.AddRegistry(Registry);
             Registry.Register(RaceterPrefab);
             Registry.Register(ScarecrowPrefab);
-            Registry.Register(RaceterMoonAtk2);
-            Registry.Register(RaceterMoonAtk2Rng);
+            
+            Registry.Register(RaceterMoonAtkAtked);
+            Registry.Register(RaceterMoonAtk1Eff);
+            Registry.Register(RaceterMoonAtk2Eff);
+            Registry.Register(RaceterMoonAtk3Eff);
+            
             Registry.Register(TextDamagePhysics);
             Registry.Register(TextDamageMagic);
             Registry.Register(TextDamageTrue);

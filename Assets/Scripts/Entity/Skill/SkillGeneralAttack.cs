@@ -20,7 +20,7 @@ namespace Mercury
         private readonly IAttackable _userAtkSys;
 
         /// <summary>
-        /// 攻击范围
+        /// 攻击范围实例
         /// </summary>
         private readonly GameObject _atkRng;
 
@@ -62,10 +62,15 @@ namespace Mercury
         /// <summary>
         /// 攻击范围偏移量
         /// </summary>
-        public float AttackRangeOffset { get; set; }
+        public Vector2 AttackRangeOffset { get; set; }
 
         /// <summary>
-        /// 攻速，值越大攻速越快
+        /// 攻击时间
+        /// </summary>
+        public float AttackTime { get; set; } = 1;
+
+        /// <summary>
+        /// 攻速，会修改攻击时间和动画速度
         /// </summary>
         public float AttackSpeed { get; set; } = 1;
 
@@ -93,7 +98,7 @@ namespace Mercury
         /// <param name="skillUser">使用该技能的对象</param>
         /// <param name="attackable">使用该技能造成伤害的对象</param>
         /// <param name="userGo">使用者的GameObject</param>
-        /// <param name="atkRange">攻击范围的预制体，注意，是预制体</param>
+        /// <param name="atkRange">攻击范围的预制体，注意，是实例</param>
         /// <param name="effectPrefab">特效预制体，注意，是预制体</param>
         public SkillGeneralAttack(
             AssetLocation id,
@@ -107,7 +112,13 @@ namespace Mercury
             _skillUser = skillUser;
             _userAtkSys = attackable;
             _userGo = userGo;
-            _atkRng = Object.Instantiate(atkRange);
+            _atkRng = atkRange;
+            var effcb = atkRange.GetComponent<EffectCallback>();
+            if (effcb)
+            {
+                effcb.EventA += () => _atkRng.SetActive(false); //隐藏攻击范围
+            }
+
             _atkRng.SetActive(false);
             var cb = _atkRng.AddComponent<TriggerEventCallback>();
             cb.OnTriggerEnterEvent += OnAtkRngTriggerAttackable;
@@ -126,8 +137,13 @@ namespace Mercury
         public void OnPreUse()
         {
             IsDone = false; //重置是否使用完毕
-            _usingEndTime = Time.time + 1f / AttackSpeed; //计算技能使用完毕的时间
+            _usingEndTime = Time.time + AttackTime / AttackSpeed; //计算技能使用完毕的时间
             _atkRng.SetActive(true); //显示攻击范围
+            var anim = _atkRng.GetComponent<Animator>(); //TODO:缓存?
+            if (anim)
+            {
+                anim.speed = AttackSpeed;
+            }
         }
 
         public void OnUsing()
@@ -136,7 +152,7 @@ namespace Mercury
             var pos = trans.position;
             var scale = trans.localScale;
             var face = scale.x > 0 ? 1 : -1; //检查玩家面对的方向
-            _atkRng.transform.position = new Vector3(pos.x + AttackRangeOffset * face, pos.y, pos.z);
+            _atkRng.transform.position = new Vector3(pos.x + AttackRangeOffset.x * face, pos.y + AttackRangeOffset.y, pos.z);
             var rngScale = _atkRng.transform.localScale;
             _atkRng.transform.localScale = new Vector3(math.abs(rngScale.x) * face, rngScale.y, rngScale.z);
             if (_usingEndTime <= Time.time) //检查技能是否使用完毕
@@ -164,6 +180,11 @@ namespace Mercury
             }
 
             var entity = c.GetComponent<Entity>();
+            if (entity == _skillUser as Entity)
+            {
+                return;
+            }
+
             if (!AttackableType.HasFlag(entity.Type)) //是可以被攻击的实体
             {
                 return;
