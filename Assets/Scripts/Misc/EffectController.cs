@@ -66,7 +66,7 @@ public class EffectController
     /// 使用完的特效使用该函数可以存到缓存内，等下次使用的时候再次拿出来。
     /// </summary>
     /// <param name="obj">要储存的特效的GameObject</param>
-    public void AddEffectToQueu(GameObject obj)
+    public void AddEffectToQueue(GameObject obj)
     {
         _effectList[FindElemnet(obj)]._queue.Enqueue(obj);
     }
