@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Mercury
 {
+    /// <summary>
+    /// 多段伤害技能
+    /// </summary>
     public class SkillMultiAttack : MonoBehaviour, ISkill
     {
         /// <summary>
@@ -19,11 +22,13 @@ namespace Mercury
         /// <summary>
         /// 造成伤害特效的预制体
         /// </summary>
+        [SerializeField] [Header("特效预制体.不可赋值,不可修改")]
         private GameObject _effectPrefab;
 
         /// <summary>
         /// 技能使用者的GameObject
         /// </summary>
+        [SerializeField] [Header("技能使用者的GameObject.不可赋值，不可修改")]
         private GameObject _userGo;
 
         /// <summary>
@@ -33,22 +38,81 @@ namespace Mercury
 
         private List<AtkInfo> _attacked;
 
+        /// <summary>
+        /// cd结束时间
+        /// </summary>
         private float _cdEndTime; //TODO:封装成工具
+
+        /// <summary>
+        /// 本次攻击会造成的伤害
+        /// </summary>
         private Damage _dmg;
+
+        /// <summary>
+        /// 唯一id
+        /// </summary>
         private AssetLocation _id;
-        public bool isDone;
+
         private Animator _anim;
 
-        public float perUseTime;
-        public float postUseTime;
-        public float cd;
-        public float attackSpeed = 1;
-        public Vector2 attackRangeOffset;
+        /// <summary>
+        /// 技能是否施放完毕
+        /// </summary>
+        [Header("技能是否施放完毕.不可修改")] public bool isDone;
+
+        /// <summary>
+        /// 前摇时间，单位：秒
+        /// </summary>
+        [Header("前摇时间，单位：秒")] public float perUseTime;
+
+        /// <summary>
+        /// 后摇时间，单位：秒
+        /// </summary>
+        [Header("后摇时间，单位：秒")] public float postUseTime;
+
+        /// <summary>
+        /// 冷却时间
+        /// </summary>
+        [Header("冷却时间")] public float cd;
+
+        /// <summary>
+        /// 攻速，会修改动画速度
+        /// </summary>
+        [Header("攻速，会修改动画速度")] public float attackSpeed = 1;
+
+        /// <summary>
+        /// 攻击范围偏移量
+        /// </summary>
+        [Header("攻击范围偏移量")] public Vector2 attackRangeOffset;
+
+        /// <summary>
+        /// 可攻击的实体类型
+        /// </summary>
+#if UNITY_EDITOR
+        [MultiEnum]
+#endif
+        [Header("可攻击的实体类型")]
         public EntityType attackableType = EntityType.Enemy | EntityType.Neutral;
-        public int attackCount;
-        public float attackInterval;
-        public float damageCoe;
-        public DamageType damageType;
+
+        /// <summary>
+        /// 最多可攻击次数
+        /// </summary>
+        [Header("最多可攻击次数")] public int attackCount;
+
+        /// <summary>
+        /// 最小攻击间隔
+        /// </summary>
+        [Header("最多可攻击次数")] public float attackInterval;
+
+        /// <summary>
+        /// 伤害系数
+        /// </summary>
+        [Header("伤害系数")] public float damageCoe;
+
+        /// <summary>
+        /// 伤害类型
+        /// </summary>
+        [Header("伤害类型")] public DamageType damageType;
 
         AssetLocation ISkill.Id => _id;
         bool ISkill.IsDone => isDone;

@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Mercury
 {
+    /// <summary>
+    /// 可攻击的实体
+    /// </summary>
     public class EntityAttackable : Entity, ISystemOwner, IAttackable
     {
         public float health;

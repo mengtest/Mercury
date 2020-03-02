@@ -41,7 +41,7 @@ namespace Mercury
         /// <summary>
         /// 剑意
         /// </summary>
-        [SerializeField] private int _will;
+        [SerializeField] [Header("剑意")] private int _will;
 
         /// <summary>
         /// 是否正在收剑
@@ -54,49 +54,51 @@ namespace Mercury
         private float _completeRecycleTime;
 
         /// <summary>
+        /// 最大剑意
+        /// </summary>
+        [Header("最大剑意")] public int maxWill = 100;
+
+        /// <summary>
         /// true是拔刀，false是收刀
         /// </summary>
-        public bool swordState;
+        [Header("true是拔刀，false是收刀")] public bool swordState;
 
         /// <summary>
         /// 拔刀时的暴击率收益，单位：暴击率/剑意
         /// </summary>
-        public float critPrPerWill = 0.001f;
-
-        /// <summary>
-        /// 收刀时伤害收益，单位：收益/剑意
-        /// </summary>
-        public float damageIncomePerWill = 0.005f;
-
-        /// <summary>
-        /// 收刀时，恢复剑意的时间间隔，单位：秒
-        /// </summary>
-        public float recycleStateIncreaseWillInterval = 1;
+        [Header("拔刀时的暴击率收益，单位：暴击率/剑意")] public float critPrPerWill = 0.001f;
 
         /// <summary>
         /// 拔刀时，n秒内未再次攻击敌人，会损失剑意的时间，单位：秒
         /// </summary>
+        [Header("拔刀时，n秒内未再次攻击敌人，会损失剑意的时间，单位：秒")]
         public float afterAttackLoseWillTime = 1;
 
         /// <summary>
         /// 拔刀状态，n秒内未再次攻击敌人，会损失剑意的时间间隔，单位：秒
         /// </summary>
+        [Header("拔刀状态，n秒内未再次攻击敌人，会损失剑意的时间间隔，单位：秒")]
         public float drawStateLoseWillInterval = 0.5f;
-
-        /// <summary>
-        /// 最大剑意
-        /// </summary>
-        public int maxWill = 100;
-
-        /// <summary>
-        /// 收刀所需时间
-        /// </summary>
-        public float recycleSwordTime = 1;
-
+        
         /// <summary>
         /// 拔刀时，每次攻击增加的剑意
         /// </summary>
-        public int willIncreasePerAttack = 2;
+        [Header("拔刀时，每次攻击增加的剑意")] public int willIncreasePerAttack = 2;
+        
+        /// <summary>
+        /// 收刀所需时间
+        /// </summary>
+        [Header("收刀所需时间")] public float recycleSwordTime = 1;
+        
+        /// <summary>
+        /// 收刀时伤害收益，单位：收益/剑意
+        /// </summary>
+        [Header("收刀时伤害收益，单位：收益/剑意")] public float damageIncomePerWill = 0.005f;
+
+        /// <summary>
+        /// 收刀时，恢复剑意的时间间隔，单位：秒
+        /// </summary>
+        [Header("收刀时，恢复剑意的时间间隔，单位：秒")] public float recycleStateIncreaseWillInterval = 1;
 
         /// <summary>
         /// 剑意

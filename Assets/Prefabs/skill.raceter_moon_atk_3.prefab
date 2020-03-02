@@ -149,4 +149,4 @@ MonoBehaviour:
   damageCoe: 155
   damageType: 0
   cd: 0
-  attackableType: 11
+  attackableType: 6

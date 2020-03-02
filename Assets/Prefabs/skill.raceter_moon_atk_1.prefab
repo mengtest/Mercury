@@ -139,13 +139,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153b43112015462b86e9940985a3ee10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectPrefab: {fileID: 0}
+  _userGo: {fileID: 0}
   perUseTime: 0
   postUseTime: 2
   isDone: 0
   attackRangeOffset: {x: 0, y: 0}
-  attackTime: 1
   attackSpeed: 1
   damageCoe: 75
   damageType: 0
   cd: 0
-  attackableType: 10
+  attackableType: 6

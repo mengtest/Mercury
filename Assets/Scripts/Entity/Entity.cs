@@ -11,6 +11,9 @@ namespace Mercury
         Neutral = 10
     }
 
+    /// <summary>
+    /// 实体基类
+    /// </summary>
     public abstract class Entity : MonoBehaviour
     {
         public AssetLocation Id { get; set; }

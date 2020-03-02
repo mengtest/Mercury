@@ -1,5 +1,8 @@
 namespace Mercury
 {
+    /// <summary>
+    /// 前摇状态
+    /// </summary>
     public class PreSkillState : WaitState
     {
         private readonly SkillSystemImpl _impl;

@@ -162,6 +162,10 @@ namespace Mercury
             CurrentState = state;
         }
 
+        /// <summary>
+        /// 手动切换状态，没有任何检查。你应该知道你在做什么
+        /// </summary>
+        /// <param name="next">下一个状态</param>
         public void SwitchState(IFsmState next)
         {
             CurrentState.OnLeave();

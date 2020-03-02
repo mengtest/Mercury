@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace Mercury
 {
+    /// <summary>
+    /// 正在使用技能状态
+    /// </summary>
     public class UsingSkillState : FsmStateImpl
     {
         private readonly SkillSystemImpl _impl;

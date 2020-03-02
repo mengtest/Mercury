@@ -9,10 +9,19 @@ namespace Mercury
     /// </summary>
     public interface ISkillSystem : IEntitySystem
     {
+        /// <summary>
+        /// 进入前摇时触发
+        /// </summary>
         event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill;
 
+        /// <summary>
+        /// 技能释放时触发
+        /// </summary>
         event EventHandler<EntitySkillEvent.Using> OnUsingSkill;
 
+        /// <summary>
+        /// 后摇结束时触发
+        /// </summary>
         event EventHandler<EntitySkillEvent.PostUse> OnPostUseSkill;
 
         /// <summary>
@@ -40,15 +49,23 @@ namespace Mercury
     {
         public SkillState nowState;
 
+        /// <summary>
+        /// 所有技能容器
+        /// </summary>
         private Dictionary<AssetLocation, ISkill> _skills;
+
+        /// <summary>
+        /// 状态机
+        /// </summary>
         private FsmSystem _system;
+
         private NormalState _normalState;
         private PreSkillState _preState;
         private UsingSkillState _using;
         private PostSkillState _postState;
 
         public ISkill UsingSkill { get; private set; }
-        public SkillState NowState => nowState;
+        SkillState ISkillSystem.NowState => nowState;
 
         public event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill;
         public event EventHandler<EntitySkillEvent.Using> OnUsingSkill;

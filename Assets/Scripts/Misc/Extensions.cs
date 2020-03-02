@@ -5,6 +5,9 @@ namespace Mercury
 {
     public static class Extensions
     {
+        /// <summary>
+        /// 设置id
+        /// </summary>
         public static T SetId<T>(this T entity, [NotNull] AssetLocation id) where T : Entity
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
@@ -13,6 +16,9 @@ namespace Mercury
             return entity;
         }
 
+        /// <summary>
+        /// 设置伤害数据
+        /// </summary>
         public static T SetDamageData<T>(this T entity, [NotNull] DamageData damageData) where T : Entity, IAttackable
         {
             if (damageData == null) throw new ArgumentNullException(nameof(damageData));
@@ -21,6 +27,9 @@ namespace Mercury
             return entity;
         }
 
+        /// <summary>
+        /// 设置伤害计算器
+        /// </summary>
         public static T SetDamageCompute<T>(this T entity, [NotNull] IDamageCompute damageCompute) where T : Entity, IAttackable
         {
             if (damageCompute == null) throw new ArgumentNullException(nameof(damageCompute));
@@ -29,6 +38,9 @@ namespace Mercury
             return entity;
         }
 
+        /// <summary>
+        /// 设置伤害系统
+        /// </summary>
         public static T SetDamageSystem<T>(this T entity, [NotNull] IDamageSystem damageSystem) where T : Entity, IAttackable
         {
             if (damageSystem == null) throw new ArgumentNullException(nameof(damageSystem));
@@ -37,6 +49,9 @@ namespace Mercury
             return entity;
         }
 
+        /// <summary>
+        /// 设置运动数据
+        /// </summary>
         public static T SetMotionData<T>(this T entity, [NotNull] MotionData motionData) where T : Entity, IMovable
         {
             if (motionData == null) throw new ArgumentNullException(nameof(motionData));
@@ -45,6 +60,9 @@ namespace Mercury
             return entity;
         }
 
+        /// <summary>
+        /// 设置运动计算器
+        /// </summary>
         public static T SetMotionCompute<T>(this T entity, [NotNull] IMotionCompute motionCompute) where T : Entity, IMovable
         {
             if (motionCompute == null) throw new ArgumentNullException(nameof(motionCompute));
@@ -53,6 +71,9 @@ namespace Mercury
             return entity;
         }
 
+        /// <summary>
+        /// 设置运动系统
+        /// </summary>
         public static T SetMotionSystem<T>(this T entity, [NotNull] IMoveSystem moveSystem) where T : Entity, IMovable
         {
             if (moveSystem == null) throw new ArgumentNullException(nameof(moveSystem));
@@ -61,6 +82,9 @@ namespace Mercury
             return entity;
         }
 
+        /// <summary>
+        /// 设置技能系统
+        /// </summary>
         public static T SetSkillSystem<T>(this T entity, [NotNull] ISkillSystem skillSystem) where T : Entity, ISkillOwner
         {
             if (skillSystem == null) throw new ArgumentNullException(nameof(skillSystem));

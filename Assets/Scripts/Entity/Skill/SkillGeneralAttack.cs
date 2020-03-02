@@ -20,14 +20,16 @@ namespace Mercury
         private IAttackable _userAtkSys;
 
         /// <summary>
-        /// 造成伤害特效的预制体
+        /// 特效预制体
         /// </summary>
-        [SerializeField] private GameObject _effectPrefab;
+        [SerializeField] [Header("特效预制体.不可赋值,不可修改")]
+        private GameObject _effectPrefab;
 
         /// <summary>
         /// 技能使用者的GameObject
         /// </summary>
-        [SerializeField] private GameObject _userGo;
+        [SerializeField] [Header("技能使用者的GameObject.不可赋值，不可修改")]
+        private GameObject _userGo;
 
         /// <summary>
         /// 动画组件
@@ -49,35 +51,53 @@ namespace Mercury
         /// </summary>
         private float _cdEndTime;
 
-        public float perUseTime;
-        public float postUseTime;
-        public bool isDone;
+        /// <summary>
+        /// 前摇时间，单位：秒
+        /// </summary>
+        [Header("前摇时间，单位：秒")] public float perUseTime;
+
+        /// <summary>
+        /// 后摇时间，单位：秒
+        /// </summary>
+        [Header("后摇时间，单位：秒")] public float postUseTime;
+
+        /// <summary>
+        /// 技能是否施放完毕
+        /// </summary>
+        [Header("技能是否施放完毕.不可修改")] public bool isDone;
 
         /// <summary>
         /// 攻击范围偏移量
         /// </summary>
-        public Vector2 attackRangeOffset;
+        [Header("攻击范围偏移量")] public Vector2 attackRangeOffset;
 
         /// <summary>
-        /// 攻速，会修改攻击时间和动画速度
+        /// 攻速，会修改动画速度
         /// </summary>
-        public float attackSpeed = 1;
+        [Header("攻速，会修改动画速度")] public float attackSpeed = 1;
 
         /// <summary>
         /// 伤害系数
         /// </summary>
-        public float damageCoe;
+        [Header("伤害系数")] public float damageCoe;
 
         /// <summary>
         /// 伤害类型
         /// </summary>
-        public DamageType damageType;
+        [Header("伤害类型")] public DamageType damageType;
 
-        public float cd;
+        /// <summary>
+        /// 冷却时间
+        /// </summary>
+        [Header("冷却时间")] public float cd;
 
         /// <summary>
         /// 可攻击的实体类型
         /// </summary>
+#if UNITY_EDITOR
+        [MultiEnum]
+#endif
+        [Header("可攻击的实体类型")]
         public EntityType attackableType = EntityType.Enemy | EntityType.Neutral;
 
         public AssetLocation Id { get; private set; }

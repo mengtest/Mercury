@@ -6,6 +6,7 @@ namespace Mercury
     /// <summary>
     /// 特效回调
     /// </summary>
+    [Obsolete("不应该再使用了")]
     public class EffectCallback : MonoBehaviour
     {
         /// <summary>
