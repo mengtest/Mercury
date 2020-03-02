@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6866469119045278012}
   - component: {fileID: 6866469119045278015}
   - component: {fileID: 5752461655610135656}
-  - component: {fileID: 6396755464809184707}
+  - component: {fileID: 1833533334780058460}
   m_Layer: 0
   m_Name: skill.raceter_moon_atk_1
   m_TagString: Untagged
@@ -127,7 +127,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.82, y: 2.68}
   m_EdgeRadius: 0
---- !u!114 &6396755464809184707
+--- !u!114 &1833533334780058460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,6 +136,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6866469119045278014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aece079607a41ddbfdfdaa32cf9a452, type: 3}
+  m_Script: {fileID: 11500000, guid: 153b43112015462b86e9940985a3ee10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  perUseTime: 0
+  postUseTime: 2
+  isDone: 0
+  attackRangeOffset: {x: 0, y: 0}
+  attackTime: 1
+  attackSpeed: 1
+  damageCoe: 75
+  damageType: 0
+  cd: 0
+  attackableType: 10

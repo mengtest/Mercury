@@ -8,6 +8,6 @@ namespace Mercury
         /// <summary>
         /// 技能系统
         /// </summary>
-        ISkillSystem SkillSystem { get; }
+        ISkillSystem SkillSystem { get; set; }
     }
 }

@@ -5,6 +5,5 @@ namespace Mercury
     /// </summary>
     public interface IEntityComponent
     {
-        string Id { get; }
     }
 }

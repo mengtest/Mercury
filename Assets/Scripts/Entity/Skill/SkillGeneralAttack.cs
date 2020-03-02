@@ -7,125 +7,113 @@ namespace Mercury
     /// <summary>
     /// 平A
     /// </summary>
-    public class SkillGeneralAttack : ISkill
+    public class SkillGeneralAttack : MonoBehaviour, ISkill
     {
         /// <summary>
         /// 技能使用者
         /// </summary>
-        private readonly ISkillOwner _skillUser;
+        private ISkillOwner _skillUser;
 
         /// <summary>
         /// 技能使用者的攻击系统
         /// </summary>
-        private readonly IAttackable _userAtkSys;
-
-        /// <summary>
-        /// 攻击范围实例
-        /// </summary>
-        private readonly GameObject _atkRng;
+        private IAttackable _userAtkSys;
 
         /// <summary>
         /// 造成伤害特效的预制体
         /// </summary>
-        private readonly GameObject _effectPrefab;
+        [SerializeField] private GameObject _effectPrefab;
 
         /// <summary>
         /// 技能使用者的GameObject
         /// </summary>
-        private readonly GameObject _userGo;
+        [SerializeField] private GameObject _userGo;
+
+        /// <summary>
+        /// 动画组件
+        /// </summary>
+        private Animator _anim;
 
         /// <summary>
         /// 储存已经攻击过的敌人
         /// </summary>
-        private readonly List<Collider2D> _attacked;
+        private List<Collider2D> _attacked;
 
         /// <summary>
         /// 特效缓存池
         /// </summary>
-        private readonly Queue<FollowTargetEffectCallback> _effectPool;
-
-        /// <summary>
-        /// 技能使用结束时间，和攻速有关
-        /// </summary>
-        private float _usingEndTime;
+        private Queue<FollowTargetEffectCallback> _effectPool;
 
         /// <summary>
         /// Cd结束时间
         /// </summary>
         private float _cdEndTime;
 
-        public AssetLocation Id { get; }
-        public float PerUseTime { get; set; }
-        public float PostUseTime { get; set; }
-        public bool IsDone { get; private set; }
+        public float perUseTime;
+        public float postUseTime;
+        public bool isDone;
 
         /// <summary>
         /// 攻击范围偏移量
         /// </summary>
-        public Vector2 AttackRangeOffset { get; set; }
-
-        /// <summary>
-        /// 攻击时间
-        /// </summary>
-        public float AttackTime { get; set; } = 1;
+        public Vector2 attackRangeOffset;
 
         /// <summary>
         /// 攻速，会修改攻击时间和动画速度
         /// </summary>
-        public float AttackSpeed { get; set; } = 1;
+        public float attackSpeed = 1;
 
         /// <summary>
         /// 伤害系数
         /// </summary>
-        public float DamageCoe { get; set; }
+        public float damageCoe;
 
         /// <summary>
         /// 伤害类型
         /// </summary>
-        public DamageType DamageType { get; set; }
+        public DamageType damageType;
 
-        public float Cd { get; set; }
+        public float cd;
 
         /// <summary>
         /// 可攻击的实体类型
         /// </summary>
-        public EntityType AttackableType { get; } = EntityType.Enemy | EntityType.Neutral;
+        public EntityType attackableType = EntityType.Enemy | EntityType.Neutral;
+
+        public AssetLocation Id { get; private set; }
+        bool ISkill.IsDone => isDone;
+        float ISkill.PerUseTime => perUseTime;
+        float ISkill.PostUseTime => postUseTime;
+
+        private void OnTriggerEnter2D(Collider2D other) { OnAtkRngTriggerAttackable(other); }
+
+        private void OnTriggerStay2D(Collider2D other) { OnAtkRngTriggerAttackable(other); }
 
         /// <summary>
-        /// 实例化对象
+        /// 实例化对象时初始化
         /// </summary>
         /// <param name="id">临时id</param>
         /// <param name="skillUser">使用该技能的对象</param>
         /// <param name="attackable">使用该技能造成伤害的对象</param>
         /// <param name="userGo">使用者的GameObject</param>
-        /// <param name="atkRange">攻击范围的预制体，注意，是实例</param>
         /// <param name="effectPrefab">特效预制体，注意，是预制体</param>
-        public SkillGeneralAttack(
+        public SkillGeneralAttack Init(
             AssetLocation id,
             ISkillOwner skillUser,
             IAttackable attackable,
             GameObject userGo,
-            GameObject atkRange,
             GameObject effectPrefab)
         {
             Id = id;
             _skillUser = skillUser;
             _userAtkSys = attackable;
             _userGo = userGo;
-            _atkRng = atkRange;
-            var effcb = atkRange.GetComponent<EffectCallback>();
-            if (effcb)
-            {
-                effcb.EventA += () => _atkRng.SetActive(false); //隐藏攻击范围
-            }
-
-            _atkRng.SetActive(false);
-            var cb = _atkRng.AddComponent<TriggerEventCallback>();
-            cb.OnTriggerEnterEvent += OnAtkRngTriggerAttackable;
-            cb.OnTriggerStayEvent += OnAtkRngTriggerAttackable;
             _effectPrefab = effectPrefab;
             _attacked = new List<Collider2D>(4);
             _effectPool = new Queue<FollowTargetEffectCallback>();
+            _anim = GetComponent<Animator>();
+            gameObject.SetActive(false);
+            return this;
         }
 
         public bool CanUse()
@@ -135,47 +123,42 @@ namespace Mercury
                 return false;
             }
 
-            Debug.Log(_skillUser.SkillSystem.NowState);
             if (_skillUser.SkillSystem.NowState == SkillState.Post)
             {
                 return true;
             }
 
-            return _skillUser.SkillSystem.UsingSkill == null;
+            return _skillUser.SkillSystem.NowState == SkillState.Normal;
         }
 
         public void OnPreUse()
         {
-            IsDone = false; //重置是否使用完毕
-            _usingEndTime = Time.time + AttackTime / AttackSpeed; //计算技能使用完毕的时间
-            _atkRng.SetActive(true); //显示攻击范围
-            var anim = _atkRng.GetComponent<Animator>(); //TODO:缓存?
-            if (anim)
-            {
-                anim.speed = AttackSpeed;
-            }
+            isDone = false; //重置是否使用完毕
+            gameObject.SetActive(true); //显示攻击范围
+            _anim.speed = attackSpeed;
+            OnUpdate();
         }
 
-        public void OnUsing()
+        public void OnUsing() { OnUpdate(); }
+
+        private void OnUpdate()
         {
             var trans = _userGo.transform;
             var pos = trans.position;
             var scale = trans.localScale;
             var face = scale.x > 0 ? 1 : -1; //检查玩家面对的方向
-            _atkRng.transform.position = new Vector3(pos.x + AttackRangeOffset.x * face, pos.y + AttackRangeOffset.y, pos.z);
-            var rngScale = _atkRng.transform.localScale;
-            _atkRng.transform.localScale = new Vector3(math.abs(rngScale.x) * face, rngScale.y, rngScale.z);
-            if (_usingEndTime <= Time.time) //检查技能是否使用完毕
-            {
-                IsDone = true; //使用完毕
-            }
+            var thisTrans = transform;
+            thisTrans.position = new Vector3(pos.x + attackRangeOffset.x * face, pos.y + attackRangeOffset.y, pos.z);
+            var rngScale = thisTrans.localScale;
+            transform.localScale = new Vector3(math.abs(rngScale.x) * face, rngScale.y, rngScale.z);
         }
 
         public void OnPostUse()
         {
-            _atkRng.SetActive(false); //隐藏攻击范围
+            gameObject.SetActive(false); //隐藏攻击范围
             _attacked.Clear(); //清空已经被攻击的实体列表
-            _cdEndTime = Time.time + Cd; //计算cd到期时间
+            _cdEndTime = Time.time + cd; //计算cd到期时间
+            isDone = false;
         }
 
         /// <summary>
@@ -195,7 +178,7 @@ namespace Mercury
                 return;
             }
 
-            if (!AttackableType.HasFlag(entity.Type)) //是可以被攻击的实体
+            if (!attackableType.HasFlag(entity.Type)) //是可以被攻击的实体
             {
                 return;
             }
@@ -210,7 +193,7 @@ namespace Mercury
                 return;
             }
 
-            var dmg = _userAtkSys.DamageSystem.CalculateDamage(DamageCoe, DamageType); //计算伤害
+            var dmg = _userAtkSys.DamageSystem.CalculateDamage(damageCoe, damageType); //计算伤害
             dmg = _userAtkSys.DamageSystem.Attack(dmg, atk); //攻击
             atk.DamageSystem.UnderAttack(dmg); //被攻击
             var effect = GetEffect();
@@ -230,7 +213,7 @@ namespace Mercury
             }
             else
             {
-                var go = Object.Instantiate(_effectPrefab); //新生成一个特效
+                var go = Instantiate(_effectPrefab); //新生成一个特效
                 result = go.GetComponent<FollowTargetEffectCallback>(); //获取特效回调
                 result.EventA += () => //当特效结束播放时触发
                 {
@@ -241,6 +224,12 @@ namespace Mercury
 
             result.gameObject.SetActive(true); //显示特效
             return result;
+        }
+
+        private void OnAnimPlayEnd()
+        {
+            gameObject.SetActive(false);
+            isDone = true;
         }
     }
 }

@@ -6,12 +6,12 @@ namespace Mercury
     /// <summary>
     /// 剑意系统
     /// </summary>
-    public class SwordWillSystem : IEntitySystem, IUpdatable
+    public class SwordWillSystem : MonoBehaviour, IEntitySystem
     {
         /// <summary>
         /// 伤害计算器
         /// </summary>
-        private readonly IDamageCompute _compute;
+        private IDamageCompute _compute;
 
         /// <summary>
         /// 最后一次添加的暴击率
@@ -41,7 +41,7 @@ namespace Mercury
         /// <summary>
         /// 剑意
         /// </summary>
-        private int _will;
+        [SerializeField] private int _will;
 
         /// <summary>
         /// 是否正在收剑
@@ -56,47 +56,47 @@ namespace Mercury
         /// <summary>
         /// true是拔刀，false是收刀
         /// </summary>
-        public bool SwordState { get; private set; }
+        public bool swordState;
 
         /// <summary>
         /// 拔刀时的暴击率收益，单位：暴击率/剑意
         /// </summary>
-        public float CritPrPerWill { get; set; } = 0.001f;
+        public float critPrPerWill = 0.001f;
 
         /// <summary>
         /// 收刀时伤害收益，单位：收益/剑意
         /// </summary>
-        public float DamageIncomePerWill { get; set; } = 0.005f;
+        public float damageIncomePerWill = 0.005f;
 
         /// <summary>
         /// 收刀时，恢复剑意的时间间隔，单位：秒
         /// </summary>
-        public float RecycleStateIncreaseWillInterval { get; set; } = 1;
+        public float recycleStateIncreaseWillInterval = 1;
 
         /// <summary>
         /// 拔刀时，n秒内未再次攻击敌人，会损失剑意的时间，单位：秒
         /// </summary>
-        public float AfterAttackLoseWillTime { get; set; } = 1;
+        public float afterAttackLoseWillTime = 1;
 
         /// <summary>
         /// 拔刀状态，n秒内未再次攻击敌人，会损失剑意的时间间隔，单位：秒
         /// </summary>
-        public float DrawStateLoseWillInterval { get; set; } = 0.5f;
+        public float drawStateLoseWillInterval = 0.5f;
 
         /// <summary>
         /// 最大剑意
         /// </summary>
-        public int MaxWill { get; set; } = 100;
+        public int maxWill = 100;
 
         /// <summary>
         /// 收刀所需时间
         /// </summary>
-        public float RecycleSwordTime { get; set; } = 1;
+        public float recycleSwordTime = 1;
 
         /// <summary>
         /// 拔刀时，每次攻击增加的剑意
         /// </summary>
-        public int WillIncreasePerAttack { get; set; } = 2;
+        public int willIncreasePerAttack = 2;
 
         /// <summary>
         /// 剑意
@@ -107,15 +107,16 @@ namespace Mercury
             private set
             {
                 var tryAdd = _will + value;
-                _will = math.max(0, math.min(MaxWill, tryAdd));
+                _will = math.max(0, math.min(maxWill, tryAdd));
             }
         }
 
-        public SwordWillSystem(IDamageSystem system, IDamageCompute compute)
+        public SwordWillSystem Init(IDamageSystem system, IDamageCompute compute)
         {
             _compute = compute;
             system.OnAttack += OnAttack;
-            _shouldGetWillTime = Time.time + RecycleStateIncreaseWillInterval;
+            _shouldGetWillTime = Time.time + recycleStateIncreaseWillInterval;
+            return this;
         }
 
         /// <summary>
@@ -130,16 +131,16 @@ namespace Mercury
 
             var now = Time.time;
             _lastAtkTime = now; //刷新上次攻击时间
-            if (SwordState) //拔刀
+            if (swordState) //拔刀
             {
-                Will = WillIncreasePerAttack; //增加剑意
-                RefreshCritPr(Will * CritPrPerWill); //刷新暴击率
-                _shouldReduceWillTime = now + AfterAttackLoseWillTime + DrawStateLoseWillInterval; //刷新剑意减少开始时间
+                Will = willIncreasePerAttack; //增加剑意
+                RefreshCritPr(Will * critPrPerWill); //刷新暴击率
+                _shouldReduceWillTime = now + afterAttackLoseWillTime + drawStateLoseWillInterval; //刷新剑意减少开始时间
                 return;
             }
 
             var dmg = attack.damage;
-            if (Will >= MaxWill) //到达最大剑意
+            if (Will >= maxWill) //到达最大剑意
             {
                 dmg.ExtraCritValue = _compute.GetExtraCritDamage(dmg.Value); //计算暴击，直接赋值
             }
@@ -148,7 +149,7 @@ namespace Mercury
             attack.Result = dmg; //修改伤害
         }
 
-        public void OnUpdate()
+        private void Update()
         {
             //Debug.Log($"will:{Will} state:{SwordState} crit:{_lastAddCritPrInc} dmg:{_lastAddDmg}");
             var now = Time.time;
@@ -163,17 +164,17 @@ namespace Mercury
                 _isRecycling = false; //退出收刀状态
             }
 
-            if (SwordState) //拔刀
+            if (swordState) //拔刀
             {
                 //如果没到剑意开始减少的时间 && 没到减少剑意的时刻
-                if (!(_lastAtkTime + AfterAttackLoseWillTime < now) || !(_shouldReduceWillTime < now))
+                if (!(_lastAtkTime + afterAttackLoseWillTime < now) || !(_shouldReduceWillTime < now))
                 {
                     return;
                 }
 
-                _shouldReduceWillTime += DrawStateLoseWillInterval; //刷新减少剑意的时刻
+                _shouldReduceWillTime += drawStateLoseWillInterval; //刷新减少剑意的时刻
                 Will = -5;
-                RefreshCritPr(Will * CritPrPerWill); //刷新暴击率
+                RefreshCritPr(Will * critPrPerWill); //刷新暴击率
             }
             else
             {
@@ -183,8 +184,8 @@ namespace Mercury
                 }
 
                 Will = 20;
-                _shouldGetWillTime += RecycleStateIncreaseWillInterval; //刷新下次恢复剑意的时间
-                RefreshDmg(Will * DamageIncomePerWill); //刷新伤害
+                _shouldGetWillTime += recycleStateIncreaseWillInterval; //刷新下次恢复剑意的时间
+                RefreshDmg(Will * damageIncomePerWill); //刷新伤害
             }
         }
 
@@ -195,9 +196,9 @@ namespace Mercury
         {
             RefreshDmg(0);
             _shouldGetWillTime = 0;
-            SwordState = true;
+            swordState = true;
             _will /= 2;
-            RefreshCritPr(Will * CritPrPerWill);
+            RefreshCritPr(Will * critPrPerWill);
             _shouldReduceWillTime = Time.time;
         }
 
@@ -208,11 +209,11 @@ namespace Mercury
         {
             RefreshCritPr(0);
             _will = 0;
-            RefreshDmg(Will * DamageIncomePerWill);
+            RefreshDmg(Will * damageIncomePerWill);
             _lastAtkTime = 0;
             _shouldReduceWillTime = 0;
-            _shouldGetWillTime = Time.time + RecycleStateIncreaseWillInterval;
-            SwordState = false;
+            _shouldGetWillTime = Time.time + recycleStateIncreaseWillInterval;
+            swordState = false;
         }
 
         /// <summary>
@@ -220,13 +221,13 @@ namespace Mercury
         /// </summary>
         public void StartRecycleSword()
         {
-            if (!SwordState)
+            if (!swordState)
             {
                 return;
             }
 
             _isRecycling = true;
-            _completeRecycleTime = Time.time + RecycleSwordTime;
+            _completeRecycleTime = Time.time + recycleSwordTime;
         }
 
         private void RefreshCritPr(float newCritPr)

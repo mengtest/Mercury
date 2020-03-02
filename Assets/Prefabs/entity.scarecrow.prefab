@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 5580492958370810132}
   - component: {fileID: 5580492958370810135}
   - component: {fileID: 50846122624929464}
+  - component: {fileID: 4656736853828731193}
+  - component: {fileID: 7106039400159631721}
+  - component: {fileID: 3248588429776023882}
   m_Layer: 0
   m_Name: entity.scarecrow
   m_TagString: entity
@@ -128,3 +131,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &4656736853828731193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580492958370810155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc34526b4dfc42b797462fd4a51a8997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10000
+  healthRecover: 10
+  physicsAttack: 0
+  magicAttack: 0
+  critCoe: 0
+  critPrCoe: 0
+--- !u!114 &7106039400159631721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580492958370810155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0960389fd6d4aebb7f8a4990b942574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3248588429776023882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580492958370810155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21bdb166ae6249829863aefd668b5ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0

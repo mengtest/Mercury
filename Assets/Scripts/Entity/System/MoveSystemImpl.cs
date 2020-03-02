@@ -7,7 +7,7 @@ namespace Mercury
     /// <summary>
     /// 运动系统接口，应该允许每帧调用
     /// </summary>
-    public interface IMoveSystem : IEntitySystem, IUpdatable
+    public interface IMoveSystem : IEntitySystem
     {
         /// <summary>
         /// 当前速度
@@ -23,19 +23,21 @@ namespace Mercury
 
     /// <summary>
     /// TODO:多段跳
+    /// TODO:按键移动到keyboard callback
     /// </summary>
-    public class MoveSystemImpl : IMoveSystem
+    public class MoveSystemImpl : MonoBehaviour, IMoveSystem
     {
-        private readonly IMotionCompute _moveComp;
-        private readonly CharacterController2D _cc2d;
+        private IMotionCompute _moveComp;
+        private CharacterController2D _cc2d;
 
-        public MoveSystemImpl(IMotionCompute moveComp, CharacterController2D cc2d)
+        public MoveSystemImpl Init(IMotionCompute moveComp, CharacterController2D cc2d)
         {
             _moveComp = moveComp;
             _cc2d = cc2d;
+            return this;
         }
 
-        public void OnUpdate()
+        private void Update()
         {
             // if (_moveCapability.canMove)
             // {
@@ -88,7 +90,7 @@ namespace Mercury
                 controller.ignoreOneWayPlatformsThisFrame = true;
             }
 
-            _cc2d.move(velocity * Time.deltaTime);
+            Move(velocity * Time.deltaTime);
             // }
         }
 

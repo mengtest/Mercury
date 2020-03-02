@@ -8,16 +8,16 @@ namespace Mercury
         /// <summary>
         /// 原始数据
         /// </summary>
-        MotionData MotionRawData { get; }
+        MotionData MotionRawData { get; set; }
 
         /// <summary>
         /// 运动计算
         /// </summary>
-        IMotionCompute MoveCompute { get; }
+        IMotionCompute MoveCompute { get; set; }
 
         /// <summary>
         /// 运动系统
         /// </summary>
-        IMoveSystem MoveSystem { get; }
+        IMoveSystem MoveSystem { get; set; }
     }
 }

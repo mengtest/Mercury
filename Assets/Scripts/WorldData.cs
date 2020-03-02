@@ -31,11 +31,6 @@ namespace Mercury
         private GameManager _gameManager;
 
         /// <summary>
-        /// 需要每帧更新的Entity
-        /// </summary>
-        private List<IUpdatable> _updateEntities;
-
-        /// <summary>
         /// 活动中的Entity
         /// </summary>
         public List<Entity> ActiveEntities { get; private set; }
@@ -43,7 +38,6 @@ namespace Mercury
         private void Awake()
         {
             ActiveEntities = new List<Entity>();
-            _updateEntities = new List<IUpdatable>();
             _gameManager = GameManager.Instance;
             _gameManager.SetActiveWorld(this);
         }
@@ -52,15 +46,6 @@ namespace Mercury
         {
             switch (_gameManager.nowState)
             {
-                case GameState.Running:
-                {
-                    foreach (var updateEntity in _updateEntities)
-                    {
-                        updateEntity.OnUpdate();
-                    }
-
-                    break;
-                }
                 case GameState.Waiting when !isAssetLoaded:
                 {
                     SetAssetManagerReady();
@@ -103,11 +88,6 @@ namespace Mercury
             }
 
             ActiveEntities.Add(e);
-            if (e is IUpdatable up)
-            {
-                _updateEntities.Add(up);
-            }
-
             return e;
         }
 

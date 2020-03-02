@@ -1,8 +1,9 @@
 using System;
+using UnityEngine;
 
 namespace Mercury
 {
-    public interface IDamageSystem : IEntitySystem, IUpdatable
+    public interface IDamageSystem : IEntitySystem
     {
         /// <summary>
         /// 当攻击时触发
@@ -37,19 +38,20 @@ namespace Mercury
         void UnderAttack(Damage damage);
     }
 
-    public class DamageSystemImpl : IDamageSystem
+    public class DamageSystemImpl : MonoBehaviour, IDamageSystem
     {
-        private readonly IDamageCompute _compute;
-        private readonly IAttackable _owner;
+        private IDamageCompute _compute;
+        private IAttackable _owner;
 
         public event EventHandler<EntityAttackEvent.Attack> OnAttack;
         public event EventHandler<EntityAttackEvent.UnderAttack> OnUnderAttack;
 
-        public DamageSystemImpl(IAttackable owner)
+        public DamageSystemImpl Init(IAttackable owner)
         {
             _owner = owner;
             _compute = _owner.DamageCompute;
             _owner.Health = Misc.AddDataChange(_compute.MaxHealth);
+            return this;
         }
 
         public Damage CalculateDamage(float coe, DamageType type)
@@ -98,7 +100,7 @@ namespace Mercury
             //TODO:死亡应该是个函数,且发布死亡事件
         }
 
-        public void OnUpdate()
+        private void Update()
         {
             var nowHealth = _owner.Health;
             var maxHealth = Misc.AddDataChange(_compute.MaxHealth);

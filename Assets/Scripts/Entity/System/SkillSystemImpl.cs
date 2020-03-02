@@ -7,7 +7,7 @@ namespace Mercury
     /// <summary>
     /// 技能系统
     /// </summary>
-    public interface ISkillSystem : IEntitySystem, IUpdatable
+    public interface ISkillSystem : IEntitySystem
     {
         event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill;
 
@@ -36,24 +36,25 @@ namespace Mercury
         bool UseSkill(AssetLocation id);
     }
 
-    public class SkillSystemImpl : ISkillSystem //TODO:修复前摇时输入其他技能会出问题
+    public class SkillSystemImpl : MonoBehaviour, ISkillSystem
     {
-        private readonly Dictionary<AssetLocation, ISkill> _skills;
-        private readonly FsmSystem _system;
+        public SkillState nowState;
 
-        private readonly NormalState _normalState;
-        private readonly PreSkillState _preState;
-        private readonly UsingSkillState _using;
-        private readonly PostSkillState _postState;
+        private Dictionary<AssetLocation, ISkill> _skills;
+        private FsmSystem _system;
+        private NormalState _normalState;
+        private PreSkillState _preState;
+        private UsingSkillState _using;
+        private PostSkillState _postState;
 
         public ISkill UsingSkill { get; private set; }
-        public SkillState NowState { get; private set; }
+        public SkillState NowState => nowState;
 
         public event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill;
         public event EventHandler<EntitySkillEvent.Using> OnUsingSkill;
         public event EventHandler<EntitySkillEvent.PostUse> OnPostUseSkill;
 
-        public SkillSystemImpl()
+        private void Awake()
         {
             _skills = new Dictionary<AssetLocation, ISkill>();
             _system = new FsmSystem();
@@ -69,7 +70,7 @@ namespace Mercury
             _system.SetCurrentState(_normalState);
         }
 
-        public void OnUpdate()
+        private void Update()
         {
             _system.PerformTransition();
             _system.CurrentState.OnUpdate();
@@ -99,6 +100,8 @@ namespace Mercury
 
             if (UsingSkill != null)
             {
+                UsingSkill.OnPostUse();
+                LeavePost();
                 _system.SwitchState(_normalState);
             }
 
@@ -110,12 +113,12 @@ namespace Mercury
         {
             OnPostUseSkill?.Invoke(this, new EntitySkillEvent.PostUse(UsingSkill));
             UsingSkill = null;
-            NowState = SkillState.Normal;
+            nowState = SkillState.Normal;
         }
 
         public void EnterPre()
         {
-            NowState = SkillState.Pre;
+            nowState = SkillState.Pre;
             UsingSkill.OnPreUse();
             OnPreUseSkill?.Invoke(this, new EntitySkillEvent.PreUse(UsingSkill));
             _preState.EndTime = UsingSkill.PerUseTime;
@@ -123,14 +126,14 @@ namespace Mercury
 
         public void UpdateFrame()
         {
-            NowState = SkillState.Using;
+            nowState = SkillState.Using;
             UsingSkill.OnUsing();
             OnUsingSkill?.Invoke(this, new EntitySkillEvent.Using(UsingSkill));
         }
 
         public void WillLeaveUpdate()
         {
-            NowState = SkillState.Post;
+            nowState = SkillState.Post;
             _postState.EndTime = UsingSkill.PostUseTime;
         }
     }

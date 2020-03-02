@@ -1,9 +1,10 @@
 using System;
+using UnityEngine;
 
 namespace Mercury
 {
     [Serializable]
-    public class DamageData : IEntityComponent
+    public class DamageData : MonoBehaviour, IEntityComponent
     {
         /// <summary>
         /// 最大血量
@@ -34,7 +35,5 @@ namespace Mercury
         /// 暴击率系数
         /// </summary>
         public int critPrCoe;
-
-        public string Id { get; } = "DamageData";
     }
 }

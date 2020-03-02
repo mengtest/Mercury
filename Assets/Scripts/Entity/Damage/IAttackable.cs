@@ -10,16 +10,16 @@ namespace Mercury
         /// <summary>
         /// 伤害原始数据
         /// </summary>
-        DamageData DamageRawData { get; }
+        DamageData DamageRawData { get; set; }
 
         /// <summary>
         /// 伤害计算
         /// </summary>
-        IDamageCompute DamageCompute { get; }
+        IDamageCompute DamageCompute { get; set; }
 
         /// <summary>
         /// 伤害系统
         /// </summary>
-        IDamageSystem DamageSystem { get; }
+        IDamageSystem DamageSystem { get; set; }
     }
 }

@@ -1,69 +1,18 @@
-using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
 namespace Mercury
 {
-    public class EntityAttackable : Entity, IUpdatable, ISystemOwner, IAttackable
+    public class EntityAttackable : Entity, ISystemOwner, IAttackable
     {
-        private List<IUpdatable> _updatableSystem;
-        private LinkedList<IEntitySystem> _systems;
+        public float health;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            _updatableSystem = new List<IUpdatable>();
-            _systems = new LinkedList<IEntitySystem>();
-        }
+        float IAttackable.Health { get => health; set => health = value; }
+        public DamageData DamageRawData { get; set; }
+        public IDamageCompute DamageCompute { get; set; }
+        public IDamageSystem DamageSystem { get; set; }
 
-        public float Health { get; set; }
-        public DamageData DamageRawData { get; private set; }
-        public IDamageCompute DamageCompute { get; private set; }
-        public IDamageSystem DamageSystem { get; private set; }
+        public void AddSystem<T>(T system) where T : MonoBehaviour, IEntitySystem { throw new System.NotImplementedException(); }
 
-        public void OnUpdate()
-        {
-            foreach (var sys in _updatableSystem)
-            {
-                sys.OnUpdate();
-            }
-        }
-
-        public EntityAttackable SetDamageData(DamageData damageData)
-        {
-            NonNullCheck(DamageRawData, "不可重复添加伤害数据组件");
-            DamageRawData = damageData;
-            AddComponent(DamageRawData);
-            return this;
-        }
-
-        public EntityAttackable SetDamageCompute(IDamageCompute damageCompute)
-        {
-            NonNullCheck(DamageCompute, "不可重复添加伤害计算器");
-            DamageCompute = damageCompute;
-            return this;
-        }
-
-        public EntityAttackable SetDamageSystem(IDamageSystem damageSystem)
-        {
-            NonNullCheck(DamageSystem, "不可重复添加伤害系统");
-            DamageSystem = damageSystem;
-            AddSystem(DamageSystem);
-            return this;
-        }
-
-        public void AddSystem<T>(T system) where T : class, IEntitySystem
-        {
-            _systems.AddLast(system);
-            if (system is IUpdatable s)
-            {
-                _updatableSystem.Add(s);
-            }
-        }
-
-        public T GetSystem<T>() where T : class, IEntitySystem
-        {
-            var type = typeof(T);
-            return (from sys in _systems where sys.GetType() == type select sys as T).FirstOrDefault();
-        }
+        public T GetSystem<T>() where T : MonoBehaviour, IEntitySystem { throw new System.NotImplementedException(); }
     }
 }

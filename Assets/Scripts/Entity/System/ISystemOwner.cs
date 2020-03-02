@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Mercury
 {
     public interface ISystemOwner
@@ -5,11 +7,11 @@ namespace Mercury
         /// <summary>
         /// 添加系统
         /// </summary>
-        void AddSystem<T>(T system) where T : class, IEntitySystem;
+        void AddSystem<T>(T system) where T : MonoBehaviour, IEntitySystem;
 
         /// <summary>
         /// 获取系统
         /// </summary>
-        T GetSystem<T>() where T : class, IEntitySystem;
+        T GetSystem<T>() where T : MonoBehaviour, IEntitySystem;
     }
 }

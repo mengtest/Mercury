@@ -4,128 +4,125 @@ using UnityEngine;
 
 namespace Mercury
 {
-    public class SkillMultiAttack : ISkill
+    public class SkillMultiAttack : MonoBehaviour, ISkill
     {
         /// <summary>
         /// 技能使用者
         /// </summary>
-        private readonly ISkillOwner _skillUser;
+        private ISkillOwner _skillUser;
 
         /// <summary>
         /// 技能使用者的攻击系统
         /// </summary>
-        private readonly IAttackable _attacker;
-
-        /// <summary>
-        /// 攻击范围，是实例
-        /// </summary>
-        private readonly GameObject _atkRng;
+        private IAttackable _attacker;
 
         /// <summary>
         /// 造成伤害特效的预制体
         /// </summary>
-        private readonly GameObject _effectPrefab;
+        private GameObject _effectPrefab;
 
         /// <summary>
         /// 技能使用者的GameObject
         /// </summary>
-        private readonly GameObject _userGo;
+        private GameObject _userGo;
 
         /// <summary>
         /// 特效缓存池
         /// </summary>
-        private readonly Queue<FollowTargetEffectCallback> _effectPool; //TODO:封装成特效池
+        private Queue<FollowTargetEffectCallback> _effectPool; //TODO:封装成特效池
 
-        private readonly List<AtkInfo> _attacked;
+        private List<AtkInfo> _attacked;
 
         private float _cdEndTime; //TODO:封装成工具
-        private float _usingEndTime;
         private Damage _dmg;
-        private float _atkIntervalTime;
+        private AssetLocation _id;
+        public bool isDone;
+        private Animator _anim;
 
-        public AssetLocation Id { get; }
-        public float PerUseTime { get; set; }
-        public float PostUseTime { get; set; }
-        public bool IsDone { get; private set; }
-        public float Cd { get; set; }
-        public float AttackSpeed { get; set; } = 1;
-        public float AttackRangeOffset { get; set; }
-        public EntityType AttackableType { get; set; } = EntityType.Enemy | EntityType.Neutral;
-        public int AttackCount { get; set; }
-        public float AttackInterval { get; set; }
-        public float DamageCoe { get; set; }
-        public DamageType DamageType { get; set; }
+        public float perUseTime;
+        public float postUseTime;
+        public float cd;
+        public float attackSpeed = 1;
+        public Vector2 attackRangeOffset;
+        public EntityType attackableType = EntityType.Enemy | EntityType.Neutral;
+        public int attackCount;
+        public float attackInterval;
+        public float damageCoe;
+        public DamageType damageType;
 
-        public SkillMultiAttack(
+        AssetLocation ISkill.Id => _id;
+        bool ISkill.IsDone => isDone;
+        float ISkill.PerUseTime => perUseTime;
+        float ISkill.PostUseTime => postUseTime;
+
+        private void OnTriggerEnter2D(Collider2D other) { OnAtkRngTriggerAttackable(other); }
+
+        private void OnTriggerStay2D(Collider2D other) { OnAtkRngTriggerAttackable(other); }
+
+        public SkillMultiAttack Init(
             AssetLocation id,
             ISkillOwner skillUser,
             IAttackable attackable,
             GameObject userGo,
-            GameObject atkRange,
             GameObject effectPrefab)
         {
-            Id = id;
+            _id = id;
             _skillUser = skillUser;
             _attacker = attackable;
             _userGo = userGo;
-            _atkRng = atkRange;
-            var effcb = atkRange.GetComponent<EffectCallback>();
-            if (effcb)
-            {
-                effcb.EventA += () => _atkRng.SetActive(false);
-            }
-
-            _atkRng.SetActive(false);
-            var cb = _atkRng.AddComponent<TriggerEventCallback>();
-            cb.OnTriggerEnterEvent += OnAtkRngTriggerAttackable;
-            cb.OnTriggerStayEvent += OnAtkRngTriggerAttackable;
             _effectPrefab = effectPrefab;
             _attacked = new List<AtkInfo>();
             _effectPool = new Queue<FollowTargetEffectCallback>();
+            _anim = GetComponent<Animator>();
+            gameObject.SetActive(false);
+            return this;
         }
 
-        public bool CanUse() { return _skillUser.SkillSystem.UsingSkill == null && _cdEndTime <= Time.time; }
+        public bool CanUse()
+        {
+            if (_cdEndTime > Time.time)
+            {
+                return false;
+            }
+
+            if (_skillUser.SkillSystem.NowState == SkillState.Post)
+            {
+                return true;
+            }
+
+            return _skillUser.SkillSystem.NowState == SkillState.Normal;
+        }
 
         public void OnPreUse()
         {
-            var atkTime = 1f / AttackSpeed;
-            _usingEndTime = Time.time + 1f / AttackSpeed;
-            _atkRng.SetActive(true);
-            IsDone = false;
-            _dmg = _attacker.DamageSystem.CalculateDamage(DamageCoe, DamageType);
-            if (AttackCount * AttackInterval > atkTime)
-            {
-                Debug.LogWarning($"造成所有伤害所需时间{AttackCount * AttackInterval}超过了技能施放时间{atkTime}");
-                _atkIntervalTime = atkTime / AttackCount;
-            }
-            else
-            {
-                _atkIntervalTime = AttackInterval;
-            }
+            gameObject.SetActive(true);
+            isDone = false;
+            _dmg = _attacker.DamageSystem.CalculateDamage(damageCoe, damageType);
+            _anim.speed = attackSpeed;
+            OnUpdate();
         }
 
-        public void OnUsing()
+        public void OnUsing() { OnUpdate(); }
+
+        private void OnUpdate()
         {
             //TODO:封装成函数
             var trans = _userGo.transform;
             var pos = trans.position;
             var scale = trans.localScale;
             var face = scale.x > 0 ? 1 : -1;
-            _atkRng.transform.position = new Vector3(pos.x + AttackRangeOffset * face, pos.y, pos.z);
-            var rngScale = _atkRng.transform.localScale;
-            _atkRng.transform.localScale = new Vector3(math.abs(rngScale.x) * face, rngScale.y, rngScale.z);
-            if (_usingEndTime <= Time.time)
-            {
-                IsDone = true;
-            }
+            var thisTrans = transform;
+            thisTrans.position = new Vector3(pos.x + attackRangeOffset.x * face, pos.y + attackRangeOffset.y, pos.z);
+            var rngScale = thisTrans.localScale;
+            transform.localScale = new Vector3(math.abs(rngScale.x) * face, rngScale.y, rngScale.z);
         }
 
         public void OnPostUse()
         {
-            _cdEndTime = Time.time + Cd;
+            _cdEndTime = Time.time + cd;
             _attacked.Clear();
-            _atkRng.SetActive(false);
-            IsDone = false;
+            gameObject.SetActive(false);
+            isDone = false;
         }
 
         private void OnAtkRngTriggerAttackable(Collider2D collider)
@@ -141,7 +138,7 @@ namespace Mercury
                 return;
             }
 
-            if (!AttackableType.HasFlag(entity.Type)) //是可以被攻击的实体
+            if (!attackableType.HasFlag(entity.Type)) //是可以被攻击的实体
             {
                 return;
             }
@@ -171,20 +168,20 @@ namespace Mercury
 
                 Attack(collider, atk);
                 info.count -= 1;
-                info.nextAtkTime += _atkIntervalTime;
+                info.nextAtkTime += attackInterval;
                 _attacked[i] = info;
                 return;
             }
 
             Attack(collider, atk);
-            _attacked.Add(new AtkInfo(atk, AttackCount - 1, Time.time + _atkIntervalTime));
+            _attacked.Add(new AtkInfo(atk, attackCount - 1, Time.time + attackInterval));
         }
 
-        private void Attack(Collider2D collider, IAttackable target)
+        private void Attack(Collider2D c, IAttackable target)
         {
             target.DamageSystem.UnderAttack(_attacker.DamageSystem.Attack(_dmg, target));
             var effect = GetEffect();
-            effect.target = collider.transform;
+            effect.target = c.transform;
         }
 
         private struct AtkInfo
@@ -224,6 +221,12 @@ namespace Mercury
 
             result.gameObject.SetActive(true); //显示特效
             return result;
+        }
+
+        private void OnAnimPlayEnd()
+        {
+            gameObject.SetActive(false);
+            isDone = true;
         }
     }
 }
