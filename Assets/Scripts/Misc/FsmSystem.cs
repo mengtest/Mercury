@@ -110,9 +110,7 @@ namespace Mercury
                     continue;
                 }
 
-                CurrentState.OnLeave();
-                CurrentState = info.next;
-                CurrentState.OnEnter();
+                SwitchState(info.next);
                 return true;
             }
 
@@ -162,6 +160,13 @@ namespace Mercury
             }
 
             CurrentState = state;
+        }
+
+        public void SwitchState(IFsmState next)
+        {
+            CurrentState.OnLeave();
+            CurrentState = next;
+            CurrentState.OnEnter();
         }
     }
 }

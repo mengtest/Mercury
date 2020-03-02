@@ -2,6 +2,7 @@ namespace Mercury
 {
     /// <summary>
     /// 伤害数据
+    /// TODO:修改成class
     /// </summary>
     public struct Damage
     {

@@ -130,8 +130,18 @@ namespace Mercury
 
         public bool CanUse()
         {
-            //技能使用条件，当前没有使用中的技能 且 cd读条读完了
-            return _skillUser.SkillSystem.UsingSkill == null && _cdEndTime <= Time.time;
+            if (_cdEndTime > Time.time)
+            {
+                return false;
+            }
+
+            Debug.Log(_skillUser.SkillSystem.NowState);
+            if (_skillUser.SkillSystem.NowState == SkillState.Post)
+            {
+                return true;
+            }
+
+            return _skillUser.SkillSystem.UsingSkill == null;
         }
 
         public void OnPreUse()

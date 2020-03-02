@@ -71,11 +71,11 @@ namespace Mercury
                     moonAtkAtked)
                 {
                     PerUseTime = 0,
-                    PostUseTime = 0.5f,
+                    PostUseTime = 2f,
                     DamageCoe = 75,
                     DamageType = DamageType.Physics,
-                    AttackTime = 0.6f,
-                    AttackSpeed = 1
+                    AttackTime = 0.4f,
+                    AttackSpeed = 1f
                 };
                 skillSys.AddSkill(skMoonAtk1);
 
@@ -87,7 +87,7 @@ namespace Mercury
                     moonAtkAtked)
                 {
                     PerUseTime = 0,
-                    PostUseTime = 0f,
+                    PostUseTime = 0.1f,
                     AttackRangeOffset = 0f,
                     DamageCoe = 65,
                     DamageType = DamageType.Physics,
@@ -105,17 +105,26 @@ namespace Mercury
                     moonAtkAtked)
                 {
                     PerUseTime = 0,
-                    PostUseTime = 0.5f,
+                    PostUseTime = 2f,
                     AttackRangeOffset = new Vector2(-0.25f, 0.5f),
                     DamageCoe = 155,
                     DamageType = DamageType.Physics,
-                    AttackTime = 0.4f
+                    AttackTime = 0.4f,
+                    AttackSpeed = 1f
                 };
                 skillSys.AddSkill(skMoonAtk3);
 
-                keyCallback.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk1));
+                keyCallback.AddCallback(KeyCode.A, 0, () =>
+                {
+                    var res = skillSys.UseSkill(Const.RaceterMoonAtk1);
+                    Debug.Log($"use result {res}");
+                });
                 keyCallback.AddCallback(KeyCode.S, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk2));
-                keyCallback.AddCallback(KeyCode.D, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk3));
+                keyCallback.AddCallback(KeyCode.D, 0, () =>
+                {
+                    var res = skillSys.UseSkill(Const.RaceterMoonAtk3);
+                    Debug.Log($"use result {res}");
+                });
                 keyCallback.AddCallback(KeyCode.Tab, 0, () => swordWillSys.StartRecycleSword()); //设置收刀的按键
                 /*结束技能的组装*/
                 return result;

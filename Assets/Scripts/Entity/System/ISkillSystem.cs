@@ -20,6 +20,8 @@ namespace Mercury
         /// </summary>
         ISkill UsingSkill { get; }
 
+        SkillState NowState { get; }
+
         /// <summary>
         /// 添加一个技能
         /// </summary>
@@ -36,62 +38,48 @@ namespace Mercury
 
     public class SkillSystemImpl : ISkillSystem //TODO:修复前摇时输入其他技能会出问题
     {
-        /// <summary>
-        /// 有限状态机
-        /// </summary>
+        private readonly Dictionary<AssetLocation, ISkill> _skills;
         private readonly FsmSystem _system;
 
-        /// <summary>
-        /// 前摇状态
-        /// </summary>
-        private readonly WaitState _preUse;
+        private readonly NormalState _normalState;
+        private readonly PreSkillState _preState;
+        private readonly UsingSkillState _using;
+        private readonly PostSkillState _postState;
 
-        /// <summary>
-        /// 后摇状态
-        /// </summary>
-        private readonly PostUseSkillState _postUse;
+        public ISkill UsingSkill { get; private set; }
+        public SkillState NowState { get; private set; }
 
-        /// <summary>
-        /// 使用技能中状态
-        /// </summary>
-        private readonly UseSkillState _using;
-
-        /// <summary>
-        /// 技能列表
-        /// </summary>
-        private readonly Dictionary<AssetLocation, ISkill> _skills;
-
-        public event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill { add => _using.OnPreUseSkill += value; remove => _using.OnPreUseSkill -= value; }
-        public event EventHandler<EntitySkillEvent.Using> OnUsingSkill { add => _using.OnUsingSkill += value; remove => _using.OnUsingSkill -= value; }
-        public event EventHandler<EntitySkillEvent.PostUse> OnPostUseSkill { add => _postUse.OnPostUseSkill += value; remove => _postUse.OnPostUseSkill -= value; }
-
-        public ISkill UsingSkill { get => _using.UsingSkill; internal set => _using.UsingSkill = value; }
+        public event EventHandler<EntitySkillEvent.PreUse> OnPreUseSkill;
+        public event EventHandler<EntitySkillEvent.Using> OnUsingSkill;
+        public event EventHandler<EntitySkillEvent.PostUse> OnPostUseSkill;
 
         public SkillSystemImpl()
         {
-            _system = new FsmSystem();
-            var normal = new NormalState("normal", _system); //普通状态
-            _preUse = new WaitState("preUse", _system);
-            _using = new UseSkillState("using", _system);
-            _postUse = new PostUseSkillState("postUse", _system, this);
-            //添加一条过渡链，过渡原因是：有需要使用的技能了
-            _system.AddTransition(normal, _preUse, _ => UsingSkill != null);
-            //过渡原因：前摇时间结束
-            _system.AddTransition(_preUse, _using, info => ((WaitState) info.last).EndTime <= Time.time);
-            //过渡原因：技能使用完毕
-            _system.AddTransition(_using, _postUse, _ => UsingSkill.IsDone);
-            //过渡原因：后摇时间结束
-            _system.AddTransition(_postUse, normal, info => ((WaitState) info.last).EndTime <= Time.time);
-            _system.NormalState = normal; //设置默认状态
-            _system.SetCurrentState(normal); //设置当前状态
             _skills = new Dictionary<AssetLocation, ISkill>();
+            _system = new FsmSystem();
+            _normalState = new NormalState(_system, this);
+            _preState = new PreSkillState(_system, this);
+            _using = new UsingSkillState(_system, this);
+            _postState = new PostSkillState(_system);
+            _system.AddTransition(_normalState, _preState, _ => UsingSkill != null);
+            _system.AddTransition(_preState, _using, info => ((PreSkillState) info.last).EndTime <= Time.time);
+            _system.AddTransition(_using, _postState, _ => UsingSkill.IsDone);
+            _system.AddTransition(_postState, _normalState, info => ((PostSkillState) info.last).EndTime <= Time.time);
+            _system.NormalState = _normalState;
+            _system.SetCurrentState(_normalState);
+        }
+
+        public void OnUpdate()
+        {
+            _system.PerformTransition();
+            _system.CurrentState.OnUpdate();
         }
 
         public void AddSkill(ISkill skill)
         {
             if (_skills.ContainsKey(skill.Id))
             {
-                throw new ArgumentException($"已经添加过的技能：{skill.Id}");
+                throw new InvalidOperationException($"不能重复添加{skill.Id}");
             }
 
             _skills.Add(skill.Id, skill);
@@ -101,7 +89,7 @@ namespace Mercury
         {
             if (!_skills.TryGetValue(id, out var skill))
             {
-                throw new ArgumentException($"未知技能：{id}");
+                return false;
             }
 
             if (!skill.CanUse())
@@ -109,16 +97,41 @@ namespace Mercury
                 return false;
             }
 
+            if (UsingSkill != null)
+            {
+                _system.SwitchState(_normalState);
+            }
+
             UsingSkill = skill;
-            _preUse.EndTime = UsingSkill.PerUseTime;
-            _postUse.EndTime = UsingSkill.PostUseTime;
             return true;
         }
 
-        public void OnUpdate()
+        public void LeavePost()
         {
-            _system.PerformTransition(); //检查并执行过渡
-            _system.CurrentState.OnUpdate();
+            OnPostUseSkill?.Invoke(this, new EntitySkillEvent.PostUse(UsingSkill));
+            UsingSkill = null;
+            NowState = SkillState.Normal;
+        }
+
+        public void EnterPre()
+        {
+            NowState = SkillState.Pre;
+            UsingSkill.OnPreUse();
+            OnPreUseSkill?.Invoke(this, new EntitySkillEvent.PreUse(UsingSkill));
+            _preState.EndTime = UsingSkill.PerUseTime;
+        }
+
+        public void UpdateFrame()
+        {
+            NowState = SkillState.Using;
+            UsingSkill.OnUsing();
+            OnUsingSkill?.Invoke(this, new EntitySkillEvent.Using(UsingSkill));
+        }
+
+        public void WillLeaveUpdate()
+        {
+            NowState = SkillState.Post;
+            _postState.EndTime = UsingSkill.PostUseTime;
         }
     }
 }
