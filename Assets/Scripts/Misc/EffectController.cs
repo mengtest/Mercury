@@ -43,6 +43,7 @@ public class EffectController
             {
                 GameObject use = _effectList[index]._queue.Dequeue();
                 use.transform.position = vector;
+                use.SetActive(true);
             }
         }
     }
