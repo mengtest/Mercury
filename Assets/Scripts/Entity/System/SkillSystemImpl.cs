@@ -128,6 +128,7 @@ namespace Mercury
 
         public void LeavePost()
         {
+            UsingSkill.OnPostUse();
             OnPostUseSkill?.Invoke(this, new EntitySkillEvent.PostUse(UsingSkill));
             UsingSkill = null;
             nowState = SkillState.Normal;

@@ -23,6 +23,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 5759507eab24a2e408401e3d1b81e1c5
+    m_Address: mercury.skill.raceter_moon_atk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 8efaf49bc41cf0641901415a894dd0ac
     m_Address: mercury.skill.raceter_moon_atk_attacked
     m_ReadOnly: 0

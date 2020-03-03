@@ -33,31 +33,20 @@ namespace Mercury
                 var damageSys = gameObject.GetComponent<DamageSystemImpl>().Init(entity);
                 entity.SetDamageData(damageData).SetDamageSystem(damageSys);
 
-                entity.GetComponent<SwordWillSystem>().Init(damageSys, damageComp);
+                var swordWill = entity.GetComponent<SwordWillSystem>().Init(damageSys, damageComp);
                 var keyboard = entity.GetComponent<KeyboardCallbackSystem>();
 
                 var skillSys = gameObject.GetComponent<SkillSystemImpl>();
                 entity.SetSkillSystem(skillSys);
                 var moonAtkE = assetManager.GetPrefab("skill", Const.RaceterMoonAtkAtked);
-                var moonAtk1 = assetManager.GetPrefab("skill", Const.RaceterMoonAtk1);
-                var moonAtk2 = assetManager.GetPrefab("skill", Const.RaceterMoonAtk2);
-                var moonAtk3 = assetManager.GetPrefab("skill", Const.RaceterMoonAtk3);
-                var moonAtk1Ins = Object.Instantiate(moonAtk1)
-                    .GetComponent<SkillGeneralAttack>()
-                    .Init(Const.RaceterMoonAtk1, entity, entity, gameObject, moonAtkE);
-                skillSys.AddSkill(moonAtk1Ins);
-                var moonAtk2Ins = Object.Instantiate(moonAtk2)
-                    .GetComponent<SkillGeneralAttack>()
-                    .Init(Const.RaceterMoonAtk2, entity, entity, gameObject, moonAtkE);
-                skillSys.AddSkill(moonAtk2Ins);
-                var moonAtk3Ins = Object.Instantiate(moonAtk3)
-                    .GetComponent<SkillMultiAttack>()
-                    .Init(Const.RaceterMoonAtk3, entity, entity, gameObject, moonAtkE);
-                skillSys.AddSkill(moonAtk3Ins);
+                var moonAtkPrefab = assetManager.GetPrefab("skill", Const.RaceterMoonAtk);
+                var moonAtk = Object.Instantiate(moonAtkPrefab)
+                    .GetComponent<SkillRaceterMoonAttack>()
+                    .Init(Const.RaceterMoonAtk, entity, entity, KeyCode.A, gameObject, moonAtkE);
+                skillSys.AddSkill(moonAtk);
 
-                keyboard.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk1));
-                keyboard.AddCallback(KeyCode.S, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk2));
-                keyboard.AddCallback(KeyCode.D, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk3));
+                keyboard.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk));
+                keyboard.AddCallback(KeyCode.Tab, 0, () => swordWill.StartRecycleSword());
 
                 return entity;
             });

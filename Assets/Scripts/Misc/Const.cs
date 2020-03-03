@@ -7,6 +7,7 @@ namespace Mercury
         public static readonly AssetLocation RaceterMoonAtk1 = new AssetLocation("mercury", "raceter_moon_atk_1");
         public static readonly AssetLocation RaceterMoonAtk2 = new AssetLocation("mercury", "raceter_moon_atk_2");
         public static readonly AssetLocation RaceterMoonAtk3 = new AssetLocation("mercury", "raceter_moon_atk_3");
+        public static readonly AssetLocation RaceterMoonAtk = new AssetLocation("mercury", "raceter_moon_atk");
 
         public static readonly AssetLocation Scarecrow = new AssetLocation("mercury", "scarecrow");
 

@@ -1,0 +1,330 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9007804098480619998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9007804098480619996}
+  - component: {fileID: 9007804098480619999}
+  m_Layer: 0
+  m_Name: skill.raceter_moon_atk
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9007804098480619996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007804098480619998}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2470434758282610899}
+  - {fileID: 3371977614865206588}
+  - {fileID: 516595095607997989}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9007804098480619999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007804098480619998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a0257094a94898ad33495f908d7e9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _atk1: {fileID: 7237322809258773170}
+  _atk2: {fileID: 8977867388967482602}
+  _atk3: {fileID: 8978668142570417762}
+  _nowSkill: {fileID: 0}
+  skillKey: 97
+  isDone: 0
+--- !u!1001 &9007804099175459868
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 9007804098480619996}
+    m_Modifications:
+    - target: {fileID: 114988028156412542, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: postUseTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5308856123152107279, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_Name
+      value: skill.raceter_moon_atk_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9961ee728c689104788b4a3770ecca63, type: 3}
+--- !u!4 &516595095607997989 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8802697353955203641, guid: 9961ee728c689104788b4a3770ecca63,
+    type: 3}
+  m_PrefabInstance: {fileID: 9007804099175459868}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8978668142570417762 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114988028156412542, guid: 9961ee728c689104788b4a3770ecca63,
+    type: 3}
+  m_PrefabInstance: {fileID: 9007804099175459868}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f094192f98245f1bb1bcd1bb08d5500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &9007804099252469452
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 9007804098480619996}
+    m_Modifications:
+    - target: {fileID: 114257711884421670, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: postUseTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6037512752084038653, guid: 139ab039a8748b4418b33b390a9d04de,
+        type: 3}
+      propertyPath: m_Name
+      value: skill.raceter_moon_atk_2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 139ab039a8748b4418b33b390a9d04de, type: 3}
+--- !u!4 &3371977614865206588 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6037512752084038640, guid: 139ab039a8748b4418b33b390a9d04de,
+    type: 3}
+  m_PrefabInstance: {fileID: 9007804099252469452}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8977867388967482602 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114257711884421670, guid: 139ab039a8748b4418b33b390a9d04de,
+    type: 3}
+  m_PrefabInstance: {fileID: 9007804099252469452}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153b43112015462b86e9940985a3ee10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &9007804099916501486
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 9007804098480619996}
+    m_Modifications:
+    - target: {fileID: 1833533334780058460, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: postUseTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866469119045278014, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+        type: 3}
+      propertyPath: m_Name
+      value: skill.raceter_moon_atk_1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d1b40338357d8bd4e9ba44b15f4f931d, type: 3}
+--- !u!4 &2470434758282610899 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6866469119045278013, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+    type: 3}
+  m_PrefabInstance: {fileID: 9007804099916501486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7237322809258773170 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1833533334780058460, guid: d1b40338357d8bd4e9ba44b15f4f931d,
+    type: 3}
+  m_PrefabInstance: {fileID: 9007804099916501486}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 153b43112015462b86e9940985a3ee10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
