@@ -144,7 +144,7 @@ MonoBehaviour:
   perUseTime: 0
   postUseTime: 2
   isDone: 0
-  attackRangeOffset: {x: -0.25, y: 0.5}
+  attackRangeOffset: {x: 0, y: 0}
   attackSpeed: 1
   damageCoe: 75
   damageType: 0

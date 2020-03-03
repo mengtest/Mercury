@@ -146,9 +146,9 @@ MonoBehaviour:
   postUseTime: 2
   cd: 0
   attackSpeed: 1
-  attackRangeOffset: {x: 0, y: 0}
+  attackRangeOffset: {x: -0.25, y: 0.5}
   attackableType: 11
   attackCount: 2
-  attackInterval: 0.01
+  attackInterval: 0.1
   damageCoe: 75
   damageType: 0

@@ -22,7 +22,7 @@ namespace Mercury
             _fileName = Application.persistentDataPath + "/Unitylog.txt";
             Application.logMessageReceivedThreaded += OnReceiveLogMsg;
 #endif
-            LogToFile("\n-------Version of the runtime: " + Application.unityVersion + "-------");
+            //LogToFile("\n-------Version of the runtime: " + Application.unityVersion + "-------");
             _queue = new ConcurrentQueue<string>();
         }
 
@@ -78,7 +78,8 @@ namespace Mercury
                 return;
             }
 
-            var writer = new StreamWriter(_fileName, true, System.Text.Encoding.UTF8);
+            var stream = new FileStream(_fileName, FileMode.OpenOrCreate);
+            var writer = new StreamWriter(stream, Encoding.UTF8);
             writer.WriteLine(str);
             writer.Close();
             callback?.Invoke();
