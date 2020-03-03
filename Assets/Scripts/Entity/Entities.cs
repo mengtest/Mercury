@@ -47,11 +47,11 @@ namespace Mercury
                     .Init(Const.RaceterMoonAtk1, entity, entity, gameObject, moonAtkE);
                 skillSys.AddSkill(moonAtk1Ins);
                 var moonAtk2Ins = Object.Instantiate(moonAtk2)
-                    .GetComponent<SkillMultiAttack>()
+                    .GetComponent<SkillGeneralAttack>()
                     .Init(Const.RaceterMoonAtk2, entity, entity, gameObject, moonAtkE);
                 skillSys.AddSkill(moonAtk2Ins);
                 var moonAtk3Ins = Object.Instantiate(moonAtk3)
-                    .GetComponent<SkillGeneralAttack>()
+                    .GetComponent<SkillMultiAttack>()
                     .Init(Const.RaceterMoonAtk3, entity, entity, gameObject, moonAtkE);
                 skillSys.AddSkill(moonAtk3Ins);
 

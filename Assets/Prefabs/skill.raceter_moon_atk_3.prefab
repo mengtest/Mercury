@@ -150,5 +150,5 @@ MonoBehaviour:
   attackableType: 11
   attackCount: 2
   attackInterval: 0.01
-  damageCoe: 55
+  damageCoe: 75
   damageType: 0

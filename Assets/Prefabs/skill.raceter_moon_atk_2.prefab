@@ -146,7 +146,7 @@ MonoBehaviour:
   isDone: 0
   attackRangeOffset: {x: -0.25, y: 0.5}
   attackSpeed: 1
-  damageCoe: 155
+  damageCoe: 75
   damageType: 0
   cd: 0
   attackableType: 6
