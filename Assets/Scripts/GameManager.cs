@@ -33,7 +33,6 @@ namespace Mercury
         public EventSystem EventBus { get; private set; }
         public RegisterManager Registries { get; private set; }
         public AssetManager Assets { get; private set; }
-        public EffectController EffCont { get; private set; }
 
         protected override void Awake()
         {
@@ -43,7 +42,6 @@ namespace Mercury
             Registries = new RegisterManager(this);
             EventBus.Init();
             Assets = new AssetManager(this);
-            EffCont = new EffectController();
         }
             
         private void Start()
