@@ -142,7 +142,7 @@ MonoBehaviour:
   _effectPrefab: {fileID: 0}
   _userGo: {fileID: 0}
   perUseTime: 0
-  postUseTime: 2
+  postUseTime: 0.7
   isDone: 0
   attackRangeOffset: {x: 0, y: 0}
   attackSpeed: 1

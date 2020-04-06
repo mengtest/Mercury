@@ -36,6 +36,7 @@ namespace Mercury
                 var swordWill = entity.GetComponent<SwordWillSystem>().Init(damageSys, damageComp);
                 var keyboard = entity.GetComponent<KeyboardCallbackSystem>();
 
+                /*
                 var skillSys = gameObject.GetComponent<SkillSystemImpl>();
                 entity.SetSkillSystem(skillSys);
                 var moonAtkE = assetManager.GetPrefab("skill", Const.RaceterMoonAtkAtked);
@@ -44,8 +45,11 @@ namespace Mercury
                     .GetComponent<SkillRaceterMoonAttack>()
                     .Init(Const.RaceterMoonAtk, entity, entity, KeyCode.A, gameObject, moonAtkE);
                 skillSys.AddSkill(moonAtk);
+                */
 
-                keyboard.AddCallback(KeyCode.A, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk));
+                var shadowStrikeE = assetManager.GetPrefab("skill", Const.RaceterMoonAtkAtked);
+
+                //keyboard.AddCallback(KeyCode.X, 0, () => skillSys.UseSkill(Const.RaceterMoonAtk));
                 keyboard.AddCallback(KeyCode.Tab, 0, () => swordWill.StartRecycleSword());
 
                 return entity;

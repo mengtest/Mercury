@@ -143,12 +143,12 @@ MonoBehaviour:
   _userGo: {fileID: 0}
   isDone: 0
   perUseTime: 0
-  postUseTime: 2
+  postUseTime: 0.7
   cd: 0
   attackSpeed: 1
   attackRangeOffset: {x: -0.25, y: 0.5}
   attackableType: 11
   attackCount: 2
   attackInterval: 0.1
-  damageCoe: 75
+  damageCoe: 60
   damageType: 0

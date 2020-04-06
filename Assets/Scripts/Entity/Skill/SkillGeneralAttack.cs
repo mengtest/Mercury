@@ -164,7 +164,7 @@ namespace Mercury
         private void OnUpdate()
         {
             var trans = _userGo.transform;
-            var pos = trans.position;
+            var pos = trans.position; 
             var scale = trans.localScale;
             var face = scale.x > 0 ? 1 : -1; //检查玩家面对的方向
             var thisTrans = transform;
